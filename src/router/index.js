@@ -14,6 +14,7 @@ Router.prototype.push = function push(location) {
 Vue.use(Router)
 
 const router= new Router({
+  base: './', //加上这一行
   routes: [
     {
       path: '/',

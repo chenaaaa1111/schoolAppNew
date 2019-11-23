@@ -1,5 +1,6 @@
 import axios from 'axios';
 // 添加请求拦截器，在请求头中加token
+console.log("当前环境",process.env.NODE_ENV );
 axios.interceptors.request.use(
     config => {
         debugger
@@ -24,7 +25,12 @@ var request={
 
         }
         // var baseUrl="http://school.i2f2f.com";
-        var baseUrl=" http://localhost:8081" ;
+        var baseUrl="" ;
+        if(process.env.NODE_ENV=='development'){
+            baseUrl= "http://localhost:8081"
+        }else{
+            baseUrl="http://school.i2f2f.com";
+        }
         axios({
             
                 method: 'post',
