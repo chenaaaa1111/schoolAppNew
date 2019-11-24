@@ -9,6 +9,7 @@ import 'lib-flexible'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css';
 import router from './router';
+import   "babel-polyfill"
 // import axios from 'axios';
 import { Tab, Tabs,List,Cell,Icon,Image,Row, Col,Field,Button,CellGroup,Toast     } from 'vant';
 
