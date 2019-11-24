@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" :style="divstyle">
         <div class="loginContent">
             <p class="tx_center">信息填写</p>
             <div class="topImage">
@@ -96,7 +96,10 @@
     export default {
         data: () => ({
             fileList: [],
-            selects:[]
+            selects:[],
+            divstyle:{
+                backgroundImage:"url("+require('./../../assets/images/lgbackground.png')+")",
+            }
         }),
         mounted: function () {
 

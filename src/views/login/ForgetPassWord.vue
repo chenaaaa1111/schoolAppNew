@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" :style="divstyle">
         <div class="loginContent">
             <p class="tx_center">找回密码</p>
             <van-cell-group>
@@ -74,7 +74,10 @@
             veryCode:'',
             isShow:false,
             millTime:0,
-            sendInter:''
+            sendInter:'',
+            divstyle:{
+                backgroundImage:"url("+require('./../../assets/images/lgbackground.png')+")",
+            }
         }),
         mounted:function(){
             clearInterval(this.sendInter)
