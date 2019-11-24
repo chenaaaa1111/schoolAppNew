@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" :style="divstyle">
         <div class="loginContent">
             <p class="tx_center">账号密码登录</p>
             <van-cell-group>
@@ -47,7 +47,7 @@
     }
 
     .login {
-        background: url('./../../assets/images/lgbackground.png') no-repeat center center;
+        background:  no-repeat center center;
         height: 100%;
         width: 100%;
         background-size: 100% 100%;
@@ -58,11 +58,14 @@
     export default {
         data:()=>({
             phone:'',
-            password:''
+            password:'',
+            divstyle:{
+                backgroundImage:"url("+require('./../../assets/images/lgbackground.png')+")",
+            }
         }),
         methods: {
             forgetPass(){
-                this.$router.push('/forgotPWD')
+                this.$router.push('/login/forgotPWD')
             },
             login(){
                 var self=this;

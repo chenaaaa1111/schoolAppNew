@@ -22,9 +22,14 @@ const router= new Router({
       component: () => import('@/views/home.vue') // 主页
     },
     {
-      path: '/complate',
+      path: '/login/complate',
       name: 'complate',
       component: () => import('@/views/login/complate.vue')
+    },
+    {
+      path: '/login/complate2',
+      name: 'complate',
+      component: () => import('@/views/login/complate2.vue')
     },
     {
       path: '/login',
@@ -32,12 +37,12 @@ const router= new Router({
       component: () => import('@/views/login/index.vue')
     },
     {
-      path: '/regist',
+      path: '/login/regist',
       name: 'regist',
       component: () => import('@/views/login/regist.vue')
     },
     {
-      path: '/forgotPWD',
+      path: '/login/forgotPWD',
       name: 'forgotPWD',
       component: () => import('@/views/login/ForgetPassWord.vue')
     },
@@ -140,12 +145,16 @@ const router= new Router({
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
+  if (to.path === '/login'||to.path.indexOf('login')>=0) {
     next();
   } else {
     let token = localStorage.getItem('Authorization');
 
     if (token === null || token === '') {
+      // if(from){
+
+      // }
+      console.log('from',to);
       next('/login');
     } else {
       next();

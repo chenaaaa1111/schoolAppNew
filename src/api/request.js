@@ -3,9 +3,8 @@ import axios from 'axios';
 console.log("当前环境",process.env.NODE_ENV );
 axios.interceptors.request.use(
     config => {
-        debugger
         console.log('config',config,config.data.mobile);
-        if(config.url.indexOf('Login')>=0){
+        if(config.url.indexOf('Login')>=0||config.url.indexOf('editRoom')>=0 ){
 
         }else{
             if (localStorage.getItem('Authorization')) {

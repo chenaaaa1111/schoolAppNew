@@ -1,18 +1,28 @@
 <template>
-    <div class="login">
+    <div class="login" :style="divstyle">
         <div class="loginContent">
             <p class="tx_center">信息填写</p>
             <div class="topImage">
-                <van-uploader v-model="fileList" multiple :max-count="1" />
+                <!-- <van-uploader v-model="fileList" multiple :max-count="1" /> -->
+                <el-upload action="/roomapi/Users/editBasic" list-type="picture-card"
+                :data="updata"
+                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
                 <p style="text-align: center;">头像</p>
             </div>
             <div style="clear: both;">
                 <div class="leftName">校区选择：</div>
                 <div class="rightButtons">
-                    <van-button type="default earb active" @click="selectSchool($event)" data-id="1">西区</van-button>
-                    <van-button type="default earb" @click="selectSchool($event)" data-id="2">北区</van-button>
-                    <van-button type="default earb" @click="selectSchool($event)" data-id="3">南区</van-button>
 
+                    <van-button v-for="(item,index) in areaList" :key="item.id" type="default earb "
+                        :class="index==0?'active':''" @click="selectSchool($event)" :data-id="item.id">{{item.title}}
+                    </van-button>
+                    <!-- <van-button type="default earb" @click="selectSchool($event)" data-id="2">北区</van-button>
+                    <van-button type="default earb" @click="selectSchool($event)" data-id="3">南区</van-button> -->
                 </div>
             </div>
             <van-button type="default" class="submitLogin" @click="next">下一步</van-button>
@@ -35,16 +45,19 @@
     .rightButtons {
         float: left;
     }
-    .earb.active{
-        background:#E0EEFF url('./../../assets/images/select_ic.png') no-repeat  right bottom;
+
+    .earb.active {
+        background: #E0EEFF url('./../../assets/images/select_ic.png') no-repeat right bottom;
         background-size: 20px 24px;
         border: 1px solid #034692;
     }
-    .earb{
+
+    .earb {
         margin-left: 20px;
-        border-radius:4px ;
-        
+        border-radius: 4px;
+
     }
+
     .loginContent {
         width: 50%;
         height: 800px;
@@ -93,39 +106,70 @@
 </style>
 <script>
     import request from '@/api/request.js';
+    import $ from 'jquery'
     export default {
         data: () => ({
+            updata:{'sid':'1',name:'刘刚'},
+            dialogImageUrl: '',
+            dialogVisible: false,
             fileList: [],
-            selects:[]
+            selects: '',
+            areaList: [],
+            divstyle: {
+                backgroundImage: "url(" + require('./../../assets/images/lgbackground.png') + ")",
+            }
         }),
         mounted: function () {
+            this.getAeas();
 
         },
         methods: {
-            next() {
-
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
             },
-            selectSchool(ev){
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            getAeas() {//获取校区
+                var self = this;
+                request.post('/roomapi/School/lists', {}, function (responese) {
+                    //默认选中第一个
+                    if (responese.data&&responese.data.data&&responese.data.data[0]) {
+                        self.selects = responese.data.data[0].id;
+                        self.areaList = responese.data.data;
+                        console.log(responese.data.data);
+                    }
+
+                });
+            },
+            next() {
+                this.$router.push('/login/complate2')
+            },
+            selectSchool(ev) {
                 console.log(ev.target.dataset);
-                var select=this.selects;//选中校区数组
-                
-                console.log('ev',ev);
+                var select = this.selects;//选中校区id 只能一个
+
+                console.log('ev', ev);
                 // ev.target.lassList.add("active");
-                var classVar= ev.target.getAttribute('class');
+                var classVar = ev.target.getAttribute('class');
                 console.log(classVar);
-                if(classVar.indexOf('active')>=0){
-                    var index=select.indexOf(ev.target.dataset.id);
-                    classVar= classVar.replace('active','');
-                    ev.target.setAttribute('class',classVar);
-                    select.splice(index,1);
-                }else{
+                if (classVar.indexOf('active') >= 0) {
+                    classVar = classVar.replace('active', '');
+                    ev.target.setAttribute('class', classVar);
+                    this.selects = '';
+                } else {
                     // debugger
-                    classVar= classVar.concat('  active');
-                    ev.target.setAttribute('class',classVar);
-                    console.log('classeses',classVar);
-                    select.push(ev.target.dataset.id)
+                    classVar = classVar.concat('  active');
+                    var sedom = document.querySelector('.active');
+                    var oldClassVar = sedom.getAttribute('class');//是否有别的active
+                    oldClassVar = oldClassVar.replace('active', '');
+                    sedom.setAttribute('class', oldClassVar);
+                    ev.target.setAttribute('class', classVar);
+                    console.log('classeses', classVar);
+                    this.selects = ev.target.dataset.id;//选中校区id
                 }
-                console.log('select***',select)
+                console.log('select***', this.selects)
             }
         }
 
