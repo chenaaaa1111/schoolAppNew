@@ -27,6 +27,11 @@ const router= new Router({
       component: () => import('@/views/login/complate.vue')
     },
     {
+      path: '/login/complate2',
+      name: 'complate',
+      component: () => import('@/views/login/complate2.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/login/index.vue')

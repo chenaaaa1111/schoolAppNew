@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-chalk/display.css';
 import router from './router';
 import   "babel-polyfill"
 // import axios from 'axios';
-import { Tab, Tabs,List,Cell,Icon,Image,Row, Col,Field,Button,CellGroup,Toast     } from 'vant';
+import { Tab, Tabs,List,Cell,Icon,Image,Row, Col,Field,Button,CellGroup,Toast,Uploader      } from 'vant';
 
 
 Vue.config.productionTip = false;
@@ -19,7 +19,7 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI)
 Vue.use(Tab);Vue.use(Tabs);Vue.use(Image);Vue.use(List);Vue.use(Cell);Vue.use(Icon);Vue.use(Row);Vue.use(Col);Vue.use(Field);Vue.use(Button);
-Vue.use(Toast);
+Vue.use(Toast);Vue.use(Uploader);
 Vue.use(CellGroup)
 
 

@@ -78,7 +78,7 @@
 
 <script>
   // import 'vant/lib/button/style';
-
+ import request from '@/api/request.js'
   export default {
     name: 'mainNavBar',
     data() {
@@ -157,7 +157,12 @@
       }
     },
     mounted: function () {
+      var data={
 
+      }
+      request.post('',data,function(){
+
+      });
     },
     wrap() {
       var clientWidth = document.body.clientWidth;
