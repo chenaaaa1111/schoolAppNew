@@ -29,7 +29,7 @@ const router= new Router({
     {
       path: '/login/complate2',
       name: 'complate',
-      component: () => import('@/views/login/complate2.vue')
+      component: () => import('@/views/login/complate.vue')
     },
     {
       path: '/login',
@@ -82,27 +82,107 @@ const router= new Router({
     {
       path: '/grade',
       name: 'grade',
-      component: () => import('@/views/grade/index.vue') // 年级空间
+      component: () => import('@/views/grade/index.vue'), // 年级空间
+      redirect: '/grade/gradeHomepage',
+      children: [
+        {
+          path: '/grade/gradeHomepage',
+          name: 'gradeHomepage',
+          component: () => import('@/views/grade/campusHomepage/index.vue'), // 社团空间
+        },
+        {
+          path: '/grade/myGradeHomepage',
+          name: 'myGradeHomepage',
+          component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 社团空间
+        },
+      ]
     },
     {
       path: '/team',
       name: 'team',
-      component: () => import('@/views/team/index.vue') // 社团空间
+      component: () => import('@/views/team/index.vue'), // 社团空间
+      redirect: '/team/mainTeamHomepage',
+      children: [
+        {
+          path: '/team/mainTeamHomepage',
+          name: 'mainTeamHomepage',
+          component: () => import('@/views/team/mainTeamHomepage/index.vue'), // 社团空间
+        },
+        {
+          path: '/team/myTeamHomepage',
+          name: 'myTeamHomepage',
+          component: () => import('@/views/team/myTeamHomepage/index.vue'), // 社团空间
+        },
+        {
+          path: '/team/teamMyHomepage',
+          name: 'teamMyHomepage',
+          component: () => import('@/views/team/teamMyHomepage/index.vue'), // 社团空间
+        }
+      ]
     },
     {
       path: '/special',
       name: 'special',
-      component: () => import('@/views/special/index.vue') // 专题空间
+      component: () => import('@/views/special/index.vue'), // 专题空间
+      redirect: '/special/specialMainHomepage',
+      children: [
+        {
+          path: '/special/specialMainHomepage',
+          name: 'specialMainHomepage',
+          component: () => import('@/views/special/specialMainHomepage/index.vue'), // 专题空间-首页
+        },
+        {
+          path: '/special/mySpecialHomepage',
+          name: 'mySpecialHomepage',
+          component: () => import('@/views/special/mySpecialHomepage/index.vue'), // 专题空间-我的专题
+        }
+      ]
     },
     {
       path: '/topic',
       name: 'topic',
-      component: () => import('@/views/topic/index.vue') // 课题空间
+      component: () => import('@/views/topic/index.vue'), // 课题空间
+      redirect: '/topic/topicHomepage',
+      children: [
+        {
+          path: '/topic/topicHomepage',
+          name: 'topicHomepage',
+          component: () => import('@/views/topic/topicHomepage/index.vue'), //
+        },
+        {
+          path: '/topic/myTopicGroupHomepage',
+          name: 'myTopicGroupHomepage',
+          component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), //
+        },
+        {
+          path: '/topic/myTopicHomepage',
+          name: 'myTopicHomepage',
+          component: () => import('@/views/topic/myTopicHomepage/index.vue'), //
+        }
+      ]
     },
     {
       path: '/teaching',
       name: 'teaching',
-      component: () => import('@/views/teaching/index.vue') // 教研空间
+      component: () => import('@/views/teaching/index.vue'), // 教研空间
+      redirect: '/teaching/teachingHomepage',
+      children: [
+        {
+          path: '/teaching/teachingHomepage',
+          name: 'teachingHomepage',
+          component: () => import('@/views/teaching/teachingHomepage/index.vue'), // 专题空间-首页
+        },
+        {
+          path: '/teaching/myTeachGroupHomepage',
+          name: 'myTeachGroupHomepage',
+          component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 专题空间-首页
+        },
+        {
+          path: '/teaching/myTeachingHomepage',
+          name: 'myTeachingHomepage',
+          component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 专题空间-首页
+        }
+      ]
     },
     {
       path: '/write',
