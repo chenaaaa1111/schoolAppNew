@@ -40,36 +40,6 @@
                                     <div class="item-title">{{item.title}}</div>
                                     <!-- </router-link> -->
                                 </el-col>
-                                <!-- <el-col :span="8">
-                    <div class="icon-box">
-                      <img src="../assets/main/grade.png" />
-                    </div>
-                    <div class="item-title">年级空间</div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="icon-box">
-                      <img src="../assets/main/team.png" />
-                    </div>
-                    <div class="item-title">社团</div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="icon-box">
-                      <img src="../assets/main/special.png" />
-                    </div>
-                    <div class="item-title">专题空间</div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="icon-box">
-                      <img src="../assets/main/topic.png" />
-                    </div>
-                    <div class="item-title">课题空间</div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="icon-box">
-                      <img src="../assets/main/teaching.png" />
-                    </div>
-                    <div class="item-title">教研空间</div>
-                  </el-col> -->
                             </el-row>
                             <el-row style="padding-top:70px ;">
                                  
@@ -102,32 +72,38 @@
                 visible: false,
                 routerList: [
                     {
+                        id:"room_class",
                         name: 'classes',
                         title: '班级空间',
                         image: require('@/assets/main/classes.png')
                     },
                     {
+                        id:"room_grade",
                         name: 'grade',
                         title: '年级空间',
                         image: require('@/assets/main/grade.png')
                     },
                     {
+                        id:"room_community",
                         name: 'team',
                         title: '社团空间',
                         image: require('@/assets/main/team.png')
                     },
                     {
-                        name: 'special',
+                        id:"room_project",
+                        name: 'room_project',
                         title: '专题空间',
                         image: require('@/assets/main/special.png')
                     },
                     {
-                        name: 'topic',
+                        id: 'room_subject',
+                        name: 'room_subject',
                         title: '课题空间',
                         image: require('@/assets/main/topic.png')
                     },
                     {
-                        name: 'teaching',
+                        id: 'room_teaching',
+                        name: 'room_teaching',
                         title: '教研空间',
                         image: require('@/assets/main/teaching.png')
                     },
@@ -143,7 +119,7 @@
                 var self=this;
                 request.post('/roomapi/Users/editRoom',data,function(res){//提交空间并跳转登录
                     console.log('res',res);
-                    if(res.data&&res.data.data&&res.data.data.code==0){
+                    if(res.data&&res.data.code==0){
                         self.$router.push('/login');
                     }else{
 

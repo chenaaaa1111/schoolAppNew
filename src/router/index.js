@@ -29,7 +29,7 @@ const router= new Router({
     {
       path: '/login/complate2',
       name: 'complate',
-      component: () => import('@/views/login/complate.vue')
+      component: () => import('@/views/login/complate2.vue')
     },
     {
       path: '/login',

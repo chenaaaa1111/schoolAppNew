@@ -122,11 +122,15 @@
                     this.$toast.fail('请输入密码');
                     return;
                 }
+                if(this.veryCode==''){
+                    this.$toast.fail('请输入验证码');
+                }
                 var data = {
                     mobile: this.phone,
-                    LoginPWD: this.password
+                    LoginPWD: this.password,
+                    code:this.veryCode
                 }
-                request.post('/roomapi/Login/Loginpwd', data, function (res) {
+                request.post('/roomapi/Login/uploginpwd', data, function (res) {
                     console.log('返回res', res);
                     debugger
                     if (res.status == 200) {

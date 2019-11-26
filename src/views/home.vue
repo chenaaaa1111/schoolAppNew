@@ -11,13 +11,13 @@
             <el-col :span="12" class="nav-user">
               <el-dropdown trigger="click" @visible-change="visibleChange">
                 <span class="el-dropdown-link">
-                  <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
-                  <span v-if="!visible" class="userName">刘子璇</span>
+                  <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo?userInfo.avatar:''"></el-avatar>
+                  <span v-if="!visible" class="userName">{{userInfo.name}}</span>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                   <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-close" @click="loginout">退出</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -31,7 +31,7 @@
           <el-col :xl="16" :lg="16" :md="20" :sm="22" :xs="24">
             <el-card class="nine">
               <el-row>
-                <el-col :span="8" v-for="(item, index) in routerList" :key="index">
+                <el-col :span="8" v-for="(item, index) in realRoutlist" :key="index">
                   <router-link :to="{name: item.name}" class="router-link">
                     <div class="icon-box">
                       <img :src="item.image" />
@@ -78,39 +78,49 @@
   </div>
 </template>
 <script>
+  import request from "@/api/request.js"
   export default{
     data() {
       return {
+        userInfo:{},
         url: require('../assets/images/user.png'),
         fit: 'cover',
         visible: false,
+        keys:["room_class","room_grade","room_community","room_project","room_subject","room_teaching"],
+        realRoutlist:[],
         routerList: [
           {
+            id:"room_class",
             name: 'classes',
             title: '班级空间',
             image: require('../assets/main/classes.png')
           },
           {
+            id:"room_grade",
             name: 'grade',
             title: '年级空间',
             image: require('../assets/main/grade.png')
           },
           {
+            id:"room_community",
             name: 'team',
             title: '社团空间',
             image: require('../assets/main/team.png')
           },
           {
+            id:"room_project",
             name: 'special',
             title: '专题空间',
             image: require('../assets/main/special.png')
           },
           {
+            id:"room_subject",
             name: 'topic',
             title: '课题空间',
             image: require('../assets/main/topic.png')
           },
           {
+            id:"room_teaching",
             name: 'teaching',
             title: '教研空间',
             image: require('../assets/main/teaching.png')
@@ -119,9 +129,37 @@
       }
     },
     mounted() {
-      
+      this.getUserInfo();
+      this.formatObj()
     },
     methods: {
+      loginout(){
+        sessionStorage.setItem('Authorization','');
+        this.$router.push('/login');
+      },
+      getUserInfo(){
+        var userInfo=sessionStorage.getItem('userInfo');
+        console.log('userInfo',userInfo);
+        this.userInfo=JSON.parse(userInfo); 
+        return JSON.parse(userInfo);
+      },
+      formatObj(){
+        debugger
+        var self=this;
+        var realRoutlist=[];
+        var userInfo=this.getUserInfo();
+        console.log(userInfo)
+        Object.keys(userInfo).forEach(key=>{
+          self.routerList.forEach(im=>{
+            if(key==im.id&&userInfo[key]==1){
+              realRoutlist.push(im);
+            }
+          })
+          console.log('userInfo',userInfo[key]);
+        });
+        this.realRoutlist=realRoutlist;
+        console.log('******realRoutlist',realRoutlist);
+      },
       visibleChange(val) {
         console.log(val, 'val shishenme ')
         this.visible = val

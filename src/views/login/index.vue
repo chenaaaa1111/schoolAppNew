@@ -86,7 +86,8 @@
                     if(res.status==200){
                         if(res.data.code==0){
                             sessionStorage.setItem('Authorization',res.data.data.token);
-                        self.$router.push('/')
+                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.data.user));
+                            self.$router.push('/')
                     }
                     }
                   
