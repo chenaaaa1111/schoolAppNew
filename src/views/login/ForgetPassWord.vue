@@ -92,7 +92,6 @@
                     return;
                 }
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
-                    console.log('返回res', res);
                     if (res.status == 200) {
                         if (res.data.code == 0) {
                             self.$toast.success('发送成功');
@@ -110,7 +109,6 @@
             },
             showPass(){
                 this.isShow=!this.isShow;
-                console.log(this.isShow)
             },
             login() {
                 var self = this;
@@ -131,8 +129,7 @@
                     code:this.veryCode
                 }
                 request.post('/roomapi/Login/uploginpwd', data, function (res) {
-                    console.log('返回res', res);
-                    debugger
+                    
                     if (res.status == 200) {
                         if (res.data.code == 0) {
                             localStorage.setItem('Authorization', res.data.data.token);

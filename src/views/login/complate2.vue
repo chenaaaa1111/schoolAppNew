@@ -118,7 +118,6 @@
                 var data=this.dict;
                 var self=this;
                 request.post('/roomapi/Users/editRoom',data,function(res){//提交空间并跳转登录
-                    console.log('res',res);
                     if(res.data&&res.data.code==0){
                         self.$router.push('/login');
                     }else{
@@ -127,7 +126,6 @@
                 });
             },
             changeSe(sind){
-                console.log('se',this.list);
                 // lsitdict.array.forEach((element,index) => {
                 //     if(list[index]==true){
                 //         element=1
@@ -141,14 +139,11 @@
                 }else{
                     this.dict[lsitdict[sind]]=0;
                 }
-                console.log('se',this.dict);
             },
             visibleChange(val) {
-                console.log(val, 'val shishenme ')
                 this.visible = val
             },
             changeRouter(name) {
-                console.log('name')
             }
         }
     }

@@ -139,33 +139,26 @@
       },
       getUserInfo(){
         var userInfo=sessionStorage.getItem('userInfo');
-        console.log('userInfo',userInfo);
         this.userInfo=JSON.parse(userInfo); 
         return JSON.parse(userInfo);
       },
-      formatObj(){
-        debugger
+      formatObj(){er
         var self=this;
         var realRoutlist=[];
         var userInfo=this.getUserInfo();
-        console.log(userInfo)
         Object.keys(userInfo).forEach(key=>{
           self.routerList.forEach(im=>{
             if(key==im.id&&userInfo[key]==1){
               realRoutlist.push(im);
             }
           })
-          console.log('userInfo',userInfo[key]);
         });
         this.realRoutlist=realRoutlist;
-        console.log('******realRoutlist',realRoutlist);
       },
       visibleChange(val) {
-        console.log(val, 'val shishenme ')
         this.visible = val
       },
       changeRouter(name) {
-        console.log('name')
       }
     }
   }

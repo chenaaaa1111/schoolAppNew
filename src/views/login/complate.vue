@@ -130,12 +130,10 @@
         mounted: function () {
             this.getAeas();
             $('#app').on('click','.van-image-preview',function(){
-                console.log('click')
             })
         },
         methods: {
             handleRemove(file, fileList) {
-                console.log(file, fileList);
             },
             afterRead(file){
                 var data = new FormData();
@@ -143,7 +141,6 @@
                 data.append('type','1');
                 var self=this;
                 request.post('/roomapi/Upsystem/upload',data,function(res){
-                   console.log('上传成功',res.data.data.url);
                    self.imgUrl="http://school.i2f2f.com"+res.data.data.url;
                 })
               
@@ -159,7 +156,6 @@
                     if (responese.data&&responese.data.data&&responese.data.data[0]) {
                         self.selects = responese.data.data[0].id;
                         self.areaList = responese.data.data;
-                        console.log(responese.data.data);
                     }
 
                 });
@@ -171,7 +167,6 @@
                data.avatar=this.imgUrl;
                   request.post('/roomapi/Users/editBasic',data,function(responese){
                       
-                    console.log('上传结果',responese);
                     if(responese.data.code==0){
                         self.$router.push('/login/complate2')
                     }
@@ -179,13 +174,10 @@
                 // this.$router.push('/login/complate2')
             },
             selectSchool(ev) {
-                console.log(ev.target.dataset);
                 var select = this.selects;//选中校区id 只能一个
 
-                console.log('ev', ev);
                 // ev.target.lassList.add("active");
                 var classVar = ev.target.getAttribute('class');
-                console.log(classVar);
                 if (classVar.indexOf('active') >= 0) {
                     classVar = classVar.replace('active', '');
                     ev.target.setAttribute('class', classVar);
@@ -198,10 +190,8 @@
                     oldClassVar = oldClassVar.replace('active', '');
                     sedom.setAttribute('class', oldClassVar);
                     ev.target.setAttribute('class', classVar);
-                    console.log('classeses', classVar);
                     this.selects = ev.target.dataset.id;//选中校区id
                 }
-                console.log('select***', this.selects)
             }
         }
 
