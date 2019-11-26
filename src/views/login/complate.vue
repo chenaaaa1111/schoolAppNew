@@ -3,28 +3,35 @@
         <div class="loginContent">
             <p class="tx_center">信息填写</p>
             <div class="topImage">
-                <!-- <van-uploader v-model="fileList" multiple :max-count="1" /> -->
-                <el-upload action="/roomapi/Users/editBasic" list-type="picture-card"
+                <van-uploader v-model="fileList"  :after-read="afterRead" :preview-full-image="false" :max-count="1" />
+                <!-- <el-upload action="/roomapi/Users/editBasic" list-type="picture-card"
                 :data="updata"
                     :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
                     <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
+                </el-dialog> -->
                 <p style="text-align: center;">头像</p>
             </div>
-            <div style="clear: both;">
+            <div style="clear: both;overflow: hidden;">
                 <div class="leftName">校区选择：</div>
                 <div class="rightButtons">
 
                     <van-button v-for="(item,index) in areaList" :key="item.id" type="default earb "
                         :class="index==0?'active':''" @click="selectSchool($event)" :data-id="item.id">{{item.title}}
                     </van-button>
-                    <!-- <van-button type="default earb" @click="selectSchool($event)" data-id="2">北区</van-button>
-                    <van-button type="default earb" @click="selectSchool($event)" data-id="3">南区</van-button> -->
+                    <van-button type="default earb" @click="selectSchool($event)" data-id="2">北区</van-button>
+                    <van-button type="default earb" @click="selectSchool($event)" data-id="3">南区</van-button>
                 </div>
             </div>
+            <div>
+            
+                <van-cell-group>
+                    <van-field v-model="userInfo.name" placeholder="请输入用户名" />
+                  </van-cell-group>
+            </div>
+        
             <van-button type="default" class="submitLogin" @click="next">下一步</van-button>
 
         </div>
@@ -113,6 +120,7 @@
             dialogImageUrl: '',
             dialogVisible: false,
             fileList: [],
+            userInfo:{},
             selects: '',
             areaList: [],
             divstyle: {
@@ -121,11 +129,24 @@
         }),
         mounted: function () {
             this.getAeas();
-
+            $('#app').on('click','.van-image-preview',function(){
+                console.log('click')
+            })
         },
         methods: {
             handleRemove(file, fileList) {
                 console.log(file, fileList);
+            },
+            afterRead(file){
+                var data = new FormData();
+                data.append('file',file.file);
+                data.append('type','1');
+                var self=this;
+                request.post('/roomapi/Upsystem/upload',data,function(res){
+                   console.log('上传成功',res.data.data.url);
+                   self.imgUrl="http://school.i2f2f.com"+res.data.data.url;
+                })
+              
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -144,7 +165,18 @@
                 });
             },
             next() {
-                this.$router.push('/login/complate2')
+                this.userInfo.sid=this.selects;
+                var data=this.userInfo;
+                var self=this;
+               data.avatar=this.imgUrl;
+                  request.post('/roomapi/Users/editBasic',data,function(responese){
+                      
+                    console.log('上传结果',responese);
+                    if(responese.data.code==0){
+                        self.$router.push('/login/complate2')
+                    }
+                })
+                // this.$router.push('/login/complate2')
             },
             selectSchool(ev) {
                 console.log(ev.target.dataset);
