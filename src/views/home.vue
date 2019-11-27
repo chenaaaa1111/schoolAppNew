@@ -154,6 +154,7 @@
           })
         });
         this.realRoutlist=realRoutlist;
+        console.log('realRoutlist',realRoutlist)
       },
       visibleChange(val) {
         this.visible = val

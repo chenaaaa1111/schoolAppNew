@@ -25,6 +25,7 @@
     },
     data() {
       return {
+        pageName: '',
         newsList: [
           {
             title: '激动人心的运动会',
@@ -53,12 +54,30 @@
       console.log(this.source, '从哪个空间加载的新闻动态模块儿')
     },
     methods: {
+      getPageName(str) { // 设置返回按钮显示的文字
+        switch (str) {
+          case 'campusHomepage':
+            return '校园主页';
+          case 'gradeHomepage':
+            return '校园主页';
+          case 'mainTeamHomepage':
+            return '社团主页';
+          case 'specialMainHomepage':
+            return '首页';
+          case 'topicHomepage':
+            return '课题主页';
+          case 'teachingHomepage':
+            return '教研主页';
+          default:
+            return '空间主页'
+        }
+      },
       shownewsmore() {
         this.$router.push({
           name: 'newsmore',
           query: {
             widgetName: '学校新闻动态', // 模块儿名称
-            fromwhere: this.source.routename, // 来自哪里
+            fromwhere: this.source.routename,
             spacename: this.source.spacename // 属于哪个空间
           }
         })
@@ -67,8 +86,7 @@
         this.$router.push({
           name: 'readnews',
           query: {
-            widgetName: '学校新闻动态',
-            fromwhere: this.source.routename,
+            widgetName: this.getPageName(this.source.routename),
             spacename: this.source.spacename
           }
         })

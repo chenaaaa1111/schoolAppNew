@@ -3,8 +3,8 @@
     <el-row class="page-header" type="flex" justify="center">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
         <el-menu class="el-menu-head" mode="horizontal">
-            <li class="homeEntry" @click="goHome">
-              <img src="../../../assets/main/classes.png" />班级空间
+            <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
+              <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
             </li>
             <el-menu-item class="brandTitle" index="writenews" disabled>文章详情 - public</el-menu-item>
             <li class="nav-user">
@@ -81,17 +81,50 @@
       return {
         fit: 'cover',
         url: require('../../../assets/images/user.png'),
-        fromwhere: '',
+        spaceNav: { // 顶部导航栏显示信息,按需加载
+          classes: {
+            icon: require('../../../assets/main/classes.png'),
+            spacename: '班级空间',
+            styles: 'classesColor'
+          },
+          grade: {
+            icon: require('../../../assets/main/grade.png'),
+            spacename: '年级空间',
+            styles: 'gradeColor'
+          },
+          team: {
+            icon: require('../../../assets/main/team.png'),
+            spacename: '社团空间',
+            styles: 'teamColor'
+          },
+          special: {
+            icon: require('../../../assets/main/special.png'),
+            spacename: '专题空间',
+            styles: 'specialColor'
+          },
+          topic: {
+            icon: require('../../../assets/main/topic.png'),
+            spacename: '课题空间',
+            styles: 'topicColor'
+          },
+          teaching: {
+            icon: require('../../../assets/main/teaching.png'),
+            spacename: '教研空间',
+            styles: 'teachingColor'
+          }
+        },
         title: '',
-        navIndex: '',
+        navIndex: 'classes',
         widgetName: ''
       }
     },
     mounted() {
       console.log(this.$route.query, '阅读新闻页面接收传值')
-      this.fromwhere = this.$route.query.fromwhere
-      this.title = this.$route.query.widgetName
-      this.navIndex = this.$route.query.spacename
+      let params = this.$route.query
+      if(Object.keys(params).length > 0) {
+        this.title = params.widgetName
+        this.navIndex = params.spacename
+      }
     },
     methods: {
       goHome() {
@@ -100,9 +133,15 @@
         })
       },
       goback() {
-        this.$router.push({
-          name: this.fromwhere
-        })
+        this.$router.go(-1)
+        // this.$router.push({
+        //   name: this.fromwhere,
+        //   query: {
+        //     widgetName: this.title,
+        //     fromwhere: this.parents,
+        //     spacename: this.navIndex
+        //   }
+        // })
       },
     }
   }
@@ -138,7 +177,7 @@
           align-items: center;
           margin-right: 35px;
           font-size: 26px;
-          color: #E27755;
+          // color: #E27755;
           img{
             display: inline-block;
             width: 56px;
@@ -146,6 +185,24 @@
             vertical-align: middle;
             margin: 0px 10px;
           }
+        }
+        .classesColor{
+          color: #E27755;
+        }
+        .gradeColor{
+          color: #E8A33D;
+        }
+        .teamColor{
+          color: #4DB65B;
+        }
+        .specialColor{
+          color: #328B8C;
+        }
+        .topicColor{
+          color: #4F88C5;
+        }
+        .teachingColor{
+          color: #4F88C5;
         }
         .el-menu-item{
           font-size: 22px;
