@@ -29,28 +29,23 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list">
+            <el-row class="more-list" v-for ="item in newsList">
               <el-col :span="24" class="news-title">
-                有哪些高情商的聊天技巧？<span class="news-type">(栏目: 影评)</span>
+               {{newsList.title}}<span class="news-type">(栏目: 影评)</span>
               </el-col>
-              <el-col :span="24" class="news-author">
+              <!-- <el-col :span="24" class="news-author">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
                 <span class="author">关一凡</span>
                 <span class="author-class">工商管理142班</span>
-              </el-col>
+              </el-col> -->
               <el-col :span="24" class="news-text">
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+               {{newsList.content}}
               </el-col>
               <el-col :span="24" class="news-trigger">
                 <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
               </el-col>
               <el-col :span="24" class="news-date">
-                2019/08/22 09:23
+                {{newsList.create_time}}
               </el-col>
               <el-col :span="24">
                 <el-divider></el-divider>
@@ -90,10 +85,12 @@
   </div>
 </template>
 <script>
+  import request from '@/api/request.js'
   export default{
     name: 'newsmore',
     data() {
       return {
+        newsList:[],
         fit: 'cover',
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
@@ -153,6 +150,13 @@
       }
       console.log(this.$route.name, '更多新闻动态当前路由名称')
       console.log(this.$route.query, '更多新闻动态query')
+      var self=this;
+      request.post('/roomapi/Users/NewsList',{},function(res){
+        res.data.model.forEach(item=>{
+            item.create_time=item.create_time.substr(5,5)
+          })
+          self.newsList=res.data.model;
+      })
     },
     methods:{
       setTitle(str) { // 设置返回按钮显示的文字
