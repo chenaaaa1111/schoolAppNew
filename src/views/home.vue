@@ -139,7 +139,7 @@
       },
       getUserInfo(){
         var userInfo=sessionStorage.getItem('userInfo');
-        this.userInfo=JSON.parse(userInfo); 
+        this.userInfo=JSON.parse(userInfo);
         return JSON.parse(userInfo);
       },
       formatObj(){
