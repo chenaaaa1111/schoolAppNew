@@ -92,7 +92,7 @@
           align-items: center;
           margin-right: 35px;
           font-size: 26px;
-          color: #4DB65B;
+          color: #328B8C;
           img{
             display: inline-block;
             width: 56px;

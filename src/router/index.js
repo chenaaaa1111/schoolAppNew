@@ -190,9 +190,9 @@ const router= new Router({
       component: () => import('@/views/write/index.vue') // 写新闻 -- 通用
     },
     {
-      path: '/classes/newsmore',
+      path: '/newsmore',
       name: 'newsmore',
-      component: () => import('@/views/classes/more/newsmore.vue'), // 学校新闻动态展开更多
+      component: () => import('@/views/public/more/newsmore.vue'), // 学校新闻动态展开更多
     },
     {
       path: '/classes/classesmore',
@@ -210,9 +210,9 @@ const router= new Router({
       component: () => import('@/views/classes/more/messagemore.vue'), // 消息通知展开更多
     },
     {
-      path: '/classes/readnews',
+      path: '/readnews',
       name: 'readnews',
-      component: () => import('@/views/classes/read/readnews.vue'), // 文章详情页
+      component: () => import('@/views/public/read/readnews.vue'), // 文章详情页
     },
     {
       path: '/classes/readmessage',

@@ -6,7 +6,7 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 学校新闻动态 -->
-            <News :source="routename"></News>
+            <News :source="source"></News>
             <!-- 班级空间-侧边栏 -->
             <ClassSpace :source="routename"></ClassSpace>
             <!-- 通知公告 -->
@@ -71,7 +71,8 @@
 </template>
 <script>
   import PageTop from './components/PageTop.vue'
-  import News from './components/News.vue'
+  // import News from './components/News.vue'
+  import News from '../../public/widget/News.vue'
   import ClassSpace from './components/ClassSpace.vue'
   import Notice from './components/Notice.vue'
   export default{
@@ -84,6 +85,10 @@
     },
     data() {
       return {
+        source: {
+          routename: '',
+          spacename: 'topic'
+        },
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
@@ -123,6 +128,7 @@
     },
     mounted() {
       this.routename = this.$route.name
+      this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename')
     },
     methods:{
