@@ -92,7 +92,6 @@
                     return;
                 }
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
-                    console.log('返回res', res);
                     if (res.status == 200) {
                         if (res.data.code == 0) {
                             self.$toast.success('发送成功');
@@ -110,7 +109,6 @@
             },
             showPass(){
                 this.isShow=!this.isShow;
-                console.log(this.isShow)
             },
             login() {
                 var self = this;
@@ -122,13 +120,16 @@
                     this.$toast.fail('请输入密码');
                     return;
                 }
+                if(this.veryCode==''){
+                    this.$toast.fail('请输入验证码');
+                }
                 var data = {
                     mobile: this.phone,
-                    LoginPWD: this.password
+                    LoginPWD: this.password,
+                    code:this.veryCode
                 }
-                request.post('/roomapi/Login/Loginpwd', data, function (res) {
-                    console.log('返回res', res);
-                    debugger
+                request.post('/roomapi/Login/uploginpwd', data, function (res) {
+                    
                     if (res.status == 200) {
                         if (res.data.code == 0) {
                             localStorage.setItem('Authorization', res.data.data.token);

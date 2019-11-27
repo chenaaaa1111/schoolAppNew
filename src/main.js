@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css';
 import router from './router';
 import   "babel-polyfill"
+import axios from 'axios';
 // import axios from 'axios';
 import { Tab, Tabs,List,Cell,Icon,Image,Row, Col,Field,Button,CellGroup,Toast,Uploader      } from 'vant';
 
@@ -23,11 +24,12 @@ Vue.use(Toast);Vue.use(Uploader);
 Vue.use(CellGroup)
 
 
-/* eslint-disable no-new */
-new Vue({
+/* eslint-disable no-new */ 
+var vm= new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
 })
+export default vm;

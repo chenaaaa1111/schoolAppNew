@@ -5,7 +5,6 @@
             <van-cell-group>
                 <van-field v-model="phone" required clearable label="手机号" 
                     placeholder="请输入手机号"  />
-
                 <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required />
             </van-cell-group>
             <p style="text-align: right;" @click="forgetPass">忘记密码</p>
@@ -86,8 +85,9 @@
                     debugger
                     if(res.status==200){
                         if(res.data.code==0){
-                        localStorage.setItem('Authorization',res.data.data.token);
-                        self.$router.push('/')
+                            sessionStorage.setItem('Authorization',res.data.data.token);
+                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.data.user));
+                            self.$router.push('/')
                     }
                     }
                   
