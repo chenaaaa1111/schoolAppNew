@@ -47,7 +47,7 @@
                 Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
               </el-col>
               <el-col :span="24" class="news-trigger">
-                <el-button type="text" >阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
               </el-col>
               <el-col :span="24" class="news-date">
                 2019/08/22 09:23
@@ -74,7 +74,7 @@
                 Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
               </el-col>
               <el-col :span="24" class="news-trigger">
-                <el-button type="text" >阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
               </el-col>
               <el-col :span="24" class="news-date">
                 2019/08/22 09:23
@@ -151,6 +151,8 @@
         this.widgetName = params.widgetName
         this.setTitle(this.fromwhere)
       }
+      console.log(this.$route.name, '更多新闻动态当前路由名称')
+      console.log(this.$route.query, '更多新闻动态query')
     },
     methods:{
       setTitle(str) { // 设置返回按钮显示的文字
@@ -183,10 +185,22 @@
          })
       },
       goBack() { // 回到跳转过来时的页面
+        console.log(this.$route.query, 'newsmore 跳转回主页')
+  
         this.$router.push({
           name: this.fromwhere
         })
-      }
+      },
+      readDetails() { // 去新闻详情
+        console.log('跳转新闻')
+        this.$router.push({
+          name: 'readnews',
+          query: {
+            widgetName: '更多学校新闻动态',
+            spacename: this.navIndex,
+          }
+        })
+      },
     }
   }
 </script>
