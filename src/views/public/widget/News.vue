@@ -9,12 +9,13 @@
     <ul class="newList">
       <li v-for="(item,index) in newsList" :key="index" @click="readDetails">
         <span class="text">{{item.title}}</span>
-        <span class="date" :key="index">{{item.date}}</span>
+        <span class="date" :key="index">{{item.create_time}}</span>
       </li>
     </ul>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'news',
     props: {
@@ -50,9 +51,18 @@
       }
     },
     mounted() {
-      console.log(this.source, '从哪个空间加载的新闻动态模块儿')
+      console.log(this.source, '从哪个空间加载的新闻动态模块儿');
+      this.getNews();
     },
     methods: {
+      getNews(){
+        var self=this;
+        var data={sid:(JSON.parse(sessionStorage.getItem('userInfo'))).s_id};
+        request.post('/roomapi/Users/NewsList',data,function(res){
+          self.newsList=res.data.model;
+          console.log('**********',self.newsList);
+        })
+      },
       shownewsmore() {
         this.$router.push({
           name: 'newsmore',

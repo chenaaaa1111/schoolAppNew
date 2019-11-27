@@ -146,6 +146,7 @@
         var self=this;
         var realRoutlist=[];
         var userInfo=this.getUserInfo();
+        debugger
         Object.keys(userInfo).forEach(key=>{
           self.routerList.forEach(im=>{
             if(key==im.id&&userInfo[key]==1){

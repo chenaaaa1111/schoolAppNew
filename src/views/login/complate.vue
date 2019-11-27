@@ -156,6 +156,8 @@
                     if (responese.data&&responese.data&&responese.data[0]) {
                         self.selects = responese.data[0].id;
                         self.areaList = responese.data;
+                    }else{
+                        self.$toast.fail(res.message||'服务器错误');
                     }
 
                 });

@@ -118,21 +118,15 @@
                 var data=this.dict;
                 var self=this;
                 request.post('/roomapi/Users/editRoom',data,function(res){//提交空间并跳转登录
-                    if(res.data&&res.data.code==0){
+                    if(res.code==0){
                         self.$router.push('/login');
                     }else{
-
+                        self.$toast.fail(res.message||'服务器错误');
                     }
                 });
             },
             changeSe(sind){
-                // lsitdict.array.forEach((element,index) => {
-                //     if(list[index]==true){
-                //         element=1
-                //     }else{
-                //         element=0  
-                //     }
-                // });
+           
                 var lsitdict =this.lsitdict ;
                 if(this.list[sind]==true){
                     this.dict[lsitdict[sind]]=1
