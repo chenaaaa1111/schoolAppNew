@@ -9,6 +9,7 @@
             </van-cell-group>
             <p style="text-align: right;" @click="forgetPass">忘记密码</p>
             <van-button type="default" class="submitLogin" @click="login"  >登录</van-button>
+            <p style="text-align: right;" @click="forgetPass">没有账号？<span @click="gotoRegist">点击注册</span> </p>
 
         </div>
     </div>
@@ -63,6 +64,9 @@
             }
         }),
         methods: {
+            gotoRegist(){
+                this.$router.push('/login/regist')
+            },
             forgetPass(){
                 this.$router.push('/login/forgotPWD')
             },
@@ -83,13 +87,13 @@
                 request.post('/roomapi/Login/Loginpwd',data,function(res){
                     console.log('返回res',res);
                     debugger
-                    if(res.status==200){
-                        if(res.data.code==0){
-                            sessionStorage.setItem('Authorization',res.data.data.token);
-                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.data.user));
+                 
+                        if(res.code==0){
+                            sessionStorage.setItem('Authorization',res.data.token);
+                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.user));
                             self.$router.push('/')
                     }
-                    }
+                
                   
                 })
             }

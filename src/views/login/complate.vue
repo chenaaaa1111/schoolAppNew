@@ -141,7 +141,7 @@
                 data.append('type','1');
                 var self=this;
                 request.post('/roomapi/Upsystem/upload',data,function(res){
-                   self.imgUrl="http://school.i2f2f.com"+res.data.data.url;
+                   self.imgUrl="http://school.i2f2f.com"+res.data.url;
                 })
               
             },
@@ -153,9 +153,9 @@
                 var self = this;
                 request.post('/roomapi/School/lists', {}, function (responese) {
                     //默认选中第一个
-                    if (responese.data&&responese.data.data&&responese.data.data[0]) {
-                        self.selects = responese.data.data[0].id;
-                        self.areaList = responese.data.data;
+                    if (responese.data&&responese.data&&responese.data[0]) {
+                        self.selects = responese.data[0].id;
+                        self.areaList = responese.data;
                     }
 
                 });
@@ -167,7 +167,7 @@
                data.avatar=this.imgUrl;
                   request.post('/roomapi/Users/editBasic',data,function(responese){
                       
-                    if(responese.data.code==0){
+                    if(responese.code==0){
                         self.$router.push('/login/complate2')
                     }
                 })

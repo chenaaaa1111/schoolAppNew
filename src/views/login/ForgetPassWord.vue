@@ -92,7 +92,7 @@
                     return;
                 }
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
-                    if (res.status == 200) {
+              
                         if (res.data.code == 0) {
                             self.$toast.success('发送成功');
                             self.millTime=60;
@@ -103,7 +103,7 @@
                                 }
                             },1000);
                         }
-                    }
+                 
 
                 })
             },
@@ -132,7 +132,7 @@
                     
                     if (res.status == 200) {
                         if (res.data.code == 0) {
-                            localStorage.setItem('Authorization', res.data.data.token);
+                            localStorage.setItem('Authorization', res.data.token);
                             self.$router.push('/')
                         }
                     }

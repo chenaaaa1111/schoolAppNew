@@ -142,7 +142,7 @@
         this.userInfo=JSON.parse(userInfo); 
         return JSON.parse(userInfo);
       },
-      formatObj(){er
+      formatObj(){
         var self=this;
         var realRoutlist=[];
         var userInfo=this.getUserInfo();

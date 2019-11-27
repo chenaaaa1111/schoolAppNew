@@ -102,7 +102,7 @@
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
                     console.log('返回res', res);
                     if (res.status == 200) {
-                        if (res.data.code == 0) {
+                        if (res.code == 0) {
                             self.$toast.success('发送成功');
                             self.millTime=60;
                             self.sendInter=setInterval(function(){
@@ -141,16 +141,16 @@
 
                 request.post('/roomapi/Login/registered', data, function (res) {
                     console.log('返回res', res);
-                    if (res.status == 200) {
-                        if (res.data.code == 0) {
-                            localStorage.setItem('Authorization',res.data.data.token);
+                
+                        if (res.code == 0) {
+                            localStorage.setItem('Authorization',res.data.token);
                             console.log('res.data',res.data);
                             self.$router.push('/complate')
                         }else{
                             self.$toast.fail(res.data.message);
 
                         }
-                    }
+               
 
                 })
             }

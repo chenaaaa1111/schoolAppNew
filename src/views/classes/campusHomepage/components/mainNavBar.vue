@@ -160,8 +160,8 @@
       var data={
 
       }
-      request.post('',data,function(){
-
+      request.post('/roomapi/Room_Class/classPage',data,function(res){
+          console.log(res);
       });
     },
     wrap() {

@@ -49,8 +49,12 @@ var request={
                     vm.$router.push('/login');
                       return;
                   }
+                  if(response.status!=200){
+                    alert('系统错误,请稍后再试');
+                    return;
+                  }
                   if(callBack){
-                      callBack(response);
+                      callBack(response.data);
                   }
               })
               .catch((error)=>{
