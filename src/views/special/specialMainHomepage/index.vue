@@ -10,7 +10,7 @@
             <!-- 班级空间-侧边栏 -->
             <!-- <ClassSpace :source="routename"></ClassSpace> -->
             <!-- 通知公告 -->
-            <Notice :source="routename"></Notice>
+            <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -51,7 +51,8 @@
   // import News from './components/News.vue'
   import News from '../../public/widget/News.vue'
   // import ClassSpace from './components/ClassSpace.vue'
-  import Notice from './components/Notice.vue'
+  // import Notice from './components/Notice.vue'
+  import Notice from '../../public/widget/Notice.vue'
   export default{
     name: 'mainTeamHomepage',
     components: {

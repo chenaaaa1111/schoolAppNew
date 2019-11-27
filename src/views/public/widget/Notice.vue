@@ -1,22 +1,22 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../assets/images/classes/news.png"/>学校新闻动态-public</span>
-      <span class="more" @click="shownewsmore">
-        <img src="../../../assets/images/classes/more.png"/>
+      <span class="cardTitle"><img src="../../../assets/images/classes/notice.png"/>通知公告p</span>
+      <span class="more" @click="shownoticemore">
+        <span class="text">全部</span><img src="../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <ul class="newList">
-      <li v-for="(item,index) in newsList" :key="index" @click="readDetails">
-        <span class="text">{{item.title}}</span>
-        <span class="date" :key="index">{{item.date}}</span>
+    <ul class="notice">
+      <li v-for="(item,index) in noticeList" :key="index" @click="noticeDetails">
+        <div class="noticeTitle">{{item.title}}</div>
+        <div class="noticeDate">{{item.date}}</div>
       </li>
     </ul>
   </el-card>
 </template>
 <script>
   export default{
-    name: 'news',
+    name: 'notice',
     props: {
       source: {
         type: Object,
@@ -25,76 +25,58 @@
     },
     data() {
       return {
-        pageName: '',
-        newsList: [
+        noticeList: [
           {
-            title: '激动人心的运动会',
-            date: '04-02'
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
+            date: '2019-11-11'
           },
           {
-            title: '激动人心的运动会',
-            date: '04-06'
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学20',
+            date: '2019-11-11'
           },
           {
-            title: '激动人心的运动会激动人心的运动会',
-            date: '04-09'
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四',
+            date: '2019-11-11'
           },
           {
-            title: '激动人心的运动会',
-            date: '05-02'
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
+            date: '2019-11-11'
           },
-          {
-            title: '激动人心的运动会激动人心的运动会',
-            date: '05-08'
-          },
-        ],
+        ]
       }
     },
     mounted() {
-      console.log(this.source, '从哪个空间加载的新闻动态模块儿')
+      console.log(this.source, '通知公告模块接收到传值')
     },
     methods: {
-      getPageName(str) { // 设置返回按钮显示的文字
-        switch (str) {
-          case 'campusHomepage':
-            return '校园主页';
-          case 'gradeHomepage':
-            return '校园主页';
-          case 'mainTeamHomepage':
-            return '社团主页';
-          case 'specialMainHomepage':
-            return '首页';
-          case 'topicHomepage':
-            return '课题主页';
-          case 'teachingHomepage':
-            return '教研主页';
-          default:
-            return '空间主页'
-        }
-      },
-      shownewsmore() { // 去更多新闻动态页面
+      shownoticemore() {
         this.$router.push({
-          name: 'newsmore',
+          name: 'noticemore',
           query: {
-            widgetName: '学校新闻动态', // 模块儿名称
+            widgetName: '通知公告',
             fromwhere: this.source.routename,
-            spacename: this.source.spacename // 属于哪个空间
-          }
-        })
-      },
-      readDetails() { // 跳转到文章详情页
-        this.$router.push({
-          name: 'readnews',
-          query: {
-            widgetName: this.getPageName(this.source.routename),
             spacename: this.source.spacename
           }
         })
       },
+      noticeDetails() {
+        // this.$router.push({
+        //   name: 'noticemore',
+        //   query: {
+        //     widgetName: '校园主页',
+        //     fromwhere: this.source
+        //   }
+        // })
+      },
     }
   }
 </script>
-<style lang="scss">
+<style media="screen">
+.el-dialog{
+  min-width: 9.733333rem;
+}
+</style>
+<style lang="scss" scoped>
 .banner-card{
   margin-bottom: 12px;
   .cardTitle{
@@ -188,6 +170,7 @@
   .notice{
     font-size: 18px;
     li{
+      cursor: pointer;
       padding: 8px 0px;
       line-height: 30px;
       border-bottom: 1px dashed #DEDEDE;
@@ -202,6 +185,14 @@
       .noticeDate{
         text-align: right;
         color: #888888;
+      }
+    }
+    li:hover{
+      .noticeTitle{
+        color: #034692;
+      }
+      .noticeDate{
+        color: #034692;
       }
     }
   }

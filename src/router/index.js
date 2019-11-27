@@ -195,6 +195,11 @@ const router= new Router({
       component: () => import('@/views/public/more/newsmore.vue'), // 学校新闻动态展开更多
     },
     {
+      path: '/noticemore',
+      name: 'noticemore',
+      component: () => import('@/views/public/more/noticemore.vue'), // 学校新闻动态展开更多
+    },
+    {
       path: '/classes/classesmore',
       name: 'classesmore',
       component: () => import('@/views/classes/more/classesmore.vue'), // 班级空间展开更多
@@ -213,6 +218,11 @@ const router= new Router({
       path: '/readnews',
       name: 'readnews',
       component: () => import('@/views/public/read/readnews.vue'), // 文章详情页
+    },
+    {
+      path: '/readnotice',
+      name: 'readnotice',
+      component: () => import('@/views/public/read/readnotice.vue'), // 文章详情页
     },
     {
       path: '/classes/readmessage',
