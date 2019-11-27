@@ -7,14 +7,15 @@
       </span>
     </div>
     <ul class="newList">
-      <li v-for="(item,index) in newsList" :key="index" @click="readDetails">
+      <li v-for="(item,index) in newsList" :key="index" @click="readDetails(item.id)">
         <span class="text">{{item.title}}</span>
-        <span class="date" :key="index">{{item.date}}</span>
+        <span class="date" :key="index">{{item.create_time}}</span>
       </li>
     </ul>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'news',
     props: {
@@ -51,9 +52,20 @@
       }
     },
     mounted() {
-      console.log(this.source, '从哪个空间加载的新闻动态模块儿')
+      console.log(this.source, '从哪个空间加载的新闻动态模块儿');
+      this.getNews();
     },
     methods: {
+      getNews(){
+        var self=this;
+        var data={sid:(JSON.parse(sessionStorage.getItem('userInfo'))).s_id};
+        request.post('/roomapi/Users/NewsList',data,function(res){
+          res.data.model.forEach(item=>{
+            item.create_time=item.create_time.substr(5,5)
+          })
+          self.newsList=res.data.model;
+          console.log('**********',self.newsList);
+        })},
       getPageName(str) { // 设置返回按钮显示的文字
         switch (str) {
           case 'campusHomepage':
@@ -82,12 +94,13 @@
           }
         })
       },
-      readDetails() { // 跳转到文章详情页
+      readDetails(id) { // 跳转到文章详情页
         this.$router.push({
           name: 'readnews',
           query: {
             widgetName: this.getPageName(this.source.routename),
-            spacename: this.source.spacename
+            spacename: this.source.spacename,
+            id:id
           }
         })
       },

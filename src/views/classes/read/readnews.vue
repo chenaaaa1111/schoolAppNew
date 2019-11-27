@@ -89,6 +89,7 @@
       this.fromwhere = this.$route.params.fromwhere
       this.title = this.$route.params.fromname
       console.log(this.$route.params, '阅读新闻页面接收传值')
+      console.log('id',this.$router.params.id)
     },
     methods: {
       goHome() {

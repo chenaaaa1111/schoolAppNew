@@ -9,12 +9,21 @@
             </van-cell-group>
             <p style="text-align: right;" @click="forgetPass">忘记密码</p>
             <van-button type="default" class="submitLogin" @click="login"  >登录</van-button>
-            <p style="text-align: right;" @click="forgetPass">没有账号？<span @click="gotoRegist">点击注册</span> </p>
+            <p  class="btMessage">没有账号？<span @click="gotoRegist" class="btlink">立即注册</span> </p>
 
         </div>
     </div>
 </template>
 <style scoped>
+    .btMessage{
+        font-size: 22px;
+        text-align: center;
+        margin-top: 30px;
+    }
+    .btlink
+        {
+           color:  rgb(0, 0, 204);
+        }
     .loginContent {
         width: 50%;
         height: 800px;
