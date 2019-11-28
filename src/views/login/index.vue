@@ -94,16 +94,13 @@
                     LoginPWD:this.password
                 }
                 request.post('/roomapi/Login/Loginpwd',data,function(res){
-                    console.log('返回res',res);
-                    debugger
-                 
                         if(res.code==0){
                             sessionStorage.setItem('Authorization',res.data.token);
                             sessionStorage.setItem('userInfo',JSON.stringify(res.data.user));
                             self.$router.push('/')
-                    }
-                
-                  
+                    }else{
+                        self.$toast.fail(res.message);
+                    }                 
                 })
             }
         }

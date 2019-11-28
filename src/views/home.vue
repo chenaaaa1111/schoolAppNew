@@ -32,7 +32,7 @@
             <el-card class="nine">
               <el-row>
                 <el-col :span="8" v-for="(item, index) in realRoutlist" :key="index">
-                  <router-link :to="{name: item.name}" class="router-link">
+                  <router-link :to="{name: item.name,query:{id:item._id}}" class="router-link">
                     <div class="icon-box">
                       <img :src="item.image" />
                     </div>
@@ -91,36 +91,42 @@
         routerList: [
           {
             id:"room_class",
+            key:"class_id",
             name: 'classes',
             title: '班级空间',
             image: require('../assets/main/classes.png')
           },
           {
             id:"room_grade",
+            key:"grade_id",
             name: 'grade',
             title: '年级空间',
             image: require('../assets/main/grade.png')
           },
           {
             id:"room_community",
+            key:"class_id",
             name: 'team',
             title: '社团空间',
             image: require('../assets/main/team.png')
           },
           {
             id:"room_project",
+            key:"class_id",
             name: 'special',
             title: '专题空间',
             image: require('../assets/main/special.png')
           },
           {
             id:"room_subject",
+            key:"subject_id",
             name: 'topic',
             title: '课题空间',
             image: require('../assets/main/topic.png')
           },
           {
             id:"room_teaching",
+            key:"teaching_id",
             name: 'teaching',
             title: '教研空间',
             image: require('../assets/main/teaching.png')
@@ -150,6 +156,7 @@
         Object.keys(userInfo).forEach(key=>{
           self.routerList.forEach(im=>{
             if(key==im.id&&userInfo[key]==1){
+              im._id=userInfo[im.key];
               realRoutlist.push(im);
             }
           })

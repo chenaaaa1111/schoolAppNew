@@ -13,7 +13,7 @@
                     <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-s-custom">{{}}</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -29,9 +29,10 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list" v-for ="item in newsList">
+            <el-row class="more-list" v-for ="item in newsList"  :key="item.id">
               <el-col :span="24" class="news-title">
-               {{newsList.title}}<span class="news-type">(栏目: 影评)</span>
+               {{newsList.title}}
+               <!-- <span class="news-type">(栏目: 影评)</span> -->
               </el-col>
               <!-- <el-col :span="24" class="news-author">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
@@ -51,7 +52,7 @@
                 <el-divider></el-divider>
               </el-col>
             </el-row>
-            <el-row class="more-list">
+            <!-- <el-row class="more-list">
               <el-col :span="24" class="news-title">
                 有哪些高情商的聊天技巧？<span class="news-type">(栏目: 影评)</span>
               </el-col>
@@ -61,12 +62,6 @@
                 <span class="author-class">工商管理142班</span>
               </el-col>
               <el-col :span="24" class="news-text">
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
               </el-col>
               <el-col :span="24" class="news-trigger">
                 <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
@@ -77,7 +72,7 @@
               <el-col :span="24">
                 <el-divider></el-divider>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
         </el-card>
       </el-col>
@@ -159,6 +154,9 @@
       })
     },
     methods:{
+      getUserInfo(){
+        let userInfo=sessionStorage.getItem('userInfo');
+      },
       setTitle(str) { // 设置返回按钮显示的文字
         switch (str) {
           case 'campusHomepage':
