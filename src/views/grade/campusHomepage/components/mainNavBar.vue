@@ -10,7 +10,7 @@
       <div class="tabContainer">
         <div class="leftBar">
           <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" :swipeable="true">
-            <van-tab v-for="item in dataList" :title="item.title" :key="item.id">
+            <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
               <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
@@ -82,19 +82,19 @@
           { text: '最新', id: '1' },
           { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
         contentList: [
-          // {
-          //   "id": 5,
-          //   "columns": 2,
-          //   "column_name": "",
-          //   "name": "12321312",
-          //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-          //   "title": "12321312",
-          //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-          //   "content": "",
-          //   "create_time": "2019-11-29 00:00:00"
-          // }
+          {
+            "id": '',
+            "columns": '',
+            "column_name": "",
+            "name": "",
+            "avatar": "",
+            "title": "",
+            "image": "",
+            "content": "暂无数据",
+            "create_time": ""
+          }
         ],
-        activeIndex: '1',
+        activeIndex: 0,
         activeIndex2: '1',
         pageNum: 1,
         pageSize: 10,
@@ -147,13 +147,14 @@
           console.log(res, 'mainNavBar columns')
           if(res.code == 0) {
             _this.dataList = res.data
+            _this.activeIndex = _this.dataList[0].id
           }
         })
       },
       onLoad() {
         let _this = this
         let data = {
-          column: 0,
+          column: _this.activeIndex,
           page: this.pageNum,
           psize: this.pageSize
         }
