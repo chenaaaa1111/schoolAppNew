@@ -14,7 +14,7 @@
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
-              <mainNavBar></mainNavBar>
+              <mainNavBar ></mainNavBar>
             </el-card>
           </el-col>
         </el-row>
@@ -41,6 +41,8 @@
     },
     data() {
       return {
+        userInfo:{},
+        classId:'',
         source: {
           routename: '',
           spacename: 'classes'
@@ -49,12 +51,21 @@
       }
     },
     mounted() {
+      console.log("sss",this.$router)
       this.routename = this.$route.name
       this.source.routename = this.$route.name
-      console.log(this.routename, '本页面routename')
+      console.log(this.routename, '本页面routename');
+      console.log('ssss',this.$router.currentRoute.query.id);
+      this.classId=this.$router.currentRoute.query.id;
+     let userInfo= this.getUserInfo();
     },
     methods: {
-
+      getUserInfo(){
+        var userInfo={}
+        this.userInfo=JSON.parse(sessionStorage.getItem('userInfo')); 
+        console.log('user***',userInfo)
+        return userInfo;
+      }
     }
   }
 </script>
