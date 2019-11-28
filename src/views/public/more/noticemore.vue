@@ -6,14 +6,14 @@
           <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
             <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
           </li>
-          <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}-public</el-menu-item>
+          <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}</el-menu-item>
           <li class="nav-user">
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-s-custom">{{}}</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -29,30 +29,7 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list" v-for ="item in newsList"  :key="item.id">
-              <el-col :span="24" class="news-title">
-               {{newsList.title}}
-               <!-- <span class="news-type">(栏目: 影评)</span> -->
-              </el-col>
-              <!-- <el-col :span="24" class="news-author">
-                <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
-                <span class="author">关一凡</span>
-                <span class="author-class">工商管理142班</span>
-              </el-col> -->
-              <el-col :span="24" class="news-text">
-               {{newsList.content}}
-              </el-col>
-              <el-col :span="24" class="news-trigger">
-                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-              </el-col>
-              <el-col :span="24" class="news-date">
-                {{newsList.create_time}}
-              </el-col>
-              <el-col :span="24">
-                <el-divider></el-divider>
-              </el-col>
-            </el-row>
-            <!-- <el-row class="more-list">
+            <el-row class="more-list">
               <el-col :span="24" class="news-title">
                 有哪些高情商的聊天技巧？<span class="news-type">(栏目: 影评)</span>
               </el-col>
@@ -62,6 +39,12 @@
                 <span class="author-class">工商管理142班</span>
               </el-col>
               <el-col :span="24" class="news-text">
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
               </el-col>
               <el-col :span="24" class="news-trigger">
                 <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
@@ -72,7 +55,7 @@
               <el-col :span="24">
                 <el-divider></el-divider>
               </el-col>
-            </el-row> -->
+            </el-row>
           </div>
         </el-card>
       </el-col>
@@ -80,12 +63,10 @@
   </div>
 </template>
 <script>
-  import request from '@/api/request.js'
   export default{
     name: 'newsmore',
     data() {
       return {
-        newsList:[],
         fit: 'cover',
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
@@ -143,20 +124,8 @@
         this.widgetName = params.widgetName
         this.setTitle(this.fromwhere)
       }
-      console.log(this.$route.name, '更多新闻动态当前路由名称')
-      console.log(this.$route.query, '更多新闻动态query')
-      var self=this;
-      request.post('/roomapi/Users/NewsList',{},function(res){
-        res.data.model.forEach(item=>{
-            item.create_time=item.create_time.substr(5,5)
-          })
-          self.newsList=res.data.model;
-      })
     },
     methods:{
-      getUserInfo(){
-        let userInfo=sessionStorage.getItem('userInfo');
-      },
       setTitle(str) { // 设置返回按钮显示的文字
         switch (str) {
           case 'campusHomepage':
@@ -187,7 +156,6 @@
          })
       },
       goBack() { // 回到跳转过来时的页面
-        console.log(this.$route.query, 'newsmore 跳转回主页')
         this.$router.push({
           name: this.fromwhere
         })
@@ -195,9 +163,9 @@
       readDetails() { // 去新闻详情
         console.log('跳转新闻')
         this.$router.push({
-          name: 'readnews',
+          name: 'readnotice',
           query: {
-            widgetName: '更多学校新闻动态',
+            widgetName: '通知公告',
             spacename: this.navIndex,
           }
         })
