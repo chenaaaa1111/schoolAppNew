@@ -29,7 +29,7 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list" v-for ="item in newsList">
+            <el-row class="more-list" v-for ="(item,index) in newsList" :key="index">
               <el-col :span="24" class="news-title">
                {{newsList.title}}<span class="news-type">(栏目: 影评)</span>
               </el-col>

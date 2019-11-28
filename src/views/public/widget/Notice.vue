@@ -60,13 +60,33 @@
         })
       },
       noticeDetails() {
-        // this.$router.push({
-        //   name: 'noticemore',
-        //   query: {
-        //     widgetName: '校园主页',
-        //     fromwhere: this.source
-        //   }
-        // })
+        // widgetName: this.getPageName(this.source.routename),
+        // spacename: this.source.spacename,
+        this.$router.push({
+          name: 'noticemore',
+          query: {
+            widgetName: this.getPageName(this.source.routename),
+            fromwhere: this.source
+          }
+        })
+      },
+      getPageName(str) { // 设置返回按钮显示的文字
+        switch (str) {
+          case 'campusHomepage':
+            return '校园主页';
+          case 'gradeHomepage':
+            return '校园主页';
+          case 'mainTeamHomepage':
+            return '社团主页';
+          case 'specialMainHomepage':
+            return '首页';
+          case 'topicHomepage':
+            return '课题主页';
+          case 'teachingHomepage':
+            return '教研主页';
+          default:
+            return '空间主页'
+        }
       },
     }
   }
