@@ -10,7 +10,7 @@
       <div class="tabContainer">
         <div class="leftBar">
           <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" :swipeable="true">
-            <van-tab v-for="item in dataList" :title="item.text" :key="item.id">
+            <van-tab v-for="item in dataList" :title="item.title" :key="item.id">
               <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
@@ -57,18 +57,7 @@
 
             </van-tab>
           </van-tabs>
-
         </div>
-        <!-- <div class="rightBar">
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-submenu index="2">
-                  <template slot="title" style="line-height: 44px;">更多</template>
-                  <el-menu-item index="2-1">选项1</el-menu-item>
-                  <el-menu-item index="2-2">选项2</el-menu-item>
-                  <el-menu-item index="2-3">选项3</el-menu-item>
-                </el-submenu>
-              </el-menu>
-            </div> -->
       </div>
 
     </div>
@@ -78,73 +67,109 @@
 
 <script>
   // import 'vant/lib/button/style';
-
+  import request from '@/api/request.js';
   export default {
     name: 'mainNavBar',
+    comments: {},
     data() {
       return {
         list: [],
         loading: false,
         finished: false,
         active: 1,
-        dataList: [{ text: '全部', id: 'all' }, { text: '最新', id: '1' },
-        { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
+        dataList: [
+          { text: '全部', id: 'all' },
+          { text: '最新', id: '1' },
+          { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
         contentList: [
-          {
-            "id": 4,
-            "columns": 1,
-            "column_name": "",
-            "name": "姓名",
-            "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "title": "标题",
-            "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "content": "",
-            "create_time": "2019-11-29 00:00:00"
-          },
-          {
-            "id": 5,
-            "columns": 2,
-            "column_name": "",
-            "name": "12321312",
-            "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "title": "12321312",
-            "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "content": "",
-            "create_time": "2019-11-29 00:00:00"
-          }
+          // {
+          //   "id": 5,
+          //   "columns": 2,
+          //   "column_name": "",
+          //   "name": "12321312",
+          //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+          //   "title": "12321312",
+          //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+          //   "content": "",
+          //   "create_time": "2019-11-29 00:00:00"
+          // }
         ],
         activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex2: '1',
+        pageNum: 1,
+        pageSize: 10,
+        userInfo: {
+          // access_class: 0,
+          // access_community: 0,
+          // access_grade: 0,
+          // access_project: 0,
+          // access_subject: 0,
+          // access_teaching: 0,
+          // avatar: '',
+          // class_id: 1,
+          // create_time: "2019-11-11 15:24:30",
+          // grade_id: 1,
+          // id: 1,
+          // level: 1,
+          // mobile: "15269920820",
+          // name: "金刚",
+          // password: "$P$BU3uZfakBj4h2FaeTVb91oRWbErDLf1",
+          // room_class: 1,
+          // room_community: "1",
+          // room_grade: 1,
+          // room_project: "1",
+          // room_subject: 1,
+          // room_teaching: 1,
+          // s_id: 1,
+          // status: 1,
+          // subject_id: 1,
+          // teaching_id: 1
+        }
       }
+    },
+    mounted() {
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+
+      this.getTabs()
     },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
+      getTabs() {
+        let _this = this
+        let data = {
+          keyword: '',
+          type: 2,
+          cid: this.userInfo.grade_id
+        }
+        request.post('/roomapi/Room_Grade/column',data,function(res) {
+          console.log(res, 'mainNavBar columns')
+          if(res.code == 0) {
+            _this.dataList = res.data
+          }
+        })
+      },
       onLoad() {
-        // 异步更新数据
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            this.contentList.push({
-              "id": 5,
-              "columns": 2,
-              "column_name": "",
-              "name": "12321312",
-              "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-              "title": "12321312",
-              "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-              "content": "",
-              "create_time": "2019-11-29 00:00:00"
-            });
+        let _this = this
+        let data = {
+          column: 0,
+          page: this.pageNum,
+          psize: this.pageSize
+        }
+        request.post('/roomapi/Room_Grade/schoolPage',data,function(res) {
+          console.log(res, 'mainNavBar')
+          if(res.code == 0) {
+            if(res.data.model.length>0) {
+              for(var i=0;i<res.data.model.length;i++) {
+                _this.contentList.push(res.data.model[i])
+              }
+            } else {
+              _this.finished = true
+            }
+            _this.loading = false;
           }
-          // 加载状态结束
-          this.loading = false;
-
-          // 数据全部加载完成
-          if (this.list.length >= 40) {
-            this.finished = true;
-          }
-        }, 500);
+        })
       },
       fslip(item) {
         document.getElementById('content' + item).style.display = "flex";
@@ -156,9 +181,6 @@
         document.getElementById('detail' + item).style.display = 'block';
       }
     },
-    mounted: function () {
-
-    },
     wrap() {
       var clientWidth = document.body.clientWidth;
       console.log('clientWidth', clientWidth);
@@ -167,11 +189,7 @@
         clientWidth = 980;
       }
       html.style.fontSize = clientWidth / 12.4 + "px";
-    },
-    comments: {
-
     }
-
   }
 </script>
 <style>

@@ -2,19 +2,20 @@
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
       <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>年级空间</span>
-      <span class="more" @click="showclassesmore">
+      <span class="more" @click="showGradeSpacesmore">
         <img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.areaName}}</div>
+      <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.classes" :key="num" @click="toOtherClass">{{res}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'ClassSpace',
     props: {
@@ -27,29 +28,28 @@
       return {
         areaList:[
           {
-            areaName: '东区',
-            classes: ['2019级初中','2019级初中','2019级初中','2019级初中','2019级初中','2019级初中','2019级初中','2019级初中']
-          },
-          {
-            areaName: '西区',
-            classes: ['2019级高中','2019级高中','2019级高中','2019级高中','2019级高中','2019级高中','2019级高中','2019级高中']
-          },
-          {
-            areaName: '南区',
-            classes: ['2020级初中','2020级初中','2020级初中','2020级初中','2020级初中','2020级初中','2020级初中','2020级初中']
+            id: '',
+            title: '',
+            class: [
+              {
+                id: '',
+                s_id: '',
+                title: ''
+              }
+            ]
           }
         ],
       }
     },
     mounted() {
-
+      this.getList()
     },
     methods: {
-      showclassesmore() {
+      showGradeSpacesmore() {
         this.$router.push({
-          name: 'grademore',
-          params: {
-            widgetName: '所有年级',
+          name: 'gradeSpacemore',
+          query: {
+            widgetName: '年级空间',
             fromname: '校园主页',
             fromwhere: this.source
           }
@@ -58,6 +58,14 @@
       toOtherClass() {
         this.$router.push({
           name: 'otherGradeHomepage'
+        })
+      },
+      getList() {
+        let _this = this
+        request.post('/roomapi/Room_Grade/RoomGrade',{},function(res) {
+          if(res.code == 0) {
+            _this.areaList = res.data
+          }
         })
       }
     }

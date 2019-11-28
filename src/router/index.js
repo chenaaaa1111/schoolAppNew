@@ -205,6 +205,11 @@ const router= new Router({
       component: () => import('@/views/classes/more/classesmore.vue'), // 班级空间展开更多
     },
     {
+      path: '/grade/gradeSpacemore',
+      name: 'gradeSpacemore',
+      component: () => import('@/views/grade/campusHomepage/more/gradeSpacemore.vue'), // 班级空间展开更多
+    },
+    {
       path: '/classes/examinemore',
       name: 'examinemore',
       component: () => import('@/views/classes/more/examinemore.vue'), // 审核中展开更多
