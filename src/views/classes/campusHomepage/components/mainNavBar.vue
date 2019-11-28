@@ -9,10 +9,11 @@
               </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+
           <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
             :swipeable="true">
             <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
                     <h4 class="title">{{item.title}} <span
@@ -44,11 +45,11 @@
                     <p class="date pd_40">{{item.create_time}}</p>
                   </li>
                 </ul>
-              </van-list>
+            
 
             </van-tab>
           </van-tabs>
-
+        </van-list>
         </div>
         <!-- <div class="rightBar">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -121,10 +122,9 @@
         var data = {
           page: 1,
           psize: this.psize,
-          class: 1,
           column: this.selectTab
         }
-        request.post('/roomapi/Room_Class/classPage', data, function (res) {
+        request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
           _this.contentList = res.data.model;
         })
       },
@@ -159,42 +159,20 @@
         });
       },
       onLoad(state) {
+        var _this = this;
+
         if(state=="fineshed"){
             _this.loading = false;
             _this.finished = true;
             return;
         }
-        // 异步更新数据
-        // setTimeout(() => {
-        //   for (let i = 0; i < 10; i++) {
-        //     this.contentList.push({
-        //       "id": 5,
-        //       "columns": 2,
-        //       "column_name": "",
-        //       "name": "12321312",
-        //       "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-        //       "title": "12321312",
-        //       "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-        //       "content": "",
-        //       "create_time": "2019-11-29 00:00:00"
-        //     });
-        //   }
-        //   // 加载状态结束
-        //   this.loading = false;
-
-        //   // 数据全部加载完成
-        //   if (this.list.length >= 40) {
-        //     this.finished = true;
-        //   }
-        // }, 500);
-        var _this = this;
         var data = {
           page: this.page,
           psize: this.psize,
-          class: 1,
+          // class: 1,
           column: this.selectTab
         }
-        request.post('/roomapi/Room_Class/classPage', data, function (res) {
+        request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
           if (res.data.model.length == 0) {
             _this.loading = false;
             _this.finished = true;
