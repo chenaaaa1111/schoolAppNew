@@ -7,7 +7,7 @@
       </span>
     </div>
     <ul class="notice">
-      <li v-for="(item,index) in noticeList" :key="index" @click="readDetails">
+      <li v-for="(item,index) in noticeList" :key="index" @click="readDetails(item.id)">
         <div class="noticeTitle">{{item.title}}</div>
         <div class="noticeDate">{{item.date}}</div>
       </li>
@@ -15,6 +15,8 @@
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js'
+
   export default{
     name: 'notice',
     props: {
@@ -29,26 +31,26 @@
           {
             title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
             date: '2019-11-11'
-          },
-          {
-            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学20',
-            date: '2019-11-11'
-          },
-          {
-            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四',
-            date: '2019-11-11'
-          },
-          {
-            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
-            date: '2019-11-11'
-          },
+          }
+         
         ]
       }
     },
     mounted() {
-
+      this.getNotice();
     },
     methods: {
+      getNotice(res){
+        var userInfo=JSON.parse(sessionStorage.getItem('userInfo')) ;
+            var scchoolId=userInfo.s_id;
+            var data={
+              sid:scchoolId
+
+            }
+        request.post('/roomapi/Users/NoticeList',data,function(res){
+           
+        })
+      },
       shownoticemore() {
         this.$router.push({
           name: 'newsmore',
@@ -60,7 +62,7 @@
       },
       readDetails() {
         this.$router.push({
-          name: 'readnews',
+          name: 'readnotice',
           params: {
             widgetName: '校园主页',
             fromwhere: this.source

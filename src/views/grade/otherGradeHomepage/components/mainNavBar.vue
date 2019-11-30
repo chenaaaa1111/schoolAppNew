@@ -100,8 +100,7 @@
               loading: false,
               finished: false,
               active: 1,
-              dataList: [{ text: '全部', id: 'all' }, { text: '最新', id: '1' },
-              { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
+              dataList: [],
             contentList: [
               {
                 "id": '',
@@ -178,7 +177,7 @@
               var _this = this;
               var data = { cid: userInfoId, type: 2 }
               request.post('/roomapi/Room_Class/column', data, function (res) {
-                _this.dataList = res.data;
+                _this.dataList = res.data.model;
                 debugger
                 data = {
                   grade: _this.userInfo.grade_id,
@@ -365,9 +364,9 @@
           margin-left: 30px;
         }
       
-        .tabContainer {
+        /* .tabContainer {
           display: flex;
-        }
+        } */
       
         .leftBar {
           flex: 1;

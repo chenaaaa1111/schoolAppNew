@@ -331,9 +331,9 @@
       margin-left: 30px;
     }
   
-    .tabContainer {
+    /* .tabContainer {
       display: flex;
-    }
+    } */
   
     .leftBar {
       flex: 1;

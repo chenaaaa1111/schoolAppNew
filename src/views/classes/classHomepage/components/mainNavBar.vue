@@ -121,9 +121,9 @@
         this.getUserInfo();
         let userInfoId = this.userInfo.class_id;
         var _this = this;
-        var data = { cid: userInfoId, type: 1 }
+        var data = {  }
         request.post('/roomapi/Room_Class/column', data, function (res) {
-          _this.dataList = res.data;
+          _this.dataList = res.data.model;
           debugger
           data = {
             class: _this.userInfo.class_id,
@@ -320,9 +320,9 @@
     margin-left: 30px;
   }
 
-  .tabContainer {
+  /* .tabContainer {
     display: flex;
-  }
+  } */
 
   .leftBar {
     flex: 1;

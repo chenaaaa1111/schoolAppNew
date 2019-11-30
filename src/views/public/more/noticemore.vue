@@ -9,14 +9,14 @@
           <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}</el-menu-item>
           <li class="nav-user">
             <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
-                </el-dropdown-menu>
+              <span class="el-dropdown-link">
+                <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+              </el-dropdown-menu>
             </el-dropdown>
           </li>
         </el-menu>
@@ -31,7 +31,7 @@
           <div class="card-content">
             <el-row class="more-list">
               <el-col :span="24" class="news-title">
-                有哪些高情商的聊天技巧？<span class="news-type">(栏目: 影评)</span>
+                {{noticeDeatail.title}}<span class="news-type">(栏目: 影评)</span>
               </el-col>
               <el-col :span="24" class="news-author">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
@@ -39,18 +39,14 @@
                 <span class="author-class">工商管理142班</span>
               </el-col>
               <el-col :span="24" class="news-text">
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
-                Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团
+               {{noticeDeatail.content}}
               </el-col>
               <el-col :span="24" class="news-trigger">
-                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i>
+                </el-button>
               </el-col>
               <el-col :span="24" class="news-date">
-                2019/08/22 09:23
+                {{noticeDeatail.create_time}}
               </el-col>
               <el-col :span="24">
                 <el-divider></el-divider>
@@ -63,11 +59,13 @@
   </div>
 </template>
 <script>
-  export default{
+  import request from "@/api/request.js";
+  export default {
     name: 'newsmore',
     data() {
       return {
         fit: 'cover',
+        noticeDeatail:{},
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
             icon: require('../../../assets/main/classes.png'),
@@ -118,14 +116,32 @@
        *    获取返回时候的跳转路由以及返回按钮显示的文字
        */
       let params = this.$route.query
-      if(Object.keys(params).length > 0) {
+      if (Object.keys(params).length > 0) {
         this.fromwhere = params.fromwhere
         this.navIndex = params.spacename
         this.widgetName = params.widgetName
-        this.setTitle(this.fromwhere)
+        this.setTitle(this.fromwhere);
+        this.id = params.id;
+        this.getNoticeDeatail();
       }
     },
-    methods:{
+    methods: {
+      getNoticeDeatail(id) {
+        var self=this;
+        var data = {
+          id: id
+        }
+        request.post('/roomapi/Users/detailsNotice', data, function (res) {
+          res.data = res.data ? res.data : {
+            "id": 1,
+            "s_id": 1,
+            "title": "标题",
+            "content": "额鹅鹅鹅",
+            "create_time": "2019-11-19 00:00:00"
+          }
+          self.noticeDeatail=res.data;
+        })
+      },
       setTitle(str) { // 设置返回按钮显示的文字
         switch (str) {
           case 'campusHomepage':
@@ -151,9 +167,9 @@
         }
       },
       goHome() { // 回到首页面(空间选择页面)
-         this.$router.push({
-           name: 'home'
-         })
+        this.$router.push({
+          name: 'home'
+        })
       },
       goBack() { // 回到跳转过来时的页面
         this.$router.push({
@@ -174,25 +190,29 @@
   }
 </script>
 <style lang="scss" scoped>
-  .showmore{
+  .showmore {
     height: 100%;
     overflow: auto;
     background-color: #93DBF1;
-    .more-content{
-      .el-menu-head{
-        .menu-release{
+
+    .more-content {
+      .el-menu-head {
+        .menu-release {
           float: right;
-          .el-button{
+
+          .el-button {
             font-size: 22px;
             font-weight: 500;
           }
         }
-        .brandTitle{
+
+        .brandTitle {
           cursor: default;
           color: #333;
           opacity: 1;
         }
-        .homeEntry{
+
+        .homeEntry {
           cursor: pointer;
           float: left;
           height: 100px;
@@ -200,8 +220,9 @@
           align-items: center;
           margin-right: 35px;
           font-size: 26px;
+
           // color: #E27755;
-          img{
+          img {
             display: inline-block;
             width: 56px;
             height: 56px;
@@ -209,25 +230,32 @@
             margin: 0px 10px;
           }
         }
-        .classesColor{
+
+        .classesColor {
           color: #E27755;
         }
-        .gradeColor{
+
+        .gradeColor {
           color: #E8A33D;
         }
-        .teamColor{
+
+        .teamColor {
           color: #4DB65B;
         }
-        .specialColor{
+
+        .specialColor {
           color: #328B8C;
         }
-        .topicColor{
+
+        .topicColor {
           color: #4F88C5;
         }
-        .teachingColor{
+
+        .teachingColor {
           color: #4F88C5;
         }
-        .el-menu-item{
+
+        .el-menu-item {
           font-size: 22px;
           color: #5B728C;
           padding: 0px;
@@ -235,11 +263,13 @@
           height: 100px;
           line-height: 106px;
         }
-        .is-active{
+
+        .is-active {
           border-bottom: 0;
           color: #333;
         }
-        .is-active::after{
+
+        .is-active::after {
           content: '';
           display: block;
           width: 100%;
@@ -247,9 +277,11 @@
           background: #409EFF;
           position: absolute;
           bottom: 6px;
-          border-radius: 2px;;
+          border-radius: 2px;
+          ;
         }
-        .nav-user{
+
+        .nav-user {
           float: right;
           height: 100px;
           display: flex;
@@ -258,44 +290,53 @@
         }
       }
     }
-    .more-container{
+
+    .more-container {
       margin-top: 30px;
       padding: 0px 10px;
-      .more-list:last-child{
-        .el-divider{
+
+      .more-list:last-child {
+        .el-divider {
           display: none;
         }
       }
-      .more-list{
-        .news-title{
+
+      .more-list {
+        .news-title {
           font-size: 24px;
           font-weight: bold;
           color: #1E1E1E;
-          .news-type{
+
+          .news-type {
             color: #999;
             font-weight: 500;
             margin-left: 0.5rem;
           }
         }
-        .news-author{
+
+        .news-author {
           display: flex;
           align-items: center;
           font-size: 18px;
           margin-top: 0.2rem;
-          .el-avatar{
+
+          .el-avatar {
             float: left;
             margin-right: 0.15rem;
           }
-          .author{
+
+          .author {
             color: #1E1E1E;
             margin-right: 0.4rem;
           }
-          .author-class{
+
+          .author-class {
             color: #999;
           }
         }
-        .news-text{
-          overflow : hidden;
+
+        .news-text {
+          overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-line-clamp: 3;
@@ -305,10 +346,12 @@
           color: #1E1E1E;
           line-height: 0.38rem;
         }
-        .news-trigger{
+
+        .news-trigger {
           text-align: right;
         }
-        .news-date{
+
+        .news-date {
           font-size: 18px;
           color: 999;
         }

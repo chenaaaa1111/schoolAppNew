@@ -7,14 +7,15 @@
       </span>
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.areaName}}</div>
+      <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.classes" :key="num" @click="toOtherClass">{{res}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'ClassSpace',
     props: {
@@ -26,25 +27,20 @@
     data() {
       return {
         areaList:[
-          {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          }
+          
         ],
       }
     },
     mounted() {
-
+      this.getClass();
     },
     methods: {
+      getClass(){
+        var _this=this;
+        request.post('/roomapi/Room_Class/RoomClass',{},function(res){
+          _this.areaList=res.data;
+        })
+      },
       showclassesmore() {
         this.$router.push({
           name: 'classesmore',

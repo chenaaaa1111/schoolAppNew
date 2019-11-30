@@ -9,10 +9,12 @@
               </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
-          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
+         
+          <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
             :swipeable="true">
+
             <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
+                <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
               <ul>
                 <li v-for="item in contentList" class="contentList">
                   <h4 class="title">{{item.title}} <span
@@ -44,9 +46,10 @@
                   <p class="date pd_40">{{item.create_time}}</p>
                 </li>
               </ul>
+            </van-list>
             </van-tab>
           </van-tabs>
-          </van-list>
+        
         </div>
         <!-- <div class="rightBar">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -118,10 +121,10 @@
         this.getUserInfo();
         // let userInfoId = this.userInfo.class_id;
         var _this = this;
-        var data = { type: 2 }
+        var data = {  }
         request.post('/roomapi/Room_Class/column', data, function (res) {
-
-          _this.dataList = res.data;
+          _this.dataList = res.data.model;
+          console.log(res.data,'resdata')
           data = {
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
@@ -145,7 +148,6 @@
           column: this.selectTab
         }
         request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
-          debugger
           if (res.data.model.length == 0) {
             _this.loading = false;
             _this.finished = true;
@@ -311,9 +313,9 @@
     margin-left: 30px;
   }
 
-  .tabContainer {
+  /* .tabContainer {
     display: flex;
-  }
+  } */
 
   .leftBar {
     flex: 1;
