@@ -10,9 +10,18 @@ const store = new Vuex.Store({
     userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
     SchoolDynamic:0,
     ClassDynamic:0,
-    TeamDynamic:0
+    TeamDynamic:0,
+    columnName:'',//栏目名称
+    columnId:'',//栏目id
+    baseUrl:process.env.NODE_ENV=='development'?'http://localhost:8081':'http://school.i2f2f.com'
   },
   mutations: {
+    setColumnId(state,data){
+      state.columnId=data;
+    },
+    setColumnName(state,data){
+      state.columnName=data;
+    },
     setTeamDynamic(state,data){
       state.TeamDynamic=data;
     },

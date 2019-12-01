@@ -26,7 +26,7 @@
                   </div>
                   <div class="imtextview" :id="'content'+item.id">
                     <div class="leftImage">
-                      <img :src="item.image" alt="">
+                      <img :src="'http://school.i2f2f.com'+item.image" alt="">
                     </div>
                     <div class="rightContent">
                       <span>
@@ -38,7 +38,9 @@
                     </div>
                   </div>
                   <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                    {{item.content}}
+                    
+                    <div v-html="item.content"></div>
+
                     <span @click="fslip(item.id)" class="updown">
                       收起
                     </span>
@@ -97,6 +99,8 @@
       changeTabs(name, title) {
         var _this = this;
         console.log(name, title);
+        this.$store.commit('setColumnId',name);
+        this.$store.commit('setColumnName',title);
         var data = {
           page: 1,
           type: 2,

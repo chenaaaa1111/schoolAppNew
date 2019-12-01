@@ -25,11 +25,11 @@
                     </div>
                     <div class="imtextview" :id="'content'+item.id">
                       <div class="leftImage">
-                        <img :src="item.image" alt="">
+                        <img :src="'http://school.i2f2f.com'+item.image" alt="">
                       </div>
                       <div class="rightContent">
                         <span>
-                          {{item.content}}
+                          {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                         </span>
                         <span @click="changShow(item.id)" class="updown">
                           查看更多
@@ -37,7 +37,7 @@
                       </div>
                     </div>
                     <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                      {{item.content}}
+                        <div v-html="item.content"></div>
                       <span @click="fslip(item.id)" class="updown">
                         收起
                       </span>
@@ -276,6 +276,9 @@
     padding-right: 40px;
     font-size: 18px;
   }
+  .contentList img{
+    max-width: 100%;
+  }
 </style>
 <style scoped>
   .contentList {
@@ -293,6 +296,10 @@
     color: #999;
   }
 
+  .leftImage{
+    width: 240px;
+    height: 136px;
+  }
   .leftImage img {
     width: 240px;
     height: 136px;

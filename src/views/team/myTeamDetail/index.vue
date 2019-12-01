@@ -8,8 +8,7 @@
             <Students :source="routename" :teamId="teamId"></Students>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-              <mainNavBar :teamId="teamId"></mainNavBar>
-           
+              <mainNavBar :teamId="teamId"></mainNavBar>         
           </el-col>
         </el-row>
       </el-col>
