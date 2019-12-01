@@ -103,7 +103,6 @@
         this.$store.commit('setColumnName',title);
         var data = {
           page: 1,
-          type: 2,
           psize: this.psize,
           column: this.selectTab
         }
@@ -124,17 +123,23 @@
 
         this.getUserInfo();
         // let userInfoId = this.userInfo.class_id;
-        var _this = this;
+        var self = this;
         var data = {  }
         request.post('/roomapi/Room_Class/column', data, function (res) {
-          _this.dataList = res.data.model;
-          console.log(res.data,'resdata',_this.dataList)
+          self.dataList = res.data.model;
+          console.log(res.data,'resdata',self.dataList);
+          var columnId=res.data.model[0]?res.data.model[0].id:'';
+          var columnName=res.data.model[0]?res.data.model[0].title:'';
+          self.$store.commit('setColumnId',columnId);
+          self.$store.commit('setColumnName',columnName);
+          console.log(columnId,columnName,'fist*************************,***********')
+          // self.$store.commit()
           data = {
-            column: res.data[0] ? res.data[0].id : 0,
+            column: res.data.model[0] ? res.data.model[0].id : 0,
             page: 1
           }
           request.post('/roomapi/Room_Class/schoolPage', data, function (res) {//获取数据
-            _this.contentList = res.data.model;
+            self.contentList = res.data.model;
           });
         });
       },

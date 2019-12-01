@@ -144,7 +144,7 @@
             return {
                 artUpdata: {},//发布文章用到的参数
                 articletitle: '',
-                content: this.value,
+                content: '',
                 quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
                 editorOption: {
                     placeholder: "",
@@ -176,7 +176,7 @@
                         }
                     }
                 },
-                serverUrl: "http://localhost:8081/roomapi/Upsystem/upload/", // 这里写你要上传的图片服务器地址
+                serverUrl: this.$store.state.baseUrl+"/roomapi/Upsystem/upload/", // 这里写你要上传的图片服务器地址
                 header: {
                     // token: sessionStorage.token
                 },// 有的图片
@@ -262,14 +262,18 @@
             }
         },
         mounted() {
+            debugger
             this.fromwhere = this.$route.query.fromwhere
             this.title = this.$route.query.fromname;
-            console.log(this.$route.query, 'this.$route.query')
+            this.artUpdata ='';
+            if(this.$router.currentRoute){
+                this.artUpdata=this.$router.currentRoute.query
+            }else if(this.$router.query){
+                this.artUpdata=this.$router.query
+            }
+            console.log(this.artUpdata, 'this.$route.query')
             console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-            // if(!this.$router.params){
-            //     this.$router.push('/')
-            // }
-            this.artUpdata =this.$router.query? this.$router.query.updata:{};
+
         },
         methods: {
             // 富文本图片上传前
@@ -289,7 +293,7 @@
                     // 获取光标所在位置
                     let length = quill.getSelection().index;
                     // 插入图片  res.url为服务器返回的图片地址
-                    quill.insertEmbed(length, "image", "http://school.i2f2f.com" + res.data.url);
+                    quill.insertEmbed(length, "image",self.$store.state.serverUrl + res.data.url);
                     // 调整光标到最后
                     quill.setSelection(length + 1);
                 } else {
@@ -322,6 +326,7 @@
                 return isJPG && isLt2M;
             },//end
             publishArt() {//发布文章
+                debugger
                 console.log('')
                 var self = this;
                 var data = this.artUpdata;
@@ -329,6 +334,7 @@
                 data.image = self.responseUrl;
                 data.content = this.form.goods_desc;
                 data.title = this.articletitle;
+                console.log(data,'shezhi data data data data')
                 request.post('/roomapi/Room_Class/addArticle', data, function (res) {
                     if (res.code == 0) {
                         // self.$router.push({

@@ -124,7 +124,6 @@
         var data = {  }
         request.post('/roomapi/Room_Class/column', data, function (res) {
           _this.dataList = res.data.model;
-          debugger
           data = {
             class: _this.userInfo.class_id,
             column: res.data[0] ? res.data[0].id : 0,
