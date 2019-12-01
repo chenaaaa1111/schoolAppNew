@@ -26,6 +26,7 @@
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'examine',
     props: {
@@ -56,6 +57,9 @@
         ]
       }
     },
+    mounted() {
+      this.getMyTeamNews()
+    },
     methods: {
       showexaminemore() {
         console.log('去更多审核中')
@@ -77,7 +81,8 @@
             fromwhere: 'myHomepage'
           }
         })
-      }
+      },
+
     }
   }
 </script>

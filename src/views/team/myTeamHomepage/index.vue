@@ -5,19 +5,23 @@
         <el-card class="teams" v-for="(item,index) in teamList" :key="index">
           <el-row>
             <el-col :span="16" class="team-info">
-              <el-avatar class="team-icon" :size="size" :src="circleUrl"></el-avatar>
-              <span class="team-name">{{item.name}}</span>
+              <el-avatar class="team-icon" :size="size" :src="item.avatar"></el-avatar>
+              <span class="team-name">{{item.title}}</span>
             </el-col>
             <el-col :span="8" class="team-go-page">
               <el-button type="text">进入主页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
             </el-col>
           </el-row>
         </el-card>
+        <el-card v-if="teamList.length == 0">
+          暂无数据
+        </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'myTeamHomepage',
     components: {
@@ -28,26 +32,33 @@
         size: 74,
         circleUrl: require('../../../assets/images/classes/class_else.png'),
         teamList: [
-          {
-            name: '足球队'
-          },
-          {
-            name: '篮球队'
-          },
-          {
-            name: '电竞队'
-          },
-          {
-            name: '乒乓球队'
-          },
-          {
-            name: '熊猫队'
-          },
+          // {
+          //   "id": 1,
+          //   "s_id": 1,
+          //   "c_id": 1,
+          //   "title": "乒乓球社团",
+          //   "u_id": 1,
+          //   "avatar": "https:\/\/www.empirise.com\/mall\/public\/images\/slide\/20191111\/3b3ddc44b8d93e5cedd62f7060ca2895.jpg",
+          //   "name": "姓名",
+          //   "create_time": "2019-09-07 12:49:09"
+          // }
         ]
       }
     },
+    mounted() {
+      this.getMyTeamList()
+    },
     methods: {
-
+      getMyTeamList() {
+        request.post('/roomapi/Community/myCommunity',{},(res)=>{
+          console.log(res, '我的社团列表')
+          if(res.code == 0) {
+            if(res.data.length > 0) {
+              this.teamList = res.data
+            }
+          }
+        })
+      }
     }
   }
 </script>

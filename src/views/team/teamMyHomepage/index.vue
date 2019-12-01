@@ -20,7 +20,7 @@
             <el-card>
               <!-- 班级动态 -->
               <Exhibition></Exhibition>
-              <el-col :span="24" class="card-block">
+              <!-- <el-col :span="24" class="card-block">
                 <el-row :gutter="10">
                   <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
                     <General></General>
@@ -35,7 +35,7 @@
                     <General></General>
                   </el-col>
                 </el-row>
-              </el-col>
+              </el-col> -->
             </el-card>
           </el-col>
         </el-row>

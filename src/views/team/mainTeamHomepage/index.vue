@@ -10,7 +10,7 @@
             <!-- 班级空间-侧边栏 -->
             <ClassSpace :source="routename"></ClassSpace>
             <!-- 通知公告 -->
-            <Notice :source="source"></Notice>
+            <!-- <Notice :source="source"></Notice> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -76,6 +76,8 @@
   import ClassSpace from './components/ClassSpace.vue'
   // import Notice from './components/Notice.vue'
   import Notice from '../../public/widget/Notice.vue'
+
+  import request from '@/api/request.js';
   export default{
     name: 'mainTeamHomepage',
     components: {
@@ -131,12 +133,16 @@
       this.routename = this.$route.name
       this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename')
+
     },
     methods:{
-      menuSelect() {},
+      menuSelect(index) {
+        console.log(index)
+      },
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
-      }
+      },
+
     }
   }
 </script>

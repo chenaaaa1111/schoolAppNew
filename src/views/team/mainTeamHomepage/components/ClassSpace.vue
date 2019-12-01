@@ -2,19 +2,20 @@
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
       <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>社团空间</span>
-      <span class="more" @click="showclassesmore">
+      <span class="more" @click="showclassesmore" v-if="false">
         <img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.areaName}}</div>
+    <div class="areablock" v-for="(item,index) in teamList" :key="index" v-show="item.class.length > 0">
+      <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.classes" :key="num" @click="toOtherClass">{{res}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'ClassSpace',
     props: {
@@ -25,24 +26,20 @@
     },
     data() {
       return {
-        areaList:[
+        teamList:[
           {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
+            title: '',
+            class: [
+              {
+                title: ''
+              }
+            ]
           }
         ],
       }
     },
     mounted() {
-
+      this.getTeamList()
     },
     methods: {
       showclassesmore() {
@@ -56,6 +53,16 @@
       toOtherClass() {
         this.$router.push({
           name: 'otherClassHomepage'
+        })
+      },
+      getTeamList() {
+        request.post('/roomapi/Community/CommunityList',{},(res)=>{
+          console.log(res, '获取到社团列表')
+          if(res.code == 0) {
+            if(res.data.length > 0) {
+              this.teamList = res.data
+            }
+          }
         })
       }
     }
