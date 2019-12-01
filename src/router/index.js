@@ -210,17 +210,6 @@ const router= new Router({
       component: () => import('@/views/write/index.vue') // 写新闻 -- 通用
     },
     {
-      path: '/writeUeditor',
-      name: 'writeUeditor',
-      component: () => import('@/views/writeUeditor/index.vue') // 写新闻 -- 通用
-    },
-    ,
-    {
-      path:"/writeCKEditor",
-      name:"writeCKEditor",
-      component: () => import('@/views/writeCKEditor/index.vue') // 写新闻 -- 通用
-    },
-    {
       path: '/newsmore',
       name: 'newsmore',
       component: () => import('@/views/public/more/newsmore.vue'), // 学校新闻动态展开更多
