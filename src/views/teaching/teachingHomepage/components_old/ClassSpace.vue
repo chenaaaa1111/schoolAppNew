@@ -1,22 +1,20 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>教研空间</span>
+      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>社团空间</span>
       <span class="more" @click="showclassesmore">
         <img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
+      <div class="areaName">{{item.areaName}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
+        <li v-for="(res,num) in item.classes" :key="num" @click="toOtherClass">{{res}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-
   export default{
     name: 'ClassSpace',
     props: {
@@ -44,20 +42,9 @@
       }
     },
     mounted() {
-      this.getTeams();
+
     },
     methods: {
-      getTeams(){
-        var self=this;
-        var data={
-
-        };
-
-        request.post('/roomapi/Teaching/TeachingList',data,function(res){
-            self.areaList=res.data;
-
-        })
-      },
       showclassesmore() {
         this.$router.push({
           name: 'classesmore',

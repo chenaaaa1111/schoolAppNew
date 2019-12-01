@@ -5,17 +5,17 @@
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
     <h2 class="myName">
-      里斯本 <img src="../../../../assets/images/myhome/editName.png"/>
+      里斯本 <img :src="userInfo.avatar"/>
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
-        <p class="count">32</p>
-        <p class="title">校园动态</p>
+        <p class="count">{{userInfo.access_project||0}}</p>
+        <p class="title">专题动态</p>
       </div>
-      <div class="dynamic-c">
+      <!-- <div class="dynamic-c">
         <p class="count">12</p>
         <p class="title">班级动态</p>
-      </div>
+      </div> -->
     </div>
   </el-card>
 </template>
@@ -23,10 +23,14 @@
   export default{
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png')
+        circleUrl: require('../../../../assets/images/user.png'),
+        userInfo:this.$store.state.userInfo
       }
     },
     methods: {
+
+    },
+    mounted:function(){
 
     }
   }
@@ -167,7 +171,7 @@
     background-color: #D3E1F1;
     .dynamic-g,.dynamic-c{
       float: left;
-      width: 50%;
+      width: 100%;
       height: 100%;
       text-align: center;
       color: #034692;

@@ -1,7 +1,7 @@
 <template>
     <el-card>
       <div slot="header" class="clearfix card-head-solt">
-        <img :src="url" /> <span>教研组组员</span>
+        <img :src="url" /> <span>学生主页</span>
       </div>
         <!-- <div class="leftPhotoTop">
             <van-image round width="32px" height="32px" fit="cover" style="vertical-align: middle;"
@@ -17,7 +17,6 @@
     </el-card>
 </template>
 <script>
-  import requst from "@/api/request.js";
 export default {
     name: 'students',
     data() {
@@ -62,19 +61,9 @@ export default {
       }
     },
     mounted() {
-      this.fromwhere = this.$route.params.fromwhere;
-      this.getClassMates();
+      this.fromwhere = this.$route.params.fromwhere
     },
     methods:{
-      getClassMates(){
-        var userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
-        var classId=userInfo.class_id;
-        var data={class_id:classId};
-        var self=this;
-          requst.post('/roomapi/Subject/SubjectUser',data,function(res){
-            self.alumnus=res.data;
-          });
-      },
       changeUp(){
         if(this.showstate=='up'){
           this.showstate='down'

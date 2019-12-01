@@ -9,52 +9,47 @@
                 </ul> -->
         <div class="tabContainer">
           <div class="leftBar">
-           
-            <!-- <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
-              :swipeable="true"> -->
+              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
   
-              <!-- <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id"> -->
-                <div class="topBar">
-                    <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
-                    <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
-                </div>
-
-                  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-                <ul>
-                  <li v-for="item in contentList" class="contentList">
-                    <h4 class="title">{{item.title}} <span
-                        class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> </h4>
-                    <div class=" imgline">
-                      <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
-                      <span class="imgMessage">{{item.name}}</span>
-                      <span class="imgMessage linkFont">王府水晶</span>
-                    </div>
-                    <div class="imtextview" :id="'content'+item.id">
-                      <div class="leftImage">
-                        <img :src="item.image" alt="">
+            <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
+              :swipeable="true">
+              <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
+                  <ul>
+                    <li v-for="item in contentList" class="contentList">
+                      <h4 class="title">{{item.title}} <span
+                          class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> </h4>
+                      <div class=" imgline">
+                        <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
+                        <span class="imgMessage">{{item.name}}</span>
+                        <span class="imgMessage linkFont">王府水晶</span>
                       </div>
-                      <div class="rightContent">
-                        <span>
-                          {{item.content}}
-                        </span>
-                        <span @click="changShow(item.id)" class="updown">
-                          查看更多
+                      <div class="imtextview" :id="'content'+item.id">
+                        <div class="leftImage">
+                          <img :src="item.image" alt="">
+                        </div>
+                        <div class="rightContent">
+                          <span>
+                            {{item.content}}
+                          </span>
+                          <span @click="changShow(item.id)" class="updown">
+                            查看更多
+                          </span>
+                        </div>
+                      </div>
+                      <div class="deatail" style="display: none;" :id="'detail'+item.id">
+                        {{item.content}}
+                        <span @click="fslip(item.id)" class="updown">
+                          收起
                         </span>
                       </div>
-                    </div>
-                    <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                      {{item.content}}
-                      <span @click="fslip(item.id)" class="updown">
-                        收起
-                      </span>
-                    </div>
-                    <p class="date pd_40">{{item.create_time}}</p>
-                  </li>
-                </ul>
-              </van-list>
-              <!-- </van-tab>
-            </van-tabs> -->
-          
+                      <p class="date pd_40">{{item.create_time}}</p>
+                    </li>
+                  </ul>
+              
+  
+              </van-tab>
+            </van-tabs>
+          </van-list>
           </div>
           <!-- <div class="rightBar">
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -78,7 +73,7 @@
     import request from '@/api/request.js'
     export default {
       name: 'mainNavBar',
-      props: { teamId: { default: '' } },
+      props: { classId: { default: '' } },
       data() {
         return {
           selectTab: '',//选中的标签
@@ -90,47 +85,47 @@
           loading: false,
           finished: false,
           active: 1,
-          tabactive:'all',
-          dataList: [],
+          dataList: [{ text: '全部', id: 'all' }, { text: '最新', id: '1' },
+          { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
           contentList: [
-  
+            // {
+            //   "id": 4,
+            //   "columns": 1,
+            //   "column_name": "",
+            //   "name": "姓名",
+            //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+            //   "title": "标题",
+            //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+            //   "content": "",
+            //   "create_time": "2019-11-29 00:00:00"
+            // },
+            // {
+            //   "id": 5,
+            //   "columns": 2,
+            //   "column_name": "",
+            //   "name": "12321312",
+            //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+            //   "title": "12321312",
+            //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+            //   "content": "",
+            //   "create_time": "2019-11-29 00:00:00"
+            // }
           ],
-          loadUrl:'/roomapi/Teaching/TeachingPage',
-          urlDict:{all:'/roomapi/Teaching/TeachingPage',new:'/roomapi/Teaching/browsePage',my:'/roomapi/Community/myPage'},
           activeIndex: '1',
           activeIndex2: '1'
         }
       },
       methods: {
-        changeTab(tab){
-          this.tabactive=tab;
-          this.loadUrl=this.urlDict[tab];
-          this.selectTab=tab;
-          var self=this;
-          var data={
-            page: 1,
-            type: 2,
-            uid:self.$props.userId,
-            category_id:self.$props.teamId,
-            psize: this.psize,
-            column: this.selectTab
-          }
-          request.post(self.loadUrl, data, function (res) {
-            self.contentList = res.data.model;
-          })
-        },
         changeTabs(name, title) {
           var _this = this;
           console.log(name, title);
-          var otherClassId=this.$props.otherClassId
           var data = {
             page: 1,
-            type: 2,
-            class:otherClassId,
             psize: this.psize,
+            class: 1,
             column: this.selectTab
           }
-          request.post('/roomapi/Room_Class/communityPage', data, function (res) {
+          request.post('/roomapi/Room_Class/classPage', data, function (res) {
             _this.contentList = res.data.model;
           })
         },
@@ -143,51 +138,49 @@
           console.log('user***', userInfo)
           return userInfo;
         },
-        getColmn(id,loadUrl) {//获取栏目
+        getColmn(id) {//获取栏目
           this.getUserInfo();
-          // let userInfoId = this.userInfo.class_id;
+          let userInfoId = this.userInfo.class_id;
           var _this = this;
-          var data = {  }
-          // request.post('/roomapi/Room_Class/column', data, function (res) {
+          var data = { cid: userInfoId, type: 1 }
+          request.post('/roomapi/Room_Class/column', data, function (res) {
+            _this.dataList = res.data;
+            debugger
             data = {
-              category_id: id,
-              page: 1,
-              class:_this.$props.otherClassId
+              class: _this.userInfo.class_id,
+              column:res.data[0]?res.data[0].id:0,
+              page: 1
             }
-            request.post(loadUrl, data, function (res) {//获取数据
+            request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
               _this.contentList = res.data.model;
+              if( _this.contentList.length==0){
+              _this.onLoad("fineshed");
+              }
             });
-          // });
+          });
         },
         onLoad(state) {
           var _this = this;
   
-          if (state == "fineshed") {
-            _this.loading = false;
-            _this.finished = true;
-            return;
+          if(state=="fineshed"){
+              _this.loading = false;
+              _this.finished = true;
+              return;
           }
           var data = {
-            uid:_this.$props.userId,
-            category_id:_this.$props.teamId,
             page: this.page,
             psize: this.psize,
+            class: 1,
             column: this.selectTab
           }
-          request.post(_this.loadUrl, data, function (res) {
+          request.post('/roomapi/Room_Class/classPage', data, function (res) {
             if (res.data.model.length == 0) {
               _this.loading = false;
               _this.finished = true;
-              console.log("_this.contnList", _this.contentList);
-              // _this.selectTab = res.data.model[];
-  
               return;
             }
             _this.page = _this.page + 1;
             _this.contentList = [...res.data.model, ..._this.contentList];
-            console.log('res.data.model', res.data.model, "_this.contentList", _this.contentList)
-            console.log("_this.contnList*********************", _this.contentList);
-  
             _this.loading = false;
           })
         },
@@ -202,18 +195,18 @@
         }
       },
       mounted: function () {
-
-        console.log(this.$props.teamId,'propsId');
         this.getUserInfo();
-        console.log(this.$router.query,'queryquery');
+  
         var data = {
-          teamId:this.$props.teamId,
+          class: this.userInfo.class_id,
           column: this.selectTab,
           page: 1
         }
-
         var _this = this;
-        this.getColmn(data.teamId,this.loadUrl);
+        this.getColmn(data.class_id);
+        // request.post('/roomapi/Room_Class/classPage',data,function(res){
+        //     _this.contentList=res.data.model;
+        // });
       },
       wrap() {
         var clientWidth = document.body.clientWidth;
@@ -231,34 +224,12 @@
     }
   </script>
   <style>
-    .van-tabs__content{
-      display: none;
-    }
-    .van-list{
-      background: #fff;
-    }
-    .active{
-      color: #034692;
-    }
-    .topBar span{
-      margin-right: 38px;
-    }
-    .topBar{
-      height:76px;
-      line-height:76px;
-      margin-bottom: 10px;
-      background: #fff;
-      font-size: 20px;
-      padding-left: 40px;
-    }
     .mainleftbar {
       /* padding-right:40px; */
     }
-  
-    .van-tabs__content {
+    /* .van-tabs__content{
       min-height: 200px;
-    }
-  
+    } */
     #mainNavBar .el-menu--horizontal>.el-submenu .el-submenu__title {
       line-height: 44px;
       height: 44px;
@@ -324,8 +295,6 @@
     .contentList {
       border-bottom: #DCDCDC 1px solid;
       padding-bottom: 30px;
-      padding-left: 40px;
-      padding-right:40px;
     }
   
     .imgline {

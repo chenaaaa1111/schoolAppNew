@@ -13,7 +13,7 @@
             <!-- <Notice :source="routename"></Notice> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <!-- <el-card>
+            <el-card>
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
                 <el-menu-item index="all">全部</el-menu-item>
                 <el-menu-item index="news">最新</el-menu-item>
@@ -45,6 +45,9 @@
                     <el-col :span="24" class="text">
                       <div class="noEllipsis" v-html="item.content" ></div>
                     </el-col>
+                    <!-- <el-col :span="24" class="chart" style="margin-top: 10px;">
+                      <img :src="item.cover" />
+                    </el-col> -->
                   </el-row>
                 </el-col>
                 <el-col class="time">
@@ -59,8 +62,7 @@
                   <el-divider></el-divider>
                 </el-col>
               </el-row>
-            </el-card> -->
-            <mainNavBar :teamId="teamId"></mainNavBar>     
+            </el-card>
           </el-col>
         </el-row>
       </el-col>
@@ -70,7 +72,6 @@
 <script>
   import PageTop from './components/PageTop.vue'
   import Students from './components/Students.vue'
-  import mainNavBar from './components/mainNavBar.vue'
   // import ClassSpace from './components/ClassSpace.vue'
   // import Notice from './components/Notice.vue'
   export default{
@@ -78,13 +79,11 @@
     components: {
       PageTop,
       Students,
-      mainNavBar
       // ClassSpace,
       // Notice
     },
     data() {
       return {
-        teamId:'',
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
@@ -123,9 +122,6 @@
       }
     },
     mounted() {
-      this.teamId=this.$store.state.userInfo.subject_id,
-        // this.getTeam();
-
       this.routename = this.$route.name
       console.log(this.routename, '本页面routename')
     },

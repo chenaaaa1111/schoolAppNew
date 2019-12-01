@@ -168,6 +168,11 @@ const router= new Router({
           path: '/topic/myTopicHomepage',
           name: 'myTopicHomepage',
           component: () => import('@/views/topic/myTopicHomepage/index.vue'), //
+        },
+        {
+          path: '/topic/otherTopicDetail',
+          name: 'otherTopicDetail',
+          component: () => import('@/views/topic/otherTopicDetail/index.vue'), //
         }
       ]
     },

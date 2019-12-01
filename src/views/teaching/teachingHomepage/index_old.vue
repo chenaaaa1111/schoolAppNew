@@ -6,14 +6,14 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 学校新闻动态 -->
-            <Students :source="routename"></Students>
+            <News :source="source"></News>
             <!-- 班级空间-侧边栏 -->
-            <!-- <ClassSpace :source="routename"></ClassSpace> -->
+            <ClassSpace :source="routename"></ClassSpace>
             <!-- 通知公告 -->
-            <!-- <Notice :source="routename"></Notice> -->
+            <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <!-- <el-card>
+            <el-card>
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
                 <el-menu-item index="all">全部</el-menu-item>
                 <el-menu-item index="news">最新</el-menu-item>
@@ -45,6 +45,9 @@
                     <el-col :span="24" class="text">
                       <div class="noEllipsis" v-html="item.content" ></div>
                     </el-col>
+                    <!-- <el-col :span="24" class="chart" style="margin-top: 10px;">
+                      <img :src="item.cover" />
+                    </el-col> -->
                   </el-row>
                 </el-col>
                 <el-col class="time">
@@ -59,8 +62,7 @@
                   <el-divider></el-divider>
                 </el-col>
               </el-row>
-            </el-card> -->
-            <mainNavBar :teamId="teamId"></mainNavBar>     
+            </el-card>
           </el-col>
         </el-row>
       </el-col>
@@ -69,22 +71,25 @@
 </template>
 <script>
   import PageTop from './components/PageTop.vue'
-  import Students from './components/Students.vue'
-  import mainNavBar from './components/mainNavBar.vue'
-  // import ClassSpace from './components/ClassSpace.vue'
+  // import News from './components/News.vue'
+  import News from '../../public/widget/News.vue'
+  import ClassSpace from './components/ClassSpace.vue'
   // import Notice from './components/Notice.vue'
+  import Notice from '../../public/widget/Notice.vue'
   export default{
     name: 'mainTeamHomepage',
     components: {
       PageTop,
-      Students,
-      mainNavBar
-      // ClassSpace,
-      // Notice
+      News,
+      ClassSpace,
+      Notice
     },
     data() {
       return {
-        teamId:'',
+        source: {
+          routename: '',
+          spacename: 'teaching'
+        },
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
@@ -123,10 +128,8 @@
       }
     },
     mounted() {
-      this.teamId=this.$store.state.userInfo.subject_id,
-        // this.getTeam();
-
       this.routename = this.$route.name
+      this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename')
     },
     methods:{

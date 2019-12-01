@@ -1,76 +1,33 @@
 <template>
+  <!-- 个人头像信息 -->
   <el-card class="banner-card">
-    <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>教研空间</span>
-      <span class="more" @click="showclassesmore">
-        <img src="../../../../assets/images/classes/more.png"/>
-      </span>
+    <div class="circle" style="text-align: center;">
+      <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
-    <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
-      <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
-      </ul>
+    <h2 class="myName">
+      里斯本 <img src="../../../../assets/images/myhome/editName.png"/>
+    </h2>
+    <div class="dynamic">
+      <div class="dynamic-g">
+        <p class="count">32</p>
+        <p class="title">校园动态</p>
+      </div>
+      <div class="dynamic-c">
+        <p class="count">12</p>
+        <p class="title">班级动态</p>
+      </div>
     </div>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-
   export default{
-    name: 'ClassSpace',
-    props: {
-      source: {
-        type: String,
-        default: ''
-      }
-    },
     data() {
       return {
-        areaList:[
-          {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          }
-        ],
+        circleUrl: require('../../../../assets/images/user.png')
       }
-    },
-    mounted() {
-      this.getTeams();
     },
     methods: {
-      getTeams(){
-        var self=this;
-        var data={
 
-        };
-
-        request.post('/roomapi/Teaching/TeachingList',data,function(res){
-            self.areaList=res.data;
-
-        })
-      },
-      showclassesmore() {
-        this.$router.push({
-          name: 'classesmore',
-          params: {
-            fromwhere: this.source
-          }
-        })
-      },
-      toOtherClass() {
-        this.$router.push({
-          name: 'otherClassHomepage'
-        })
-      }
     }
   }
 </script>
@@ -79,13 +36,13 @@
   margin-bottom: 12px;
   .cardTitle{
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 600;
     img{
       display: inline-block;
       width: 38px;
       height: 38px;
       vertical-align: middle;
-      margin-right: 10px;
+      margin-right: 17px;
     }
   }
   .more{
@@ -182,6 +139,104 @@
       .noticeDate{
         text-align: right;
         color: #888888;
+      }
+    }
+  }
+  .circle{
+    text-align: center;
+    padding: 24px 0px 14px;
+  }
+  .myName{
+    text-align: center;
+    img{
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+      cursor: pointer;
+      position: relative;
+      top: -3px;
+      left: 12px;
+    }
+  }
+  .dynamic{
+    height: 108px;
+    margin-top: 30px;
+    border-radius:12px;
+    overflow: hidden;
+    background-color: #D3E1F1;
+    .dynamic-g,.dynamic-c{
+      float: left;
+      width: 50%;
+      height: 100%;
+      text-align: center;
+      color: #034692;
+      font-size: 26px;
+      .count{
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        margin-top: 26px;
+      }
+      .title{
+        font-size: 16px;
+        color: #333;
+      }
+    }
+    .dynamic-g:first-child{
+      .count{
+        box-shadow: 1px 0px #819EBF;
+      }
+    }
+
+  }
+  .dynamic::after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+  .vistorCount{
+    font-size: 20px;
+    color: #1E1E1E;
+    font-weight: 600;
+  }
+  .lately{
+    font-size: 16px;
+    color: #034692;
+    padding: 15px 0px 20px;
+  }
+  .vistor-avatar{
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  .examineTips{
+    font-size: 14px;
+    color: red;
+    line-height: 30px;
+  }
+  .question{
+    margin-top: 10px;
+    .title{
+      font-size: 18px;
+      color: #1E1E1E;
+      padding: 6px 0px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .time{
+      height: 44px;
+      font-size: 14px;
+      color: #999999;
+      display: flex;
+      align-items: center;
+    }
+    .exit{
+      text-align: right;
+      .el-button{
+        font-size: 12px;
       }
     }
   }

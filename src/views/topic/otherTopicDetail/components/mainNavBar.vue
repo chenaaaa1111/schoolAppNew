@@ -17,6 +17,12 @@
                 <div class="topBar">
                     <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
                     <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
+                    <span :class="tabactive=='my'?'active':''" @click="changeTab('my')">我发布的</span>
+                    <!-- <van-tabs v-model="active">
+                        <van-tab title="标签 1">全部</van-tab>
+                        <van-tab title="标签 2">最新</van-tab>
+                        <van-tab title="我发布的">我发布的</van-tab>
+                      </van-tabs> -->
                 </div>
 
                   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -95,8 +101,8 @@
           contentList: [
   
           ],
-          loadUrl:'/roomapi/Teaching/TeachingPage',
-          urlDict:{all:'/roomapi/Teaching/TeachingPage',new:'/roomapi/Teaching/browsePage',my:'/roomapi/Community/myPage'},
+          loadUrl:'/roomapi/Community/communityPage',
+          urlDict:{all:'/roomapi/Community/communityPage',new:'/roomapi/Community/browsePage',my:'/roomapi/Community/myPage'},
           activeIndex: '1',
           activeIndex2: '1'
         }
@@ -120,10 +126,11 @@
           })
         },
         changeTabs(name, title) {
-          var _this = this;
+          var self = this;
           console.log(name, title);
-          var otherClassId=this.$props.otherClassId
+          var otherClassId=self.$props.teamId
           var data = {
+            category_id:self.$props.teamId,
             page: 1,
             type: 2,
             class:otherClassId,
@@ -238,7 +245,7 @@
       background: #fff;
     }
     .active{
-      color: #034692;
+      color: #1C86EE;
     }
     .topBar span{
       margin-right: 38px;

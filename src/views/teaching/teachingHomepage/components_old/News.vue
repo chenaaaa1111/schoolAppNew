@@ -1,24 +1,22 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>教研空间</span>
-      <span class="more" @click="showclassesmore">
+      <span class="cardTitle"><img src="../../../../assets/images/classes/news.png"/>学校新闻动态</span>
+      <span class="more" @click="shownewsmore">
         <img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
-      <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
-      </ul>
-    </div>
+    <ul class="newList">
+      <li v-for="(item,index) in newsList" :key="index" @click="readDetails">
+        <span class="text">{{item.title}}</span>
+        <span class="date" :key="index">{{item.date}}</span>
+      </li>
+    </ul>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-
   export default{
-    name: 'ClassSpace',
+    name: 'news',
     props: {
       source: {
         type: String,
@@ -27,50 +25,52 @@
     },
     data() {
       return {
-        areaList:[
+        newsList: [
           {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
+            title: '激动人心的运动会',
+            date: '04-02'
           },
           {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
+            title: '激动人心的运动会',
+            date: '04-06'
           },
           {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          }
+            title: '激动人心的运动会激动人心的运动会',
+            date: '04-09'
+          },
+          {
+            title: '激动人心的运动会',
+            date: '05-02'
+          },
+          {
+            title: '激动人心的运动会激动人心的运动会',
+            date: '05-08'
+          },
         ],
       }
     },
     mounted() {
-      this.getTeams();
+
     },
     methods: {
-      getTeams(){
-        var self=this;
-        var data={
-
-        };
-
-        request.post('/roomapi/Teaching/TeachingList',data,function(res){
-            self.areaList=res.data;
-
-        })
-      },
-      showclassesmore() {
+      shownewsmore() {
         this.$router.push({
-          name: 'classesmore',
+          name: 'newsmore',
           params: {
+            widgetName: '学校新闻动态',
             fromwhere: this.source
           }
         })
       },
-      toOtherClass() {
+      readDetails() { // 跳转到文章详情页
         this.$router.push({
-          name: 'otherClassHomepage'
+          name: 'readnews',
+          params: {
+            widgetName: '校园主页',
+            fromwhere: this.source
+          }
         })
-      }
+      },
     }
   }
 </script>

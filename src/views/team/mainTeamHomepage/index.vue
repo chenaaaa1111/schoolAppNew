@@ -13,7 +13,7 @@
             <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <el-card>
+            <!-- <el-card>
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
                 <el-menu-item index="all">全部</el-menu-item>
                 <el-menu-item index="news">最新</el-menu-item>
@@ -45,9 +45,6 @@
                     <el-col :span="24" class="text">
                       <div class="noEllipsis" v-html="item.content"></div>
                     </el-col>
-                    <!-- <el-col :span="24" class="chart" style="margin-top: 10px;">
-                      <img :src="item.cover" />
-                    </el-col> -->
                   </el-row>
                 </el-col>
                 <el-col class="time">
@@ -62,7 +59,10 @@
                   <el-divider></el-divider>
                 </el-col>
               </el-row>
-            </el-card>
+            </el-card> -->
+            <mainNavBar ></mainNavBar>
+
+         
           </el-col>
         </el-row>
       </el-col>
@@ -76,6 +76,7 @@
   import ClassSpace from './components/ClassSpace.vue'
   // import Notice from './components/Notice.vue'
   import Notice from '../../public/widget/Notice.vue';
+  import mainNavBar from "./components/mainNavBar.vue"
   import request from "@/api/request";
   export default {
     name: 'mainTeamHomepage',
@@ -83,7 +84,8 @@
       PageTop,
       News,
       ClassSpace,
-      Notice
+      Notice,
+      mainNavBar
     },
     data() {
       return {

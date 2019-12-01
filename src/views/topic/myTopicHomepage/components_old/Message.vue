@@ -1,76 +1,97 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
-    </div>
-    <h2 class="vistorCount">
-      总共访问: 3576人次
-    </h2>
-    <div class="lately">最近10个访客:</div>
-    <div>
-      <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
-        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
+      <span class="cardTitle">
+        <img
+          style="background:#226BB4;border-radius: 50%;"
+          src="../../../../assets/images/myhome/message.png"/>
+          <el-badge :value="200" :max="99" class="item">
+            消息通知
+          </el-badge>
+      </span>
+      <span class="more" @click="showmessagemore">
+        <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
+    <el-row class="question">
+      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
+      <el-col>
+        <el-row>
+          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row class="question">
+      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
+      <el-col>
+        <el-row>
+          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row class="question">
+      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
+      <el-col>
+        <el-row>
+          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row class="question">
+      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
+      <el-col>
+        <el-row>
+          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
   export default{
-    props:{
-      teamId:{
-        default:''
+    props: {
+      source: {
+        type: String,
+        default: ''
       }
     },
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
-        avators:[],
-     
+
       }
     },
     methods: {
-      goOtherPage(){
-
-      },
-      goOther(id) {
-        console.log('999')
+      showmessagemore() {
         this.$router.push({
-          name: 'otherTopicDetail',
-          query:{id:id}
+          name: 'messagemore',
+          params: {
+            widgetName: '消息通知',
+            fromwhere: this.source
+          }
         })
       },
-      getAvortors(){
-        var data={c_id:this.$props.teamId};
-        var self=this;
-        request.post('/roomapi/Project/visitors',data,function(res){
-          if(res.data.length==0){
-            res.data=[
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            },
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            }
-            ]
+      msgDetails() {
+        console.log('????????')
+        this.$router.push({
+          name: 'readmessage',
+          params: {
+            widgetName: '消息通知',
+            routeName: '我的主页',
+            fromwhere: 'myHomepage'
           }
-          self.avators=res.data;
         })
       }
-    },
-      mounted:function(){
-        this.getAvortors()
-      }
+    }
   }
 </script>
+<style media="screen" lang="scss">
+.item{
+  .is-fixed{
+    right: -3px!important;
+    top: 14px!important;
+  }
+}
+</style>
 <style lang="scss">
 .banner-card{
   margin-bottom: 12px;
@@ -207,7 +228,7 @@
     background-color: #D3E1F1;
     .dynamic-g,.dynamic-c{
       float: left;
-      width: 100%;
+      width: 50%;
       height: 100%;
       text-align: center;
       color: #034692;

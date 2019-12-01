@@ -8,67 +8,37 @@
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
-      <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
-        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
-      </span>
+      <span @click="goOther"><el-avatar class="vistor-avatar" :size="44" :src="circleUrl" ></el-avatar></span>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl" ></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
     </div>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
   export default{
-    props:{
-      teamId:{
-        default:''
-      }
-    },
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
-        avators:[],
-     
+        circleUrl: require('../../../../assets/images/user.png')
       }
     },
     methods: {
-      goOtherPage(){
-
-      },
-      goOther(id) {
+      goOther() {
         console.log('999')
         this.$router.push({
-          name: 'otherTopicDetail',
-          query:{id:id}
+          name: 'otherHomepage'
         })
       },
-      getAvortors(){
-        var data={c_id:this.$props.teamId};
-        var self=this;
-        request.post('/roomapi/Project/visitors',data,function(res){
-          if(res.data.length==0){
-            res.data=[
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            },
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            }
-            ]
-          }
-          self.avators=res.data;
-        })
-      }
-    },
-      mounted:function(){
-        this.getAvortors()
-      }
+    }
   }
 </script>
 <style lang="scss">
@@ -207,7 +177,7 @@
     background-color: #D3E1F1;
     .dynamic-g,.dynamic-c{
       float: left;
-      width: 100%;
+      width: 50%;
       height: 100%;
       text-align: center;
       color: #034692;

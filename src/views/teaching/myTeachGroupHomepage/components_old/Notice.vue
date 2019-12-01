@@ -1,24 +1,22 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>教研空间</span>
-      <span class="more" @click="showclassesmore">
-        <img src="../../../../assets/images/classes/more.png"/>
+      <span class="cardTitle"><img src="../../../../assets/images/classes/notice.png"/>通知公告</span>
+      <span class="more" @click="shownoticemore">
+        <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
-      <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
-      </ul>
-    </div>
+    <ul class="notice">
+      <li v-for="(item,index) in noticeList" :key="index" @click="readDetails">
+        <div class="noticeTitle">{{item.title}}</div>
+        <div class="noticeDate">{{item.date}}</div>
+      </li>
+    </ul>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-
   export default{
-    name: 'ClassSpace',
+    name: 'notice',
     props: {
       source: {
         type: String,
@@ -27,54 +25,57 @@
     },
     data() {
       return {
-        areaList:[
+        noticeList: [
           {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
+            date: '2019-11-11'
           },
           {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学20',
+            date: '2019-11-11'
           },
           {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          }
-        ],
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四',
+            date: '2019-11-11'
+          },
+          {
+            title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
+            date: '2019-11-11'
+          },
+        ]
       }
     },
     mounted() {
-      this.getTeams();
+
     },
     methods: {
-      getTeams(){
-        var self=this;
-        var data={
-
-        };
-
-        request.post('/roomapi/Teaching/TeachingList',data,function(res){
-            self.areaList=res.data;
-
-        })
-      },
-      showclassesmore() {
+      shownoticemore() {
         this.$router.push({
-          name: 'classesmore',
+          name: 'newsmore',
           params: {
+            widgetName: '通知公告',
             fromwhere: this.source
           }
         })
       },
-      toOtherClass() {
+      readDetails() {
         this.$router.push({
-          name: 'otherClassHomepage'
+          name: 'readnews',
+          params: {
+            widgetName: '校园主页',
+            fromwhere: this.source
+          }
         })
-      }
+      },
     }
   }
 </script>
-<style lang="scss">
+<style media="screen">
+.el-dialog{
+  min-width: 9.733333rem;
+}
+</style>
+<style lang="scss" scoped>
 .banner-card{
   margin-bottom: 12px;
   .cardTitle{
@@ -168,6 +169,7 @@
   .notice{
     font-size: 18px;
     li{
+      cursor: pointer;
       padding: 8px 0px;
       line-height: 30px;
       border-bottom: 1px dashed #DEDEDE;
@@ -182,6 +184,14 @@
       .noticeDate{
         text-align: right;
         color: #888888;
+      }
+    }
+    li:hover{
+      .noticeTitle{
+        color: #034692;
+      }
+      .noticeDate{
+        color: #034692;
       }
     }
   }

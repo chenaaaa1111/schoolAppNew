@@ -8,7 +8,7 @@
             <!-- 展示个人头像 姓名 和动态统计 -->
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
-            <Visitor :teamId="teamId"></Visitor>
+            <Visitor></Visitor>
             <!-- 审核中 -->
             <!-- <Examine :source="routename"></Examine> -->
             <!-- 审核未通过 -->
@@ -19,8 +19,8 @@
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
               <!-- 班级动态 -->
-              <Exhibition :teamId="teamId"></Exhibition>
-              <!-- <el-col :span="24" class="card-block">
+              <Exhibition></Exhibition>
+              <el-col :span="24" class="card-block">
                 <el-row :gutter="10">
                   <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
                     <General></General>
@@ -35,7 +35,7 @@
                     <General></General>
                   </el-col>
                 </el-row>
-              </el-col> -->
+              </el-col>
             </el-card>
           </el-col>
         </el-row>
@@ -66,8 +66,7 @@
     },
     data() {
       return {
-        routename: '',
-        teamId:''
+        routename: ''
       }
     },
     mounted() {
@@ -80,9 +79,6 @@
   }
 </script>
 <style media="screen" lang="scss" scoped>
-   .active{
-      color: #034692;
-    }
   .space-wrap{
     margin-top: 30px;
     .entry-content{

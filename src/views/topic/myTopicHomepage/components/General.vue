@@ -2,7 +2,7 @@
   <el-card style="margin-bottom: 12px;">
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
-        <span class="top-title">校园动态</span>
+        <span class="top-title">课题动态</span>
         <el-button type="text">
           <span class="hidden-md-and-up">查看全部</span><img class="more" src="../../../../assets/images/classes/more.png"/>
         </el-button>
