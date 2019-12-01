@@ -28,8 +28,8 @@
               </el-col>
               <el-col :span="18">
                 <div class="con-text">
-                  {{item.content}}
-                </div>
+                    {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                  </div>
                 <div class="read-more">
                   <el-button type="text" size="mini">阅读全文<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 </div>

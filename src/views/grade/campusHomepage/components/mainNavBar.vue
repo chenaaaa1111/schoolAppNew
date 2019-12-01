@@ -29,7 +29,7 @@
                       </div>
                       <div class="rightContent">
                         <span>
-                          {{item.content}}
+                          {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                         </span>
                         <span @click="changShow(item.id)" class="updown">
                           查看更多
@@ -37,8 +37,8 @@
                       </div>
                     </div>
                     <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                      {{item.content}}
-                      <span @click="fslip(item.id)" class="updown">
+                        <div v-html="item.content"></div>
+                        <span @click="fslip(item.id)" class="updown">
                         收起
                       </span>
                     </div>
@@ -168,7 +168,7 @@
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
           }
-          console.log('ssss',_this.dataList );
+          console.log('ssss', _this.dataList);
           request.post('/roomapi/Room_Grade/gradePage', data, function (res) {//获取数据
             _this.contentList = res.data.model;
             if (_this.contentList.length == 0) {

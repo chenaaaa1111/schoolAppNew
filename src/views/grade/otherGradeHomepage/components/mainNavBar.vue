@@ -1,16 +1,4 @@
 <template>
-    <<<<<<< HEAD
-        <!-- 班级主页内容组件 -->
-        <div id="mainNavBar">
-          <div class="mainNavBar">
-            <!-- <ul class="mnavbar">
-                       <li v-for=" item in dataList">
-                            {{item.text}}
-                       </li>
-                    </ul> -->
-            <div class="tabContainer">
-              <div class="leftBar">
-    =======
       <!-- 班级主页内容组件 -->
       <div id="mainNavBar">
         <div class="mainNavBar">
@@ -21,9 +9,8 @@
                   </ul> -->
           <div class="tabContainer">
             <div class="leftBar">
-              <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" :swipeable="true">
-                <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-    >>>>>>> faf8019d542a614b5ae692f1b924418e134ab9d2
+              <!-- <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" :swipeable="true">
+                <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id"> -->
                   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       
                 <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
@@ -44,16 +31,16 @@
                             </div>
                             <div class="rightContent">
                               <span>
-                                {{item.content}}
-                              </span>
+                                  {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                                </span>
                               <span @click="changShow(item.id)" class="updown">
                                 查看更多
                               </span>
                             </div>
                           </div>
                           <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                            {{item.content}}
-                            <span @click="fslip(item.id)" class="updown">
+                              <div v-html="item.content"></div>
+                              <span @click="fslip(item.id)" class="updown">
                               收起
                             </span>
                           </div>

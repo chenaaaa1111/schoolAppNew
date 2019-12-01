@@ -41,7 +41,7 @@
                       </div>
                       <div class="rightContent">
                         <span>
-                          {{item.content}}
+                            {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                         </span>
                         <span @click="changShow(item.id)" class="updown">
                           查看更多

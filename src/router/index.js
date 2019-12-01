@@ -95,6 +95,11 @@ const router= new Router({
           name: 'myGradeHomepage',
           component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 社团空间
         },
+        {
+          path: '/grade/otherGradeHomepage',
+          name: 'otherGradeHomepage',
+          component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 社团空间
+        },
       ]
     },
     {

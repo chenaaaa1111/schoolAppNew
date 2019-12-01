@@ -29,16 +29,16 @@
                         </div>
                         <div class="rightContent">
                           <span>
-                            {{item.content}}
-                          </span>
+                              {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                            </span>
                           <span @click="changShow(item.id)" class="updown">
                             查看更多
                           </span>
                         </div>
                       </div>
                       <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                        {{item.content}}
-                        <span @click="fslip(item.id)" class="updown">
+                          <div v-html="item.content"></div>
+                          <span @click="fslip(item.id)" class="updown">
                           收起
                         </span>
                       </div>
@@ -85,31 +85,9 @@
           loading: false,
           finished: false,
           active: 1,
-          dataList: [{ text: '全部', id: 'all' }, { text: '最新', id: '1' },
-          { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
+          dataList: [],
           contentList: [
-            // {
-            //   "id": 4,
-            //   "columns": 1,
-            //   "column_name": "",
-            //   "name": "姓名",
-            //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            //   "title": "标题",
-            //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            //   "content": "",
-            //   "create_time": "2019-11-29 00:00:00"
-            // },
-            // {
-            //   "id": 5,
-            //   "columns": 2,
-            //   "column_name": "",
-            //   "name": "12321312",
-            //   "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            //   "title": "12321312",
-            //   "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            //   "content": "",
-            //   "create_time": "2019-11-29 00:00:00"
-            // }
+       
           ],
           activeIndex: '1',
           activeIndex2: '1'
@@ -148,7 +126,7 @@
             debugger
             data = {
               class: userInfoId,
-              column:res.data[0]?res.data[0].id:0,
+              column:res.data[0]?res.data[0].id:'',
               page: 1
             }
             request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
