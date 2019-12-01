@@ -66,11 +66,15 @@
     },
     data() {
       return {
-        routename: ''
+        routename: '',
+        id:''//用户id
       }
     },
     mounted() {
       this.routename = this.$route.name
+      console.log(this.$route.query,'route query');
+      var query=this.$router.query;
+      this.id=query.id;
       console.log(this.routename, '本页面routename')
     },
     methods: {

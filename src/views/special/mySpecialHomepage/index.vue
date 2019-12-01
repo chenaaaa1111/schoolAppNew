@@ -6,19 +6,23 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 个人信息 -->
-            <UserInfo :source="routename"></UserInfo>
+            <UserInfo :source="routename" :dymic="usertotal"></UserInfo>
             <!-- 最近访客 -->
             <Visitor :source="routename"></Visitor>
             <!-- 通知公告 -->
             <!-- <Notice :source="routename"></Notice> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <el-card>
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
+            <!-- <el-card> -->
+              <!-- <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
                 <el-menu-item index="all">全部</el-menu-item>
                 <el-menu-item index="news">最新</el-menu-item>
-              </el-menu>
-            </el-card>
+              </el-menu> -->
+              <!-- <div class="topBar">
+                  <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
+                  <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
+                </div> -->
+            <!-- </el-card> -->
             <el-card style="margin-top: 10px;">
               <el-row :gutter="10">
 
@@ -53,7 +57,8 @@
   import PageTop from './components/PageTop.vue'
   import UserInfo from './components/UserInfo.vue'
   import Visitor from './components/Visitor.vue'
-  // import Notice from './components/Notice.vue'
+  // import Notice from './components/Notice.vue';
+  import request from '@/api/request.js';
   export default{
     name: 'mainTeamHomepage',
     components: {
@@ -64,6 +69,10 @@
     },
     data() {
       return {
+        usertotal:'',//专题动态数
+        loadUrl: '/roomapi/Project/projectPage',
+        urlDict: { all: '/roomapi/Project/myPage', new: '/roomapi/Project/projectPage' },
+        tabactive: 'all',
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
@@ -98,11 +107,36 @@
         ]
       }
     },
+    created(){
+        this.getMoves();
+    },
     mounted() {
       this.routename = this.$route.name
-      console.log(this.routename, '本页面routename')
+      console.log(this.routename, '本页面routename');
+      //this.getMoves();
     },
     methods:{
+      changeTab(tab) {
+        this.tabactive = tab;
+        this.loadUrl = this.urlDict[tab];
+        this.selectTab = tab;
+        var self = this;
+        var data = {
+          page: 1
+        }
+        request.post(self.loadUrl, data, function (res) {
+          self.contentList = res.data.model;
+        })
+      },
+      getMoves(){
+        var data={};
+        var self=this;
+        request.post('/roomapi/Project/myPage', data, function (res) {
+          self.contentList = res.data.model;
+          self.$store.commit('setTeamDynamic',res.data.total)
+          
+        })
+      },
       menuSelect() {},
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
@@ -111,6 +145,14 @@
   }
 </script>
 <style lang="scss">
+  .active{
+    color: #034692;
+    font-size: 20px;
+  }
+    .topBar span{
+      margin-right: 38px;
+      font-size: 20px;
+    }
   .ellipsis{
     img{
       display: none;

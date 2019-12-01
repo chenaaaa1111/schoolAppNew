@@ -2,14 +2,14 @@
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
       <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>社团空间</span>
-      <span class="more" @click="showclassesmore" v-if="false">
+      <span class="more" @click="showOtherTeam" v-if="false">
         <img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="areablock" v-for="(item,index) in teamList" :key="index" v-show="item.class.length > 0">
+    <div class="areablock" v-for="(item,index) in areaList" :key="index" v-show="item.class.length > 0">
       <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res)">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
@@ -26,7 +26,7 @@
     },
     data() {
       return {
-        teamList:[
+        areaList:[
           {
             title: '',
             class: [
@@ -39,10 +39,21 @@
       }
     },
     mounted() {
-      this.getTeamList()
+      this.getTeams();
     },
     methods: {
-      showclassesmore() {
+      getTeams(){
+        var self=this;
+        var data={
+
+        };
+
+        request.post('/roomapi/Community/CommunityList',data,function(res){
+            self.areaList=res.data;
+
+        })
+      },
+      showOtherTeam() { // 弃用
         this.$router.push({
           name: 'classesmore',
           params: {
@@ -50,9 +61,14 @@
           }
         })
       },
-      toOtherClass() {
+      toOtherClass(team) {
         this.$router.push({
-          name: 'otherClassHomepage'
+          name: 'oterTeamDetail',
+          query: {
+            id: team.id,
+            avatar: team.avatar,
+            title: team.title
+          }
         })
       },
       getTeamList() {

@@ -8,7 +8,7 @@
             <!-- 展示个人头像 姓名 和动态统计 -->
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
-            <Visitor></Visitor>
+            <Visitor :teamId="teamId"></Visitor>
             <!-- 审核中 -->
             <!-- <Examine :source="routename"></Examine> -->
             <!-- 审核未通过 -->
@@ -66,12 +66,15 @@
     },
     data() {
       return {
-        routename: ''
+        routename: '',
+        teamId: ''
       }
     },
     mounted() {
       this.routename = this.$route.name
       console.log(this.routename, '本页面routename')
+      console.log(this.$store.state, 'store data')
+      this.teamId = this.$store.state.userInfo.id
     },
     methods: {
 
@@ -79,6 +82,9 @@
   }
 </script>
 <style media="screen" lang="scss" scoped>
+   .active{
+      color: #034692;
+    }
   .space-wrap{
     margin-top: 30px;
     .entry-content{

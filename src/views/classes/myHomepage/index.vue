@@ -9,12 +9,7 @@
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
             <Visitor></Visitor>
-            <!-- 审核中 -->
-            <Examine :source="routename"></Examine>
-            <!-- 审核未通过 -->
-            <NotPass :source="routename"></NotPass>
-            <!-- 消息通知 -->
-            <Message :source="routename"></Message>
+
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -22,22 +17,21 @@
               <Exhibition></Exhibition>
               <el-col :span="24" class="card-block">
                 <el-row :gutter="10">
-                  <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                  <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
-                    <General></General>
-                  </el-col>
                   <el-col :span="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                  <el-col :span="24" class="actblock">
+                    <!-- 校园动态 -->
                     <General></General>
                   </el-col>
                 </el-row>
               </el-col>
             </el-card>
+            <!-- 审核中 -->
+            <Examine :source="routename"></Examine>
+            <!-- 审核未通过 -->
+            <NotPass :source="routename"></NotPass>
+            <!-- 消息通知 -->
+            <Message :source="routename"></Message>
           </el-col>
+
         </el-row>
       </el-col>
     </el-row>
@@ -52,7 +46,7 @@
   import Message from './components/Message.vue'
   import Exhibition from './components/Exhibition.vue'
   import General from './components/General.vue'
-  export default{
+  export default {
     name: 'myHomepage',
     components: {
       PageTop,
@@ -79,20 +73,22 @@
   }
 </script>
 <style media="screen" lang="scss" scoped>
-  .space-wrap{
+  .space-wrap {
     margin-top: 30px;
-    .entry-content{
+
+    .entry-content {
       padding: 0px 10px;
     }
   }
 </style>
 <style media="screen" lang="scss" scoped>
-  .space-wrap{
+  .space-wrap {
     margin-top: 30px;
   }
-  .card-block{
-    padding-left: 0!important;
-    padding-right: 0!important;
+
+  .card-block {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     margin-top: 14px;
   }
 </style>

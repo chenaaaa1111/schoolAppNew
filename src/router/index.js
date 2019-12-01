@@ -27,8 +27,8 @@ const router= new Router({
       component: () => import('@/views/login/complate.vue')
     },
     {
-      path: '/login/complate2',
-      name: 'complate',
+      path: '/login/complateSpace',
+      name: 'complateSpace',
       component: () => import('@/views/login/complate2.vue')
     },
     {
@@ -117,6 +117,16 @@ const router= new Router({
           path: '/team/teamMyHomepage',
           name: 'teamMyHomepage',
           component: () => import('@/views/team/teamMyHomepage/index.vue'), // 社团空间
+        },
+        {
+          path: '/team/myTeamDetail',
+          name: 'oterTeamHome',
+          component: () => import('@/views/team/myTeamDetail/index.vue'), // 社团空间
+        },
+        {
+          path:"/team/otherTeamDetail",
+          name: 'oterTeamDetail',
+          component: () => import('@/views/team/otherTeamDetail/index.vue'), // 社团空间
         }
       ]
     },
@@ -158,6 +168,11 @@ const router= new Router({
           path: '/topic/myTopicHomepage',
           name: 'myTopicHomepage',
           component: () => import('@/views/topic/myTopicHomepage/index.vue'), //
+        },
+        {
+          path: '/topic/otherTopicDetail',
+          name: 'otherTopicDetail',
+          component: () => import('@/views/topic/otherTopicDetail/index.vue'), //
         }
       ]
     },
@@ -188,6 +203,17 @@ const router= new Router({
       path: '/write',
       name: 'write',
       component: () => import('@/views/write/index.vue') // 写新闻 -- 通用
+    },
+    {
+      path: '/writeUeditor',
+      name: 'writeUeditor',
+      component: () => import('@/views/writeUeditor/index.vue') // 写新闻 -- 通用
+    },
+    ,
+    {
+      path:"/writeCKEditor",
+      name:"writeCKEditor",
+      component: () => import('@/views/writeCKEditor/index.vue') // 写新闻 -- 通用
     },
     {
       path: '/newsmore',

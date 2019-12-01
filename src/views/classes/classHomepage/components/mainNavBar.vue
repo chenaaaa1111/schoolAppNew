@@ -3,15 +3,17 @@
   <div id="mainNavBar">
     <div class="mainNavBar">
       <!-- <ul class="mnavbar">
-                 <li v-for=" item in dataList">
-                      {{item.text}}
-                 </li>
-              </ul> -->
+                   <li v-for=" item in dataList">
+                        {{item.text}}
+                   </li>
+                </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
-          <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" :swipeable="true">
-            <van-tab v-for="item in dataList" :title="item.text" :key="item.id">
-              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+
+            <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab"
+              @change="changeTabs" :swipeable="true">
+              <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
                     <h4 class="title">{{item.title}} <span
@@ -23,11 +25,11 @@
                     </div>
                     <div class="imtextview" :id="'content'+item.id">
                       <div class="leftImage">
-                        <img :src="item.image" alt="">
+                        <img :src="'http://school.i2f2f.com'+item.image" alt="">
                       </div>
                       <div class="rightContent">
                         <span>
-                          Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
+                          {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                         </span>
                         <span @click="changShow(item.id)" class="updown">
                           查看更多
@@ -35,17 +37,7 @@
                       </div>
                     </div>
                     <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
-                      Brisbane： 从来没有一个瞎子，能在bo5三把中连续打出整个赛季的top10 从来没有一个瞎子，能在一把比赛中，拥有Dandy的大局观，灵药的开团…
+                        <div v-html="item.content"></div>
                       <span @click="fslip(item.id)" class="updown">
                         收起
                       </span>
@@ -53,22 +45,22 @@
                     <p class="date pd_40">{{item.create_time}}</p>
                   </li>
                 </ul>
-              </van-list>
 
-            </van-tab>
-          </van-tabs>
 
+              </van-tab>
+            </van-tabs>
+          </van-list>
         </div>
         <!-- <div class="rightBar">
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-submenu index="2">
-                  <template slot="title" style="line-height: 44px;">更多</template>
-                  <el-menu-item index="2-1">选项1</el-menu-item>
-                  <el-menu-item index="2-2">选项2</el-menu-item>
-                  <el-menu-item index="2-3">选项3</el-menu-item>
-                </el-submenu>
-              </el-menu>
-            </div> -->
+                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                  <el-submenu index="2">
+                    <template slot="title" style="line-height: 44px;">更多</template>
+                    <el-menu-item index="2-1">选项1</el-menu-item>
+                    <el-menu-item index="2-2">选项2</el-menu-item>
+                    <el-menu-item index="2-3">选项3</el-menu-item>
+                  </el-submenu>
+                </el-menu>
+              </div> -->
       </div>
 
     </div>
@@ -78,73 +70,104 @@
 
 <script>
   // import 'vant/lib/button/style';
-
+  import request from '@/api/request.js'
   export default {
     name: 'mainNavBar',
+    props: { classId: { default: '' } },
     data() {
       return {
+        selectTab: '',//选中的标签
+        userInfo: {},
         list: [],
+        pageSize: 5,//页尺寸
+        page: 2,//页数
+        psize: 10,
         loading: false,
         finished: false,
         active: 1,
-        dataList: [{ text: '全部', id: 'all' }, { text: '最新', id: '1' },
-        { text: '就业', id: '2' }, { text: '专业', id: '3' }, { text: '辅导', id: '4' }, { text: '辅导班', id: '5' }],
+        dataList: [],
         contentList: [
-          {
-            "id": 4,
-            "columns": 1,
-            "column_name": "",
-            "name": "姓名",
-            "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "title": "标题",
-            "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "content": "",
-            "create_time": "2019-11-29 00:00:00"
-          },
-          {
-            "id": 5,
-            "columns": 2,
-            "column_name": "",
-            "name": "12321312",
-            "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "title": "12321312",
-            "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-            "content": "",
-            "create_time": "2019-11-29 00:00:00"
-          }
+     
         ],
         activeIndex: '1',
         activeIndex2: '1'
       }
     },
     methods: {
+      changeTabs(name, title) {
+        var _this = this;
+        console.log(name, title);
+        var data = {
+          page: 1,
+          psize: this.psize,
+          class: 1,
+          column: this.selectTab
+        }
+        request.post('/roomapi/Room_Class/classPage', data, function (res) {
+          _this.contentList = res.data.model;
+        })
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
-      onLoad() {
-        // 异步更新数据
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            this.contentList.push({
-              "id": 5,
-              "columns": 2,
-              "column_name": "",
-              "name": "12321312",
-              "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-              "title": "12321312",
-              "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-              "content": "",
-              "create_time": "2019-11-29 00:00:00"
-            });
-          }
-          // 加载状态结束
-          this.loading = false;
+      getUserInfo() {
+        var userInfo = {}
+        this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+        console.log('user***', userInfo)
+        return userInfo;
+      },
+      getColmn(id) {//获取栏目
 
-          // 数据全部加载完成
-          if (this.list.length >= 40) {
-            this.finished = true;
+        this.getUserInfo();
+        let userInfoId = this.userInfo.class_id;
+        var _this = this;
+        var data = {  }
+        request.post('/roomapi/Room_Class/column', data, function (res) {
+          _this.dataList = res.data.model;
+          debugger
+          data = {
+            class: _this.userInfo.class_id,
+            column: res.data[0] ? res.data[0].id : 0,
+            page: 1
           }
-        }, 500);
+          request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
+            _this.contentList = res.data.model;
+            if (_this.contentList.length == 0) {
+              _this.onLoad("fineshed");
+            }
+          });
+        });
+      },
+      onLoad(state) {
+        var _this = this;
+
+        if (state == "fineshed") {
+          _this.loading = false;
+          _this.finished = true;
+          return;
+        }
+        if (this.selectTab == 'all') {
+          return;
+        }
+        var data = {
+          page: this.page,
+          psize: this.psize,
+          class: 1,
+          column: this.selectTab
+        }
+        request.post('/roomapi/Room_Class/classPage', data, function (res) {
+          if (data.column == 'all') {
+            return
+          }
+          if (res.data.model.length == 0) {
+            _this.loading = false;
+            _this.finished = true;
+            return;
+          }
+          _this.page = _this.page + 1;
+          _this.contentList = [...res.data.model, ..._this.contentList];
+          _this.loading = false;
+        })
       },
       fslip(item) {
         document.getElementById('content' + item).style.display = "flex";
@@ -157,7 +180,18 @@
       }
     },
     mounted: function () {
+      this.getUserInfo();
 
+      var data = {
+        class: this.userInfo.class_id,
+        column: this.selectTab,
+        page: 1
+      }
+      var _this = this;
+      this.getColmn(data.class_id);
+      // request.post('/roomapi/Room_Class/classPage',data,function(res){
+      //     _this.contentList=res.data.model;
+      // });
     },
     wrap() {
       var clientWidth = document.body.clientWidth;
@@ -179,6 +213,9 @@
     /* padding-right:40px; */
   }
 
+  /* .van-tabs__content{
+      min-height: 200px;
+    } */
   #mainNavBar .el-menu--horizontal>.el-submenu .el-submenu__title {
     line-height: 44px;
     height: 44px;
@@ -239,6 +276,9 @@
     padding-right: 40px;
     font-size: 18px;
   }
+  .contentList img{
+    max-width: 100%;
+  }
 </style>
 <style scoped>
   .contentList {
@@ -256,6 +296,10 @@
     color: #999;
   }
 
+  .leftImage{
+    width: 240px;
+    height: 136px;
+  }
   .leftImage img {
     width: 240px;
     height: 136px;
@@ -280,9 +324,9 @@
     margin-left: 30px;
   }
 
-  .tabContainer {
+  /* .tabContainer {
     display: flex;
-  }
+  } */
 
   .leftBar {
     flex: 1;

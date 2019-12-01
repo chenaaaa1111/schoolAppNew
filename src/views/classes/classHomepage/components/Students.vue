@@ -17,6 +17,7 @@
     </el-card>
 </template>
 <script>
+  import requst from "@/api/request.js";
 export default {
     name: 'students',
     data() {
@@ -61,9 +62,19 @@ export default {
       }
     },
     mounted() {
-      this.fromwhere = this.$route.params.fromwhere
+      this.fromwhere = this.$route.params.fromwhere;
+      this.getClassMates();
     },
     methods:{
+      getClassMates(){
+        var userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
+        var classId=userInfo.class_id;
+        var data={class_id:classId};
+        var self=this;
+          requst.post('/roomapi/Room_Class/classUser',data,function(res){
+            self.alumnus=res.data;
+          });
+      },
       changeUp(){
         if(this.showstate=='up'){
           this.showstate='down'

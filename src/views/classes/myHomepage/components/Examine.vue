@@ -12,10 +12,10 @@
     </div>
     <div class="examineTips">3个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
-      <el-col class="title" ><el-button type="text" @click="msgDetails">{{item.title}}</el-button></el-col>
+      <el-col class="title" ><el-button type="text" @click="msgDetails">{{item.name}}</el-button></el-col>
       <el-col>
         <el-row>
-          <el-col :span="14" class="time">{{item.date}}</el-col>
+          <el-col :span="14" class="time">{{item.create_time}}</el-col>
           <el-col :span="10" class="exit">
             <el-button type="text" >撤回</el-button>
           </el-col>
@@ -26,6 +26,7 @@
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'examine',
     props: {
@@ -40,23 +41,39 @@
           {
             title: '如何评价电影《少年的你》???',
             date: '2019/08/03 09:20',
-          },
-          {
-            title: '如何评价电影《少年的你》?',
-            date: '2019/08/03 09:20',
-          },
-          {
-            title: '如何评价电影《少年的你》?',
-            date: '2019/08/03 09:20',
-          },
-          {
-            title: '如何评价电影《少年的你》?',
-            date: '2019/08/03 09:20',
           }
         ]
       }
     },
+    created(){
+      
+    },
+    mounted(){
+      this.getExamine();
+    },
     methods: {
+      getExamine(){
+        var self=this;
+        debugger
+        var data={id:this.$store.state.userInfo.id,
+          page:1,
+          psize:3}
+        ;
+        request.post('/roomapi/Room_Class/visitors',data,function(res){
+          self.list=res.data.length>0?res.data:[{
+            "id": 4,
+            "name": "123",
+            "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+            "create_time": "1573638540"
+        },
+        {
+            "id": 3,
+            "name": "123",
+            "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+            "create_time": "1573638540"
+        }];
+        })
+      },
       showexaminemore() {
         console.log('去更多审核中')
         this.$router.push({

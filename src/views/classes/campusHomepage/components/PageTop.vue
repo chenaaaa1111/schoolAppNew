@@ -3,7 +3,7 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
+          <img v-if="loadData.url" :src="loadData.url" alt="" />{{loadData.title}}
         </el-col>
         <el-col v-if="loadData.showwrite" :span="12" class="top-write">
           <span @click="writenews"></span>
@@ -13,14 +13,14 @@
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
-            <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
+            <el-button type="danger" circle>
+              <img class="btnicon" src="../../../../assets/images/classes/news.png" />
             </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
+            <el-button type="primary" circle>
+              <img class="btnicon" src="../../../../assets/images/classes/space.png" />
             </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
+            <el-button type="primary" circle>
+              <img class="btnicon" src="../../../../assets/images/classes/notice.png" />
             </el-button>
           </span>
         </el-col>
@@ -29,7 +29,7 @@
   </el-row>
 </template>
 <script>
-  export default{
+  export default {
     data() {
       return {
         loadData: {
@@ -46,9 +46,15 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '校园主页',
-            fromwhere: 'campusHomepage'
+            fromwhere: 'campusHomepage',
+            upUrl:'',//上传的url
+            upData:{//上传参数
+              level:2,
+              columns:1,
+              column_name:this.$store.state.columnName    //栏目名称
+            }
           }
         })
       }
@@ -57,16 +63,18 @@
   }
 </script>
 <style lang="scss" scoped>
-  .pageTop{
-    .pageContent{
+  .pageTop {
+    .pageContent {
       margin-top: 48px;
-      .top-title{
+
+      .top-title {
         height: 56px;
         line-height: 56px;
         padding-left: 10px;
         font-size: 30px;
         color: #034692;
-        img{
+
+        img {
           display: inline-block;
           width: 74px;
           height: 74px;
@@ -74,12 +82,14 @@
           margin-right: 30px;
         }
       }
-      .top-write{
+
+      .top-write {
         height: 56px;
         line-height: 56px;
         text-align: right;
         padding-right: 10px;
-        span{
+
+        span {
           display: inline-block;
           width: 152px;
           height: 52px;
@@ -88,21 +98,25 @@
           cursor: pointer;
         }
       }
-      .leftentry{
+
+      .leftentry {
         text-align: right;
         margin-top: 20px;
         padding: 0px 10px;
-        .entrybtns{
-          .btnicon{
+
+        .entrybtns {
+          .btnicon {
             width: 45px;
             height: 45px;
           }
-          .el-button.is-circle{
+
+          .el-button.is-circle {
             padding: 0px;
           }
         }
       }
-      .department{
+
+      .department {
         padding-left: 10px;
         font-size: 24px;
         line-height: 46px;

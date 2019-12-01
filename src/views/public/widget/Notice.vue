@@ -7,14 +7,15 @@
       </span>
     </div>
     <ul class="notice">
-      <li v-for="(item,index) in noticeList" :key="index" @click="noticeDetails">
+      <li v-for="(item,index) in noticeList" :key="index" @click="noticeDetails(item.id)">
         <div class="noticeTitle">{{item.title}}</div>
-        <div class="noticeDate">{{item.date}}</div>
+        <div class="noticeDate">{{item.create_time}}</div>
       </li>
     </ul>
   </el-card>
 </template>
 <script>
+  import request from "@/api/request.js"
   export default{
     name: 'notice',
     props: {
@@ -43,12 +44,27 @@
             date: '2019-11-11'
           },
         ]
+        ,
+        id:''
       }
     },
     mounted() {
       console.log(this.source, '通知公告模块接收到传值')
+      this.getNotice();
     },
     methods: {
+      getNotice(res){
+        var self=this;
+        var userInfo=JSON.parse(sessionStorage.getItem('userInfo')) ;
+            var scchoolId=userInfo.s_id;
+            var data={
+              sid:scchoolId
+
+            }
+        request.post('/roomapi/Users/NoticeList',data,function(res){
+           self.noticeList=res.data.model;
+        })
+      },
       shownoticemore() {
         this.$router.push({
           name: 'noticemore',
@@ -59,14 +75,17 @@
           }
         })
       },
-      noticeDetails() {
+      noticeDetails(id) {
         // widgetName: this.getPageName(this.source.routename),
         // spacename: this.source.spacename,
+        // debugger
         this.$router.push({
-          name: 'noticemore',
+          name: 'readnotice',
           query: {
             widgetName: this.getPageName(this.source.routename),
-            fromwhere: this.source
+            fromwhere: this.source,
+            spacename: this.source.spacename,
+            id:id
           }
         })
       },

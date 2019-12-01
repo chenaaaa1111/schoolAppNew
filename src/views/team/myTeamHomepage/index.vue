@@ -2,14 +2,14 @@
   <div class="campus">
     <el-row type="flex" justify="center" class="space-wrap">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
-        <el-card class="teams" v-for="(item,index) in teamList" :key="index">
+        <el-card class="teams" v-for="(item,index) in teamList" :key="index" >
           <el-row>
             <el-col :span="16" class="team-info">
               <el-avatar class="team-icon" :size="size" :src="item.avatar"></el-avatar>
               <span class="team-name">{{item.title}}</span>
             </el-col>
-            <el-col :span="8" class="team-go-page">
-              <el-button type="text">进入主页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+            <el-col :span="8" class="team-go-page" >
+              <el-button type="text" @click="FgotoPage(item.id)">进入主页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
             </el-col>
           </el-row>
         </el-card>
@@ -63,29 +63,37 @@
   }
 </script>
 <style media="screen" lang="scss" scoped>
-  .space-wrap{
+  .space-wrap {
     margin-top: 30px;
-    .entry-content{
+
+    .entry-content {
       padding: 0px 10px;
-      .teams{
+
+      .teams {
         margin-bottom: 20px;
-        .el-row{
-          display: flex;align-items: center;
-        }
-        .team-info{
+
+        .el-row {
           display: flex;
           align-items: center;
-          .team-icon{
+        }
+
+        .team-info {
+          display: flex;
+          align-items: center;
+
+          .team-icon {
             display: inline-block;
             margin-right: 16px;
           }
-          .team-name{
+
+          .team-name {
             font-size: 28px;
             color: #1E1E1EFF;
             font-weight: 600;
           }
         }
-        .team-go-page{
+
+        .team-go-page {
           text-align: right;
         }
       }

@@ -5,11 +5,11 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <Students :source="routename"></Students>
+            <Students :source="routename" :otherClassId="otherClassId"></Students>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
-              <mainNavBar></mainNavBar>
+              <mainNavBar :otherClassId="otherClassId"></mainNavBar>
             </el-card>
           </el-col>
         </el-row>
@@ -18,9 +18,10 @@
   </div>
 </template>
 <script>
-  import PageTop from './components/PageTop.vue'
-  import Students from './components/Students.vue'
-  import mainNavBar from './components/mainNavBar.vue'
+  import request from '@/api/request.js';
+  import PageTop from './components/PageTop.vue';
+  import Students from './components/Students.vue';
+  import mainNavBar from './components/mainNavBar.vue';
   export default{
     name: 'classHomepage',
     components: {
@@ -30,15 +31,21 @@
     },
     data() {
       return {
-        routename: ''
+        routename: '',
+        otherClassId:''
       }
     },
-    mounted() {
+    created(){
       this.routename = this.$route.name
+      console.log('routerQuery',this.$route.query )
       console.log(this.routename, '本页面routename')
+      this.otherClassId=this.$route.query.id;
+    },
+    mounted() {
+    
     },
     methods:{
-
+      
     }
   }
 </script>
