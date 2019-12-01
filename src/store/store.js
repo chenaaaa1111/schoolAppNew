@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     TeamDynamic:0,
     columnName:'',//栏目名称
     columnId:'',//栏目id
-    baseUrl:process.env.NODE_ENV=='development'?'http://localhost:8081':'http://school.i2f2f.com'
+    baseUrl:process.env.NODE_ENV=='development'?'http://localhost:8081':'http://school.i2f2f.com',
+    serverUrl:'http://school.i2f2f.com'
   },
   mutations: {
     setColumnId(state,data){

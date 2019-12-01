@@ -50,11 +50,10 @@
             fromname: '校园主页',
             fromwhere: 'campusHomepage',
             upUrl:'',//上传的url
-            upData:{//上传参数
+           //上传参数
               level:2,
-              columns:1,
-              column_name:this.$store.state.columnName    //栏目名称
-            }
+              columns:this.$store.state.columnId,
+              column_name:this.$store.state.columnName    //栏目名称      
           }
         })
       }

@@ -20,7 +20,6 @@
                   </el-dropdown-menu>
               </el-dropdown>
             </li>
-
             <li class="el-menu-item menu-release hidden-sm-and-down">
                 <el-button plan size="small">写新闻</el-button>
             </li>
