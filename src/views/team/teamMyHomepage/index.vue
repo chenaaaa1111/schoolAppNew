@@ -66,12 +66,15 @@
     },
     data() {
       return {
-        routename: ''
+        routename: '',
+        teamId: ''
       }
     },
     mounted() {
       this.routename = this.$route.name
       console.log(this.routename, '本页面routename')
+      console.log(this.$store.state, 'store data')
+      this.teamId = this.$store.state.userInfo.id
     },
     methods: {
 

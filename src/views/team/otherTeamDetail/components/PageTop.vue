@@ -3,13 +3,14 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
+          <img v-if="options.avatar" :src="options.avatar" alt=""/>
+          {{options.title}}社团主页
         </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
+        <el-col v-if="options.showwrite" :span="12" class="top-write">
           <span @click="writenews"></span>
         </el-col>
         <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+          {{options.subTitle}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
@@ -30,14 +31,20 @@
 </template>
 <script>
   export default{
-    data() {
-      return {
-        loadData: {
-          url: require('../../../../assets/images/classes/class_else.png'),
-          title: '2000级20班-别人的班级',
-          subTitle: '',
+    props: {
+      options: {
+        type: Object,
+        default: {
+          id: '',
+          title: '',
+          avatar: '',
           showwrite: true
         }
+      } 
+    },
+    data() {
+      return {
+        
       }
     },
     mounted() {
@@ -45,13 +52,13 @@
     },
     methods: {
       writenews() {
-        this.$router.push({
-          name: 'write',
-          params: {
-            fromname: '班级主页',
-            fromwhere: 'classHomepage'
-          }
-        })
+        // this.$router.push({
+        //   name: 'write',
+        //   params: {
+        //     fromname: '班级主页',
+        //     fromwhere: 'classHomepage'
+        //   }
+        // })
       }
     }
   }
@@ -72,6 +79,7 @@
           height: 74px;
           vertical-align: middle;
           margin-right: 30px;
+          border-radius: 50%
         }
       }
       .top-write{
