@@ -124,7 +124,7 @@
         var data = {  }
         request.post('/roomapi/Room_Class/column', data, function (res) {
           _this.dataList = res.data.model;
-          console.log(res.data,'resdata')
+          console.log(res.data,'resdata',_this.dataList)
           data = {
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
@@ -183,7 +183,7 @@
         page: 1
       }
       var _this = this;
-      this.getColmn(data.class_id);
+      this.getColmn(data.class);
       // request.post('/roomapi/Room_Class/classPage',data,function(res){
       //     _this.contentList=res.data.model;
       // });

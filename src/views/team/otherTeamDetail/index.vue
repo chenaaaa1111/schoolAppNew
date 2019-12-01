@@ -5,12 +5,11 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <Students :source="routename" :otherClassId="otherClassId"></Students>
+            <Students :source="routename" :teamId="teamId"></Students>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <el-card>
-              <mainNavBar :otherClassId="otherClassId"></mainNavBar>
-            </el-card>
+              <mainNavBar :teamId="teamId"></mainNavBar>
+           
           </el-col>
         </el-row>
       </el-col>
@@ -32,14 +31,14 @@
     data() {
       return {
         routename: '',
-        otherClassId:''
+        teamId:''
       }
     },
     created(){
       this.routename = this.$route.name
       console.log('routerQuery',this.$route.query )
       console.log(this.routename, '本页面routename')
-      this.otherClassId=this.$route.query.id;
+      this.teamId=this.$route.query.id;
     },
     mounted() {
     

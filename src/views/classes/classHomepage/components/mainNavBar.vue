@@ -130,9 +130,6 @@
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
           }
-          if (this.selectTab == 'all') {
-            return;
-          }
           request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
             _this.contentList = res.data.model;
             if (_this.contentList.length == 0) {

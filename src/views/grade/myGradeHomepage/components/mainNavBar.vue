@@ -140,14 +140,14 @@
         },
         getColmn(id) {//获取栏目
           this.getUserInfo();
-          let userInfoId = this.userInfo.class_id;
+          let userInfoId = this.userInfo.grade_id;
           var _this = this;
           var data = { cid: userInfoId, type: 1 }
           request.post('/roomapi/Room_Class/column', data, function (res) {
-            _this.dataList = res.data;
+            _this.dataList = res.data.model;
             debugger
             data = {
-              class: _this.userInfo.class_id,
+              class: userInfoId,
               column:res.data[0]?res.data[0].id:0,
               page: 1
             }

@@ -162,12 +162,13 @@
         var _this = this;
         var data = { cid: userInfoId, type: 2 }
         request.post('/roomapi/Room_Class/column', data, function (res) {
-          _this.dataList = res.data;
+          _this.dataList = res.data.model;
           data = {
             grade: _this.userInfo.grade_id,
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
           }
+          console.log('ssss',_this.dataList );
           request.post('/roomapi/Room_Grade/gradePage', data, function (res) {//获取数据
             _this.contentList = res.data.model;
             if (_this.contentList.length == 0) {
@@ -213,8 +214,13 @@
     },
     mounted: function () {
       this.getUserInfo();
+      var data = {
+        class: this.userInfo.class_id,
+        column: this.selectTab,
+        page: 1
+      }
       var _this = this;
-      this.getColmn(data.class_id);
+      this.getColmn(data.class);
       // request.post('/roomapi/Room_Class/classPage',data,function(res){
       //     _this.contentList=res.data.model;
       // });

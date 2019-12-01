@@ -10,10 +10,21 @@
         <div class="tabContainer">
           <div class="leftBar">
            
-            <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
-              :swipeable="true">
+            <!-- <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
+              :swipeable="true"> -->
   
-              <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
+              <!-- <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id"> -->
+                <div class="topBar">
+                    <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
+                    <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
+                    <span :class="tabactive=='my'?'active':''" @click="changeTab('my')">我发布的</span>
+                    <!-- <van-tabs v-model="active">
+                        <van-tab title="标签 1">全部</van-tab>
+                        <van-tab title="标签 2">最新</van-tab>
+                        <van-tab title="我发布的">我发布的</van-tab>
+                      </van-tabs> -->
+                </div>
+
                   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
@@ -47,8 +58,8 @@
                   </li>
                 </ul>
               </van-list>
-              </van-tab>
-            </van-tabs>
+              <!-- </van-tab>
+            </van-tabs> -->
           
           </div>
           <!-- <div class="rightBar">
@@ -73,7 +84,7 @@
     import request from '@/api/request.js'
     export default {
       name: 'mainNavBar',
-      props: { otherClassId: { default: '' } },
+      props: { teamId: { default: '' } },
       data() {
         return {
           selectTab: '',//选中的标签
@@ -85,27 +96,48 @@
           loading: false,
           finished: false,
           active: 1,
+          tabactive:'all',
           dataList: [],
           contentList: [
   
           ],
+          loadUrl:'/roomapi/Community/communityPage',
+          urlDict:{all:'/roomapi/Community/communityPage',new:'/roomapi/Community/browsePage',my:'/roomapi/Community/myPage'},
           activeIndex: '1',
           activeIndex2: '1'
         }
       },
       methods: {
+        changeTab(tab){
+          this.tabactive=tab;
+          this.loadUrl=this.urlDict[tab];
+          this.selectTab=tab;
+          var self=this;
+          var data={
+            page: 1,
+            type: 2,
+            uid:self.$props.userId,
+            category_id:self.$props.teamId,
+            psize: this.psize,
+            column: this.selectTab
+          }
+          request.post(self.loadUrl, data, function (res) {
+            self.contentList = res.data.model;
+          })
+        },
         changeTabs(name, title) {
-          var _this = this;
+          var self = this;
           console.log(name, title);
-          var otherClassId=this.$props.otherClassId
+          var otherClassId=self.$props.teamId
           var data = {
+            category_id:self.$props.teamId,
             page: 1,
             type: 2,
             class:otherClassId,
             psize: this.psize,
             column: this.selectTab
           }
-          request.post('/roomapi/Room_Class/classPage', data, function (res) {
+          request.post('/roomapi/Room_Class/communityPage', data, function (res) {
             _this.contentList = res.data.model;
           })
         },
@@ -118,23 +150,21 @@
           console.log('user***', userInfo)
           return userInfo;
         },
-        getColmn(id) {//获取栏目
+        getColmn(id,loadUrl) {//获取栏目
           this.getUserInfo();
           // let userInfoId = this.userInfo.class_id;
           var _this = this;
           var data = {  }
-          request.post('/roomapi/Room_Class/column', data, function (res) {
-            _this.dataList = res.data.model;
-            console.log(res.data,'resdata')
+          // request.post('/roomapi/Room_Class/column', data, function (res) {
             data = {
-              column: res.data.model[0] ? res.data.model[0].id : 0,
+              category_id: id,
               page: 1,
               class:_this.$props.otherClassId
             }
-            request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
+            request.post(loadUrl, data, function (res) {//获取数据
               _this.contentList = res.data.model;
             });
-          });
+          // });
         },
         onLoad(state) {
           var _this = this;
@@ -145,12 +175,13 @@
             return;
           }
           var data = {
-            class:_this.$props.otherClassId,
+            uid:_this.$props.userId,
+            category_id:_this.$props.teamId,
             page: this.page,
             psize: this.psize,
             column: this.selectTab
           }
-          request.post('/roomapi/Room_Class/classPage', data, function (res) {
+          request.post(_this.loadUrl, data, function (res) {
             if (res.data.model.length == 0) {
               _this.loading = false;
               _this.finished = true;
@@ -179,18 +210,17 @@
       },
       mounted: function () {
 
-        console.log(this.$props.id,'propsId');
+        console.log(this.$props.teamId,'propsId');
         this.getUserInfo();
-  
+        console.log(this.$router.query,'queryquery');
         var data = {
-          class_id:this.$props.id,
-          class: this.userInfo.class_id,
+          teamId:this.$props.teamId,
           column: this.selectTab,
           page: 1
         }
 
         var _this = this;
-        this.getColmn(data.class_id);
+        this.getColmn(data.teamId,this.loadUrl);
       },
       wrap() {
         var clientWidth = document.body.clientWidth;
@@ -208,6 +238,26 @@
     }
   </script>
   <style>
+    .van-tabs__content{
+      display: none;
+    }
+    .van-list{
+      background: #fff;
+    }
+    .active{
+      color: #1C86EE;
+    }
+    .topBar span{
+      margin-right: 38px;
+    }
+    .topBar{
+      height:76px;
+      line-height:76px;
+      margin-bottom: 10px;
+      background: #fff;
+      font-size: 20px;
+      padding-left: 40px;
+    }
     .mainleftbar {
       /* padding-right:40px; */
     }
@@ -281,6 +331,8 @@
     .contentList {
       border-bottom: #DCDCDC 1px solid;
       padding-bottom: 30px;
+      padding-left: 40px;
+      padding-right:40px;
     }
   
     .imgline {

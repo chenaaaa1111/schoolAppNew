@@ -9,7 +9,7 @@
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
       <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res.id)">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
@@ -49,9 +49,10 @@
           }
         })
       },
-      toOtherClass() {
+      toOtherClass(id) {
         this.$router.push({
-          name: 'otherClassHomepage'
+          name: 'otherClassHomepage',
+          query:{id:id}
         })
       }
     }

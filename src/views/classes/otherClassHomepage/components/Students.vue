@@ -9,7 +9,7 @@
         </div> -->
         <div class="avartContent" id="avartContent">
            <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
-                <img :src="item.url" alt="头像">
+                <img :src="item.avatar" alt="头像">
                 <p class="txcenter">{{item.name}}</p>
            </div>
         </div>
@@ -17,8 +17,15 @@
     </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
 export default {
     name: 'students',
+    props:{
+      otherClassId:{
+        default:''
+      }
+    
+    },
     data() {
       return {
         fromwhere: '',
@@ -61,9 +68,19 @@ export default {
       }
     },
     mounted() {
-      this.fromwhere = this.$route.params.fromwhere
+      this.fromwhere = this.$route.params.fromwhere;
+      this.getStudents();
     },
     methods:{
+      getStudents(){
+        var data={
+          class_id:this.$props.otherClassId
+        };
+        var self=this;
+        request.post('/roomapi/Room_Class/classUser',data,function(res){
+          self.alumnus=res.data;
+        });
+      },
       changeUp(){
         if(this.showstate=='up'){
           this.showstate='down'

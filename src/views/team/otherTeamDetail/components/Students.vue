@@ -9,7 +9,7 @@
         </div> -->
         <div class="avartContent" id="avartContent">
            <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
-                <img :src="item.url" alt="头像">
+                <img :src="item.avatar" alt="头像">
                 <p class="txcenter">{{item.name}}</p>
            </div>
         </div>
@@ -17,9 +17,15 @@
     </el-card>
 </template>
 <script>
-  import requst from "@/api/request.js";
+  import request from '@/api/request.js';
 export default {
     name: 'students',
+    props:{
+      teamId:{
+        default:''
+      }
+    
+    },
     data() {
       return {
         fromwhere: '',
@@ -63,17 +69,17 @@ export default {
     },
     mounted() {
       this.fromwhere = this.$route.params.fromwhere;
-      this.getClassMates();
+      this.getStudents();
     },
     methods:{
-      getClassMates(){
-        var userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
-        var classId=userInfo.class_id;
-        var data={class_id:classId};
+      getStudents(){
+        var data={
+          c_id:this.$props.teamId
+        };
         var self=this;
-          requst.post('/roomapi/Room_Class/classUser',data,function(res){
-            self.alumnus=res.data;
-          });
+        request.post('/roomapi/Community/communityUser',data,function(res){
+          self.alumnus=res.data;
+        });
       },
       changeUp(){
         if(this.showstate=='up'){
@@ -85,9 +91,7 @@ export default {
         }
       },
       goOther(data) {
-        this.$router.push({
-          name: 'otherHomepage'
-        })
+        this.$emit('toOtherHomepage', data)
       }
     }
 }

@@ -141,7 +141,7 @@
                 data.append('type','1');
                 var self=this;
                 request.post('/roomapi/Upsystem/upload',data,function(res){
-                   self.imgUrl="http://school.i2f2f.com"+res.data.url;
+                   self.imgUrl=res.data.url;
                 })
               
             },

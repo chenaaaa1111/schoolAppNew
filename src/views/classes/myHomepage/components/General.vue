@@ -8,51 +8,18 @@
         </el-button>
       </el-col>
       <el-col :span="24">
-        <el-row class="article">
+        <el-row class="article" v-for="(item,index) in articles" :key="index">
           <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
+                <span class="text">{{item.title}}</span>
               </el-col>
               <el-col :span="6" class="operation">
                 <el-button type="text" size="mini">删除</el-button>
               </el-col>
               <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
+                <span class="date">{{item.create_time}}</span>
                 <el-divider></el-divider>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-
-        <el-row class="article">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
-              </el-col>
-              <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
-                <el-divider></el-divider>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-
-        <el-row class="article">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
-              </el-col>
-              <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
               </el-col>
             </el-row>
           </el-col>
@@ -61,6 +28,63 @@
     </el-row>
   </el-card>
 </template>
+<script>
+  import request from '@/api/request.js';
+    export default{
+      props:{
+
+      },
+      data:function(){
+        return  {
+          articles:[]
+        }
+      },
+      mounted:function(res){
+        this.getGenaras()
+      },
+      methods:{
+        getGenaras:function(){
+          console.log(this.$store.state)
+          var self=this;
+          var data={
+            uid:this.$store.state.userInfo.id,
+            page:1,
+            psize:3,
+            level:2
+          }
+          request.post('/roomapi/Room_Class/myPage',data,function(res){
+            self.$store.commit('setSchoolDynamic',res.data.total);
+            console.log('********', self.$store.state.userInfo)
+            self.articles=res.data.model.length>0?res.data.model:[{
+                "id": 4,
+                "columns": 1,
+                "column_name": "",
+                "name": "姓名",
+                "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                "level": 2,
+                "title": "标题",
+                "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                "content": "",
+                "create_time": "2019-11-29 00:00:00"
+            },
+            {
+                "id": 4,
+                "columns": 1,
+                "column_name": "",
+                "name": "姓名",
+                "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                "level": 2,
+                "title": "标题",
+                "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                "content": "",
+                "create_time": "2019-11-29 00:00:00"
+            }
+          ]
+          })
+        }
+      }
+    }
+</script>
 <style lang="scss" scoped>
 .top-block{
   .top-box{

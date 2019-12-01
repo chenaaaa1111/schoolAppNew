@@ -5,7 +5,7 @@
         <img
           style="background:#226BB4;border-radius: 50%;"
           src="../../../../assets/images/myhome/message.png"/>
-          <el-badge :value="200" :max="99" class="item">
+          <el-badge :value="total" :max="99" class="item">
             消息通知
           </el-badge>
       </span>
@@ -13,7 +13,15 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <el-row class="question">
+    <el-row class="question" v-for ="(item,index) in messages" :key="index">
+      <el-col class="title"><el-button @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
+      <el-col>
+        <el-row>
+          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <!-- <el-row class="question">
       <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
       <el-col>
         <el-row>
@@ -36,18 +44,11 @@
           <el-col :span="14" class="time">2019/08/03 09:20</el-col>
         </el-row>
       </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
+    </el-row> -->
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     props: {
       source: {
@@ -57,10 +58,45 @@
     },
     data() {
       return {
-
+        messages:[],
+        total:0
       }
     },
+    mounted(){
+      this.getMessages();
+    },
     methods: {
+      getMessages:function(){
+        var self=this;
+        var data={
+          kid:1,
+          page:1,
+          psize:3
+        };
+        request.post('/roomapi/Users/userMessage',data,function(res){
+          self.messages=res.data.model.length>0?res.data.model: [
+            {
+                "id": 2,
+                "k_id": 1,
+                "u_id": 1,
+                "c_id": 2,
+                "title": "事实上3",
+                "why": "管理员开心的把你的贴删除了",
+                "create_time": "2019-11-19 00:00:00"
+            },
+            {
+                "id": 1,
+                "k_id": 1,
+                "u_id": 1,
+                "c_id": 1,
+                "title": "事实上",
+                "why": "管理员开心的把你的贴删除了",
+                "create_time": "2019-11-19 00:00:00"
+            }
+        ];
+        self.total=res.data.total?res.data.total:2;
+      })
+    },
       showmessagemore() {
         this.$router.push({
           name: 'messagemore',

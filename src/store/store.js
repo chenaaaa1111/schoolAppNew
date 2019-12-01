@@ -7,10 +7,23 @@ const store = new Vuex.Store({
   state: {
     spaceInitTab: '',
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',//验证码
+    userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
+    SchoolDynamic:0,
+    ClassDynamic:0,
+    TeamDynamic:0
   },
   mutations: {
+    setTeamDynamic(state,data){
+      state.TeamDynamic=data;
+    },
     setSpaceInitTab(state, data) {
       state.spaceInitTab = data
+    },
+    setClassDynamic(state,data){//设置班级动态数
+      state.ClassDynamic=data;
+    },
+    setSchoolDynamic(state,data){//设置校园动态数
+      state.SchoolDynamic=data;
     },
     // 修改token，并将token存入localStorage
     changeLogin (state, user) {

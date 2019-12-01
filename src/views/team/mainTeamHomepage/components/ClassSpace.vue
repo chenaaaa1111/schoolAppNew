@@ -7,14 +7,16 @@
       </span>
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.areaName}}</div>
+      <div class="areaName">{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.classes" :key="num" @click="toOtherClass">{{res}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
+
   export default{
     name: 'ClassSpace',
     props: {
@@ -42,9 +44,20 @@
       }
     },
     mounted() {
-
+      this.getTeams();
     },
     methods: {
+      getTeams(){
+        var self=this;
+        var data={
+
+        };
+
+        request.post('/roomapi/Community/CommunityList',data,function(res){
+            self.areaList=res.data;
+
+        })
+      },
       showclassesmore() {
         this.$router.push({
           name: 'classesmore',

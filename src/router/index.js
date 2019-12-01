@@ -27,8 +27,8 @@ const router= new Router({
       component: () => import('@/views/login/complate.vue')
     },
     {
-      path: '/login/complate2',
-      name: 'complate',
+      path: '/login/complateSpace',
+      name: 'complateSpace',
       component: () => import('@/views/login/complate2.vue')
     },
     {
@@ -117,6 +117,16 @@ const router= new Router({
           path: '/team/teamMyHomepage',
           name: 'teamMyHomepage',
           component: () => import('@/views/team/teamMyHomepage/index.vue'), // 社团空间
+        },
+        {
+          path: '/team/myTeamDetail',
+          name: 'oterTeamHome',
+          component: () => import('@/views/team/myTeamDetail/index.vue'), // 社团空间
+        },
+        {
+          path:"/team/otherTeamDetail",
+          name: 'oterTeamDetail',
+          component: () => import('@/views/team/otherTeamDetail/index.vue'), // 社团空间
         }
       ]
     },
