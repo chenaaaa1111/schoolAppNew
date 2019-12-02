@@ -13,10 +13,22 @@ const store = new Vuex.Store({
     TeamDynamic:0,
     columnName:'',//栏目名称
     columnId:'',//栏目id
+    teamId:'',//社团id
     baseUrl:process.env.NODE_ENV=='development'?'http://localhost:8081':'http://school.i2f2f.com',
-    serverUrl:'http://school.i2f2f.com'
+    serverUrl:'http://school.i2f2f.com',
+    topicStatus:1,//1已通过 2，审核中，3未通过  专题状态
+    moveList:[]       //专题数组
   },
   mutations: {
+    setMoveList(state,data){
+      state.moveList=data;
+    },
+    setTopicStatus(state,data){
+        state.topicStatus=data;
+    },
+    setTeamId(state,data){
+        state.teamId=data;
+    },
     setColumnId(state,data){
       state.columnId=data;
     },

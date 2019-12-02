@@ -62,6 +62,7 @@
         })
       },
       toOtherClass(team) {
+        this.$store.commit('setTeamId',team.id);
         this.$router.push({
           name: 'oterTeamDetail',
           query: {

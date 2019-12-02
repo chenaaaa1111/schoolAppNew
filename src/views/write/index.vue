@@ -157,7 +157,6 @@
                             handlers: {
                                 image: function (value) {
                                     if (value) {
-                                        debugger
                                         // 触发input框选择图片文件
                                         $(".avupnew input").click();
                                     } else {
@@ -335,7 +334,7 @@
                 data.content = this.form.goods_desc;
                 data.title = this.articletitle;
                 console.log(data,'shezhi data data data data')
-                request.post('/roomapi/Room_Class/addArticle', data, function (res) {
+                request.post(data.upUrl, data, function (res) {
                     if (res.code == 0) {
                         // self.$router.push({
                         //     name: 'readnews',

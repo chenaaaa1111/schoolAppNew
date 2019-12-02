@@ -7,7 +7,7 @@
           {{options.title}}社团主页
         </el-col>
         <el-col v-if="options.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
+          <span @click="faddTeam"></span>
         </el-col>
         <el-col :span="12" class="department">
           {{options.subTitle}}
@@ -30,6 +30,7 @@
   </el-row>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     props: {
       options: {
@@ -59,6 +60,19 @@
         //     fromwhere: 'classHomepage'
         //   }
         // })
+      },
+      faddTeam(res){//加入社团
+        debugger
+        var teamId=this.$store&&this.$store.state&&this.$store.state.teamId
+        var data={ c_id:teamId};
+        request.post('/roomapi/Community/addCommunity',data,(res)=>{
+          if(res.code==0){
+            this.$toast.success('加入成功');
+          }else{
+            this.$toast.fail(res.message);
+          }
+         
+        })
       }
     }
   }
@@ -91,7 +105,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/classes/addTeam.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

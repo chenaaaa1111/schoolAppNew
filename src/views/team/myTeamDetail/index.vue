@@ -1,6 +1,6 @@
 <template>
   <div class="myClasses">
-    <PageTop></PageTop>
+    <PageTop :teamId="teamId"></PageTop>
     <el-row type="flex" justify="center" class="space-wrap">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">

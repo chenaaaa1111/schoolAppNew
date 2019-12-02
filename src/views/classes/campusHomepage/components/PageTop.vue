@@ -49,7 +49,7 @@
           query: {
             fromname: '校园主页',
             fromwhere: 'campusHomepage',
-            upUrl:'',//上传的url
+            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
            //上传参数
               level:2,
               columns:this.$store.state.columnId,

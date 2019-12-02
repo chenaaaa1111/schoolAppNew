@@ -33,7 +33,7 @@
     data() {
       return {
         loadData: {
-          title: '华悦蜀山区第一中学-校园主页',
+          title: '华悦蜀山区第一中学-专题主页',
           subTitle: '',
           showwrite: true
         }
@@ -46,9 +46,11 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '社团主页',
-            fromwhere: 'mainTeamHomepage'
+            fromwhere: 'mainTeamHomepage',
+            upUrl:'/roomapi/Project/addArticle',//上传的url
+
           }
         })
       }
@@ -83,7 +85,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/writeTopic.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

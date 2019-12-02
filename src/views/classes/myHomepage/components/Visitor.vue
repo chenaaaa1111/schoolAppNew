@@ -49,23 +49,15 @@
       },
       getVisitors() {
         var self = this;
-        var id = this.$store.state.userInfo.id;
+        var id='';
+        if(this.$store&&this.$store.state&&this.$store.state.userInfo){
+          id=this.$store.state.userInfo.id;
+        }
         var data = {
           id: id
         }
         request.post('/roomapi/Room_Class/visitors', data, function (res) {
-          self.visitors = [{
-            "id": 4,
-            "name": "123",
-            "avatar": "http://git.i2f2f.com/images/icon20191111/813aa473c84da8a0e698a56a91d472f3.jpg",
-            "create_time": "1573638540"
-          },
-          {
-            "id": 3,
-            "name": "123",
-            "avatar": "http://git.i2f2f.com/images/icon/20191111/813aa473c84da8a0e698a56a91d472f3.jpg",
-            "create_time": "1573638540"
-          }]
+          self.visitors = []
         })
       }
     }

@@ -58,6 +58,11 @@
             }
           }
         })
+      },
+      FgotoPage(id){
+        console.log(id,'ss');
+        this.$store.commit('setTeamId',id);
+        this.$router.push({path:'/team/myTeamDetail',query:{id:id}})
       }
     }
   }

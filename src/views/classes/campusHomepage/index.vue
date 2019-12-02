@@ -55,8 +55,8 @@
       this.routename = this.$route.name
       this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename');
-      console.log('ssss',this.$router.currentRoute.query.id);
-      this.classId=this.$router.currentRoute.query.id;
+      // console.log('ssss',this.$router.currentRoute.query.id);
+      // this.classId=this.$router.currentRoute.query.id;
      let userInfo= this.getUserInfo();
     },
     methods: {

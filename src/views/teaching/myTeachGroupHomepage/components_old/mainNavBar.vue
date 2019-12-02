@@ -306,7 +306,10 @@
       font-size: 18px;
       color: #999;
     }
-  
+    .leftImage  {
+    width: 240px;
+    height: 136px;
+  }
     .leftImage img {
       width: 240px;
       height: 136px;
