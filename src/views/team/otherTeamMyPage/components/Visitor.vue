@@ -1,39 +1,86 @@
 <template>
-  <!-- 个人头像信息 -->
   <el-card class="banner-card">
-    <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="circleUrl"></el-avatar>
+    <div slot="header" class="clearfix">
+      <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
     </div>
-    <h2 class="myName">
-      里斯本
+    <h2 class="vistorCount">
+      总共访问: 3576人次
     </h2>
-    <div class="dynamic">
-      <div class="dynamic-g">
-        <p class="count">{{userInfo.access_community||0}}</p>
-        <p class="title">社区动态</p>
-      </div>
-      <!-- <div class="dynamic-c">
-        <p class="count">12</p>
-        <p class="title">班级动态</p>
-      </div> -->
+    <div class="lately">最近11个访客:</div>
+    <div>
+      <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
+        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
+      </span>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
+    props:{
+      teamId:{
+        type: String,
+        default:''
+      }
+    },
     data() {
       return {
         circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:this.$store.state.userInfo,
-
+        avators:[],
       }
     },
-    methods: {
-
+    watch: {
+      teamId(newv,oldv) {
+        console.log(newv, 'watch props')
+        // 当props传值发生改变时调用一次列表加载
+        this.getAvortors()
+      }
     },
-    mounted:function(){
+    mounted(){
+      console.log(this.teamId, 'props刷新后还在不在?')
+      this.getAvortors()
+    },
+    methods: {
+      goOtherPage(){
 
+      },
+      goOther(id) {
+        // 先替换当前路由 再刷新当前页面
+        this.$router.replace({
+          name: 'otherTeamMyPage',
+          query:{
+            id: id.toString()
+          }
+        })
+        window.location.reload()
+      },
+      getAvortors(){
+        var data={c_id:this.teamId};
+        var self=this;
+        request.post('/roomapi/Community/visitors',data,function(res){
+          if(res.data.length==0){
+            res.data=[
+              {
+                  "id": 3,
+                  "u_id": 1,
+                  "name": "123",
+                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+                  "create_time": "1573716643"
+              },
+              {
+                  "id": 4,
+                  "u_id": 1,
+                  "name": "123",
+                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+                  "create_time": "1573716643"
+              }
+            ]
+          }
+          self.avators=res.data;
+        })
+      }
     }
+
   }
 </script>
 <style lang="scss">

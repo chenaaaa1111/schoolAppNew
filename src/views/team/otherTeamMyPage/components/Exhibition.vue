@@ -4,7 +4,7 @@
       <el-col :span="24" class="top-box">
         <span class="top-title">社团动态</span>
         <el-button type="text">
-          <!-- 查看全部<img class="more" src="../../../../assets/images/classes/more.png" /> -->
+          查看全部<img class="more" src="../../../../assets/images/classes/more.png" />
         </el-button>
       </el-col>
       <el-col :span="24">
@@ -42,7 +42,7 @@
                 <img class="con-pic" :src="item.image"/>
               </el-col>
               <el-col :span="24">
-                <div class="con-text con-open" v-html="item.content"></div>
+                <div class="con-text" v-html="item.content"></div>
                 <div class="read-more">
                   <el-button type="text" size="mini" @click="close(index)">
                     收起<i class="el-icon-caret-bottom el-icon--right"></i>
@@ -61,17 +61,33 @@
 <script>
   import request from '@/api/request.js';
   export default {
+    props: {
+      teamId: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         teamDymic:[],
       }
-
+    },
+    watch: {
+      teamId(newv,oldv) {
+        console.log(newv, 'watch props')
+        // 当props传值发生改变时调用一次列表加载
+        this.getTeamDynimal()
+      }
+    },
+    mounted: function () {
+      console.log(this.teamId, '别人的主页内容区id')
+      this.getTeamDynimal();
     },
     methods: {
       getTeamDynimal() {
         var self=this;
         var data = {
-          u_id:self.$store.state.userInfo.id
+          u_id: self.teamId
         }
 
         request.post('/roomapi/Community/myPage', data, function (res) {
@@ -93,9 +109,7 @@
         this.teamDymic[index].open = false
       },
     },
-    mounted: function () {
-      this.getTeamDynimal();
-    }
+
   }
 </script>
 <style lang="scss" scoped>
@@ -185,20 +199,13 @@
         }
 
         .con-text {
+          line-height: 36px;
           display: -webkit-box;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 4;
           overflow: hidden;
         }
-        .con-open{
-          line-height: 36px;
-          img{
-            display: block;
-            border-radius: 8px;
-            width: 100%;
-            margin: 10px 0px;
-          }
-        }
+
         .read-more {
           text-align: right;
         }

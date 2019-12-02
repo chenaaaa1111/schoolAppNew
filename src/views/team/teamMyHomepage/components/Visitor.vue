@@ -8,7 +8,7 @@
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
-      <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
+      <span @click="goOther(item)" v-for="(item ,index ) in avators" :key="index" >
         <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
       </span>
     </div>
@@ -19,56 +19,61 @@
   export default{
     props:{
       teamId:{
+        type: String,
         default:''
       }
     },
     data() {
       return {
         circleUrl: require('../../../../assets/images/user.png'),
-        avators:[],
-     
+        avators:[]
       }
+    },
+    mounted() {
+      this.getAvortors()
     },
     methods: {
       goOtherPage(){
 
       },
-      goOther(id) {
+      goOther(item) {
         console.log('999')
         this.$router.push({
-          name: 'oterTeamDetail',
-          query:{id:id}
+          name: 'otherTeamMyPage',
+          query: {
+            id: item.id.toString(),
+            name: item.name,
+            avatar: item.avatar
+          }
         })
       },
-      getAvortors(){
-        var data={c_id:this.$props.teamId};
+      getAvortors(){ // 访客列表数据
+        var data={ c_id: this.teamId };
         var self=this;
         request.post('/roomapi/Community/visitors',data,function(res){
           if(res.data.length==0){
             res.data=[
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            },
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            }
+              {
+                  "id": 3,
+                  "u_id": '1',
+                  "name": "123",
+                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+                  "create_time": "1573716643"
+              },
+              {
+                  "id": 4,
+                  "u_id": '1',
+                  "name": "123",
+                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
+                  "create_time": "1573716643"
+              }
             ]
           }
           self.avators=res.data;
         })
       }
     },
-      mounted:function(){
-        this.getAvortors()
-      }
+
   }
 </script>
 <style lang="scss">

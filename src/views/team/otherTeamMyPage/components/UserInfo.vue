@@ -5,12 +5,12 @@
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
     <h2 class="myName">
-      里斯本
+      张三
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
         <p class="count">{{userInfo.access_community||0}}</p>
-        <p class="title">社区动态</p>
+        <p class="title">社团动态</p>
       </div>
       <!-- <div class="dynamic-c">
         <p class="count">12</p>
@@ -24,8 +24,7 @@
     data() {
       return {
         circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:this.$store.state.userInfo,
-
+        userInfo:this.$store.state.userInfo
       }
     },
     methods: {
