@@ -230,6 +230,11 @@ const router= new Router({
       component: () => import('@/views/public/more/noticemore.vue'), // 学校新闻动态展开更多
     },
     {
+      path: '/classes/addInfo',
+      name: 'addInfo',
+      component: () => import('@/views/classes/addInfo/index.vue'), // 班级空间展开更多
+    },
+    {
       path: '/classes/classesmore',
       name: 'classesmore',
       component: () => import('@/views/classes/more/classesmore.vue'), // 班级空间展开更多
