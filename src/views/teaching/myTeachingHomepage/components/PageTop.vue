@@ -48,7 +48,9 @@
           name: 'write',
           params: {
             fromname: '我的主页',
-            fromwhere: 'teamMyHomepage'
+            fromwhere: 'teamMyHomepage',
+            upUrl:'/roomapi/Teaching/addArticle',//上传的url
+            c_id:this.$store.state.userInfo.teaching_id
           }
         })
       }

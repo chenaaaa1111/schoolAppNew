@@ -50,6 +50,7 @@
             fromname: '课题主页',
             fromwhere: 'myTopicGroupHomepage',
             upUrl:'/roomapi/Room_Class/addArticle',//上传的url
+            c_id:this.$store.state.userInfo.subject_id
           }
         })
       }
