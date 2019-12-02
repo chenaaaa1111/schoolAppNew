@@ -3,7 +3,7 @@
         <div class="loginContent">
             <p class="tx_center">账号密码登录</p>
             <van-cell-group>
-                <van-field v-model="phone" required clearable label="手机号" 
+                <van-field v-model="phone" required clearable label="手机号"
                     placeholder="请输入手机号"  />
                 <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required />
             </van-cell-group>
@@ -100,7 +100,7 @@
                             self.$router.push('/')
                     }else{
                         self.$toast.fail(res.message);
-                    }                 
+                    }
                 })
             }
         }
