@@ -52,13 +52,15 @@
         })
       },
       shownotpassmore() {
-        this.$router.push({
-          name: 'examinemore',
-          params: {
-            widgetName: '审核未通过',
-            fromwhere: this.source
-          }
-        })
+        // this.$router.push({
+        //   name: 'examinemore',
+        //   params: {
+        //     widgetName: '审核未通过',
+        //     fromwhere: this.source
+        //   }
+        // })
+        this.$store.commit('setTopicStatus',3);//设置状态审核中
+        this.$emit('changeTab',3);
       },
       msgDetails() {
         console.log('????????')
