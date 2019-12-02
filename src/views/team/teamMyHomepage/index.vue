@@ -72,9 +72,13 @@
     },
     mounted() {
       this.routename = this.$route.name
-      console.log(this.routename, '本页面routename')
-      console.log(this.$store.state, 'store data')
-      this.teamId = this.$store.state.userInfo.id
+      // console.log(this.routename, '本页面routename')
+
+      let userInfo = this.$store.state.userInfo
+      if(Object.keys(userInfo).length>0) {
+        this.teamId = userInfo.id.toString()
+      }
+      // console.log(typeof this.teamId, 'store data this.teamId')
     },
     methods: {
 

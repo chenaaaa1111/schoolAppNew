@@ -133,8 +133,8 @@
     mounted() {
       this.routename = this.$route.name
       this.source.routename = this.$route.name
-      console.log(this.routename, '本页面routename');
-      console.log(this.$store.state, '本页面store');
+      // console.log(this.routename, '本页面routename');
+      // console.log(this.$store.state, '本页面store');
       this.getTeam();
     },
     methods: {

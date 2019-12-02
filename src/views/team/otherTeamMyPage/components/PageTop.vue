@@ -2,10 +2,10 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">
+        <el-col :span="24" class="top-title">
           <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
         </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
+        <el-col v-show="loadData.showwrite" :span="12" class="top-write">
           <span @click="writenews"></span>
         </el-col>
         <el-col :span="12" class="department">
@@ -33,13 +33,13 @@
     data() {
       return {
         loadData: {
-          title: '我的个人主页',
+          title: '张三的个人主页',
           subTitle: '西区初中2019级1班',
           teams: [
             { id: 1, title: '极限运动' },
             { id: 2, title: '舞蹈' }
           ],
-          showwrite: true
+          showwrite: false
         }
       }
     },
@@ -86,7 +86,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writeinfo.png') no-repeat;
+          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

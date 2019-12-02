@@ -47,14 +47,16 @@
     watch: {
       $route(to,from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
-        let routers = ['mainTeamHomepage', 'myTeamHomepage', 'teamMyHomepage']
+        let routers = ['mainTeamHomepage', 'myTeamHomepage', 'teamMyHomepage', 'otherTeamMyPage']
         if(routers.indexOf(to.name) == -1) {
           this.activeIndex = to.name
         }
+        console.log(this.activeIndex, '当前页面名称-------------------')
       }
     },
     mounted() {
       this.activeIndex = this.$route.name
+      // console.log(this.activeIndex, '当前页面名称-------------------')
     },
     methods: {
       goHome() {

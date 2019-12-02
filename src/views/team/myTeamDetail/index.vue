@@ -8,7 +8,7 @@
             <Students :source="routename" :teamId="teamId"></Students>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-              <mainNavBar :teamId="teamId"></mainNavBar>         
+              <mainNavBar :teamId="teamId"></mainNavBar>
           </el-col>
         </el-row>
       </el-col>
@@ -36,14 +36,14 @@
     created(){
       this.routename = this.$route.name
       console.log('routerQuery',this.$route.query )
-      console.log(this.routename, '本页面routename')
+      // console.log(this.routename, '本页面routename')
       this.teamId=this.$route.query.id;
     },
     mounted() {
-    
+
     },
     methods:{
-      
+
     }
   }
 </script>

@@ -132,6 +132,11 @@ const router= new Router({
           path:"/team/otherTeamDetail",
           name: 'oterTeamDetail',
           component: () => import('@/views/team/otherTeamDetail/index.vue'), // 社团空间
+        },
+        {
+          path:"/team/otherTeamMyPage",
+          name: 'otherTeamMyPage',
+          component: () => import('@/views/team/otherTeamMyPage/index.vue'), // 社团空间
         }
       ]
     },
