@@ -3,13 +3,13 @@
         <el-row class="page-header" type="flex" justify="center">
             <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
                 <el-menu class="el-menu-head" mode="horizontal">
-                    <li class="homeEntry" @click="goHome">
-                        <img src="../../assets/main/classes.png" />班级空间
+                    <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
+                        <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
                     </li>
                     <el-menu-item>写新闻</el-menu-item>
-                    <li class="homeEntry">
+                    <!-- <li class="homeEntry">
                         <el-button @click="publishArt">发布</el-button>
-                    </li>
+                    </li> -->
                     <li class="nav-user">
                         <el-dropdown trigger="click">
                             <span class="el-dropdown-link">
@@ -24,7 +24,7 @@
                     </li>
 
                     <li class="el-menu-item menu-release hidden-sm-and-down">
-                        <el-button plan size="small" @click="publish">发布</el-button>
+                        <el-button plan size="small" @click="openPublish">发布</el-button>
                     </li>
                 </el-menu>
             </el-col>
@@ -108,7 +108,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="publish">确 定</el-button>
+                <el-button type="primary" @click="publishArt">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -142,6 +142,40 @@
         },
         data() {
             return {
+                spaceNav: { // 顶部导航栏显示信息,按需加载
+                  classes: {
+                    icon: require('../../assets/main/classes.png'),
+                    spacename: '班级空间',
+                    styles: 'classesColor'
+                  },
+                  grade: {
+                    icon: require('../../assets/main/grade.png'),
+                    spacename: '年级空间',
+                    styles: 'gradeColor'
+                  },
+                  team: {
+                    icon: require('../../assets/main/team.png'),
+                    spacename: '社团空间',
+                    styles: 'teamColor'
+                  },
+                  special: {
+                    icon: require('../../assets/main/special.png'),
+                    spacename: '专题空间',
+                    styles: 'specialColor'
+                  },
+                  topic: {
+                    icon: require('../../assets/main/topic.png'),
+                    spacename: '课题空间',
+                    styles: 'topicColor'
+                  },
+                  teaching: {
+                    icon: require('../../assets/main/teaching.png'),
+                    spacename: '教研空间',
+                    styles: 'teachingColor'
+                  }
+                },
+                navIndex: 'classes',
+                widgetName: '',
                 artUpdata: {},//发布文章用到的参数
                 articletitle: '',
                 content: '',
@@ -188,7 +222,6 @@
 
                 },
                 imageUrl: '',//新图片路径
-                title: '',
                 title: '返回',
                 fromwhere: '', // 从哪个页面跳转过来的还跳转回去
                 fit: 'cover',
@@ -201,35 +234,6 @@
                     goods_desc: '',
                     title: ''
                 },
-                // moduleConfig: { // 所有配置项
-                //   container: [
-                // ['bold', 'italic', 'underline', 'strike'],
-                // ['blockquote', 'code-block'],
-                // [{'header': 1}, {'header': 2}],
-                // [{'list': 'ordered'}, {'list': 'bullet'}],
-                // [{'script': 'sub'}, {'script': 'super'}],
-                // [{'indent': '-1'}, {'indent': '+1'}],
-                // [{'direction': 'rtl'}],
-                // [{'size': ['small', false, 'large', 'huge']}],
-                // [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                // [{'color': []}, {'background': []}],
-                // [{'font': []}],
-                // [{'align': []}],
-                // ['clean'],
-                // ['link', 'image', 'video']
-                //   ]
-                // },
-                // editorOption: { // 精简配置项
-                //     modules: {
-                //         toolbar: {
-                //             container: [
-                //                 ['bold', 'italic'],
-                //                 [{ 'header': 1 }, { 'header': 2 }],
-                //                 ['image', 'video']
-                //             ]
-                //         }
-                //     }
-                // },
                 prevPageName: '',
                 dialog: false,
                 ruleForm: {
@@ -261,9 +265,13 @@
             }
         },
         mounted() {
-            debugger
-            this.fromwhere = this.$route.query.fromwhere
-            this.title = this.$route.query.fromname;
+            // debugger
+            if(Object.keys(this.$route.query).length > 0) {
+              this.fromwhere = this.$route.query.fromwhere
+              this.title = this.$route.query.fromname;
+              this.navIndex = this.$route.query.spacename
+            }
+
             this.artUpdata ='';
             if(this.$router.currentRoute){
                 this.artUpdata=this.$router.currentRoute.query
@@ -325,8 +333,7 @@
                 return isJPG && isLt2M;
             },//end
             publishArt() {//发布文章
-                debugger
-                console.log('')
+
                 var self = this;
                 var data = this.artUpdata;
 
@@ -345,7 +352,7 @@
                         // })
                         self.$router.go(-1);
                     }
-
+                    self.dialog = true
                 })
             },
             goHome() { // 会空间选择页面
@@ -475,7 +482,24 @@
                         margin: 0px 10px;
                     }
                 }
-
+                .classesColor{
+                  color: #E27755;
+                }
+                .gradeColor{
+                  color: #E8A33D;
+                }
+                .teamColor{
+                  color: #4DB65B;
+                }
+                .specialColor{
+                  color: #328B8C;
+                }
+                .topicColor{
+                  color: #4F88C5;
+                }
+                .teachingColor{
+                  color: #4F88C5;
+                }
                 .el-menu-item {
                     font-size: 22px;
                     color: #5B728C;

@@ -29,9 +29,9 @@
                   :key="index">
                   <div class="move-cover">
                     <div class="img-wrap">
-                      <img src="item.avatar" />
+                      <img :src="item.avatar" />
                     </div>
-                    <span class="move-btn">
+                    <span class="move-btn" @click="showplay">
                       <img src="../../../assets/images/classes/play.png" />
                     </span>
                   </div>
@@ -164,7 +164,15 @@
       menuSelect() { },
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
-      }
+      },
+      showplay() { // 打开专题详情
+        this.$router.push({
+          name: 'showmovie',
+          query: {
+            fromwhere: 'specialMainHomepage'
+          }
+        })
+      },
     }
   }
 </script>

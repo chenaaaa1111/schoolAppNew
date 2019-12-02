@@ -47,13 +47,16 @@
       $route(to,from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
         let routers = ['specialMainHomepage', 'mySpecialHomepage']
-        if(routers.indexOf(to.name) == -1) {
+      
+        if(routers.indexOf(to.name) != -1) {
           this.activeIndex = to.name
         }
+        console.log(this.activeIndex, 'watch里监控')
       }
     },
     mounted() {
       this.activeIndex = this.$route.name
+      console.log(this.activeIndex, 'activeIndex???')
     },
     methods: {
       goHome() {

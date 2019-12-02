@@ -65,11 +65,12 @@
       msgDetails() {
         console.log('????????')
         this.$router.push({
-          name: 'readmessage',
+          name: 'noticemore',
           params: {
             widgetName: '审核未通过',
             routeName: '我的主页',
-            fromwhere: 'myHomepage'
+            fromwhere: 'mySpecialHomepage',
+            spacename: 'special'
           }
         })
       }
