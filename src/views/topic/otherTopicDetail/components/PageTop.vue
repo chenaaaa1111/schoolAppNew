@@ -34,7 +34,7 @@
       return {
         loadData: {
           url: require('../../../../assets/images/classes/class_else.png'),
-          title: '2000级20班-别人的班级',
+          title: '别人的课题',
           subTitle: '',
           showwrite: true
         }
@@ -47,9 +47,10 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '班级主页',
-            fromwhere: 'classHomepage'
+            fromwhere: 'classHomepage',
+            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
           }
         })
       }
@@ -83,7 +84,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/wirteTeaching.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

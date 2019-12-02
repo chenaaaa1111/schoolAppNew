@@ -33,8 +33,9 @@
     data() {
       return {
         loadData: {
-          title: '我的个人主页-我的主页',
-          subTitle: '西区初中2019级1班',
+          title: '我的课题主页-我的课题',
+          subTitle: '课题',
+          upUrl:'/roomapi/Room_Class/addArticle',//上传的url
           showwrite: true
         }
       }
@@ -46,7 +47,7 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '我的主页',
             fromwhere: 'teamMyHomepage'
           }
@@ -82,7 +83,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/wirteTeaching.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }
