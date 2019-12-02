@@ -125,7 +125,7 @@ const router= new Router({
         },
         {
           path: '/team/myTeamDetail',
-          name: 'oterTeamHome',
+          name: 'myTeamDetail',
           component: () => import('@/views/team/myTeamDetail/index.vue'), // 社团空间
         },
         {

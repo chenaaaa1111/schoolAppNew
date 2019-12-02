@@ -27,7 +27,7 @@
                     <div class=" imgline">
                       <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                       <span class="imgMessage">{{item.name}}</span>
-                      <span class="imgMessage linkFont">王府水晶</span>
+                      <!-- <span class="imgMessage linkFont">王府水晶</span> -->
                     </div>
                     <div class="imtextview" :id="'content'+item.id">
                       <div class="leftImage">
@@ -95,8 +95,8 @@
           contentList: [
   
           ],
-          loadUrl:'/roomapi/Community/communityPage',
-          urlDict:{all:'/roomapi/Community/communityPage',new:'/roomapi/Subject/browsePage',my:'/roomapi/Community/myPage'},
+          loadUrl:'/roomapi/Subject/SubjectPage',
+          urlDict:{all:'/roomapi/Subject/SubjectPage',new:'/roomapi/Subject/browsePage',my:'/roomapi/Community/myPage'},
           activeIndex: '1',
           activeIndex2: '1'
         }
@@ -130,7 +130,7 @@
             psize: this.psize,
             column: this.selectTab
           }
-          request.post('/roomapi/Room_Class/communityPage', data, function (res) {
+          request.post('/roomapi/Subject/SubjectPage', data, function (res) {
             _this.contentList = res.data.model;
           })
         },
@@ -337,7 +337,13 @@
       font-size: 18px;
       color: #999;
     }
-  
+    .deatail img {
+    max-width: 100%;
+  }
+    .leftImage  {
+    width: 240px;
+    height: 136px;
+  }
     .leftImage img {
       width: 240px;
       height: 136px;

@@ -46,9 +46,10 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '社团主页',
-            fromwhere: 'mainTeamHomepage'
+            fromwhere: 'mainTeamHomepage',
+            upUrl:'/roomapi/Community/addArticle',//上传的url
           }
         })
       }
