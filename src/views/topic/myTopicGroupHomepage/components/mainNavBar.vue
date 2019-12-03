@@ -111,7 +111,7 @@
             page: 1,
             type: 2,
             uid:self.$props.userId,
-            category_id:self.$props.teamId,
+            category_id:JSON.parse(sessionStorage.getItem('userInfo')).subject_id,
             psize: this.psize,
             column: this.selectTab
           }
@@ -169,7 +169,7 @@
           }
           var data = {
             uid:_this.$props.userId,
-            category_id:_this.$props.teamId,
+            category_id:JSON.parse(sessionStorage.getItem("userInfo")).subject_id,
             page: this.page,
             psize: this.psize,
             column: this.selectTab
@@ -207,13 +207,13 @@
         this.getUserInfo();
         console.log(this.$router.query,'queryquery');
         var data = {
-          teamId:this.$props.teamId,
+          teamId:this.$store.state.userInfo.subject_id,
           column: this.selectTab,
           page: 1
         }
 
         var _this = this;
-        this.getColmn(data.teamId,this.loadUrl);
+        this.getColmn(this.$store.state.userInfo.subject_id,this.loadUrl);
       },
       wrap() {
         var clientWidth = document.body.clientWidth;

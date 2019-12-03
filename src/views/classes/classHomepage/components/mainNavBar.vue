@@ -100,7 +100,7 @@
         var data = {
           page: 1,
           psize: this.psize,
-          class: 1,
+          class: sessionStorage.getItem('class_id'),
           column: this.selectTab
         }
         request.post('/roomapi/Room_Class/classPage', data, function (res) {
@@ -125,7 +125,7 @@
         request.post('/roomapi/Room_Class/column', data, function (res) {
           _this.dataList = res.data.model;
           data = {
-            class: _this.userInfo.class_id,
+            class:sessionStorage.getItem('class_id'),
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
           }
@@ -151,7 +151,7 @@
         var data = {
           page: this.page,
           psize: this.psize,
-          class: 1,
+          class: sessionStorage.getItem('class_id'),
           column: this.selectTab
         }
         request.post('/roomapi/Room_Class/classPage', data, function (res) {

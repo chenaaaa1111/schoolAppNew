@@ -50,6 +50,7 @@ const store = new Vuex.Store({
     // 修改token，并将token存入localStorage
     changeLogin (state, user) {
       state.Authorization = user.Authorization;
+      state.userInfo=user;
       localStorage.setItem('Authorization', user.Authorization);
     }
   }

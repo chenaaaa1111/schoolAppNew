@@ -97,6 +97,7 @@
                         if(res.code==0){
                             sessionStorage.setItem('Authorization',res.data.token);
                             sessionStorage.setItem('userInfo',JSON.stringify(res.data.user));
+                            self.$store.commit('changeLogin',res.data.user)
                             self.$router.push('/')
                     }else{
                         self.$toast.fail(res.message);

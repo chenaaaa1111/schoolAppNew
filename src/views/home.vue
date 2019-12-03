@@ -82,49 +82,50 @@
         <el-row :gutter="20">
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-            <el-form-item label="专业">
-              <el-select v-model="classInfo.region" placeholder="请选择专业">
-                <el-option label="区域一" value="1"></el-option>
-                <el-option label="区域二" value="2"></el-option>
+            <el-form-item label="年级">
+              <el-select v-model="classInfo.grade_id" @change="chooseGradeHandle" placeholder="请选择年级">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in gradeOptions" :key="index">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
             <el-form-item label="班级">
-              <el-select v-model="classInfo.region" placeholder="请选择专业">
-                <el-option label="2班" value="1"></el-option>
-                <el-option label="1班" value="2"></el-option>
+              <el-select v-model="classInfo.class_id" placeholder="请选择班级">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in calssOptions " :key="index">
+                </el-option>
+
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
         </el-row>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="classDialog = false">取 消</el-button>
-        <el-button type="primary" @click="classdialogHandle('class')">确 定</el-button>
+        <el-button type="primary" @click="classdialogHandle('class')">进入</el-button>
       </div>
     </el-dialog>
     <!-- 班级弹窗 e -->
-   <!-- 年级弹窗 s -->
-   <el-dialog title="填写信息" :visible.sync="gradeDialog">
+    <!-- 年级弹窗 s -->
+    <el-dialog title="填写信息" :visible.sync="gradeDialog">
       <el-form :model="classInfo">
         <el-row :gutter="20">
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-            <el-form-item label="专业">
-              <el-select v-model="classInfo.region" placeholder="请选择专业">
-                <el-option label="区域一" value="1"></el-option>
-                <el-option label="区域二" value="2"></el-option>
+            <el-form-item label="年级">
+              <el-select v-model="classInfo.grade_id" @change="chooseGradeHandle" placeholder="请选择年级">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in gradeOptions" :key="index">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
             <el-form-item label="班级">
-              <el-select v-model="classInfo.region" placeholder="请选择专业">
-                <el-option label="2班" value="1"></el-option>
-                <el-option label="1班" value="2"></el-option>
+              <el-select v-model="classInfo.class_id" placeholder="请选择班级">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in calssOptions " :key="index">
+                </el-option>
+
               </el-select>
             </el-form-item>
           </el-col>
@@ -134,73 +135,58 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="gradeDialog = false">取 消</el-button>
-        <el-button type="primary" @click="gradeDialogHandle('class')">确 定</el-button>
+        <el-button type="primary" @click="classdialogHandle('grade')">进入</el-button>
       </div>
     </el-dialog>
     <!-- 年级弹窗 e -->
-    
-       <!-- 课题组弹窗 s -->
-    <el-dialog title="填写信息" :visible.sync="specialDialog">
-        <el-form :model="classInfo">
-          <el-row :gutter="20">
-            <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
-            <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-              <el-form-item label="专业">
-                <el-select v-model="classInfo.region" placeholder="请选择专业">
-                  <el-option label="区域一" value="1"></el-option>
-                  <el-option label="区域二" value="2"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-              <el-form-item label="班级">
-                <el-select v-model="classInfo.region" placeholder="请选择专业">
-                  <el-option label="2班" value="1"></el-option>
-                  <el-option label="1班" value="2"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
-          </el-row>
-  
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="specialDialog = false">取 消</el-button>
-          <el-button type="primary" @click="specialDialogHandle('class')">确 定</el-button>
-        </div>
-      </el-dialog>
-      <!-- 课题组弹窗 e -->
-         <!-- 教研组弹窗 s -->
+
+    <!-- 课题组弹窗 s -->
+    <el-dialog title="填写信息" :visible.sync="topicDialog">
+      <el-form :model="classInfo">
+        <el-row :gutter="20">
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+          <el-col :xs="24" :sm="12" :md="20" :lg="18" :xl="18">
+            <el-form-item label="专业">
+              <el-select v-model="classInfo.subject_id" @change="selectTopic" placeholder="请选择课题组">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in topicOptioiins" :key="index">
+                </el-option>
+
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="topicDialog = false">取 消</el-button>
+        <el-button type="primary" @click="topicDialogHandle('topic')">进入</el-button>
+      </div>
+    </el-dialog>
+    <!-- 课题组弹窗 e -->
+    <!-- 教研组弹窗 s -->
     <el-dialog title="填写信息" :visible.sync="teachingDialog">
-        <el-form :model="classInfo">
-          <el-row :gutter="20">
-            <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
-            <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-              <el-form-item label="专业">
-                <el-select v-model="classInfo.region" placeholder="请选择专业">
-                  <el-option label="区域一" value="1"></el-option>
-                  <el-option label="区域二" value="2"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="11" :md="10" :lg="9" :xl="9">
-              <el-form-item label="班级">
-                <el-select v-model="classInfo.region" placeholder="请选择专业">
-                  <el-option label="2班" value="1"></el-option>
-                  <el-option label="1班" value="2"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
-          </el-row>
-  
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="teachingDialog = false">取 消</el-button>
-          <el-button type="primary" @click="teachingDialogHandle('class')">确 定</el-button>
-        </div>
-      </el-dialog>
-      <!-- 课题组弹窗 e -->
+      <el-form :model="classInfo">
+        <el-row :gutter="20">
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+          <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
+            <el-form-item label="班级">
+              <el-select v-model="classInfo.teaching_id" @change="selectTeaching" placeholder="请选择教研空间">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in TeachingOptions" :key="index" ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="teachingDialog = false">取 消</el-button>
+        <el-button type="primary" @click="teachingDialogHandle('class')">进入</el-button>
+      </div>
+    </el-dialog>
+    <!-- 课题组弹窗 e -->
   </div>
 </template>
 <style>
@@ -218,10 +204,14 @@
     data() {
       return {
         classInfo: {},
+        calssOptions: [],//班级
+        gradeOptions: [],
+        topicOptioiins: [],
+        TeachingOptions: [],//教研选项
         classDialog: false,//班级弹框是否显示
         gradeDialog: false,//班级弹框是否显示
         teachingDialog: false,//班级弹框是否显示
-        specialDialog: false,//班级弹框是否显示
+        topicDialog: false,//班级弹框是否显示
         userInfo: {},
         url: require('../assets/images/user.png'),
         fit: 'cover',
@@ -279,67 +269,164 @@
       this.formatObj()
     },
     methods: {
-      classdialogHandle(){
-          this.$router.push({
-            name:'classes'
-          })
-      },
-      gradeDialogHandle(){
-          this.$router.push({
-            name:'grade'
-          })
-      },
-     specialDialogHandle(){
-          this.$router.push({
-            name:'special'
-          })
+      selectTeaching(id){
+        var userInfo=this.getUserInfo();
+        userInfo.teaching_id=id;
+        sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
       },
       teachingDialogHandle(){
-          this.$router.push({
-            name:'teaching'
-          })
+        var data=this.classInfo;
+        request.post('/roomapi/Users/editTeaching', data, (res) => {
+          if(res.code==0){
+             this.$router.push({
+               name:teaching,
+               query:{
+                 id:this.classInfo.teaching_id
+               }
+             })
+          }
+        })
       },
-      topicdialogHandle(){
-          this.$router.push({
-            name:'topic'
-          })
+      selectTopic(id){
+        var userInfo=this.getUserInfo();
+        userInfo.subject_id=id;
+        sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+        console.log(id,userInfo);
+      },
+      chooseGradeHandle(id) {
+        var data = { gid: id }
+        request.post('/roomapi/School/banji', data, (res) => {
+          this.calssOptions = res.data;
+        })
+      },
+      classdialogHandle(data) {
+        debugger
+        var userInfo = this.$store.state.userInfo;
+        userInfo.grade_id = this.classInfo.grade_id;
+        userInfo.class_id = this.classInfo.class_id;
+        this.$store.commit('changeLogin', userInfo);
+        var data = this.classInfo;
+        if (data == 'class') {
+          request.post('/roomapi/Users/editRoomClass', data, (res) => {
+
+            if (res.code == '0') {
+              sessionStorage.setItem('class_id', this.classInfo.class_id);
+              sessionStorage.setItem('grade_id', this.classInfo.grade_id);
+              var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+              sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+              // if (data == 'class') {
+              this.$router.push({
+                name: 'classes',
+                query: {}
+              })
+              // } else {
+
+              // }
+
+            }
+          });
+        } else {
+          request.post('/roomapi/Users/editRoomClass', data, (res) => {
+            if (res.code == '0') {
+              sessionStorage.setItem('class_id', this.classInfo.class_id);
+              sessionStorage.setItem('grade_id', this.classInfo.grade_id)
+              var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+              sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+              this.$router.push({
+                name: 'grade',
+                query: {}
+              })
+            }
+          });
+        }
+
+
+      },
+      gradeDialogHandle() {
+        this.$router.push({
+          name: 'grade'
+        })
+      },
+      specialDialogHandle() {
+        this.$router.push({
+          name: 'special'
+        })
+      },
+      teachingDialogHandle() {
+        this.$router.push({
+          name: 'teaching'
+        })
+      },
+      topicDialogHandle() {
+        var data = this.classInfo;
+        request.post('/roomapi/Users/editSubject', data, (res) => {
+          if (res.code == 0) {
+            var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+            userInfo.subject_id = this.userInfo.subject_id;
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+            this.$router.push({
+              name: 'topic'
+            })
+          }
+
+        })
+
       },
       goToDetail(data) {
         console.log(data);
+        debugger
         switch (data.name) {
           case "classes":
             if (this.$store.state.userInfo.class_id) {
               this.$router.push(data)
             } else {
+              request.post('/roomapi/School/grade', {}, (res) => {
+                this.gradeOptions = res.data;
+              });
               this.classDialog = true;
             }
-            console.log("classes");
             break;
           case "grade":
-          if (this.$store.state.userInfo.class_id) {
+            if (this.$store.state.userInfo.class_id) {
               this.$router.push(data)
             } else {
+              var data = { s_id: this.$store.state.userInfo.s_id }
+              request.post('/roomapi/School/grade', data, (res) => {
+                this.gradeOptions = res.data;
+              });
               this.gradeDialog = true;
             }
-            console.log("classes");
             break;
-            case "special":
-          if (this.$store.state.userInfo.class_id) {
+          case "topic":
+            if (JSON.parse(sessionStorage.getItem('userInfo')).subject_id) {
               this.$router.push(data)
             } else {
               this.specialDialog = true;
+              var data = {
+                s_id: this.$store.state.userInfo.s_id
+              };
+              request.post('/roomapi/Users/Subject', data, (res) => {
+                this.topicDialog = true;
+                this.topicOptioiins = res.data;
+              })
             }
             console.log("classes");
             break;
-            case "teaching":
-          if (this.$store.state.userInfo.class_id) {
+          case "teaching":
+            if (this.$store.state.userInfo.teaching_id) {
               this.$router.push(data)
             } else {
+              var data={
+                s_id:this.userInfo.s_id
+              }
+              request.post('/roomapi/Users/Teaching', {}, (res) => {
+                this.TeachingOptions = res.data;
+              });
               this.teachingDialog = true;
             }
-            console.log("classes");
+            console.log("Teaching");
             break;
-     
+
 
         }
       },

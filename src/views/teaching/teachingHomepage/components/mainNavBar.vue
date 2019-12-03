@@ -111,7 +111,7 @@
           page: 1,
           type: 2,
           uid:self.$props.userId,
-          category_id:self.$props.teamId,
+          category_id: JSON.parse(sessionStorage.getItem('userInfo')).teaching_id ,
           psize: this.psize,
           column: this.selectTab
         }
@@ -150,7 +150,7 @@
         var data = {  }
         // request.post('/roomapi/Room_Class/column', data, function (res) {
           data = {
-            category_id: id,
+            category_id: JSON.parse(sessionStorage.getItem('userInfo')).teaching_id ,
             page: 1,
             class:_this.$props.otherClassId
           }
@@ -169,7 +169,7 @@
         }
         var data = {
           uid:_this.$props.userId,
-          category_id:_this.$props.teamId,
+          category_id: JSON.parse(sessionStorage.getItem('userInfo')).teaching_id ,
           page: this.page,
           psize: this.psize,
           column: this.selectTab
