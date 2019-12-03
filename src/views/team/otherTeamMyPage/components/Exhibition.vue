@@ -4,7 +4,7 @@
       <el-col :span="24" class="top-box">
         <span class="top-title">社团动态</span>
         <el-button type="text">
-          查看全部<img class="more" src="../../../../assets/images/classes/more.png" />
+          <!-- 查看全部<img class="more" src="../../../../assets/images/classes/more.png" /> -->
         </el-button>
       </el-col>
       <el-col :span="24">

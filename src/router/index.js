@@ -155,6 +155,11 @@ const router= new Router({
           path: '/special/mySpecialHomepage',
           name: 'mySpecialHomepage',
           component: () => import('@/views/special/mySpecialHomepage/index.vue'), // 专题空间-我的专题
+        },
+        {
+          path: '/special/showmovie',
+          name: 'showmovie',
+          component: () => import('@/views/special/read/index.vue'), // 专题空间-我的专题
         }
       ]
     },

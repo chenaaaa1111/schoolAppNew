@@ -49,6 +49,7 @@
           query: {
             fromname: '社团主页',
             fromwhere: 'mainTeamHomepage',
+            spacename: 'team',
             upUrl:'/roomapi/Community/addArticle',//上传的url
           }
         })

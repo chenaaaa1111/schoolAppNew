@@ -32,18 +32,18 @@
             <el-card style="margin-top: 10px;">
               <el-row :gutter="10">
 
-                <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in moveList"
-                  :key="index">
+                <!-- <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in moveList" :key="index"> -->
+                <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box">
                   <div class="move-cover">
                     <div class="img-wrap">
                       <img src="../../../assets/images/move-cover.png" />
                     </div>
-                    <span class="move-btn">
+                    <span class="move-btn" @click="showplay">
                       <img src="../../../assets/images/classes/play.png" />
                     </span>
                   </div>
                   <div class="move-title">
-                    {{item.title}}
+                    《绝地求生》
                   </div>
                   <div class="move-del">
                     <el-button plan size="small">删除</el-button>
@@ -123,7 +123,15 @@
       menuSelect() { },
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
-      }
+      },
+      showplay() { // 打开专题详情
+        this.$router.push({
+          name: 'showmovie',
+          query: {
+            fromwhere: 'mySpecialHomepage'
+          }
+        })
+      },
     }
   }
 </script>

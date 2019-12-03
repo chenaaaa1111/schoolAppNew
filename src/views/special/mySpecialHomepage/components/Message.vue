@@ -99,10 +99,11 @@
     },
       showmessagemore() {
         this.$router.push({
-          name: 'messagemore',
+          name: 'noticemore',
           params: {
             widgetName: '消息通知',
-            fromwhere: this.source
+            fromwhere: this.source,
+            spacename: 'special'
           }
         })
       },
