@@ -68,7 +68,7 @@
         },
         toOtherClass(id) {
           this.$router.push({
-            name: 'otherTopic',
+            name: 'otherTopicDetail',
             query:{id:id}
           })
         }
