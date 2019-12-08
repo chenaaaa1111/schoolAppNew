@@ -85,6 +85,11 @@
     }
   }
 </script>
+<style>
+  .con-text img{
+    max-width: 100%;
+  }
+</style>
 <style media="screen" lang="scss" scoped>
    .active{
       color: #034692;

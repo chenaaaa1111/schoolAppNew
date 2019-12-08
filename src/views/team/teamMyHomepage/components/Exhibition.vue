@@ -17,7 +17,7 @@
                 <span class="date">{{item.create_time}}</span>
               </el-col>
               <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
+                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -25,10 +25,12 @@
             <!-- 关闭结构 -->
             <el-row class="content" :gutter="10" v-if="!item.open">
               <el-col :span="6">
-                <img class="con-pic" :src="item.image"/>
+                <img class="con-pic" :src="serverUrl+item.image" />
               </el-col>
               <el-col :span="18">
-                <div class="con-text" v-html="item.content"></div>
+                <div class="con-text">
+                  {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                </div>
                 <div class="read-more">
                   <el-button type="text" size="mini" @click="open(index)">
                     阅读全文<i class="el-icon-caret-bottom el-icon--right"></i>
@@ -39,7 +41,7 @@
             <!-- 展开结构 -->
             <el-row class="content" :gutter="10" v-if="item.open">
               <el-col :span="24">
-                <img class="con-pic" :src="item.image"/>
+                <img class="con-pic" :src="serverUrl+item.image" />
               </el-col>
               <el-col :span="24">
                 <div class="con-text con-open" v-html="item.content"></div>
@@ -52,7 +54,9 @@
             </el-row>
           </el-col>
           <el-col :span="24" class="article-date">2019/08/22 09:23</el-col>
-          <el-col :span="24" ><el-divider></el-divider></el-col>
+          <el-col :span="24">
+            <el-divider></el-divider>
+          </el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -63,21 +67,22 @@
   export default {
     data() {
       return {
-        teamDymic:[],
+        teamDymic: [],
+        serverUrl: this.$store.state.serverUrl
       }
 
     },
     methods: {
       getTeamDynimal() {
-        var self=this;
+        var self = this;
         var data = {
-          u_id:self.$store.state.userInfo.id
+          u_id: self.$store.state.userInfo.id
         }
 
         request.post('/roomapi/Community/myPage', data, function (res) {
 
-          if(res.data.model.length>0){
-            self.teamDymic=res.data.model.map(item => {
+          if (res.data.model.length > 0) {
+            self.teamDymic = res.data.model.map(item => {
               item.open = false
               return item
             });
@@ -85,6 +90,31 @@
           }
 
         })
+      },
+      deleteArt(id) {
+        this._delete(id)
+      },
+      _delete(id) {
+        debugger
+        this.$confirm('删除后不可恢复, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Community/delete', { id: id }, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.getTeamDynimal();
+          })
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       open(index) {
         this.teamDymic[index].open = true
@@ -190,15 +220,18 @@
           -webkit-line-clamp: 4;
           overflow: hidden;
         }
-        .con-open{
+
+        .con-open {
           line-height: 36px;
-          img{
+
+          img {
             display: block;
             border-radius: 8px;
             width: 100%;
             margin: 10px 0px;
           }
         }
+
         .read-more {
           text-align: right;
         }

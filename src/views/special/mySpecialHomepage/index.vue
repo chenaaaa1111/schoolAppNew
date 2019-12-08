@@ -16,7 +16,7 @@
             <!-- 审核未通过 -->
             <NotPass :source="routename" @changeTab="changeTab"></NotPass>
             <!-- 消息通知 -->
-            <Message :source="routename"></Message>
+            <Message :source="routename" @changeTab="changeTab"></Message>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <!-- <el-card> -->
@@ -31,22 +31,21 @@
             <!-- </el-card> -->
             <el-card style="margin-top: 10px;">
               <el-row :gutter="10">
-
-                <!-- <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in moveList" :key="index"> -->
-                <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box">
+                <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in specialList"
+                  :key="index">
                   <div class="move-cover">
                     <div class="img-wrap">
-                      <img src="../../../assets/images/move-cover.png" />
+                      <img :src="item.image" />
                     </div>
                     <span class="move-btn" @click="showplay">
                       <img src="../../../assets/images/classes/play.png" />
                     </span>
                   </div>
                   <div class="move-title">
-                    《绝地求生》
+                    {{item.title}}
                   </div>
                   <div class="move-del">
-                    <el-button plan size="small">删除</el-button>
+                    <el-button plan size="small" @click="fdelete(item.id)">删除</el-button>
                   </div>
                 </el-col>
 
@@ -87,7 +86,9 @@
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
-        moveList: this.$store.state.moveList
+        moveList: this.$store.state.moveList,
+        specialList: []
+
       }
     },
     created() {
@@ -96,26 +97,60 @@
     mounted() {
       this.routename = this.$route.name
       console.log(this.routename, '本页面routename');
-      //this.getMoves();
+      this.getMoves();
     },
     methods: {
+      fdelete(id) {
+        this.fopencinfirm(id);
+      },
+      fopencinfirm(id) {
+        this.$confirm('此删除不可恢复, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          request.post('/roomapi/Project/delete', {id:id}, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.get
+          })
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
       changeTab(tab) {
-        this.tabactive = tab;
-        this.loadUrl = this.urlDict[tab];
-        this.selectTab = tab;
-        var self = this;
-        var data = {
-          page: 1
+        console.log(tab);
+        this.tab = tab;
+        if (tab == 'examing') {
+          request.post('/roomapi/Project/auditPage', {}, (res) => {
+            this.specialList = res.data.model;
+            this.ExhibitionTitle = "审核中";
+            this.upUrl = "/roomapi/Room_Class/addArticle";
+          })
+        } else if (tab == 'notPass') {
+          request.post('/roomapi/Project/notPage', {}, (res) => {
+            this.specialList = res.data.model;
+            this.ExhibitionTitle = "审核未通过";
+            this.upUrl = "/roomapi/Room_Class/addArticle";
+          })
+        } else if (tab == 'message') {
+          request.post('/roomapi/Project/notPage', {}, (res) => {
+            this.specialList = res.data.model;
+
+          })
         }
-        request.post(self.loadUrl, data, function (res) {
-          self.moveList = res.data.model;
-        })
       },
       getMoves() {
         var data = {};
         var self = this;
-        request.post('/roomapi/Project/myPage', data, function (res) {
-          self.moveList = res.data.model;
+        request.post('/roomapi/Project/projectPage', data, function (res) {
+          self.specialList = res.data.model;
           self.$store.commit('setTeamDynamic', res.data.total)
           // self.$store.commit('setMoveList', res.data.model)
         })

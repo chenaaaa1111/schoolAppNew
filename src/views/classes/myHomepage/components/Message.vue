@@ -98,13 +98,17 @@
       })
     },
       showmessagemore() {
-        this.$router.push({
-          name: 'messagemore',
-          params: {
-            widgetName: '消息通知',
-            fromwhere: this.source
-          }
-        })
+        console.log(222222);
+        // this.$router.push({
+        //   name: 'messagemore',
+        //   params: {
+        //     widgetName: '消息通知',
+        //     fromwhere: this.source
+        //   }
+        // })
+        var tab='message';
+        this.$emit('changeTab',tab);
+        console.log("message")
       },
       msgDetails() {
         console.log('????????')

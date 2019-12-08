@@ -5,11 +5,11 @@
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
     <h2 class="myName">
-      里斯本 <img src="../../../../assets/images/myhome/editName.png"/>
+      {{userInfo.name}} <img src="../../../../assets/images/myhome/editName.png"/>
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
-        <p class="count">{{total}}</p>
+        <p class="count">{{userInfo.access_project}}</p>
         <p class="title">校园动态</p>
       </div>
       <!-- <div class="dynamic-c">
@@ -24,8 +24,9 @@
     props:{dymic:{default:''}},
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
-        total:this.$store.state.TeamDynamic
+        circleUrl: this.$store.state.avatar,
+        total:this.$store.state.TeamDynamic,
+        userInfo:this.$store.state.userInfo
       }
     },
     mounted(){

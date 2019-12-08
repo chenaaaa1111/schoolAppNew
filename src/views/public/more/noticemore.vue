@@ -3,8 +3,8 @@
     <el-row type="flex" justify="center" style="background: #FFF;">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="more-content">
         <el-menu :default-active="activeIndex" class="el-menu-head" mode="horizontal">
-          <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
-            <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
+          <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex]?spaceNav[navIndex].styles:''">
+            <img :src="spaceNav[navIndex]?spaceNav[navIndex].icon:''" />{{spaceNav[navIndex]?spaceNav[navIndex].spacename:''}}
           </li>
           <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}</el-menu-item>
           <li class="nav-user">
@@ -24,29 +24,29 @@
     </el-row>
     <el-row type="flex" justify="center" class="more-container">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="more-box">
-        <el-card>
+        <el-card v-for ="(item,index) in noticeDeatail" :key="index">
           <div slot="header" class="clearfix">
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
             <el-row class="more-list">
               <el-col :span="24" class="news-title">
-                {{noticeDeatail.title}}<span class="news-type">(栏目: 影评)</span>
+                {{item.title}}<span class="news-type">(栏目: 影评)</span>
               </el-col>
               <el-col :span="24" class="news-author">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
-                <span class="author">关一凡</span>
-                <span class="author-class">工商管理142班</span>
+                <span class="author">{{userInfo.name}}</span>
+                <span class="author-class">{{userInfo.grade}}{{userInfo.class}}班</span>
               </el-col>
               <el-col :span="24" class="news-text">
-               {{noticeDeatail.content}}
-              </el-col>
+                  {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                </el-col>
               <el-col :span="24" class="news-trigger">
-                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i>
+                <el-button type="text" @click="readDetails(item.id)">阅读全文<i class="el-icon-arrow-right el-icon--right"></i>
                 </el-button>
               </el-col>
               <el-col :span="24" class="news-date">
-                {{noticeDeatail.create_time}}
+                {{item.create_time}}
               </el-col>
               <el-col :span="24">
                 <el-divider></el-divider>
@@ -64,6 +64,7 @@
     name: 'newsmore',
     data() {
       return {
+        userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
         fit: 'cover',
         noticeDeatail:{},
         spaceNav: { // 顶部导航栏显示信息,按需加载
@@ -123,16 +124,20 @@
         this.setTitle(this.fromwhere);
         this.id = params.id;
         this.getNoticeDeatail();
+        console.log(this.$router);
       }
     },
     methods: {
       getNoticeDeatail(id) {
+        debugger
         var self=this;
         var data = {
           id: id
         }
-        request.post('/roomapi/Users/detailsNotice', data, function (res) {
-          res.data = res.data ? res.data : {
+        var data= this.$router.query||this.$router.currentRoute.query;
+        console.log('请求参数',data);
+        request.post(data.loadUrl, data, function (res) {
+          res.data = res.data.model ? res.data.model : {
             "id": 1,
             "s_id": 1,
             "title": "标题",
@@ -143,7 +148,11 @@
         })
       },
       setTitle(str) { // 设置返回按钮显示的文字
+        debugger
         switch (str) {
+          case 'classes':
+            this.title = '班级主页';
+            break;
           case 'campusHomepage':
             this.title = '校园主页';
             break;
@@ -162,6 +171,9 @@
           case 'teachingHomepage':
             this.title = '教研主页';
             break;
+            case 'myHomepage':
+            this.title = '我的主页';
+            break;
           default:
             this.title = '空间主页'
         }
@@ -176,13 +188,14 @@
           name: this.fromwhere
         })
       },
-      readDetails() { // 去新闻详情
+      readDetails(id) { // 去新闻详情
         console.log('跳转新闻')
         this.$router.push({
           name: 'readnotice',
           query: {
             widgetName: '通知公告',
             spacename: this.navIndex,
+            id:id
           }
         })
       },

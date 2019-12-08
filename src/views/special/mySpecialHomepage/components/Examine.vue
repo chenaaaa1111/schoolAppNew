@@ -65,15 +65,10 @@
       },
       showexaminemore() {
         console.log('去更多审核中')
-        // this.$router.push({
-        //   name: 'examinemore',
-        //   params: {
-        //     widgetName: '审核中',
-        //     fromwhere: this.source
-        //   }
-        // })
-        this.$store.commit('setTopicStatus',2);//设置状态审核中
-        this.$emit('changeTab',2)
+        // this.$store.commit('setTopicStatus',2);//设置状态审核中
+        // this.$emit('changeTab',2);
+        var tab='examing';
+        this.$emit('changeTab',tab);
       },
       msgDetails() {
         console.log('????????')

@@ -49,7 +49,9 @@
           name: 'write',
           query: {
             fromname: '我的主页',
-            fromwhere: 'teamMyHomepage'
+            fromwhere: 'teamMyHomepage',
+            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
+            c_id:this.$store.state.userInfo.subject_id
           }
         })
       }

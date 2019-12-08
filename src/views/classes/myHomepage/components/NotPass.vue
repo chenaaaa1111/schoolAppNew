@@ -10,9 +10,9 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">3个审核未通过的新闻:</div>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
+    <div class="examineTips">{{List.length}}个审核未通过的新闻:</div>
+    <el-row class="question" v-for="(item,index) in List" :key="index">
+      <el-col class="title"><el-button @click="msgDetails" type="text">{{item.title}}</el-button></el-col>
       <el-col>
         <el-row>
           <el-col :span="14" class="time">2019/08/03 09:20</el-col>
@@ -23,45 +23,11 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
+
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'NotPass',
     props: {
@@ -72,29 +38,32 @@
     },
     data() {
       return {
-
+        List:[]
       }
     },
     methods: {
-      shownotpassmore() {
-        this.$router.push({
-          name: 'examinemore',
-          params: {
-            widgetName: '审核未通过',
-            fromwhere: this.source
-          }
+      getList(){
+        var data={};
+        request.post('/roomapi/Room_Class/notAudit',data,(res)=>{
+           this.List=res.data.model;
         })
+      },
+      shownotpassmore(tab) {
+       
+        console.log('shownotpassmore********')
+        var tab='notPass';
+        this.$emit('changeTab',tab);
       },
       msgDetails() {
         console.log('????????')
-        this.$router.push({
-          name: 'readmessage',
-          params: {
-            widgetName: '审核未通过',
-            routeName: '我的主页',
-            fromwhere: 'myHomepage'
-          }
-        })
+        // this.$router.push({
+        //   name: 'readmessage',
+        //   params: {
+        //     widgetName: '审核未通过',
+        //     routeName: '我的主页',
+        //     fromwhere: 'myHomepage'
+        //   }
+        // })
       }
     }
   }

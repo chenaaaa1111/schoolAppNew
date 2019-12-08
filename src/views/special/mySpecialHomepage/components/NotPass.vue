@@ -59,8 +59,8 @@
         //     fromwhere: this.source
         //   }
         // })
-        this.$store.commit('setTopicStatus',3);//设置状态审核中
-        this.$emit('changeTab',3);
+        var tab='notPass';
+        this.$emit('changeTab',tab);
       },
       msgDetails() {
         console.log('????????')

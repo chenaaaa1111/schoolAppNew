@@ -10,7 +10,7 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">3个正在审核中的新闻:</div>
+    <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col class="title" ><el-button type="text" @click="msgDetails">{{item.name}}</el-button></el-col>
       <el-col>
@@ -54,13 +54,12 @@
     methods: {
       getExamine(){
         var self=this;
-        debugger
         var data={id:this.$store.state.userInfo.id,
           page:1,
           psize:3}
         ;
-        request.post('/roomapi/Room_Class/visitors',data,function(res){
-          self.list=res.data.length>0?res.data:[{
+        request.post('/roomapi/Room_Class/audit',data,function(res){
+          self.list=res.data.model.length>0?res.data.model:[{
             "id": 4,
             "name": "123",
             "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
@@ -76,13 +75,16 @@
       },
       showexaminemore() {
         console.log('去更多审核中')
-        this.$router.push({
-          name: 'examinemore',
-          params: {
-            widgetName: '审核中',
-            fromwhere: this.source
-          }
-        })
+        // this.$router.push({
+        //   path: '/noticemore',
+        //   query: {
+        //     widgetName: '审核中',
+        //     fromwhere: this.source,
+        //     loadUrl:'/roomapi/Room_Class/audit'
+        //   }
+        // })
+        var tab='examing';
+        this.$emit('changeTab',tab);
       },
       msgDetails() {
         console.log('????????')

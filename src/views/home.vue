@@ -374,6 +374,7 @@
       },
       goToDetail(data) {
         console.log(data);
+        // var router={name:data};
         debugger
         switch (data.name) {
           case "classes":
@@ -426,7 +427,10 @@
             }
             console.log("Teaching");
             break;
-
+            default:
+              this.$router.push({
+                name:data.name
+              })
 
         }
       },

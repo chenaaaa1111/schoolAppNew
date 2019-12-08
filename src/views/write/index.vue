@@ -3,8 +3,8 @@
         <el-row class="page-header" type="flex" justify="center">
             <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
                 <el-menu class="el-menu-head" mode="horizontal">
-                    <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
-                        <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
+                    <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex]?spaceNav[navIndex].styles:''">
+                        <img :src="spaceNav[navIndex]?spaceNav[navIndex].icon:''" />{{spaceNav[navIndex]?spaceNav[navIndex].spacename:''}}
                     </li>
                     <el-menu-item>写新闻</el-menu-item>
                     <!-- <li class="homeEntry">
@@ -16,7 +16,7 @@
                                 <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                                 <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                                 <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                             </el-dropdown-menu>
@@ -73,6 +73,7 @@
                             <!-- 图片上传组件辅助-->
                             <el-upload class="avatar-uploader avupnew" :action="serverUrl" name="file" :headers="header"
                                 :show-file-list="false" :data="updata" :on-success="uploadSuccess"
+                                :file-list="fileList"
                                 :on-error="uploadError" :before-upload="beforeUpload">
                             </el-upload>
                             <quill-editor v-model="form.goods_desc" ref="myQuillEditor" :options="editorOption"
@@ -142,6 +143,8 @@
         },
         data() {
             return {
+                fileList:[],//已上传的文件列表
+                userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
                 spaceNav: { // 顶部导航栏显示信息,按需加载
                   classes: {
                     icon: require('../../assets/main/classes.png'),
@@ -225,7 +228,7 @@
                 title: '返回',
                 fromwhere: '', // 从哪个页面跳转过来的还跳转回去
                 fit: 'cover',
-                url: require('../../assets/images/user.png'),
+                url: '',
                 activeIndex: 'campusHomepage',
                 dialogImageUrl: '',
                 dialogVisible: false,
@@ -274,15 +277,34 @@
 
             this.artUpdata ='';
             if(this.$router.currentRoute){
-                this.artUpdata=this.$router.currentRoute.query
+                this.artUpdata=this.$router.currentRoute.query,
+                this.isEdit=this.$router.currentRoute.query.isEdit;
             }else if(this.$router.query){
                 this.artUpdata=this.$router.query
+                this.isEdit=this.$router.query.isEdit;
+
             }
             console.log(this.artUpdata, 'this.$route.query')
             console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-
+            this.init()
         },
         methods: {
+            init(){
+                if(this.isEdit){
+                    var editor=JSON.parse(sessionStorage.getItem('editor')); 
+                    console.log('editor',editor);
+                    console.log(this.$refs['myQuillEditor']);
+                    // this.$refs.myQuillEditor.setcontents(editor)
+                    this.$set(this.form,'goods_desc',editor.content);
+                    // this.$set(this.form,'title',editor.title);
+                    this.articletitle=editor.title;
+                    self.responseUrl=editor.image;
+                    var reurl=[{url:editor.image}];
+                    this.fileList=reurl;
+                    this.url=this.userInfo.avatar;//头像
+                    // this.goods_desc=editor.content;
+                }
+            },
             // 富文本图片上传前
             beforeUpload() {
                 // 显示loading动画
@@ -292,7 +314,7 @@
             uploadSuccess(res, file) {
                 // res为图片服务器返回的数据
                 // 获取富文本组件实例
-                debugger
+      
                 var self = this;
                 let quill = this.$refs.myQuillEditor.quill;
                 // 如果上传成功
@@ -369,7 +391,7 @@
                 })
             },
             openPublish() { // 打开发表dialog
-                this.dialog = true
+                this.publishArt()
             },
             publish() { // 确定发表
                 // this.dialog = false
@@ -399,7 +421,9 @@
                 console.log(this.form)
             }, // 失去焦点事件
             onEditorFocus() { }, // 获得焦点事件
-            onEditorChange() { }, // 内容改变事件
+            onEditorChange() { 
+                console.log(this.form.goods_desc)
+            }, // 内容改变事件
             overWrite(data) { // 发表文章
                 this.dialog = true
             },

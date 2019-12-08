@@ -51,6 +51,7 @@
             fromname: '班级主页',
             fromwhere: 'classHomepage',
             upUrl:'/roomapi/Room_Class/addArticle',//上传的url
+            c_id:this.$store.state.userInfo.subject_id
           }
         })
       }
