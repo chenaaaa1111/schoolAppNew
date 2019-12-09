@@ -7,9 +7,6 @@
                         <img :src="spaceNav[navIndex]?spaceNav[navIndex].icon:''" />{{spaceNav[navIndex]?spaceNav[navIndex].spacename:''}}
                     </li>
                     <el-menu-item>写新闻</el-menu-item>
-                    <!-- <li class="homeEntry">
-                        <el-button @click="publishArt">发布</el-button>
-                    </li> -->
                     <li class="nav-user">
                         <el-dropdown trigger="click">
                             <span class="el-dropdown-link">
@@ -146,38 +143,39 @@
                 fileList:[],//已上传的文件列表
                 userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
                 spaceNav: { // 顶部导航栏显示信息,按需加载
-                  classes: {
+                  "classes": {
                     icon: require('../../assets/main/classes.png'),
                     spacename: '班级空间',
                     styles: 'classesColor'
                   },
-                  grade: {
+                  "grade": {
                     icon: require('../../assets/main/grade.png'),
                     spacename: '年级空间',
                     styles: 'gradeColor'
                   },
-                  team: {
+                  "team": {
                     icon: require('../../assets/main/team.png'),
                     spacename: '社团空间',
                     styles: 'teamColor'
                   },
-                  special: {
+                  "special": {
                     icon: require('../../assets/main/special.png'),
                     spacename: '专题空间',
                     styles: 'specialColor'
                   },
-                  topic: {
+                  "topic": {
                     icon: require('../../assets/main/topic.png'),
                     spacename: '课题空间',
                     styles: 'topicColor'
                   },
-                  teaching: {
+                  "teaching": {
                     icon: require('../../assets/main/teaching.png'),
                     spacename: '教研空间',
                     styles: 'teachingColor'
                   }
                 },
                 navIndex: 'classes',
+                isEdit: '',//是否是编辑新闻状态
                 widgetName: '',
                 artUpdata: {},//发布文章用到的参数
                 articletitle: '',
@@ -268,14 +266,16 @@
             }
         },
         mounted() {
+            console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere
               this.title = this.$route.query.fromname;
-              this.navIndex = this.$route.query.spacename
+              this.navIndex = this.$route.query.spaceModule;
             }
 
             this.artUpdata ='';
+            console.log(this.$router,'路由this.$router集合')
             if(this.$router.currentRoute){
                 this.artUpdata=this.$router.currentRoute.query,
                 this.isEdit=this.$router.currentRoute.query.isEdit;
@@ -303,6 +303,8 @@
                     this.fileList=reurl;
                     this.url=this.userInfo.avatar;//头像
                     // this.goods_desc=editor.content;
+                } else{
+                    this.url=this.userInfo.avatar;//头像
                 }
             },
             // 富文本图片上传前

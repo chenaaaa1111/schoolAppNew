@@ -25,7 +25,8 @@
   export default{
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
+        circleUrl: '',
+        // circleUrl: require('../../../../assets/images/user.png'),
         userInfo:{},
         ClassDynamic:1,
         SchoolDynamic:1
@@ -38,7 +39,9 @@
     mounted(){
       console.log('userInfo')
       this.userInfo=this.$store.state.userInfo;
+      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       console.log('userInfo',this.userInfo);
+      this.circleUrl = this.userInfo.avatar;
       this.SchoolDynamic=this.$store.state.SchoolDynamic;
       this.ClassDynamic=this.$store.state.ClassDynamic;
     },

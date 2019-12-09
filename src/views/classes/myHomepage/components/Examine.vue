@@ -87,6 +87,7 @@
         this.$emit('changeTab',tab);
       },
       msgDetails() {
+        
         console.log('????????')
         this.$router.push({
           name: 'readmessage',

@@ -13,7 +13,7 @@
                       <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                   </el-dropdown-menu>
@@ -44,8 +44,8 @@
           <div class="news-box">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
-                <span>
-                  <img src="../../../assets/images/classes/editnews.png" />
+                <span @click="writenews">
+                  <img src="../../../assets/images/classes/writenews.png" />
                 </span>
               </el-col>
               <el-col class="news-cover">
@@ -95,18 +95,39 @@
     data() {
       return{
         fit: 'cover',
-        url: require('../../../assets/images/user.png'),
+        userInfo: {},
+        url: '',
+        // url: require('../../../assets/images/user.png'),
         fromwhere: '',
         title: '',
         widgetName: ''
       }
     },
     mounted() {
-      this.fromwhere = this.$route.params.fromwhere
-      this.widgetName = this.$route.params.widgetName
-      this.title = this.$route.params.routeName
+      this.fromwhere = this.$route.params.fromwhere;
+      this.widgetName = this.$route.params.widgetName;
+      this.title = this.$route.params.routeName;
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      // this.userInfo=this.$store.state.userInfo;
+      this.url=this.userInfo.avatar;//头像
     },
     methods: {
+      //点击写新闻  跳转到新闻页面
+      writenews() {
+        this.$router.push({
+          name: 'write',
+          query: {
+            fromname: '我的主页',
+            fromwhere: 'myHomepage',
+            spaceModule: 'classes',//班级空间名
+            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
+           //上传参数
+            level:2,
+            columns:this.$store.state.columnId,
+            column_name:this.$store.state.columnName    //栏目名称   
+          }
+        })
+      },
       goHome() {
         this.$router.push({
           name: 'home'
