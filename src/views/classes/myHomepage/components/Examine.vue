@@ -17,7 +17,7 @@
         <el-row>
           <el-col :span="14" class="time">{{item.create_time}}</el-col>
           <el-col :span="10" class="exit">
-            <el-button type="text" >撤回</el-button>
+            <el-button type="text">撤回</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -87,7 +87,7 @@
         this.$emit('changeTab',tab);
       },
       msgDetails() {
-        
+
         console.log('????????')
         this.$router.push({
           name: 'readmessage',

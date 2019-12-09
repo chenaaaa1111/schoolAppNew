@@ -17,8 +17,10 @@
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
               <ul>
                 <li v-for="item in contentList" class="contentList">
-                  <h4 class="title">{{item.title}} <span
-                      class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> </h4>
+                  <h4 class="title">
+                    <span class="itemTitle" @click="newDetail(item)">{{item.title}}</span> 
+                    <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> 
+                  </h4>
                   <div class=" imgline">
                     <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                     <span class="imgMessage">{{item.name}}</span>
@@ -173,6 +175,19 @@
           _this.loading = false;
         })
       },
+      //点击标题 进入新闻详情
+      newDetail(item) {
+        var self = this;
+        self.$router.push({
+          name: 'readnews',
+          query: {
+            id: item.id,
+            // fromname: self.title,
+            // fromwhere: self.fromwhere,
+            spaceModule: 'classes'//班级空间名
+          }
+        })
+      },
       fslip(item) {
         document.getElementById('content' + item).style.display = "flex";
         document.getElementById('detail' + item).style.display = 'none';
@@ -312,11 +327,13 @@
 
   .title {
     /* padding-left: 40px; */
-    font-size: 24px;
-    font-weight: 900;
     padding-top: 30px;
   }
-
+  .title .itemTitle{
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 900;
+  }
   .updown {
     color: #034692;
   }

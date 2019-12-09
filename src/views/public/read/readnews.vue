@@ -13,7 +13,7 @@
                       <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                   </el-dropdown-menu>
@@ -38,7 +38,7 @@
               </el-col>
             </el-row>
             <el-row class="news-row">
-              <el-col :span="24" class="newsTitle">{{newsDetail.title}}</el-col>
+              <!-- <el-col :span="24" class="newsTitle">{{newsDetail.title}}</el-col> -->
               <el-col :span="24" class="news-type">
                 <!-- <span>发布主页: 班级主页</span>
                 <span>发布栏目: 影评</span> -->
@@ -70,52 +70,59 @@
     data() {
       return {
         newsDetail:{},
+        userInfo: {},
+        url: '',
         fit: 'cover',
-        url: require('../../../assets/images/user.png'),
+        // url: require('../../../assets/images/user.png'),
         spaceNav: { // 顶部导航栏显示信息,按需加载
-          classes: {
+          'classes': {
             icon: require('../../../assets/main/classes.png'),
             spacename: '班级空间',
             styles: 'classesColor'
           },
-          grade: {
+          'grade': {
             icon: require('../../../assets/main/grade.png'),
             spacename: '年级空间',
             styles: 'gradeColor'
           },
-          team: {
+          'team': {
             icon: require('../../../assets/main/team.png'),
             spacename: '社团空间',
             styles: 'teamColor'
           },
-          special: {
+          'special': {
             icon: require('../../../assets/main/special.png'),
             spacename: '专题空间',
             styles: 'specialColor'
           },
-          topic: {
+          'topic': {
             icon: require('../../../assets/main/topic.png'),
             spacename: '课题空间',
             styles: 'topicColor'
           },
-          teaching: {
+          'teaching': {
             icon: require('../../../assets/main/teaching.png'),
             spacename: '教研空间',
             styles: 'teachingColor'
           }
         },
-        title: '',
+        title: '校园主页',
         navIndex: 'classes',
         widgetName: ''
       }
     },
     mounted() {
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      console.log(this.userInfo,'aasdadaduserinfo')
+      
+      // this.userInfo=this.$store.state.userInfo;
+      this.url=this.userInfo.avatar;//头像
       console.log(this.$route.query, '阅读新闻页面接收传值')
       let params = this.$route.query
       var self=this;
       if(Object.keys(params).length > 0) {
-        this.title = params.widgetName
-        this.navIndex = params.spacename
+        // this.title = params.fromname;
+        this.navIndex = params.spaceModule;
       }
       request.post('/roomapi/Users/detailsNews',{id:params.id},function(res){
         console.log('新闻详情',res);

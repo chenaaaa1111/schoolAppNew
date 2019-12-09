@@ -360,7 +360,18 @@
 
                 var self = this;
                 var data = this.artUpdata;
-
+                if(self.responseUrl ==''){
+                    self.$toast.fail('请添加题图');
+                    return
+                }
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
                 data.image = self.responseUrl;
                 data.content = this.form.goods_desc;
                 data.title = this.articletitle;
@@ -371,12 +382,13 @@
                         //     name: 'readnews',
                         //     query: {
                         //         fromname: self.title,
-                        //         fromwhere: self.fromwhere
+                        //         fromwhere: self.fromwhere,
+                        //         spaceModule: 'classes',//班级空间名
                         //     }
                         // })
                         self.$router.go(-1);
                     }
-                    self.dialog = true
+                    
                 })
             },
             goHome() { // 会空间选择页面
@@ -393,7 +405,21 @@
                 })
             },
             openPublish() { // 打开发表dialog
-                this.publishArt()
+                var self = this;
+                if(self.responseUrl ==''){
+                    self.$toast.fail('请添加题图');
+                    return
+                }
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
+                this.dialog = true;
+                // this.publishArt()
             },
             publish() { // 确定发表
                 // this.dialog = false
