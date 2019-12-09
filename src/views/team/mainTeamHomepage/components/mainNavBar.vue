@@ -22,8 +22,9 @@
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
               <ul>
                 <li v-for="item in contentList" class="contentList">
-                  <h4 class="title">{{item.title}} <span
-                      class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> </h4>
+                  <h4 class="title">{{item.title}} 
+                    <!-- <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span>  -->
+                  </h4>
                   <div class=" imgline">
                     <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                     <span class="imgMessage">{{item.name}}</span>
@@ -241,6 +242,7 @@
     color: #034692;
   }
   .topBar span{
+    cursor: pointer;
     margin-right: 38px;
   }
   .topBar{
@@ -285,6 +287,7 @@
   }
 
   .linkFont {
+    cursor: pointer;
     color: #034692;
   }
 

@@ -15,7 +15,7 @@
                  placeholder="设置密码" required />
 
             </van-cell-group>
-            <van-button type="default" class="submitLogin" @click="login">下一步</van-button>
+            <van-button type="default" class="submitLogin" @click="registNext">下一步</van-button>
             <p class="pcenter bodP">已有账号？<a href="javascript:void(0)" @click="goLogin" >立即登录</a> </p>
 
         </div>
@@ -42,11 +42,13 @@
         transform: translate(-50%, -50%);
     }
     .sendCode{
+        cursor: pointer;
         position: absolute;
         top: 8px;
         right: 0;
     }
     .submitLogin {
+        cursor: pointer;
         width: 100%;
         margin-top: 100px;
         background: #034692;
@@ -90,6 +92,16 @@
             clearInterval(this.sendInter)
         },
         methods: {
+            //验证手机号输入
+            checkPhone(){
+                if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+                    this.$toast.fail('手机号输入有误')
+                    return false
+                }else{
+                    return true
+                }
+            },
+            //发送短信验证码
             sendCode(){
                 debugger
                 var self=this;
@@ -99,21 +111,28 @@
                 if(self.millTime!=0){
                     return;
                 }
+                if (self.phone == '' || self.phone == undefined) {
+                    self.$toast.fail('请输入手机号');
+                    return;
+                }
+                if(!self.checkPhone()){
+                    return
+                }
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
                     console.log('返回res', res);
-                    if (res.status == 200) {
-                        if (res.code == 0) {
-                            self.$toast.success('发送成功');
-                            self.millTime=60;
-                            self.sendInter=setInterval(function(){
-                                self.millTime--;
-                                if(self.millTime==0){
-                                    clearInterval(self.sendInter)
-                                }
-                            },1000);
-                        }
+                    if (res.code == 0) {
+                        self.$toast.success(res.message);
+                        self.millTime=60;
+                        self.sendInter=setInterval(function(){
+                            self.millTime--;
+                            if(self.millTime==0){
+                                clearInterval(self.sendInter)
+                            }
+                        },1000);
+                        console.log(self.sendInter,'计算从发送到输入验证码的秒数')
+                    }else{
+                        self.$toast.fail(res.message);
                     }
-
                 })
             },
             goLogin(){
@@ -123,7 +142,8 @@
                 this.isShow=!this.isShow;
                 console.log(this.isShow)
             },
-            login() {
+            //注册的 下一步
+            registNext() {
                 var self = this;
                 if (this.phone == '' || this.phone == undefined) {
                     this.$toast.fail('请输入手机号');
@@ -150,7 +170,7 @@
                             self.$toast.fail(res.data.message);
 
                         }
-               
+
 
                 })
             }
