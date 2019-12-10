@@ -45,7 +45,7 @@
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
                 <span @click="writenews">
-                  <img src="../../../assets/images/classes/writenews.png" />
+                  <img src="../../../assets/images/classes/recall.png" />
                 </span>
               </el-col>
               <el-col class="news-cover">
@@ -98,34 +98,29 @@
         userInfo: {},
         url: '',
         // url: require('../../../assets/images/user.png'),
+        articlesInfo: {},//文章信息
         fromwhere: '',
         title: '',
         widgetName: ''
       }
     },
     mounted() {
-      this.fromwhere = this.$route.params.fromwhere;
-      this.widgetName = this.$route.params.widgetName;
-      this.title = this.$route.params.routeName;
+      this.articlesInfo = this.$route.query;
+      this.fromwhere = this.articlesInfo.fromwhere;
+      this.widgetName = this.articlesInfo.widgetName;
+      this.title = this.articlesInfo.routeName;
       this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       // this.userInfo=this.$store.state.userInfo;
       this.url=this.userInfo.avatar;//头像
     },
     methods: {
-      //点击写新闻  跳转到新闻页面
+      //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
       writenews() {
+        let query = this.articlesInfo;
+        query.isEdit = true;
         this.$router.push({
           name: 'write',
-          query: {
-            fromname: '我的主页',
-            fromwhere: 'myHomepage',
-            spaceModule: 'classes',//班级空间名
-            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
-           //上传参数
-            level:2,
-            columns:this.$store.state.columnId,
-            column_name:this.$store.state.columnName    //栏目名称   
-          }
+          query: query
         })
       },
       goHome() {

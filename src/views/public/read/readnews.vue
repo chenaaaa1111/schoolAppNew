@@ -113,8 +113,6 @@
     },
     mounted() {
       this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      console.log(this.userInfo,'aasdadaduserinfo')
-      
       // this.userInfo=this.$store.state.userInfo;
       this.url=this.userInfo.avatar;//头像
       console.log(this.$route.query, '阅读新闻页面接收传值')

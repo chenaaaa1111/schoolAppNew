@@ -269,7 +269,7 @@
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
             if(Object.keys(this.$route.query).length > 0) {
-              this.fromwhere = this.$route.query.fromwhere
+              this.fromwhere = this.$route.query.fromwhere;
               this.title = this.$route.query.fromname;
               this.navIndex = this.$route.query.spaceModule;
             }
@@ -286,7 +286,7 @@
             }
             console.log(this.artUpdata, 'this.$route.query')
             console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-            this.init()
+            this.init1()
         },
         methods: {
             init(){
@@ -303,6 +303,20 @@
                     this.fileList=reurl;
                     this.url=this.userInfo.avatar;//头像
                     // this.goods_desc=editor.content;
+                } else{
+                    this.url=this.userInfo.avatar;//头像
+                }
+            },
+            init1(){
+                if(this.isEdit){
+                    this.articletitle=this.artUpdata.title;
+                    this.form.goods_desc=this.artUpdata.content;
+                    this.imageUrl=this.artUpdata.image;
+                    // var reurl=[{url:this.artUpdata.image}];
+                    // this.fileList=reurl;
+                    // console.log(this.fileList,'这是什么鬼')
+                    this.url=this.userInfo.avatar;//头像
+                    
                 } else{
                     this.url=this.userInfo.avatar;//头像
                 }
@@ -342,7 +356,9 @@
             handleAvatarSuccess(res, file) {//图片上传类方法
                 console.log(res.data.url, 'resresresres');
                 this.responseUrl = res.data.url;
+                console.log(file,'图片上传时候获取的对象')
                 this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(this.imageUrl,'得到的路径')
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';

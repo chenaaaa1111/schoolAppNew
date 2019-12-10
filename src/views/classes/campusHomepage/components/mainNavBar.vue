@@ -14,43 +14,42 @@
             :swipeable="true">
 
             <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-                <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-              <ul>
-                <li v-for="item in contentList" class="contentList">
-                  <h4 class="title">
-                    <span class="itemTitle" @click="newDetail(item)">{{item.title}}</span> 
-                    <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> 
-                  </h4>
-                  <div class=" imgline">
-                    <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
-                    <span class="imgMessage">{{item.name}}</span>
-                    <span class="imgMessage linkFont">王府水晶</span>
-                  </div>
-                  <div class="imtextview" :id="'content'+item.id">
-                    <div class="leftImage">
-                      <img :src="'http://school.i2f2f.com'+item.image" alt="">
+              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false" @load="onLoad">
+                <ul>
+                  <li v-for="item in contentList" class="contentList">
+                    <h4 class="title">{{item.title}}
+                      <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> 
+                    </h4>
+                    <div class=" imgline">
+                      <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
+                      <span class="imgMessage">{{item.name}}</span>
+                      <span class="imgMessage linkFont">王府水晶</span>
                     </div>
-                    <div class="rightContent">
-                      <span>
-                          {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
-                      </span>
-                      <span @click="changShow(item.id)" class="updown">
-                        查看更多
-                      </span>
+                    <div class="imtextview" :id="'content'+item.id">
+                      <div class="leftImage">
+                        <img :src="'http://school.i2f2f.com'+item.image" alt="">
+                      </div>
+                      <div class="rightContent">
+                        <span>
+                            {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                        </span>
+                        <span @click="changShow(item.id)" class="updown">
+                          查看更多
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                    
-                    <div v-html="item.content"></div>
+                    <div class="deatail" style="display: none;" :id="'detail'+item.id">
+                      
+                      <div v-html="item.content"></div>
 
-                    <span @click="fslip(item.id)" class="updown">
-                      收起
-                    </span>
-                  </div>
-                  <p class="date pd_40">{{item.create_time}}</p>
-                </li>
-              </ul>
-            </van-list>
+                      <span @click="fslip(item.id)" class="updown">
+                        收起
+                      </span>
+                    </div>
+                    <p class="date pd_40">{{item.create_time}}</p>
+                  </li>
+                </ul>
+              </van-list>
             </van-tab>
           </van-tabs>
         
@@ -80,16 +79,16 @@
     props: { classId: { default: '' } },
     data() {
       return {
-        selectTab: '',//选中的标签
+        selectTab: 0,//选中的标签 栏目列表索引值  初始导航下标
         userInfo: {},
         list: [],
         pageSize: 5,//页尺寸
         page: 2,//页数
         psize: 10,
-        loading: false,
-        finished: false,
+        loading: false, //加载状态
+        finished: false, //加载是否完成
         active: 1,
-        dataList: [],
+        dataList: [], //导航栏目 数组
         contentList: [
 
         ],
@@ -122,7 +121,7 @@
         return userInfo;
       },
       getColmn(id) {//获取栏目
-
+        // debugger
         this.getUserInfo();
         // let userInfoId = this.userInfo.class_id;
         var self = this;
@@ -146,6 +145,7 @@
         });
       },
       onLoad(state) {
+        console.log('列表即将滚动到底部时，会触发事件并加载更多列表项',state)
         var _this = this;
 
         if (state == "fineshed") {
@@ -158,13 +158,13 @@
           psize: this.psize,
           column: this.selectTab
         }
+        console.log('加载更多的时候调用的参数是',data)
         request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
           if (res.data.model.length == 0) {
             _this.loading = false;
             _this.finished = true;
             console.log("_this.contnList", _this.contentList);
-            _this.selectTab = 2;
-
+            _this.selectTab = 0;
             return;
           }
           _this.page = _this.page + 1;
@@ -176,18 +176,18 @@
         })
       },
       //点击标题 进入新闻详情
-      newDetail(item) {
-        var self = this;
-        self.$router.push({
-          name: 'readnews',
-          query: {
-            id: item.id,
-            // fromname: self.title,
-            // fromwhere: self.fromwhere,
-            spaceModule: 'classes'//班级空间名
-          }
-        })
-      },
+      // newDetail(item) {
+      //   var self = this;
+      //   self.$router.push({
+      //     name: 'readnews',
+      //     query: {
+      //       id: item.id,
+      //       // fromname: self.title,
+      //       // fromwhere: self.fromwhere,
+      //       spaceModule: 'classes'//班级空间名
+      //     }
+      //   })
+      // },
       fslip(item) {
         document.getElementById('content' + item).style.display = "flex";
         document.getElementById('detail' + item).style.display = 'none';
@@ -329,8 +329,7 @@
     /* padding-left: 40px; */
     padding-top: 30px;
   }
-  .title .itemTitle{
-    cursor: pointer;
+  .title{
     font-size: 24px;
     font-weight: 900;
   }

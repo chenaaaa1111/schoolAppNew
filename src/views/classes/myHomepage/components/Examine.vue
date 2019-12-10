@@ -12,12 +12,12 @@
     </div>
     <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
-      <el-col class="title" ><el-button type="text" @click="msgDetails">{{item.name}}</el-button></el-col>
+      <el-col class="title" ><el-button type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
       <el-col>
         <el-row>
           <el-col :span="14" class="time">{{item.create_time}}</el-col>
           <el-col :span="10" class="exit">
-            <el-button type="text">撤回</el-button>
+            <el-button type="text" @click="writenews(item)">撤回</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -59,6 +59,7 @@
           psize:3}
         ;
         request.post('/roomapi/Room_Class/audit',data,function(res){
+          console.log(self.list,'审核中的文章列表')
           self.list=res.data.model.length>0?res.data.model:[{
             "id": 4,
             "name": "123",
@@ -86,16 +87,29 @@
         var tab='examing';
         this.$emit('changeTab',tab);
       },
-      msgDetails() {
-
-        console.log('????????')
+      //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
+      writenews(item) {
+        let query = item;
+        query.widgetName = '审核中';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.isEdit = true;
+        this.$router.push({
+          name: 'write',
+          query: query
+        })
+      },
+      msgDetails(item) {
+        console.log('点击进去审核中--新闻详情')
+        let query = item;
+        query.widgetName = '审核中';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
         this.$router.push({
           name: 'readmessage',
-          params: {
-            widgetName: '审核中',
-            routeName: '我的主页',
-            fromwhere: 'myHomepage'
-          }
+          query: query
         })
       }
     }
@@ -308,6 +322,7 @@
     .exit{
       text-align: right;
       .el-button{
+        cursor: pointer;
         font-size: 12px;
       }
     }
