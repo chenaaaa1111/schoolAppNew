@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     SchoolDynamic:0,
     ClassDynamic:0,
     TeamDynamic:0,
+    spaceKeyWord: '',//班级空间搜索关键字
     columnName:'',//栏目名称
     columnId:'',//栏目id
     teamId:'',//社团id
@@ -28,6 +29,9 @@ const store = new Vuex.Store({
     },
     setTeamId(state,data){
         state.teamId=data;
+    },
+    setSpaceKeyWord(state,data){
+      state.spaceKeyWord=data;
     },
     setColumnId(state,data){
       state.columnId=data;

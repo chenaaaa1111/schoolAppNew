@@ -11,7 +11,7 @@
             <el-menu-item index="classHomepage">班级主页</el-menu-item>
             <el-menu-item index="myHomepage">我的主页</el-menu-item>
             <li class="el-menu-item menu-search hidden-sm-and-down">
-                <el-input type="text" suffix-icon="el-icon-search"></el-input>
+                <el-input type="text" suffix-icon="el-icon-search" v-model="spaceKeyWord" placeholder="输入相关内容" @keyup.enter.native="search"></el-input>
             </li>
             <li class="nav-user">
               <el-dropdown trigger="click">
@@ -43,7 +43,8 @@
         userInfo: {},
         // url: require('../../assets/images/user.png'),
         url: '',
-        activeIndex: 'campusHomepage'
+        activeIndex: 'campusHomepage',
+        spaceKeyWord: '' //搜索关键字
       }
     },
     watch: {
@@ -71,6 +72,11 @@
         this.activeIndex = val
         console.log(val, '导航栏切换路由名称')
       },
+      //搜索相关内容
+      search(){
+        console.log(this.spaceKeyWord,'输入的值是什么')
+        this.$store.commit('setSpaceKeyWord',this.spaceKeyWord);
+      }
     }
   }
 </script>
