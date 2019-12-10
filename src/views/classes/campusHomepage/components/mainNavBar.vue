@@ -198,9 +198,25 @@
         document.getElementById('detail' + item).style.display = 'block';
       }
     },
+    // 搜索相关内容后 
+    updated(){ 
+      let srarchWord = this.$store.state.spaceKeyWord;
+      console.log(srarchWord,'主页面内容得到的搜索关键字')
+      var params = {
+        page: 1,
+        psize: this.psize,
+        column: this.selectTab,
+        keyword: srarchWord
+      }
+      console.log('搜搜的参数列表',params)
+      // var _this = this;
+      // request.post('/roomapi/Room_Class/schoolPage', params, function (res) {
+      //   _this.contentList = res.data.model;
+      // })
+
+    },
     mounted: function () {
       this.getUserInfo();
-
       var data = {
         class: this.userInfo.class_id,
         column: this.selectTab,
