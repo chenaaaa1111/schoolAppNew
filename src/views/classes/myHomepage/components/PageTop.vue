@@ -46,9 +46,15 @@
       writenews() {
         this.$router.push({
           name: 'write',
-          params: {
+          query: {
             fromname: '我的主页',
-            fromwhere: 'myHomepage'
+            spaceModule: 'classes',//班级空间名
+            fromwhere: 'myHomepage',
+            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
+           //上传参数
+            level:2,
+            columns:this.$store.state.columnId,
+            column_name:this.$store.state.columnName    //栏目名称
           }
         })
       }

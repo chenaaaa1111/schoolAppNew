@@ -7,7 +7,7 @@
                     placeholder="请输入手机号"  />
                 <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required />
             </van-cell-group>
-            <p style="text-align: right;" @click="forgetPass">忘记密码</p>
+            <p class="forgetPwd" @click="forgetPass">忘记密码</p>
             <van-button type="default" class="submitLogin" @click="login"  >登录</van-button>
             <p  class="btMessage">没有账号？<span @click="gotoRegist" class="btlink">立即注册</span> </p>
 
@@ -15,15 +15,15 @@
     </div>
 </template>
 <style scoped>
-    .btMessage{
+    .btMessage {
         font-size: 22px;
         text-align: center;
         margin-top: 30px;
     }
-    .btlink
-        {
-           color:  rgb(0, 0, 204);
-        }
+    .btMessage .btlink{
+        cursor: pointer;
+        color:  rgb(0, 0, 204);
+    }
     .loginContent {
         width: 50%;
         height: 800px;
@@ -36,6 +36,15 @@
         box-sizing: border-box;
         padding-top: 42px;
         transform: translate(-50%, -50%);
+    }
+    .forgetPwd{
+        padding: 5px 0;
+        text-align: right;
+        font-size: 14px;
+        cursor:pointer;
+    }
+    .forgetPwd:hover{
+        color:rgb(0, 0, 204);
     }
     .submitLogin{
         width: 100%;

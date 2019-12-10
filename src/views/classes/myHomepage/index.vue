@@ -29,11 +29,7 @@
                 </el-row>
               </el-col>
             </el-card>
-            <el-card v-show="this.tab=='main'">
-              <!-- 班级动态 -->
-              <Exhibition></Exhibition>
-
-            </el-card>
+            
             <EXhibitionExaming :articles="examings" v-show="this.tab!='main'&&this.tab!='message'" :upUrl="upUrl" :title="ExhibitionTitle">
             </EXhibitionExaming>
             

@@ -1,13 +1,14 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../assets/images/classes/news.png"/>学校新闻动态-public</span>
+      <span class="cardTitle"><img src="../../../assets/images/classes/news.png"/>学校新闻动态</span>
       <span class="more" @click="shownewsmore">
         <img src="../../../assets/images/classes/more.png"/>
       </span>
     </div>
     <ul class="newList">
       <li v-for="(item,index) in newsList" :key="index" @click="readDetails(item.id)">
+        <span></span>
         <span class="text">{{item.title}}</span>
         <span class="date" :key="index">{{item.create_time}}</span>
       </li>

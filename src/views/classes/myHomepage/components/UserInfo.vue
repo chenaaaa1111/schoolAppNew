@@ -5,7 +5,9 @@
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
     <h2 class="myName">
-      {{userInfo.name}} <img :src="userInfo.avatar||'../../../../assets/images/myhome/editName.png'"/>
+      {{userInfo.name}} <img src="../../../../assets/images/myhome/editName.png"/>
+      <!-- <i class="el-icon-edit"></i> -->
+      <!-- <img :src="userInfo.avatar||'../../../../assets/images/myhome/editName.png'"/> -->
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
@@ -23,7 +25,8 @@
   export default{
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
+        circleUrl: '',
+        // circleUrl: require('../../../../assets/images/user.png'),
         userInfo:{},
         ClassDynamic:1,
         SchoolDynamic:1
@@ -36,7 +39,9 @@
     mounted(){
       console.log('userInfo')
       this.userInfo=this.$store.state.userInfo;
+      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       console.log('userInfo',this.userInfo);
+      this.circleUrl = this.userInfo.avatar;
       this.SchoolDynamic=this.$store.state.SchoolDynamic;
       this.ClassDynamic=this.$store.state.ClassDynamic;
     },

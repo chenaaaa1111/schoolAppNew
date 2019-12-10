@@ -7,9 +7,6 @@
                         <img :src="spaceNav[navIndex]?spaceNav[navIndex].icon:''" />{{spaceNav[navIndex]?spaceNav[navIndex].spacename:''}}
                     </li>
                     <el-menu-item>写新闻</el-menu-item>
-                    <!-- <li class="homeEntry">
-                        <el-button @click="publishArt">发布</el-button>
-                    </li> -->
                     <li class="nav-user">
                         <el-dropdown trigger="click">
                             <span class="el-dropdown-link">
@@ -146,38 +143,39 @@
                 fileList:[],//已上传的文件列表
                 userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
                 spaceNav: { // 顶部导航栏显示信息,按需加载
-                  classes: {
+                  "classes": {
                     icon: require('../../assets/main/classes.png'),
                     spacename: '班级空间',
                     styles: 'classesColor'
                   },
-                  grade: {
+                  "grade": {
                     icon: require('../../assets/main/grade.png'),
                     spacename: '年级空间',
                     styles: 'gradeColor'
                   },
-                  team: {
+                  "team": {
                     icon: require('../../assets/main/team.png'),
                     spacename: '社团空间',
                     styles: 'teamColor'
                   },
-                  special: {
+                  "special": {
                     icon: require('../../assets/main/special.png'),
                     spacename: '专题空间',
                     styles: 'specialColor'
                   },
-                  topic: {
+                  "topic": {
                     icon: require('../../assets/main/topic.png'),
                     spacename: '课题空间',
                     styles: 'topicColor'
                   },
-                  teaching: {
+                  "teaching": {
                     icon: require('../../assets/main/teaching.png'),
                     spacename: '教研空间',
                     styles: 'teachingColor'
                   }
                 },
                 navIndex: 'classes',
+                isEdit: '',//是否是编辑新闻状态
                 widgetName: '',
                 artUpdata: {},//发布文章用到的参数
                 articletitle: '',
@@ -268,14 +266,16 @@
             }
         },
         mounted() {
+            console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
             if(Object.keys(this.$route.query).length > 0) {
-              this.fromwhere = this.$route.query.fromwhere
+              this.fromwhere = this.$route.query.fromwhere;
               this.title = this.$route.query.fromname;
-              this.navIndex = this.$route.query.spacename
+              this.navIndex = this.$route.query.spaceModule;
             }
 
             this.artUpdata ='';
+            console.log(this.$router,'路由this.$router集合')
             if(this.$router.currentRoute){
                 this.artUpdata=this.$router.currentRoute.query,
                 this.isEdit=this.$router.currentRoute.query.isEdit;
@@ -286,7 +286,7 @@
             }
             console.log(this.artUpdata, 'this.$route.query')
             console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-            this.init()
+            this.init1()
         },
         methods: {
             init(){
@@ -303,6 +303,22 @@
                     this.fileList=reurl;
                     this.url=this.userInfo.avatar;//头像
                     // this.goods_desc=editor.content;
+                } else{
+                    this.url=this.userInfo.avatar;//头像
+                }
+            },
+            init1(){
+                if(this.isEdit){
+                    this.articletitle=this.artUpdata.title;
+                    this.form.goods_desc=this.artUpdata.content;
+                    this.imageUrl=this.artUpdata.image;
+                    // var reurl=[{url:this.artUpdata.image}];
+                    // this.fileList=reurl;
+                    // console.log(this.fileList,'这是什么鬼')
+                    this.url=this.userInfo.avatar;//头像
+                    
+                } else{
+                    this.url=this.userInfo.avatar;//头像
                 }
             },
             // 富文本图片上传前
@@ -340,7 +356,9 @@
             handleAvatarSuccess(res, file) {//图片上传类方法
                 console.log(res.data.url, 'resresresres');
                 this.responseUrl = res.data.url;
+                console.log(file,'图片上传时候获取的对象')
                 this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(this.imageUrl,'得到的路径')
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -358,7 +376,18 @@
 
                 var self = this;
                 var data = this.artUpdata;
-
+                if(self.responseUrl ==''){
+                    self.$toast.fail('请添加题图');
+                    return
+                }
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
                 data.image = self.responseUrl;
                 data.content = this.form.goods_desc;
                 data.title = this.articletitle;
@@ -369,12 +398,13 @@
                         //     name: 'readnews',
                         //     query: {
                         //         fromname: self.title,
-                        //         fromwhere: self.fromwhere
+                        //         fromwhere: self.fromwhere,
+                        //         spaceModule: 'classes',//班级空间名
                         //     }
                         // })
                         self.$router.go(-1);
                     }
-                    self.dialog = true
+                    
                 })
             },
             goHome() { // 会空间选择页面
@@ -391,7 +421,21 @@
                 })
             },
             openPublish() { // 打开发表dialog
-                this.publishArt()
+                var self = this;
+                if(self.responseUrl ==''){
+                    self.$toast.fail('请添加题图');
+                    return
+                }
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
+                this.dialog = true;
+                // this.publishArt()
             },
             publish() { // 确定发表
                 // this.dialog = false

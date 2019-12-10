@@ -7,7 +7,7 @@
       </span>
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
+      <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
       <ul class="area">
         <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res.id)">{{res.title}}</li>
       </ul>
@@ -127,6 +127,10 @@
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
+      img{
+        vertical-align: middle;
+        margin-right: 10px;
+      }
     }
     .area{
       list-style: none;

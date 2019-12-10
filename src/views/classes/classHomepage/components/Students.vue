@@ -9,7 +9,7 @@
         </div> -->
         <div class="avartContent" id="avartContent">
            <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
-                <img :src="item.url" alt="头像">
+                <img :src="item.avatar" alt="头像">
                 <p class="txcenter">{{item.name}}</p>
            </div>
         </div>
@@ -28,36 +28,36 @@ export default {
         dataList: [],
         showstate:'down',
         alumnus: [
-          {
-            name: '周华健',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级19班'
-          },
-          {
-            name: '乌龙茶',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级20班'
-          },
-          {
-            name: '果子狸',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级21班'
-          },
-          {
-            name: '猪坚强',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级22班'
-          },
-          {
-            name: '王富贵',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级23班'
-          },
-          {
-            name: '王翠花',
-            url: require('../../../../assets/images/user.png'),
-            classroom: '东区高中2018级24班'
-          }
+          // {
+          //   name: '周华健',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级19班'
+          // },
+          // {
+          //   name: '乌龙茶',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级20班'
+          // },
+          // {
+          //   name: '果子狸',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级21班'
+          // },
+          // {
+          //   name: '猪坚强',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级22班'
+          // },
+          // {
+          //   name: '王富贵',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级23班'
+          // },
+          // {
+          //   name: '王翠花',
+          //   url: require('../../../../assets/images/user.png'),
+          //   classroom: '东区高中2018级24班'
+          // }
         ]
       }
     },

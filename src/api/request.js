@@ -6,7 +6,7 @@ console.log("当前环境",process.env.NODE_ENV );
 axios.interceptors.request.use(
     config => {
         console.log('config',typeof config,config.data);
-        if(config.url.indexOf('Login')>=0 ){
+        if(config.url.indexOf('Login')!=-1 ||config.url.indexOf('/roomapi/Sms/ChuanglanSmsApi')!=-1){
 
         }else{
             if(config.data.__proto__.constructor.name=='FormData'){//判断是否formdata 类型
