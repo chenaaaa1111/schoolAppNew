@@ -4,12 +4,12 @@
       <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png" />最近访客</h2>
     </div>
     <h2 class="vistorCount">
-      总共访问: 3576人次
+      总共访问: {{this.userInfo.access_class}}人次
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
       <span @click="goOther(item.id)" v-for="(item,index) in visitors" :key="index">
-        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar"></el-avatar>
+        <el-avatar class="vistor-avatar" icon="el-icon-user-solid" :size="44" :src="item.avatar"></el-avatar>
       </span>
       <!-- <el-avatar class="vistor-avatar" :size="44" :src="require()" ></el-avatar> -->
       <!-- <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
@@ -31,9 +31,14 @@
   export default {
     data() {
       return {
+        userInfo: {},//用户信息
         circleUrl: require('../../../../assets/images/user.png'),
-        visitors: []
+        visitors: [], //最近去10位访客
       }
+    },
+    created(){
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      console.log('userInfo',this.userInfo);
     },
     mounted() {
       this.getVisitors();
@@ -48,16 +53,13 @@
         })
       },
       getVisitors() {
-        var self = this;
-        var id='';
-        if(this.$store&&this.$store.state&&this.$store.state.userInfo){
-          id=this.$store.state.userInfo.id;
-        }
+        let self = this;
+        let id = self.$store.state.userInfo.id
         var data = {
-          id: id
+          uid: id
         }
         request.post('/roomapi/Room_Class/visitors', data, function (res) {
-          self.visitors = []
+          self.visitors = res.data;
         })
       }
     }

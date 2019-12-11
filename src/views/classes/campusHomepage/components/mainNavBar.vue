@@ -81,6 +81,7 @@
     props: { classId: { default: '' } },
     data() {
       return {
+        srarchWord: '', //搜索关键字
         selectTab: 0,//选中的标签 栏目列表索引值  初始导航下标
         userInfo: {},
         list: [],
@@ -248,6 +249,11 @@
     created: function () {
       this.$root.eventLister.$on('seachInfo', this.seachInfo)
     },
+    // computed: {
+    //   srarchWord() {
+    //     return this.$store.state.spaceKeyWord
+    //   }
+    // },
     mounted: function () {
       this.getUserInfo();
       var data = {

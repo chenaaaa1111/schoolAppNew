@@ -257,17 +257,17 @@ const router= new Router({
     {
       path: '/readnews',
       name: 'readnews',
-      component: () => import('@/views/public/read/readnews.vue'), // 文章详情页
+      component: () => import('@/views/public/read/readnews.vue'), // 文章详情页 新闻详情
     },
     {
       path: '/readnotice',
       name: 'readnotice',
-      component: () => import('@/views/public/read/readnotice.vue'), // 文章详情页
+      component: () => import('@/views/public/read/readnotice.vue'), // 文章详情页  通知详情
     },
     {
       path: '/classes/readmessage',
       name: 'readmessage',
-      component: () => import('@/views/classes/read/readmessage.vue'), // 文章详情页
+      component: () => import('@/views/classes/read/readmessage.vue'), // 从审核 审核未通过 进入到文章详情页
     }
   ]
 })

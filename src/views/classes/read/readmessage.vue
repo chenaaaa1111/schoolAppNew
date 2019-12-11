@@ -10,7 +10,7 @@
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                      <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                      <el-avatar shape="circle" :size="48" :fit="fit" :src="avatar"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -32,56 +32,35 @@
                 <el-page-header :title="'返回'+title" @back="goBack"></el-page-header>
               </el-col>
               <el-col :span="24" class="news-result">
-                <p class="">您发布的“如果没有明天”已被管理员删除</p>
-                <p>
-                  <span>删除原因:</span>
-                  <span>您发布的新闻帖子影响校园学生积极向上的心</span>
-                </p>
-                <p>删除时间：2019-08-22 09:2</p>
+                <p class="process">正在审核中</p>
+                <p class="processContent">管理员审核通过后，新闻就发布成功，请你耐心等待</p>
+                <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
               </el-col>
             </el-row>
           </div>
           <div class="news-box">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
-                <span @click="writenews">
-                  <img src="../../../assets/images/classes/recall.png" />
-                </span>
+                 <img src="../../../assets/images/classes/recall.png" @click="writenews" />
+                 <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
               </el-col>
               <el-col class="news-cover">
-                <img src="../../../assets/images/readNews/cover.png"/>
+                <img :src="coverBg"/>
               </el-col>
             </el-row>
             <el-row class="news-row">
-              <el-col :span="24" class="newsTitle">如何评价电影《少年的你》?</el-col>
+              <el-col :span="24" class="newsTitle" >{{articleDetails.title}}</el-col>
               <el-col :span="24" class="news-type">
-                <span>发布主页: 班级主页</span>
-                <span>发布栏目: 影评</span>
+                <span>发布主页: {{articleDetails.level ==1?'班级栏目':'校园栏目'}}</span>
+                <span>发布栏目: {{articleDetails.column_name}}</span>
               </el-col>
               <el-col :span="24" class="user-info">
-                <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
-                <span>王自如</span>
+                <el-avatar shape="circle" :size="32" :fit="fit" :src="avatar"></el-avatar>
+                <span>{{articleDetails.name}}</span>
               </el-col>
-              <el-col :span="24" class="news-content">
-                <p>
-                  之前听主人公叫韩湘子竟然没有印象，后来才发现是个八仙（八仙我能记住的只有吕洞宾和何仙姑了...）
-                  考了一阵韩湘子传说资料之后，觉得这部东游应该是以韩湘子吹箫会龙女为蓝本进行改编的（虽然只有龙女这个物种是没变的...连萧都变成了笛子...）
-                  整体风格还是挺无厘头的风格的，感觉编剧和剪辑的整体风格都是在往《大圣娶亲》上靠，在影片中还植入了好几个致敬的小彩蛋，我这里取了两个比较经典的放在下面了，
-                  一个是经典的至尊宝和紫霞在城楼上的那段（这BGM一起来又想再听两遍一生所爱）另一个就是那个经典告白了（虽然形式不同，但内核感觉差不多）但其实罗家英一出场，
-                  整个电影就弥漫着无厘头的气息…
-                  编剧在构画故事的时候也比较完整，有头有尾，不会像一些网大，看完了整个电影满头问号以外还想问候一下全体人员家里亲属…
-                  导演也不错，其实一个小时的时长可能在网大里面算常见，但是太短了不利于整个电影的故事交代，但这个导演也处理的不错，节奏挺快的，
-                  在一半就已经要开始酝酿高潮的戏份了，是我这种倍速狂人也没怎么加速的水平。还有一点要好评，我是一个看电影会看完的那种人，看到最后，
-                  字幕上出现了所有参与演出制作人员的名字很是感动，给整组鼓个掌。
-                  谈到演员方面，张远作为歌手出身，虽然在演戏方面还略显青涩，但这部戏里面表现的真的还不错，至少没有出戏，就是这妆发有点五毛…
-                  女主整体演技很自然，有一幕（在视频里面我放了）望着紫霞和至尊宝的时候，她的那个眼神还是有戏的。
-                  综上所述，我认为这部电影还是挺不错的，虽然剧情上有一些bug，特效不够图片来凑。但作为网大来说是很及格的水平了 。
-                </p>
-                <img src="../../../assets/images/readNews/cover.png"/>
+              <el-col :span="24" class="news-content" v-html="articleDetails.content">
               </el-col>
-              <el-col :span="24" class="news-date">
-                发布于 2019/08/22 09:23
-              </el-col>
+              <!-- <el-col :span="24" class="news-date">{{articleDetails.create_time}}</el-col> -->
             </el-row>
           </div>
         </el-card>
@@ -90,38 +69,94 @@
   </div>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     name: 'readmessage',
     data() {
       return{
+        baseUrl: 'http://school.i2f2f.com',//图片域名
         fit: 'cover',
-        userInfo: {},
-        url: '',
+        userInfo: {}, //用户信息
+        coverBg: '', //封面图
+        avatar: '', //头像吗
         // url: require('../../../assets/images/user.png'),
-        articlesInfo: {},//文章信息
+        articleDetails: '',//文章信息
         fromwhere: '',
         title: '',
-        widgetName: ''
+        widgetName: '',
       }
     },
-    mounted() {
-      this.articlesInfo = this.$route.query;
-      this.fromwhere = this.articlesInfo.fromwhere;
-      this.widgetName = this.articlesInfo.widgetName;
-      this.title = this.articlesInfo.routeName;
+    created(){
+      this.baseUrl = this.$store.state.serverUrl;
+      this.fromwhere = this.$route.query.fromwhere;
+      this.widgetName = this.$route.query.widgetName;
+      this.title = this.$route.query.fromname;
       this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
+      this.avatar=this.userInfo.avatar;//头像
+    },
+    mounted() {
+      this.getArticleDetails();
     },
     methods: {
+      getArticleDetails(){ //参数  文章id 
+        var data = {
+          id: String(this.$route.query.id)
+        }
+        var _this = this;
+        request.post('/roomapi/Room_Class/myDetails', data, function(res){
+          if(res.code == 0) {
+            _this.articleDetails = res.data;
+            _this.coverBg = _this.baseUrl + _this.articleDetails.image;
+          }
+          console.log( _this.articleDetails,'获取文章详情返回数据')
+        }) 
+      },
       //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
       writenews() {
-        let query = this.articlesInfo;
-        query.isEdit = true;
+        let query = this.$route.query;
+        // query.widgetName = '审核中';
+        // query.fromname = '我的主页';
+        // query.fromwhere = 'myHomepage';
+        // query.spaceModule = 'classes';//班级空间名
+        // query.isEdit = true;
         this.$router.push({
           name: 'write',
           query: query
         })
+      },
+      // 点击删除后 回到我的主页
+      deleteArt(){
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          let id = vm.$route.query.id;
+          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+              setTimeout(function(){
+                vm.$router.push({
+                  name: vm.fromwhere
+                })
+              },2000)
+            }
+          })
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       goHome() {
         this.$router.push({
@@ -223,21 +258,15 @@
           p{
             margin-top: 20px;
           }
-          p:first-child{
+          .process{
             font-size: 24px;
             color: #333;
             font-weight: bold;
           }
-          p:first-child+p{
+          .processContent{
             font-size: 20px;
-            color: #333;
-            span:first-child{
-              color: #CC2121;
-            }
-          }
-          p:last-child{
-            font-size: 20px;
-            color: #999;
+            font-weight:400;
+            color:rgba(136,136,136,1);
           }
         }
         .el-card__body{
@@ -248,12 +277,11 @@
           .news-row{
             .news-edit{
               display: block;
-              width: 152px;
               cursor: pointer;
               margin-bottom: 0.4rem;
               img{
-                display: block;
-                width: 100%;
+                margin-right: 11px;
+                width: 152px;
               }
             }
             .news-cover{

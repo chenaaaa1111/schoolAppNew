@@ -14,37 +14,11 @@
       </span>
     </div>
     <el-row class="question" v-for ="(item,index) in messages" :key="index">
-      <el-col class="title"><el-button @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
+      <el-col :span="24" class="title"><el-button class="titleName" @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="bottom">
+        <span>{{item.create_time}}</span>
       </el-col>
     </el-row>
-    <!-- <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row> -->
   </el-card>
 </template>
 <script>
@@ -58,45 +32,26 @@
     },
     data() {
       return {
-        messages:[],
-        total:0
+        messages:[], //消息列表
+        total: '', //消息数量
       }
     },
     mounted(){
       this.getMessages();
     },
     methods: {
-      getMessages:function(){
-        var self=this;
-        var data={
-          kid:1,
-          page:1,
-          psize:3
-        };
-        request.post('/roomapi/Users/userMessage',data,function(res){
-          self.messages=res.data.model.length>0?res.data.model: [
-            {
-                "id": 2,
-                "k_id": 1,
-                "u_id": 1,
-                "c_id": 2,
-                "title": "事实上3",
-                "why": "管理员开心的把你的贴删除了",
-                "create_time": "2019-11-19 00:00:00"
-            },
-            {
-                "id": 1,
-                "k_id": 1,
-                "u_id": 1,
-                "c_id": 1,
-                "title": "事实上",
-                "why": "管理员开心的把你的贴删除了",
-                "create_time": "2019-11-19 00:00:00"
-            }
-        ];
-        self.total=res.data.total?res.data.total:2;
-      })
-    },
+        getMessages(){
+          var self = this;
+          var data= {
+            kid: 1,
+            page: 1,
+            psize: 3
+          };
+          request.post('/roomapi/Users/userMessage',data,function(res){
+            self.messages = res.data.model;
+            self.total = res.data.total;
+        })
+      },
       showmessagemore() {
         console.log(222222);
         // this.$router.push({
@@ -326,18 +281,31 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      .titleName{
+        font-family:PingFangSC-Medium,PingFang SC;
+        color:rgba(30,30,30,1);
+        line-height:14px;
+        font-weight: 500;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
+    .bottom{
       display: flex;
       align-items: center;
-    }
-    .exit{
-      text-align: right;
+      justify-content: space-between;
+      span{
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+      }
       .el-button{
-        font-size: 12px;
+        cursor: pointer;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(3,70,146,1);
+        line-height:11px;
       }
     }
   }
