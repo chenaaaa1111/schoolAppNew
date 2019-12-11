@@ -9,16 +9,17 @@
               </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
-         
-          <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
-            :swipeable="true">
+
+          <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
+            v-model="selectTab" @change="changeTabs" :swipeable="true">
 
             <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false" @load="onLoad">
+              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
+                @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
                     <h4 class="title">{{item.title}}
-                      <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> 
+                      <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span>
                     </h4>
                     <div class=" imgline">
                       <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
@@ -31,7 +32,7 @@
                       </div>
                       <div class="rightContent">
                         <span>
-                            {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                          {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                         </span>
                         <span @click="changShow(item.id)" class="updown">
                           查看更多
@@ -39,7 +40,7 @@
                       </div>
                     </div>
                     <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                      
+
                       <div v-html="item.content"></div>
 
                       <span @click="fslip(item.id)" class="updown">
@@ -52,7 +53,7 @@
               </van-list>
             </van-tab>
           </van-tabs>
-        
+
         </div>
         <!-- <div class="rightBar">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -73,6 +74,7 @@
 
 <script>
   // import 'vant/lib/button/style';
+  // import eventAll from '@/api/eventAll.js';
   import request from '@/api/request.js'
   export default {
     name: 'mainNavBar',
@@ -89,6 +91,7 @@
         finished: false, //加载是否完成
         active: 1,
         dataList: [], //导航栏目 数组
+        keyword: '',
         contentList: [
 
         ],
@@ -100,10 +103,11 @@
       changeTabs(name, title) {
         var _this = this;
         console.log(name, title);
-        this.$store.commit('setColumnId',name);
-        this.$store.commit('setColumnName',title);
+        this.$store.commit('setColumnId', name);
+        this.$store.commit('setColumnName', title);
         var data = {
           page: 1,
+          keyword: this.keyword,
           psize: this.psize,
           column: this.selectTab
         }
@@ -125,18 +129,19 @@
         this.getUserInfo();
         // let userInfoId = this.userInfo.class_id;
         var self = this;
-        var data = {  }
+        var data = {}
         request.post('/roomapi/Room_Class/column', data, function (res) {
           self.dataList = res.data.model;
-          console.log(res.data,'resdata',self.dataList);
-          var columnId=res.data.model[0]?res.data.model[0].id:'';
-          var columnName=res.data.model[0]?res.data.model[0].title:'';
-          self.$store.commit('setColumnId',columnId);
-          self.$store.commit('setColumnName',columnName);
-          console.log(columnId,columnName,'fist*************************,***********')
+          console.log(res.data, 'resdata', self.dataList);
+          var columnId = res.data.model[0] ? res.data.model[0].id : '';
+          var columnName = res.data.model[0] ? res.data.model[0].title : '';
+          self.$store.commit('setColumnId', columnId);
+          self.$store.commit('setColumnName', columnName);
+          console.log(columnId, columnName, 'fist*************************,***********')
           // self.$store.commit()
           data = {
             column: res.data.model[0] ? res.data.model[0].id : 0,
+            keyword: self.keyword,
             page: 1
           }
           request.post('/roomapi/Room_Class/schoolPage', data, function (res) {//获取数据
@@ -145,7 +150,7 @@
         });
       },
       onLoad(state) {
-        console.log('列表即将滚动到底部时，会触发事件并加载更多列表项',state)
+        console.log('列表即将滚动到底部时，会触发事件并加载更多列表项', state)
         var _this = this;
 
         if (state == "fineshed") {
@@ -156,9 +161,18 @@
         var data = {
           page: this.page,
           psize: this.psize,
+          keyword: '',
           column: this.selectTab
         }
-        console.log('加载更多的时候调用的参数是',data)
+        if (this.keyword) {
+          data = {
+            page: this.page,
+            psize: this.psize,
+            keyword: this.keyword,
+            column: 0
+          }
+        }
+        console.log('加载更多的时候调用的参数是', data)
         request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
           if (res.data.model.length == 0) {
             _this.loading = false;
@@ -196,24 +210,43 @@
         console.log(item)
         document.getElementById('content' + item).style.display = "none";
         document.getElementById('detail' + item).style.display = 'block';
+      },
+      seachInfo(key) {
+        var self=this;
+        console.log('搜索key' + key);
+        this.keyword = key;
+        this.page = 1;
+        var data = {
+          keyword: key,
+          column: 0,
+          page: this.page,
+          psize: this.psize
+        }
+        request.post('/roomapi/Room_Class/schoolPage', data, function (res) {//获取数据
+          self.contentList = res.data.model;
+        });
       }
     },
     // 搜索相关内容后 
-    updated(){ 
-      let srarchWord = this.$store.state.spaceKeyWord;
-      console.log(srarchWord,'主页面内容得到的搜索关键字')
-      var params = {
-        page: 1,
-        psize: this.psize,
-        column: this.selectTab,
-        keyword: srarchWord
-      }
-      console.log('搜搜的参数列表',params)
-      // var _this = this;
-      // request.post('/roomapi/Room_Class/schoolPage', params, function (res) {
-      //   _this.contentList = res.data.model;
-      // })
+    // updated(){ 
+    //   debugger
+    //   let srarchWord = this.$store.state.spaceKeyWord;
+    //   console.log(srarchWord,'主页面内容得到的搜索关键字')
+    //   var params = {
+    //     page: 1,
+    //     psize: this.psize,
+    //     column: this.selectTab,
+    //     keyword: srarchWord
+    //   }
+    //   console.log('搜搜的参数列表',params)
+    //   // var _this = this;
+    //   // request.post('/roomapi/Room_Class/schoolPage', params, function (res) {
+    //   //   _this.contentList = res.data.model;
+    //   // })
 
+    // },
+    created: function () {
+      this.$root.eventLister.$on('seachInfo', this.seachInfo)
     },
     mounted: function () {
       this.getUserInfo();
@@ -328,10 +361,12 @@
     font-size: 18px;
     color: #999;
   }
-  .leftImage  {
+
+  .leftImage {
     width: 240px;
     height: 136px;
   }
+
   .leftImage img {
     width: 240px;
     height: 136px;
@@ -345,10 +380,12 @@
     /* padding-left: 40px; */
     padding-top: 30px;
   }
-  .title{
+
+  .title {
     font-size: 24px;
     font-weight: 900;
   }
+
   .updown {
     color: #034692;
   }

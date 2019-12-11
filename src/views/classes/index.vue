@@ -34,6 +34,8 @@
   </div>
 </template>
 <script>
+  // import eventAll from '@/api/eventAll.js';
+  import Vue from 'vue'
   export default{
     components: {
     },
@@ -62,6 +64,10 @@
       // this.userInfo=this.$store.state.userInfo;
       this.url=this.userInfo.avatar;//头像
     },
+    created(){
+      var eventLister=new Vue();
+      this.$root.eventLister=eventLister;
+    },
     methods: {
       goHome() {
         this.$router.push({ // 回到空间选择页面
@@ -74,8 +80,9 @@
       },
       //搜索相关内容
       search(){
-        console.log(this.spaceKeyWord,'输入的值是什么')
-        this.$store.commit('setSpaceKeyWord',this.spaceKeyWord);
+         console.log(this.spaceKeyWord,'输入的值是什么')
+        // this.$store.commit('setSpaceKeyWord',this.spaceKeyWord);
+        this.$root.eventLister.$emit('seachInfo',this.spaceKeyWord)
       }
     }
   }
