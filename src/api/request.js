@@ -45,14 +45,17 @@ var request={
                 data:data
               })
               .then((response)=>{
-                  if(response.data.code==1001){
-                    vm.$router.push('/login');
-                      return;
-                  }
                   if(response.status!=200){
                     alert('系统错误,请稍后再试');
                     return;
+                  }else if(typeof response.data=='string'&& response.data.indexOf('1001'>-1)){
+                      console.log(vm.$router,"11111111111111111111111")
+                    vm.$router.push({path:'/login',query:{
+                        backUrl:vm.$router.history.current.fullPath
+                    }});
+                    return;
                   }
+                  
                   if(callBack){
                       callBack(response.data);
                   }

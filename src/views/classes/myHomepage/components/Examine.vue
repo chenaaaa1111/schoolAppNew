@@ -14,8 +14,8 @@
     <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
       <el-col :span="24" class="bottom">
-        <span class="content">{{item.create_time}}</span>
-        <el-button type="text" @click="writenews(item)">撤回</el-button>
+        <div class="content"<span>{{item.create_time}}</span></div>
+        <div class="recall"><el-button type="text" @click="writenews(item)">撤回</el-button></div>
       </el-col>
     </el-row>
 
@@ -293,42 +293,27 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      // .titleName{
-      //   font-family:PingFangSC-Medium,PingFang SC;
-      //   color:rgba(30,30,30,1);
-      //   line-height:14px;
-      //   font-weight: 500;
-      //   white-space: nowrap;
-      //   text-overflow: ellipsis;
-      //   overflow: hidden;
-      // }
     }
     .bottom{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       .content{
+        float: left;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
         color:rgba(153,153,153,1);
       }
-      .el-button{
-        cursor: pointer;
-        font-family:PingFangSC-Regular,PingFang SC;
-        font-weight:400;
-        color:rgba(3,70,146,1);
-        line-height:11px;
-        span{
-          font-size: 12px;
-          color:#034692;
+      .recall{
+        float: right;
+        .el-button{
+          cursor: pointer;
+          font-family:PingFangSC-Regular,PingFang SC;
+          font-weight:400;
+          color:rgba(3,70,146,1);
+          line-height:11px;
+          span{
+            font-size: 12px;
+            color:#034692;
+          }
         }
-      }
-    }
-    .exit{
-      text-align: right;
-      .el-button{
-        cursor: pointer;
-        font-size: 12px;
       }
     }
   }
