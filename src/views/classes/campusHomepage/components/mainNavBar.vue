@@ -79,6 +79,7 @@
     props: { classId: { default: '' } },
     data() {
       return {
+        srarchWord: '', //搜索关键字
         selectTab: 0,//选中的标签 栏目列表索引值  初始导航下标
         userInfo: {},
         list: [],
@@ -200,21 +201,26 @@
     },
     // 搜索相关内容后 
     updated(){ 
-      let srarchWord = this.$store.state.spaceKeyWord;
-      console.log(srarchWord,'主页面内容得到的搜索关键字')
-      var params = {
-        page: 1,
-        psize: this.psize,
-        column: this.selectTab,
-        keyword: srarchWord
-      }
-      console.log('搜搜的参数列表',params)
+      // this.srarchWord = this.$store.state.spaceKeyWord;
+      console.log(this.$store.state,'主页面内容得到的搜索关键字')
+      // var data = {
+      //   page: 1,
+      //   psize: this.psize,
+      //   column: this.selectTab,
+      //   keyword: this.srarchWord
+      // }
       // var _this = this;
-      // request.post('/roomapi/Room_Class/schoolPage', params, function (res) {
+      // console.log('搜搜的参数列表',data)
+      // request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
       //   _this.contentList = res.data.model;
       // })
 
     },
+    // computed: {
+    //   srarchWord() {
+    //     return this.$store.state.spaceKeyWord
+    //   }
+    // },
     mounted: function () {
       this.getUserInfo();
       var data = {

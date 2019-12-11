@@ -71,9 +71,9 @@
     data() {
       return {
         ExhibitionTitle: '审核中',// 审核中，审核未通过标题
-      upUrl: '',
-      messageLists:[],//消息
-      userMassages:[],
+        upUrl: '',
+        messageLists:[],//消息
+        userMassages:[],
         routename: '',
         tab: 'main',
         examings: []

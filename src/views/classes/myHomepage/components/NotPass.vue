@@ -10,17 +10,15 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">{{List.length}}个审核未通过的新闻:</div>
+    <div class="examineTips">{{total}}个审核未通过的新闻:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
-      <el-col class="title"><el-button @click="msgDetails" type="text">{{item.title}}</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
-          </el-col>
-        </el-row>
+      <el-col :span="24" class="title"><el-button @click="msgDetails" class="titleName" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="bottom">
+        <span class="content">{{item.create_time}}</span>
+        <span>
+          <el-button type="text" @click="reEditNews(item)">编辑</el-button>
+          <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
+        </span>
       </el-col>
     </el-row>
 
@@ -38,15 +36,59 @@
     },
     data() {
       return {
-        List:[]
+        total: '', //审核未通过数量
+        List:[],//审核未通过列表
       }
     },
+    mounted() {
+      this.getList();
+    },
     methods: {
-      getList(){
-        var data={};
-        request.post('/roomapi/Room_Class/notAudit',data,(res)=>{
-           this.List=res.data.model;
+      getList(){ //审核未通过列表
+        var data= {};
+        request.post('/roomapi/Room_Class/notAudit',data,(res) =>{
+          this.List= res.data.model;
+          this.total = res.data.total;
         })
+      },
+      reEditNews(item){ //重新编辑 回到新闻页面
+        let query = item;
+        query.widgetName = '审核未通过';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.isEdit = true;
+        this.$router.push({
+          name: 'write',
+          query: query
+        })
+      },
+      deleteArtcile(id) { //删除文章
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+            }
+            this.getList();
+          })
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       shownotpassmore(tab) {
        
@@ -262,18 +304,35 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      .titleName{
+        font-family:PingFangSC-Medium,PingFang SC;
+        color:rgba(30,30,30,1);
+        line-height:14px;
+        font-weight: 500;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
+    .bottom{
       display: flex;
       align-items: center;
-    }
-    .exit{
-      text-align: right;
+      justify-content: space-between;
+      .content{
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+      }
       .el-button{
-        font-size: 12px;
+        cursor: pointer; 
+        span{
+          font-family:PingFangSC-Regular,PingFang SC;
+          font-weight:400;
+          color:rgba(3,70,146,1);
+          line-height:11px;
+          font-size: 12px;
+          color:#034692;
+        }
       }
     }
   }

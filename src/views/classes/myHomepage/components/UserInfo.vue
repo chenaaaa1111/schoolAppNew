@@ -22,31 +22,54 @@
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
         circleUrl: '',
         // circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:{},
+        userInfo:{}, //用户信息
         ClassDynamic:1,
         SchoolDynamic:1
       }
     },
     created(){
-      // this.userInfo=this.$store.state.userInfo;
-      // console.log('userInfo',this.userInfo);
-    },
-    mounted(){
-      console.log('userInfo')
-      this.userInfo=this.$store.state.userInfo;
-      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       console.log('userInfo',this.userInfo);
       this.circleUrl = this.userInfo.avatar;
-      this.SchoolDynamic=this.$store.state.SchoolDynamic;
-      this.ClassDynamic=this.$store.state.ClassDynamic;
+    },
+    mounted(){
+      this.getShoolDynamic();
+      this.getClassDynamic();
+      // this.SchoolDynamic=this.$store.state.SchoolDynamic;
+      // this.ClassDynamic=this.$store.state.ClassDynamic;
+
     },
     methods: {
-
+      getShoolDynamic () { //获取校园动态数量
+        let self = this;
+        let data = {
+          uid: self.$store.state.userInfo.id,
+          page: 1,
+          psize: 3,
+          level: 2
+        }
+        request.post('/roomapi/Room_Class/myPage',data,function(res){
+          self.SchoolDynamic = res.data.total;
+        })
+      },
+      getClassDynamic () { //获取班级动态数量
+        let self = this;
+        var data={
+          uid: self.$store.state.userInfo.id,
+          page: 1,
+          psize: 3,
+          level: 1
+        }
+        request.post('/roomapi/Room_Class/myPage',data,function(res){
+          self.ClassDynamic = res.data.total;
+        })
+      }
     }
   }
 </script>

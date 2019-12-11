@@ -8,9 +8,9 @@
         <el-col v-if="loadData.showwrite" :span="12" class="top-write">
           <span @click="writenews"></span>
         </el-col>
-        <el-col :span="12" class="department">
+        <!-- <el-col :span="12" class="department">
           {{loadData.subTitle}}
-        </el-col>
+        </el-col> -->
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle>
@@ -33,7 +33,7 @@
     data() {
       return {
         loadData: {
-          title: '华悦蜀山区第一中学-校园主页',
+          title: '华悦蜀山区第一中学',
           subTitle: '',
           showwrite: true
         }
@@ -68,11 +68,18 @@
       margin-top: 48px;
 
       .top-title {
+        padding-left: 20px;
         height: 56px;
+        font-size: 40px;
+        font-family: STYuanti-SC-Bold,STYuanti-SC;
+        font-weight: bold;
+        color: rgba(3,70,146,1);
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        letter-spacing: 10px;
+        text-shadow: 0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke: 2px rgba(255,255,255,1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
 
         img {
           display: inline-block;

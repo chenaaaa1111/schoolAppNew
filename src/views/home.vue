@@ -300,7 +300,7 @@
         })
       },
       classdialogHandle(data) {
-        debugger
+        // debugger
         var userInfo = this.$store.state.userInfo;
         userInfo.grade_id = this.classInfo.grade_id;
         userInfo.class_id = this.classInfo.class_id;
@@ -375,7 +375,7 @@
       goToDetail(data) {
         console.log(data);
         // var router={name:data};
-        debugger
+        // debugger
         switch (data.name) {
           case "classes":
             if (this.$store.state.userInfo.class_id) {

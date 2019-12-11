@@ -12,14 +12,10 @@
     </div>
     <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
-      <el-col class="title" ><el-button type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">{{item.create_time}}</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text" @click="writenews(item)">撤回</el-button>
-          </el-col>
-        </el-row>
+      <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
+      <el-col :span="24" class="bottom">
+        <span class="content">{{item.create_time}}</span>
+        <el-button type="text" @click="writenews(item)">撤回</el-button>
       </el-col>
     </el-row>
 
@@ -37,12 +33,7 @@
     },
     data() {
       return {
-        list: [
-          {
-            title: '如何评价电影《少年的你》???',
-            date: '2019/08/03 09:20',
-          }
-        ]
+        list: []
       }
     },
     created(){
@@ -53,25 +44,15 @@
     },
     methods: {
       getExamine(){
-        var self=this;
-        var data={id:this.$store.state.userInfo.id,
+        var self = this;
+        var data= {
+          id:self.$store.state.userInfo.id,
           page:1,
-          psize:3}
-        ;
+          psize:3
+        };
         request.post('/roomapi/Room_Class/audit',data,function(res){
           console.log(self.list,'审核中的文章列表')
-          self.list=res.data.model.length>0?res.data.model:[{
-            "id": 4,
-            "name": "123",
-            "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-            "create_time": "1573638540"
-        },
-        {
-            "id": 3,
-            "name": "123",
-            "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-            "create_time": "1573638540"
-        }];
+          self.list = res.data.model;
         })
       },
       showexaminemore() {
@@ -102,11 +83,12 @@
       },
       msgDetails(item) {
         console.log('点击进去审核中--新闻详情')
-        let query = item;
+        let query = {};
         query.widgetName = '审核中';
         query.fromname = '我的主页';
         query.fromwhere = 'myHomepage';
         query.spaceModule = 'classes';//班级空间名
+        query.id = item.id; //文章id
         this.$router.push({
           name: 'readmessage',
           query: query
@@ -133,7 +115,7 @@
     float: right;
     display: block;
     // width: 16px;
-    height: 16px;
+    // height: 16px;
     cursor: pointer;
     margin-top: 0.1rem;
     .text{
@@ -311,13 +293,36 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      // .titleName{
+      //   font-family:PingFangSC-Medium,PingFang SC;
+      //   color:rgba(30,30,30,1);
+      //   line-height:14px;
+      //   font-weight: 500;
+      //   white-space: nowrap;
+      //   text-overflow: ellipsis;
+      //   overflow: hidden;
+      // }
     }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
+    .bottom{
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      .content{
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+      }
+      .el-button{
+        cursor: pointer;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(3,70,146,1);
+        line-height:11px;
+        span{
+          font-size: 12px;
+          color:#034692;
+        }
+      }
     }
     .exit{
       text-align: right;
