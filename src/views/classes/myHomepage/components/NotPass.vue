@@ -14,11 +14,11 @@
     <el-row class="question" v-for="(item,index) in List" :key="index">
       <el-col :span="24" class="title"><el-button @click="msgDetails" class="titleName" type="text">{{item.title}}</el-button></el-col>
       <el-col :span="24" class="bottom">
-        <span class="content">{{item.create_time}}</span>
-        <span>
+        <div class="content"<span>{{item.create_time}}</span></div>
+        <div class="recall">
           <el-button type="text" @click="reEditNews(item)">编辑</el-button>
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
-        </span>
+        </div>
       </el-col>
     </el-row>
 
@@ -315,23 +315,24 @@
       }
     }
     .bottom{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       .content{
+        float: left;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
         color:rgba(153,153,153,1);
       }
-      .el-button{
-        cursor: pointer; 
-        span{
+      .recall{
+        float: right;
+        .el-button{
+          cursor: pointer;
           font-family:PingFangSC-Regular,PingFang SC;
           font-weight:400;
           color:rgba(3,70,146,1);
           line-height:11px;
-          font-size: 12px;
-          color:#034692;
+          span{
+            font-size: 12px;
+            color:#034692;
+          }
         }
       }
     }
