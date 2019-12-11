@@ -2,11 +2,16 @@
 <template>
         <el-card >
           <el-row class="top-block">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+              <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
+              <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
+            </el-breadcrumb>
+            <el-divider></el-divider>
             <el-col :span="24" class="top-box">
               <span class="top-title">{{title}}</span>
-              <el-button type="text">
+              <!-- <el-button type="text">
                 查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
-              </el-button>
+              </el-button> -->
             </el-col>
             <el-col :span="24">
               <el-row class="article" v-for="(item,index) in articles" :key="index">
@@ -18,7 +23,8 @@
                       <span class="date">{{item.create_time}}</span>
                     </el-col>
                     <el-col :span="3" class="operation">
-                            <el-button type="text" size="mini" @click="goToEdit(item)">编辑</el-button>
+                            <el-button v-if="title == '审核中'" type="text" size="mini" @click="recall(item)">撤回</el-button>
+                            <el-button v-if="title == '审核未通过'" type="text" size="mini" @click="goToEdit(item)">编辑</el-button>
                           </el-col>
                     <el-col :span="3" class="operation">
                       <el-button type="text" size="mini">删除</el-button>
@@ -57,32 +63,36 @@
             title:{default:'审核中'},
             updateUrl:''
           },
-          data:function(){
+          data(){
             return {
                 baseUrl:this.$store.state.serverUrl,
                 upUrl:this.$props.updateUrl
             }
           },
-          mounted:function(res){
+          mounted(){
+
+          },
+          methods:{
+            changeTab(tab){
+              console.log(tab);
             },
-            methods:{
-              changeTab(tab){
-                console.log(tab);
-              },
-              goToEdit(item){
-                  sessionStorage.setItem('editor',JSON.stringify(item));
-                  this.$router.push({
-                      path:'/write',
-                      query:{
-                          isEdit:true,
-                          upUrl:'/roomapi/Room_Class/addArticle',
-                          spacename:'classes',
-                          fromname:'班级空间'
-                      }
-                  })
-              }
-          
+            recall(item){ //审核中 点击撤回
+
+            },
+            goToEdit(item){ //审核未通过  点击编辑
+                sessionStorage.setItem('editor',JSON.stringify(item));
+                this.$router.push({
+                    path:'/write',
+                    query:{
+                        isEdit:true,
+                        upUrl:'/roomapi/Room_Class/addArticle',
+                        spacename:'classes',
+                        fromname:'班级空间'
+                    }
+                })
             }
+        
+          }
         }
       </script>
       <style lang="scss" scoped>

@@ -3,7 +3,7 @@
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
         <span class="top-title">班级动态</span>
-        <el-button type="text">
+        <el-button type="text" @click="viewAll">
           查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
         </el-button>
       </el-col>
@@ -63,6 +63,9 @@
       methods:{
         changeTab(tab){
           console.log(tab);
+        },
+        viewAll(){ //查看全部
+          
         },
         getGenaras:function(){
           console.log(this.$store.state)

@@ -292,20 +292,25 @@
       }
     }
     .bottom{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      span{
+      .content{
+        float: left;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
         color:rgba(153,153,153,1);
       }
-      .el-button{
-        cursor: pointer;
-        font-family:PingFangSC-Regular,PingFang SC;
-        font-weight:400;
-        color:rgba(3,70,146,1);
-        line-height:11px;
+      .recall{
+        float: right;
+        .el-button{
+          cursor: pointer;
+          font-family:PingFangSC-Regular,PingFang SC;
+          font-weight:400;
+          color:rgba(3,70,146,1);
+          line-height:11px;
+          span{
+            font-size: 12px;
+            color:#034692;
+          }
+        }
       }
     }
   }
