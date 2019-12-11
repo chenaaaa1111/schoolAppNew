@@ -128,6 +128,9 @@
     .title{
       line-height: 40px;
       font-size: 20px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       .text{
         font-weight: bold;
         margin-right: 30px;
