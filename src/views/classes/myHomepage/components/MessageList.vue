@@ -1,50 +1,40 @@
 <template>
         <el-card class="banner-card">
-          <div slot="header" class="clearfix">
-            <span class="cardTitle">
+          <el-breadcrumb slot="header" separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
+            <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <div class="clearfix">
+            <el-col :span="24" class="top-box">
+              <span class="top-title">
+                <el-badge :value="messageLists.total" :max="99" class="item">
+                  {{title}}
+                </el-badge>
+              </span>
+              <!-- <el-button type="text">
+                查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
+              </el-button> -->
+            </el-col>
+            <!-- <span class="cardTitle">
               <img
                 style="background:#226BB4;border-radius: 50%;"
                 src="../../../../assets/images/myhome/message.png"/>
-                <el-badge :value="total" :max="99" class="item">
+                <el-badge :value="messageLists.total" :max="99" class="item">
                   消息通知
                 </el-badge>
-            </span>
-            <span class="more" @click="showmessagemore">
+            </span> -->
+            <!-- <span class="more" @click="showmessagemore">
               <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
-            </span>
+            </span> -->
           </div>
-          <el-row class="question" v-for ="(item,index) in messageList" :key="index">
-            <el-col class="title"><el-button @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
+          <el-row class="question" v-for ="(item,index) in messageLists.model" :key="index">
+            <el-col class="title"><el-button class="titleName" @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
             <el-col>
               <el-row>
-                <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+                <el-col :span="14" class="time">{{item.create_time}}</el-col>
               </el-row>
             </el-col>
           </el-row>
-          <!-- <el-row class="question">
-            <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-            <el-col>
-              <el-row>
-                <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-              </el-row>
-            </el-col>
-          </el-row>
-          <el-row class="question">
-            <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-            <el-col>
-              <el-row>
-                <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-              </el-row>
-            </el-col>
-          </el-row>
-          <el-row class="question">
-            <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-            <el-col>
-              <el-row>
-                <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-              </el-row>
-            </el-col>
-          </el-row> -->
         </el-card>
       </template>
       <script>
@@ -55,17 +45,22 @@
               type: String,
               default: ''
             },
-            messageList:{
-                default:[]
+            title:{
+              type: String,
+              default:''
+            },
+            messageLists:{
+              type: [Object, Array],
+              default: () => {}
             }
           },
           data() {
             return {
-              messages:[],
               total:0
             }
           },
           mounted(){
+            console.log(this.messageLists,'adsdsaddssdsadasdas')
           },
           methods: {
             showmessagemore() {
@@ -96,6 +91,34 @@
       <style lang="scss">
       .banner-card{
         margin-bottom: 12px;
+         .top-box{
+          position: relative;
+          text-align: center;
+          margin-bottom: 35px;
+          .top-title{
+            display: inline-block;
+            width: 200px;
+            height: 50px;
+            border: 1px solid #034692;
+            border-radius: 25px;
+            line-height: 50px;
+            font-size: 24px;
+            font-weight: 600;
+          }
+          .el-button{
+            float: right;
+            font-size: 12px;
+            .more{
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              vertical-align: middle;
+              margin-left: 10px;
+              position: relative;
+              top: -3px;
+            }
+          }
+        }
         .cardTitle{
           font-size: 24px;
           font-weight: 600;
@@ -280,13 +303,20 @@
         .question{
           margin-top: 10px;
           .title{
-            font-size: 18px;
-            color: #1E1E1E;
             padding: 6px 0px;
             font-weight: 600;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            .titleName{
+              span{
+                font-size:20px;
+                font-family:PingFangSC-Medium,PingFang SC;
+                font-weight:500;
+                color:rgba(30,30,30,1);
+                line-height:28px;
+              }
+            }
           }
           .time{
             height: 44px;

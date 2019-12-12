@@ -12,9 +12,9 @@
     </div>
     <div class="examineTips">{{total}}个审核未通过的新闻:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
-      <el-col :span="24" class="title"><el-button @click="msgDetails" class="titleName" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="title"><el-button @click="msgDetails(item)" class="titleName" type="text">{{item.title}}</el-button></el-col>
       <el-col :span="24" class="bottom">
-        <div class="content"<span>{{item.create_time}}</span></div>
+        <span>{{item.create_time}}</span>
         <div class="recall">
           <el-button type="text" @click="reEditNews(item)">编辑</el-button>
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
@@ -96,16 +96,17 @@
         var tab='notPass';
         this.$emit('changeTab',tab);
       },
-      msgDetails() {
-        console.log('????????')
-        // this.$router.push({
-        //   name: 'readmessage',
-        //   params: {
-        //     widgetName: '审核未通过',
-        //     routeName: '我的主页',
-        //     fromwhere: 'myHomepage'
-        //   }
-        // })
+      msgDetails(item) { //审核未通过 点击标题 进入新闻详情
+        let query = {};
+        query.widgetName = '审核未通过';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.id = item.id; //文章id
+        this.$router.push({
+          name: 'readmessage',
+          query: query
+        })
       }
     }
   }
@@ -314,28 +315,29 @@
         overflow: hidden;
       }
     }
-    .bottom{
-      .content{
-        float: left;
-        font-family:PingFangSC-Regular,PingFang SC;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-      }
-      .recall{
-        float: right;
-        .el-button{
-          cursor: pointer;
-          font-family:PingFangSC-Regular,PingFang SC;
-          font-weight:400;
-          color:rgba(3,70,146,1);
-          line-height:11px;
-          span{
-            font-size: 12px;
-            color:#034692;
-          }
-        }
-      }
-    }
+    // .bottom{
+    //   // line-height: 38px;
+    //   span{
+    //     float: left;
+    //     font-family:PingFangSC-Regular,PingFang SC;
+    //     font-weight:400;
+    //     color:rgba(153,153,153,1);
+    //   }
+    //   .recall{
+    //     float: right;
+    //     .el-button{
+    //       cursor: pointer;
+    //       font-family:PingFangSC-Regular,PingFang SC;
+    //       font-weight:400;
+    //       color:rgba(3,70,146,1);
+    //       line-height:11px;
+    //       span{
+    //         font-size: 12px;
+    //         color:#034692;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
 </style>

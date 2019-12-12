@@ -1,12 +1,11 @@
 <!-- 审核中的动态 -->
 <template>
-        <el-card >
+        <el-card>
+          <el-breadcrumb slot="header" separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
+            <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
+          </el-breadcrumb>
           <el-row class="top-block">
-            <el-breadcrumb separator-class="el-icon-arrow-right">
-              <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
-              <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
-            </el-breadcrumb>
-            <el-divider></el-divider>
             <el-col :span="24" class="top-box">
               <span class="top-title">{{title}}</span>
               <!-- <el-button type="text">

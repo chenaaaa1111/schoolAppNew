@@ -267,7 +267,7 @@ const router= new Router({
     {
       path: '/classes/readmessage',
       name: 'readmessage',
-      component: () => import('@/views/classes/read/readmessage.vue'), // 从审核 审核未通过 进入到文章详情页
+      component: () => import('@/views/classes/read/readmessage.vue'), // 班级空间 我的主页从审核 审核未通过 消息通知 进入到文章详情页 消息通知详情
     }
   ]
 })

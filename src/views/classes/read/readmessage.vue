@@ -31,9 +31,14 @@
               <el-col :span="24">
                 <el-page-header :title="'返回'+title" @back="goBack"></el-page-header>
               </el-col>
-              <el-col :span="24" class="news-result">
+              <el-col :span="24" class="news-result" v-if="widgetName == '审核中'">
                 <p class="process">正在审核中</p>
                 <p class="processContent">管理员审核通过后，新闻就发布成功，请你耐心等待</p>
+                <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
+              </el-col>
+              <el-col :span="24" class="news-result" v-if="widgetName == '审核未通过'">
+                <p class="process">审核未通过</p>
+                <p class="processContent">很抱歉你的新闻审核未通过,请你仔细查阅编辑后再发布</p>
                 <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
               </el-col>
             </el-row>
@@ -41,7 +46,8 @@
           <div class="news-box">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
-                 <img src="../../../assets/images/classes/recall.png" @click="writenews" />
+                 <img v-if="widgetName == '审核中'" src="../../../assets/images/classes/recall.png" @click="writenews" />
+                 <img v-if="widgetName == '审核未通过'" src="../../../assets/images/classes/recall.png" />
                  <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
               </el-col>
               <el-col class="news-cover">

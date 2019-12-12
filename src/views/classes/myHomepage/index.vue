@@ -33,7 +33,7 @@
             <EXhibitionExaming :articles="examings" v-show="this.tab!='main'&&this.tab!='message'" :upUrl="upUrl" :title="ExhibitionTitle">
             </EXhibitionExaming>
             
-            <MessageList :messageList="messageLists"   v-show="this.tab=='message'"></MessageList>
+            <MessageList :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
           </el-col>
         </el-row>
       </el-col>
@@ -72,7 +72,7 @@
       return {
         ExhibitionTitle: '审核中',// 审核中，审核未通过标题
         upUrl: '',
-        messageLists:[],//消息
+        messageList: {},//消息
         userMassages:[],
         routename: '',
         tab: 'main',
@@ -100,9 +100,16 @@
             this.upUrl = "/roomapi/Room_Class/addArticle";
           })
         } else if (tab == 'message') {
-          request.post('/roomapi/Users/userMessage', {}, (res) => {
-            this.messageLists = res.data.model;
-            
+          var self = this;
+          var data= {
+            kid: 1,
+            page: 1,
+            psize: 3
+          };
+          request.post('/roomapi/Users/userMessage', data, (res) => {
+            self.ExhibitionTitle = "消息通知";
+            self.messageList = res.data;
+            console.log(self.messageList,'dedaode ')
           })
         }
 

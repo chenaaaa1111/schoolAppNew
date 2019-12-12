@@ -14,8 +14,8 @@
     <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
       <el-col :span="24" class="bottom">
-        <div class="content"<span>{{item.create_time}}</span></div>
-        <div class="recall"><el-button type="text" @click="writenews(item)">撤回</el-button></div>
+        <span>{{item.create_time}}</span>
+        <el-button type="text" @click="writenews(item)">撤回</el-button>
       </el-col>
     </el-row>
 
@@ -295,24 +295,17 @@
       overflow: hidden;
     }
     .bottom{
-      .content{
-        float: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .el-button{
+        cursor: pointer;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
-        color:rgba(153,153,153,1);
-      }
-      .recall{
-        float: right;
-        .el-button{
-          cursor: pointer;
-          font-family:PingFangSC-Regular,PingFang SC;
-          font-weight:400;
+        font-size: 12px;
+        color:rgba(3,70,146,1);
+        span{
           color:rgba(3,70,146,1);
-          line-height:11px;
-          span{
-            font-size: 12px;
-            color:#034692;
-          }
         }
       }
     }

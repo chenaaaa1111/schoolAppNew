@@ -14,7 +14,7 @@
       </span>
     </div>
     <el-row class="question" v-for ="(item,index) in messages" :key="index">
-      <el-col :span="24" class="title"><el-button class="titleName" @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="title"><el-button class="titleName" @click="msgDetails(item)" type="text">{{item.title}}</el-button></el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
       </el-col>
@@ -45,7 +45,7 @@
           var data= {
             kid: 1,
             page: 1,
-            psize: 3
+            psize: 4
           };
           request.post('/roomapi/Users/userMessage',data,function(res){
             self.messages = res.data.model;
@@ -65,15 +65,17 @@
         this.$emit('changeTab',tab);
         console.log("message")
       },
-      msgDetails() {
-        console.log('????????')
+      msgDetails(item) {
+        let query = {};
+        query.widgetName = '消息通知';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.id = item.id; //消息id
+        query.c_id = item.c_id; //文章id
         this.$router.push({
           name: 'readmessage',
-          params: {
-            widgetName: '消息通知',
-            routeName: '我的主页',
-            fromwhere: 'myHomepage'
-          }
+          query: query
         })
       }
     }
@@ -291,28 +293,29 @@
         overflow: hidden;
       }
     }
-    .bottom{
-      .content{
-        float: left;
-        font-family:PingFangSC-Regular,PingFang SC;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-      }
-      .recall{
-        float: right;
-        .el-button{
-          cursor: pointer;
-          font-family:PingFangSC-Regular,PingFang SC;
-          font-weight:400;
-          color:rgba(3,70,146,1);
-          line-height:11px;
-          span{
-            font-size: 12px;
-            color:#034692;
-          }
-        }
-      }
-    }
+    // .bottom{
+    //   line-height: 38px;
+    //   span{
+    //     float: left;
+    //     font-family:PingFangSC-Regular,PingFang SC;
+    //     font-weight:400;
+    //     color:rgba(153,153,153,1);
+    //   }
+    //   .recall{
+    //     float: right;
+    //     .el-button{
+    //       cursor: pointer;
+    //       font-family:PingFangSC-Regular,PingFang SC;
+    //       font-weight:400;
+    //       color:rgba(3,70,146,1);
+    //       line-height:11px;
+    //       span{
+    //         font-size: 12px;
+    //         color:#034692;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
 </style>
