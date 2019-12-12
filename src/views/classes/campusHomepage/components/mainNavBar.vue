@@ -232,11 +232,6 @@
     created: function () {
       this.$root.eventLister.$on('seachInfo', this.seachInfo)
     },
-    // computed: {
-    //   srarchWord() {
-    //     return this.$store.state.spaceKeyWord
-    //   }
-    // },
     mounted: function () {
       this.getUserInfo();
       var data = {
@@ -258,11 +253,7 @@
         clientWidth = 980;
       }
       html.style.fontSize = clientWidth / 12.4 + "px";
-    },
-    comments: {
-
     }
-
   }
 </script>
 <style>

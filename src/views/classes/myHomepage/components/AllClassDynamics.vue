@@ -69,6 +69,7 @@
 </template>
 <script>
 import request from "@/api/request.js";
+import Vue from 'vue';
 export default {
   props: {
     allClassDys: {
@@ -83,6 +84,7 @@ export default {
   },
   data: function() {
     return {
+      flag: '', //删除操作的标识
       title: '班级动态',
       serverUrl: this.$store.state.serverUrl
     };
@@ -99,6 +101,7 @@ export default {
       //查看全部
     },
     deleteArt(id) {
+      debugger
       //班级动态 删除文章
       var vm = this;
       vm.$confirm(
@@ -120,11 +123,13 @@ export default {
                 type: "success",
                 message: res.message
               });
-              setTimeout(function() {
-                vm.$router.push({
-                  name: vm.fromwhere
-                });
-              }, 2000);
+              vm.getGenaras();
+              if(vm.allClassTitle == '班级动态') {
+                vm.flag = 1;
+              } else if(vm.allClassTitle == '校园动态'){
+                vm.flag = 2;
+              }
+              vm.$root.eventLister.$emit('changeNumEvent', vm.flag);
             }
           });
         })
@@ -137,28 +142,28 @@ export default {
           });
         });
     },
-    // getGenaras: function() {
-    //   console.log(this.$store.state);
-    //   var self = this;
-    //   var data = {
-    //     uid: this.$store.state.userInfo.id,
-    //     page: 1,
-    //     psize: 3,
-    //     level: 1
-    //   };
-    //   request.post("/roomapi/Room_Class/myPage", data, function(res) {
-    //     self.$store.commit("setClassDynamic", res.data.total);
-    //     if (res.code == 0) {
-    //       if (res.data.model.length > 0) {
-    //         self.articles = res.data.model.map(item => {
-    //           item.isopen = false;
-    //           return item;
-    //         });
-    //         console.log(self.articles, "全部班级动态");
-    //       }
-    //     }
-    //   });
-    // },
+    getGenaras() {
+      console.log(this.$store.state);
+      var self = this;
+      var data = {
+        uid: self.$store.state.userInfo.id,
+        page: 1,
+        psize: 10,
+        level: 1
+      };
+      request.post("/roomapi/Room_Class/myPage", data, function(res) {
+        self.$store.commit("setClassDynamic", res.data.total);
+        if (res.code == 0) {
+          if (res.data.model.length > 0) {
+            self.articles = res.data.model.map(item => {
+              item.isopen = false;
+              return item;
+            });
+            console.log(self.articles, "全部班级动态");
+          }
+        }
+      });
+    },
     openContent(index) {
       this.allClassDys[index].isopen = true;
     },

@@ -53,23 +53,22 @@
             </el-row>
 
           </el-col>
-          <!-- <el-col :span="24" class="article-date">{{item.create_time}}</el-col> -->
           <el-col :span="24" ><el-divider></el-divider></el-col>
         </el-row>
-
-
       </el-col>
     </el-row>
   </el-card>
 </template>
 <script>
   import request from '@/api/request.js';
+  import Vue from 'vue';
   export default {
     props:{
 
     },
     data:function(){
       return {
+        flag: '', //删除操作的标识 
         articles:[],
         serverUrl:this.$store.state.serverUrl
       }
@@ -100,11 +99,9 @@
                 type: 'success',
                 message: res.message
               });
-              setTimeout(function(){
-                vm.$router.push({
-                  name: vm.fromwhere
-                })
-              },2000)
+              vm.getGenaras();
+              vm.flag = 1;
+              vm.$root.eventLister.$emit('changeNumEvent', vm.flag);
             }
           })
         }).catch(() => {
@@ -121,9 +118,9 @@
         var self = this;
         var data={
           uid: this.$store.state.userInfo.id,
-          page:1,
-          psize:3,
-          level:1
+          page: 1,
+          psize: 10,
+          level: 1
         }
         request.post('/roomapi/Room_Class/myPage',data,function(res){
           self.$store.commit('setClassDynamic',res.data.total);

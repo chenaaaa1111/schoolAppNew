@@ -20,6 +20,7 @@
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
         </div>
       </el-col>
+      <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
 
   </el-card>

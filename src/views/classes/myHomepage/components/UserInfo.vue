@@ -5,92 +5,117 @@
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
     <h2 class="myName" v-if="!editname">
-      {{userInfo.name}} <img src="../../../../assets/images/myhome/editName.png" @click="editName"/>
+      {{userInfo.name}}
+      <img src="../../../../assets/images/myhome/editName.png" @click="editName" />
       <!-- <i class="el-icon-edit"></i> -->
       <!-- <img :src="userInfo.avatar||'../../../../assets/images/myhome/editName.png'"/> -->
     </h2>
     <h2 v-if="editname" style="text-align: center">
-      <el-input type="text" v-model="userInfo.name" @blur="changeName" style="text-align: center;width: 100px;"></el-input>
+      <el-input
+        type="text"
+        v-model="userInfo.name"
+        @blur="changeName"
+        style="text-align: center;width: 100px;"
+      ></el-input>
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
         <p class="count">{{SchoolDynamic}}</p>
-        <p class="title">校园动态</p>
+        <p class="title" @click="allSchoolDynamic">校园动态</p>
       </div>
       <div class="dynamic-c">
         <p class="count">{{ClassDynamic}}</p>
-        <p class="title">班级动态</p>
+        <p class="title" @click="allClassDynamic">班级动态</p>
       </div>
     </div>
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-  export default{
-    data() {
-      return {
-        circleUrl: '',
-        // circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:{}, //用户信息
-        ClassDynamic:1,
-        SchoolDynamic:1,
-        editname: false
+import request from "@/api/request.js";
+export default {
+  data() {
+    return {
+      circleUrl: "",
+      // circleUrl: require('../../../../assets/images/user.png'),
+      userInfo: {}, //用户信息
+      ClassDynamic: 0,
+      SchoolDynamic: 0,
+      editname: false, //编辑用户姓名状态
+    };
+  },
+  created() {
+    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    console.log("userInfo", this.userInfo);
+    this.circleUrl = this.userInfo.avatar;
+  },
+  mounted() {
+    this.getShoolDynamic();
+    this.getClassDynamic();
+    this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent);//数量变化监听
+    // this.SchoolDynamic=this.$store.state.SchoolDynamic;
+    // this.ClassDynamic=this.$store.state.ClassDynamic;
+  },
+  methods: {
+    allSchoolDynamic() { //点击校园动态
+      var tab = 'allSchoolDynamics';
+      this.$emit('changeTab',tab);
+    },
+    allClassDynamic() { //点击班级动态
+      var tab = 'allClassDynamics';
+      this.$emit('changeTab',tab);
+    },
+    getShoolDynamic() {
+      //获取校园动态数量
+      let self = this;
+      let data = {
+        uid: self.$store.state.userInfo.id,
+        page: 1,
+        psize: 3,
+        level: 2
+      };
+      request.post("/roomapi/Room_Class/myPage", data, function(res) {
+        self.SchoolDynamic = res.data.total;
+      });
+    },
+    getClassDynamic() {
+      //获取班级动态数量
+      let self = this;
+      var data = {
+        uid: self.$store.state.userInfo.id,
+        page: 1,
+        psize: 3,
+        level: 1
+      };
+      request.post("/roomapi/Room_Class/myPage", data, function(res) {
+        self.ClassDynamic = res.data.total;
+      });
+    },
+    changeNumEvent(flag) { //班级动态中删除了新闻后  监听操作状态 来改变数量
+      console.log(flag,'是否进行了删除操作')
+      if(flag == 1){
+        this.getClassDynamic();
+      }else if(flag == 2){
+        this.getShoolDynamic();
       }
     },
-    created(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      console.log('userInfo',this.userInfo);
-      this.circleUrl = this.userInfo.avatar;
+    editName() {
+      // 打开编辑姓名编辑框
+      this.editname = true;
     },
-    mounted(){
-      this.getShoolDynamic();
-      this.getClassDynamic();
-      // this.SchoolDynamic=this.$store.state.SchoolDynamic;
-      // this.ClassDynamic=this.$store.state.ClassDynamic;
-
-    },
-    methods: {
-      getShoolDynamic () { //获取校园动态数量
-        let self = this;
-        let data = {
-          uid: self.$store.state.userInfo.id,
-          page: 1,
-          psize: 3,
-          level: 2
-        }
-        request.post('/roomapi/Room_Class/myPage',data,function(res){
-          self.SchoolDynamic = res.data.total;
-        })
-      },
-      getClassDynamic () { //获取班级动态数量
-        let self = this;
-        var data={
-          uid: self.$store.state.userInfo.id,
-          page: 1,
-          psize: 3,
-          level: 1
-        }
-        request.post('/roomapi/Room_Class/myPage',data,function(res){
-          self.ClassDynamic = res.data.total;
-        })
-      },
-      editName() { // 打开编辑姓名编辑框
-        this.editname = true
-      },
-      changeName(value) {
-        console.log(this.userInfo.name, 111)
-        this.editname = false
-      }
+    changeName(value) {
+      console.log(this.userInfo.name, 111);
+      this.editname = false;
     }
   }
+};
 </script>
 <style lang="scss">
-.banner-card{
+.banner-card {
   margin-bottom: 12px;
-  .cardTitle{
+  .cardTitle {
     font-size: 24px;
     font-weight: 600;
-    img{
+    img {
       display: inline-block;
       width: 38px;
       height: 38px;
@@ -98,44 +123,45 @@
       margin-right: 17px;
     }
   }
-  .more{
+  .more {
     float: right;
     display: block;
     // width: 16px;
     height: 16px;
     cursor: pointer;
     margin-top: 0.1rem;
-    .text{
+    .text {
       position: relative;
       top: 2px;
       margin-right: 10px;
       color: #888;
     }
-    img{
+    img {
       display: inline;
       width: 18px;
       vertical-align: middle;
     }
   }
-  .newList{
+  .newList {
     list-style: none;
-    li{
+    li {
       padding: 16px 20px 16px 18px;
       margin-left: 20px;
       font-size: 18px;
-      background: url('../../../../assets/images/classes/dotg.png') no-repeat 0px center;
+      background: url("../../../../assets/images/classes/dotg.png") no-repeat
+        0px center;
       background-size: 8px 8px;
       cursor: pointer;
       position: relative;
-      border-bottom: 1px dashed #DEDEDE;
-      .text{
+      border-bottom: 1px dashed #dedede;
+      .text {
         display: block;
         margin-right: 80px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .date{
+      .date {
         position: absolute;
         width: 80px;
         top: 17px;
@@ -143,65 +169,65 @@
         color: #888888;
       }
     }
-    li:hover{
+    li:hover {
       color: #034692;
-      background-image: url('../../../../assets/images/classes/dot.png');
+      background-image: url("../../../../assets/images/classes/dot.png");
     }
   }
-  .areablock{
-    .areaName{
+  .areablock {
+    .areaName {
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
     }
-    .area{
+    .area {
       list-style: none;
       margin-bottom: 30px;
-      li{
+      li {
         float: left;
         width: 33.333%;
         padding: 8px 0px;
         font-size: 18px;
       }
-      li:hover{
+      li:hover {
         color: #034692;
         cursor: pointer;
       }
     }
-    .area::after{
+    .area::after {
       content: "";
       display: block;
       height: 0;
       clear: both;
     }
   }
-  .notice{
+  .notice {
     font-size: 18px;
-    li{
+    li {
       padding: 8px 0px;
       line-height: 30px;
-      border-bottom: 1px dashed #DEDEDE;
-      .noticeTitle{
-        overflow:hidden;
-        text-overflow:ellipsis;
+      border-bottom: 1px dashed #dedede;
+      .noticeTitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
       }
-      .noticeDate{
+      .noticeDate {
         text-align: right;
         color: #888888;
       }
     }
   }
-  .circle{
+  .circle {
     text-align: center;
     padding: 24px 0px 14px;
   }
-  .myName{
+  .myName {
     text-align: center;
-    img{
+    img {
       display: inline-block;
       width: 22px;
       height: 22px;
@@ -212,58 +238,58 @@
       left: 12px;
     }
   }
-  .dynamic{
+  .dynamic {
     height: 108px;
     margin-top: 30px;
-    border-radius:12px;
+    border-radius: 12px;
     overflow: hidden;
-    background-color: #D3E1F1;
-    .dynamic-g,.dynamic-c{
+    background-color: #d3e1f1;
+    .dynamic-g,
+    .dynamic-c {
       float: left;
       width: 50%;
       height: 100%;
       text-align: center;
       color: #034692;
       font-size: 26px;
-      .count{
+      .count {
         width: 100%;
         height: 48px;
         line-height: 48px;
         margin-top: 26px;
       }
-      .title{
+      .title {
         font-size: 16px;
         color: #333;
       }
     }
-    .dynamic-g:first-child{
-      .count{
-        box-shadow: 1px 0px #819EBF;
+    .dynamic-g:first-child {
+      .count {
+        box-shadow: 1px 0px #819ebf;
       }
     }
-
   }
-  .dynamic::after{
-    content: '';
+  .dynamic::after {
+    content: "";
     display: block;
     height: 0;
     clear: both;
   }
-  .vistorCount{
+  .vistorCount {
     font-size: 20px;
-    color: #1E1E1E;
+    color: #1e1e1e;
     font-weight: 600;
   }
-  .lately{
+  .lately {
     font-size: 16px;
     color: #034692;
     padding: 15px 0px 20px;
   }
-  .vistor-avatar{
+  .vistor-avatar {
     margin-top: 10px;
     margin-right: 10px;
   }
-  .examineTips{
+  .examineTips {
     font-size: 14px;
     color: red;
     line-height: 30px;
