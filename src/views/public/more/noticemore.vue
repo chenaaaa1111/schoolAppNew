@@ -13,7 +13,7 @@
                 <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
               </el-dropdown-menu>
@@ -136,6 +136,7 @@
         }
         var data= this.$router.query||this.$router.currentRoute.query;
         console.log('请求参数',data);
+        data.loadUrl='/roomapi/Users/NoticeList';
         request.post(data.loadUrl, data, function (res) {
           res.data = res.data.model ? res.data.model : {
             "id": 1,
