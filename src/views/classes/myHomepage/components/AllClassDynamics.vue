@@ -1,56 +1,58 @@
-<!-- 审核中 审核未通过的动态 -->
 <template>
   <el-card>
     <el-breadcrumb slot="header" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
-      <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
+      <el-breadcrumb-item class="currentPage">{{allClassTitle}}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
-        <span class="top-title">{{title}}</span>
-        <!-- <el-button type="text">
-                查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
-        </el-button>-->
+        <span class="top-title">{{allClassTitle}}</span>
       </el-col>
       <el-col :span="24">
-        <el-row class="article" v-for="(item,index) in articles" :key="index">
+        <el-row class="article" v-for="(item,index) in allClassDys" :key="index">
           <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
                 <span class="text">{{item.title}}</span>
-                <span class="classify">(栏目: {{item.column_name}})</span>
-                <span class="date">{{item.create_time}}</span>
               </el-col>
-              <el-col :span="3" class="operation">
-                <el-button v-if="title == '审核中'" type="text" size="mini" @click="recall(item)">撤回</el-button>
-                <el-button
-                  v-if="title == '审核未通过'"
-                  type="text"
-                  size="mini"
-                  @click="goToEdit(item)"
-                >编辑</el-button>
-              </el-col>
-              <el-col :span="3" class="operation">
+              <el-col :span="6" class="operation">
                 <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
+              </el-col>
+              <el-col :span="24" class="title">
+                <span class="classify">栏目: {{item.column_name}}</span>
+                <span class="date">{{item.create_time}}</span>
               </el-col>
             </el-row>
           </el-col>
           <el-col :span="24">
-            <el-row class="content" :gutter="10">
+            <el-row class="content" :gutter="10" v-if="!item.isopen">
               <el-col :span="6">
-                <img
-                  class="con-pic"
-                  :src="baseUrl+item.image||'../../../../assets/images/content.png'"
-                />
+                <img class="con-pic" :src="item.avatar" />
               </el-col>
               <el-col :span="18">
-                <div
-                  class="con-text"
-                >{{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}</div>
+                <div class="con-text" v-html="item.content">
+                  <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
+                </div>
                 <div class="read-more">
-                  <el-button type="text" size="mini">
+                  <el-button type="text" size="mini" @click="openContent(index)">
                     阅读全文
                     <i class="el-icon-caret-bottom el-icon--right"></i>
+                  </el-button>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row class="content content-open" v-if="item.isopen">
+              <el-col :span="24">
+                <img class="con-pic" :src="item.avatar" />
+              </el-col>
+              <el-col :span="24">
+                <div class="con-text" v-html="item.content">
+                  <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
+                </div>
+                <div class="read-more">
+                  <el-button type="text" size="mini" @click="closeContent(index)">
+                    收起
+                    <i class="el-icon-caret-top el-icon--right"></i>
                   </el-button>
                 </div>
               </el-col>
@@ -65,71 +67,39 @@
     </el-row>
   </el-card>
 </template>
-      <script>
+<script>
 import request from "@/api/request.js";
 export default {
   props: {
-    articles: {
+    allClassDys: {
       type: [Object, Array],
       default: () => []
     },
-    title: {
+    allClassTitle: {
       type: String,
-      default: "审核中"
+      default: ""
     },
-    updateUrl: ""
+    // updateUrl: ""
   },
-  data() {
+  data: function() {
     return {
-      baseUrl: this.$store.state.serverUrl,
-      upUrl: this.$props.updateUrl
+      title: '班级动态',
+      serverUrl: this.$store.state.serverUrl
     };
   },
   mounted() {
-    
+
+    // this.getGenaras();
   },
   methods: {
     changeTab(tab) {
       console.log(tab);
     },
-    recall(item) {
-      //审核中点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      let query = item;
-      query.widgetName = "审核中";
-      query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
-      query.spaceModule = "classes"; //班级空间名
-      query.isEdit = true;
-      this.$router.push({
-        name: "write",
-        query: query
-      });
+    viewAll() {
+      //查看全部
     },
-    goToEdit(item) {
-      // 审核未通过点击编辑 跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      let query = item;
-      query.widgetName = "审核未通过";
-      query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
-      query.spaceModule = "classes"; //班级空间名
-      query.isEdit = true;
-      this.$router.push({
-        name: "write",
-        query: query
-      });
-      // sessionStorage.setItem('editor',JSON.stringify(item));
-      // this.$router.push({
-      //     path:'/write',
-      //     query:{
-      //         isEdit:true,
-      //         upUrl:'/roomapi/Room_Class/addArticle',
-      //         spacename:'classes',
-      //         fromname:'班级空间'
-      //     }
-      // })
-    },
-    // 点击删除后 刷新当前列表
     deleteArt(id) {
+      //班级动态 删除文章
       var vm = this;
       vm.$confirm(
         "删除后，你将不再看到该新闻的信息，是否确认删除？",
@@ -150,14 +120,11 @@ export default {
                 type: "success",
                 message: res.message
               });
-              request.post("/roomapi/Room_Class/notAudit", {}, res => {
-                vm.articles = res.data.model;
-              });
-              // setTimeout(function(){
-              //   vm.$router.push({
-              //     name: vm.fromwhere
-              //   })
-              // },2000)
+              setTimeout(function() {
+                vm.$router.push({
+                  name: vm.fromwhere
+                });
+              }, 2000);
             }
           });
         })
@@ -169,11 +136,39 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    // getGenaras: function() {
+    //   console.log(this.$store.state);
+    //   var self = this;
+    //   var data = {
+    //     uid: this.$store.state.userInfo.id,
+    //     page: 1,
+    //     psize: 3,
+    //     level: 1
+    //   };
+    //   request.post("/roomapi/Room_Class/myPage", data, function(res) {
+    //     self.$store.commit("setClassDynamic", res.data.total);
+    //     if (res.code == 0) {
+    //       if (res.data.model.length > 0) {
+    //         self.articles = res.data.model.map(item => {
+    //           item.isopen = false;
+    //           return item;
+    //         });
+    //         console.log(self.articles, "全部班级动态");
+    //       }
+    //     }
+    //   });
+    // },
+    openContent(index) {
+      this.allClassDys[index].isopen = true;
+    },
+    closeContent(index) {
+      this.allClassDys[index].isopen = false;
     }
   }
 };
 </script>
-      <style lang="scss" scoped>
+<style lang="scss" scoped>
 .top-block {
   .top-box {
     position: relative;
@@ -216,6 +211,9 @@ export default {
     .title {
       line-height: 40px;
       font-size: 20px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       .text {
         font-weight: bold;
         margin-right: 30px;
@@ -254,6 +252,17 @@ export default {
       .read-more {
         text-align: right;
       }
+      img {
+        display: block;
+        width: 100%;
+        border-radius: 8px;
+      }
+    }
+    .content-open {
+      .con-text {
+        overflow: auto;
+        -webkit-line-clamp: inherit;
+      }
     }
     .article-date {
       font-size: 18px;
@@ -264,4 +273,3 @@ export default {
   }
 }
 </style>
-      

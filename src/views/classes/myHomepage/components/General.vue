@@ -3,8 +3,8 @@
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
         <span class="top-title">校园动态</span>
-        <el-button type="text">
-          <span class="hidden-md-and-up">查看全部</span><img class="more" src="../../../../assets/images/classes/more.png"/>
+        <el-button type="text" @click="viewAll">
+           查看全部<img class="more" src="../../../../assets/images/classes/more.png" />
         </el-button>
       </el-col>
       <el-col :span="24">
@@ -29,69 +29,79 @@
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-    export default{
-      props:{
-
-      },
-      data:function(){
-        return  {
-          articles:[]
-        }
-      },
-      mounted:function(res){
-        this.getGenaras()
-      },
-      methods:{
-        getGenaras:function(){
-          console.log(this.$store.state)
-          var self=this;
-          var data={
-            uid:this.$store.state.userInfo.id,
-            page:1,
-            psize:3,
-            level:2
-          }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
-            self.$store.commit('setSchoolDynamic',res.data.total);
-            console.log('********', self.$store.state.userInfo)
-            self.articles=res.data.model.length>0?res.data.model:[{
-                "id": 4,
-                "columns": 1,
-                "column_name": "",
-                "name": "姓名",
-                "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-                "level": 2,
-                "title": "标题",
-                "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-                "content": "",
-                "create_time": "2019-11-29 00:00:00"
-            },
-            {
-                "id": 4,
-                "columns": 1,
-                "column_name": "",
-                "name": "姓名",
-                "avatar": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-                "level": 2,
-                "title": "标题",
-                "image": "https:\/\/www.i2f2f.com\/attachment\/images\/26\/2019\/04\/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
-                "content": "",
-                "create_time": "2019-11-29 00:00:00"
-            }
-          ]
-          })
-        }
-      }
+import request from "@/api/request.js";
+export default {
+  props: {},
+  data: function() {
+    return {
+      articles: []
+    };
+  },
+  mounted: function(res) {
+    this.getGenaras();
+  },
+  methods: {
+    viewAll(){ //查看全部
+      var tab = 'allSchoolDynamics';
+      this.$emit('changeTab',tab);
+    },
+    getGenaras: function() {
+      console.log(this.$store.state);
+      var self = this;
+      var data = {
+        uid: this.$store.state.userInfo.id,
+        page: 1,
+        psize: 3,
+        level: 2
+      };
+      request.post("/roomapi/Room_Class/myPage", data, function(res) {
+        self.$store.commit("setSchoolDynamic", res.data.total);
+        console.log("********", self.$store.state.userInfo);
+        self.articles =
+          res.data.model.length > 0
+            ? res.data.model
+            : [
+                {
+                  id: 4,
+                  columns: 1,
+                  column_name: "",
+                  name: "姓名",
+                  avatar:
+                    "https://www.i2f2f.com/attachment/images/26/2019/04/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                  level: 2,
+                  title: "标题",
+                  image:
+                    "https://www.i2f2f.com/attachment/images/26/2019/04/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                  content: "",
+                  create_time: "2019-11-29 00:00:00"
+                },
+                {
+                  id: 4,
+                  columns: 1,
+                  column_name: "",
+                  name: "姓名",
+                  avatar:
+                    "https://www.i2f2f.com/attachment/images/26/2019/04/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                  level: 2,
+                  title: "标题",
+                  image:
+                    "https://www.i2f2f.com/attachment/images/26/2019/04/giXIQxrG74ZXPnLnnFxnd4Rn0QpCFP.jpg",
+                  content: "",
+                  create_time: "2019-11-29 00:00:00"
+                }
+              ];
+      });
     }
+  }
+};
 </script>
 <style lang="scss" scoped>
-.top-block{
-  .top-box{
+.top-block {
+  .top-box {
     position: relative;
     text-align: center;
     margin-bottom: 35px;
-    .top-title{
+    .top-title {
       display: inline-block;
       width: 200px;
       height: 50px;
@@ -101,10 +111,10 @@
       font-size: 24px;
       font-weight: 600;
     }
-    .el-button{
+    .el-button {
       float: right;
       font-size: 12px;
-      .more{
+      .more {
         display: inline-block;
         width: 16px;
         height: 16px;
@@ -115,62 +125,62 @@
       }
     }
   }
-  .article{
+  .article {
     // margin-top: 25px;
-    .subTitle{
+    .subTitle {
       font-size: 16px;
       color: #999;
       line-height: 30px;
-      .el-divider--horizontal{
+      .el-divider--horizontal {
         margin-top: 12px;
       }
     }
-    .title{
+    .title {
       line-height: 40px;
       font-size: 20px;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      .text{
+      .text {
         font-weight: bold;
         margin-right: 30px;
       }
-      .classify{
+      .classify {
         color: #666;
         margin-right: 30px;
         white-space: nowrap;
       }
-      .date{
+      .date {
         color: #666;
         white-space: nowrap;
       }
     }
-    .operation{
+    .operation {
       text-align: right;
-      .el-button{
+      .el-button {
         padding-top: 0;
         font-size: 12px;
       }
     }
-    .content{
+    .content {
       margin: 24px 0px 0px 0px;
       padding: 0;
-      .con-pic{
+      .con-pic {
         display: block;
         width: 100%;
       }
-      .con-text{
+      .con-text {
         line-height: 36px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 4;
         overflow: hidden;
       }
-      .read-more{
+      .read-more {
         text-align: right;
       }
     }
-    .article-date{
+    .article-date {
       font-size: 18px;
       color: #999;
       line-height: 30px;

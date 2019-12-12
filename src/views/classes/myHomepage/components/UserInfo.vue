@@ -268,30 +268,5 @@
     color: red;
     line-height: 30px;
   }
-  .question{
-    margin-top: 10px;
-    .title{
-      font-size: 18px;
-      color: #1E1E1E;
-      padding: 6px 0px;
-      font-weight: 600;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
-      display: flex;
-      align-items: center;
-    }
-    .exit{
-      text-align: right;
-      .el-button{
-        font-size: 12px;
-      }
-    }
-  }
 }
 </style>

@@ -41,13 +41,18 @@
                 <p class="processContent">很抱歉你的新闻审核未通过,请你仔细查阅编辑后再发布</p>
                 <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
               </el-col>
+              <el-col :span="24" class="news-result" v-if="widgetName == '消息通知'">
+                <p class="process">您发布的“{{newsDetails.title}}”已被管理员删除</p>
+                <p class="deleteCause"><span class="title">删除原因：</span>{{newsDetails.why}}</p>
+                <p class="processContent">上传审核时间：<span>{{newsDetails.create_time}}</span></p>
+              </el-col>
             </el-row>
           </div>
-          <div class="news-box">
+          <div class="news-box" v-if="widgetName == '审核中' || widgetName == '审核未通过'">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
                  <img v-if="widgetName == '审核中'" src="../../../assets/images/classes/recall.png" @click="writenews" />
-                 <img v-if="widgetName == '审核未通过'" src="../../../assets/images/classes/recall.png" />
+                 <img v-if="widgetName == '审核未通过'" src="../../../assets/images/classes/editnews.png" @click="editnews"/>
                  <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
               </el-col>
               <el-col class="news-cover">
@@ -90,6 +95,7 @@
         fromwhere: '',
         title: '',
         widgetName: '',
+        newsDetails: '' //消息通知详情
       }
     },
     created(){
@@ -102,10 +108,15 @@
       this.avatar=this.userInfo.avatar;//头像
     },
     mounted() {
-      this.getArticleDetails();
+      if(this.$route.query.widgetName == '审核中' || this.$route.query.widgetName == '审核未通过'){
+        this.getArticleDetails();
+      }
+      if(this.$route.query.widgetName == '消息通知'){
+        this.getNewsDetails();
+      }
     },
     methods: {
-      getArticleDetails(){ //参数  文章id 
+      getArticleDetails(){ //参数  文章id  获取文章详情
         var data = {
           id: String(this.$route.query.id)
         }
@@ -118,14 +129,39 @@
           console.log( _this.articleDetails,'获取文章详情返回数据')
         }) 
       },
-      //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
+      getNewsDetails(){   //消息通知进来 获取消息通知详情 消息id
+        var data = {
+          id: String(this.$route.query.id)
+        }
+        var _this = this;
+        request.post('/roomapi/Users/detailsMessage', data, function(res){
+          if(res.code == 0) {
+            _this.newsDetails = res.data;
+          }
+          console.log( _this.newsDetails,'获取消息通知详情返回数据')
+        }) 
+      },
+      //审核中点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
       writenews() {
-        let query = this.$route.query;
-        // query.widgetName = '审核中';
-        // query.fromname = '我的主页';
-        // query.fromwhere = 'myHomepage';
-        // query.spaceModule = 'classes';//班级空间名
-        // query.isEdit = true;
+        let query = this.articleDetails;
+        query.widgetName = '审核中';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.isEdit = true;
+        this.$router.push({
+          name: 'write',
+          query: query
+        })
+      },
+      // 审核未通过点击编辑 跳转到编辑新闻页面 并携带信息过去 isEdit==true
+      editnews() {
+        let query = this.articleDetails;
+        query.widgetName = '审核中';
+        query.fromname = '我的主页';
+        query.fromwhere = 'myHomepage';
+        query.spaceModule = 'classes';//班级空间名
+        query.isEdit = true;
         this.$router.push({
           name: 'write',
           query: query
@@ -169,7 +205,32 @@
           name: 'home'
         })
       },
-      goBack() {
+      goBack() { //回到我的主页的同时 判断渲染右边页面的组件
+        // var tab = '';
+        // switch (widgetName) {
+        //   case "examing":
+        //    // 审核中
+        //     tab = 'main'
+        //     break;
+        //   case "notPass":
+        //    //审核未通过
+        //     tab = 'main'
+        //     break;
+        //   case "message":
+        //     // 消息通知
+        //     tab = 'main'
+        //     break;
+        //   case "teaching":
+            
+        //     break;
+        //     default:
+        //       this.$router.push({
+        //         name:data.name
+        //       })
+        // }
+        // var tab='message';
+        // this.$emit('changeTab',tab);
+        // console.log("message")
         this.$router.push({
           name: this.fromwhere
         })
@@ -273,6 +334,16 @@
             font-size: 20px;
             font-weight:400;
             color:rgba(136,136,136,1);
+          }
+          .deleteCause{
+            font-size: 20px;
+            font-family:PingFangSC-Medium,PingFang SC;
+            font-weight:500;
+            color:#333333;
+            line-height:14px;
+            .title{
+              color:rgba(204,33,33,1);
+            }
           }
         }
         .el-card__body{

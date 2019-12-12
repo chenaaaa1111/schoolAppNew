@@ -52,7 +52,7 @@
             self.total = res.data.total;
         })
       },
-      showmessagemore() {
+      showmessagemore() { //消息通知 点击全部
         console.log(222222);
         // this.$router.push({
         //   name: 'messagemore',
@@ -65,14 +65,13 @@
         this.$emit('changeTab',tab);
         console.log("message")
       },
-      msgDetails(item) {
+      msgDetails(item) { //点击消息 --进入消息通知详情页面
         let query = {};
         query.widgetName = '消息通知';
         query.fromname = '我的主页';
         query.fromwhere = 'myHomepage';
         query.spaceModule = 'classes';//班级空间名
         query.id = item.id; //消息id
-        query.c_id = item.c_id; //文章id
         this.$router.push({
           name: 'readmessage',
           query: query

@@ -7,9 +7,10 @@
           <div class="clearfix">
             <el-col :span="24" class="top-box">
               <span class="top-title">
-                <el-badge :value="messageLists.total" :max="99" class="item">
+                 {{title}}
+                <!-- <el-badge :value="messageLists.total" :max="99" class="item">
                   {{title}}
-                </el-badge>
+                </el-badge> -->
               </span>
               <!-- <el-button type="text">
                 查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
@@ -28,10 +29,11 @@
             </span> -->
           </div>
           <el-row class="question" v-for ="(item,index) in messageLists.model" :key="index">
-            <el-col class="title"><el-button class="titleName" @click="msgDetails()" type="text">{{item.title}}</el-button></el-col>
+            <el-col class="title"><el-button class="titleName" @click="msgDetails(item)" type="text">{{item.title}}</el-button></el-col>
             <el-col>
               <el-row>
                 <el-col :span="14" class="time">{{item.create_time}}</el-col>
+                <el-divider></el-divider>
               </el-row>
             </el-col>
           </el-row>
@@ -56,7 +58,7 @@
           },
           data() {
             return {
-              total:0
+              total: ''
             }
           },
           mounted(){
@@ -66,15 +68,16 @@
             showmessagemore() {
 
             },
-            msgDetails() {
-              console.log('????????')
+            msgDetails(item) { //点击消息 --进入消息通知详情页面
+              let query = {};
+              query.widgetName = '消息通知';
+              query.fromname = '我的主页';
+              query.fromwhere = 'myHomepage';
+              query.spaceModule = 'classes';//班级空间名
+              query.id = item.id; //消息id
               this.$router.push({
                 name: 'readmessage',
-                params: {
-                  widgetName: '消息通知',
-                  routeName: '我的主页',
-                  fromwhere: 'myHomepage'
-                }
+                query: query
               })
             }
           }
@@ -303,7 +306,7 @@
         .question{
           margin-top: 10px;
           .title{
-            padding: 6px 0px;
+            padding: 4px 0px;
             font-weight: 600;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -314,12 +317,12 @@
                 font-family:PingFangSC-Medium,PingFang SC;
                 font-weight:500;
                 color:rgba(30,30,30,1);
-                line-height:28px;
               }
             }
           }
           .time{
-            height: 44px;
+            margin-bottom: 10px;
+            // height: 44px;
             font-size: 14px;
             color: #999999;
             display: flex;

@@ -19,18 +19,20 @@
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card v-show="this.tab=='main'">
               <!-- 班级动态 -->
-              <Exhibition></Exhibition>
+              <Exhibition @changeTab="changeTab"></Exhibition>
               <el-col :span="24" class="card-block">
                 <el-row :gutter="10">
                   <el-col :span="24" class="actblock">
                     <!-- 校园动态 -->
-                    <General></General>
+                    <General @changeTab="changeTab"></General>
                   </el-col>
                 </el-row>
               </el-col>
             </el-card>
-            
-            <EXhibitionExaming :articles="examings" v-show="this.tab!='main'&&this.tab!='message'" :upUrl="upUrl" :title="ExhibitionTitle">
+            <!-- 所有的班级动态 校园动态展示 -->
+            <AllClassDynamics :allClassDys="allClassDyamics"  v-show="this.tab=='allClassDynamics'||this.tab=='allSchoolDynamics'" :allClassTitle="classTitle"></AllClassDynamics>
+
+            <EXhibitionExaming :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
             </EXhibitionExaming>
             
             <MessageList :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
@@ -51,6 +53,7 @@
   import Message from './components/Message.vue'
   import Exhibition from './components/Exhibition.vue'
   import General from './components/General.vue'
+  import AllClassDynamics from './components/AllClassDynamics.vue';
   import EXhibitionExaming from './components/ExhibitionExaming.vue';
   export default {
     name: 'myHomepage',
@@ -63,6 +66,7 @@
       Message,
       Exhibition,
       General,
+      AllClassDynamics,
       EXhibitionExaming,
       MessageList
 
@@ -73,10 +77,11 @@
         ExhibitionTitle: '审核中',// 审核中，审核未通过标题
         upUrl: '',
         messageList: {},//消息
-        userMassages:[],
+        allClassDyamics:[],//所有班级动态
+        classTitle: '',
         routename: '',
-        tab: 'main',
-        examings: []
+        tab: 'main', //右侧主页面
+        examings: [] //审核中 审核未通过 全部列表数据
       }
     },
     mounted() {
@@ -109,7 +114,46 @@
           request.post('/roomapi/Users/userMessage', data, (res) => {
             self.ExhibitionTitle = "消息通知";
             self.messageList = res.data;
-            console.log(self.messageList,'dedaode ')
+          })
+        } else if (tab == 'allClassDynamics') {
+          var self = this;
+          var data= {
+            uid: self.$store.state.userInfo.id,
+            page: 1,
+            psize: 3,
+            level: 1
+          }
+          request.post('/roomapi/Room_Class/myPage',data,function(res){
+            if(res.code == 0) {
+              self.classTitle = "班级动态";
+              if(res.data.model.length>0) {
+                self.allClassDyamics=res.data.model.map(item => {
+                  item.isopen = false
+                  return item
+                })
+                console.log(self.allClassDyamics, '全部班级动态')
+              }
+            }
+          })
+        } else if (tab == 'allSchoolDynamics') {
+          var self = this;
+          var data= {
+            uid: self.$store.state.userInfo.id,
+            page: 1,
+            psize: 3,
+            level: 2
+          }
+          request.post('/roomapi/Room_Class/myPage',data,function(res){
+            if(res.code == 0) {
+              self.classTitle = "校园动态";
+              if(res.data.model.length>0) {
+                self.allClassDyamics=res.data.model.map(item => {
+                  item.isopen = false
+                  return item
+                })
+                console.log(self.allClassDyamics, '全部校园动态')
+              }
+            }
           })
         }
 

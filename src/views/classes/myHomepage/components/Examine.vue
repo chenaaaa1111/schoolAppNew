@@ -12,7 +12,7 @@
     </div>
     <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
-      <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item)">{{item.name}}</el-button></el-col>
+      <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item.id)">{{item.name}}</el-button></el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
         <el-button type="text" @click="writenews(item)">撤回</el-button>
@@ -81,8 +81,8 @@
           query: query
         })
       },
-      msgDetails(item) {
-        console.log('点击进去审核中--新闻详情')
+      msgDetails(id) {
+        console.log('点击进去审核中--文章详情')
         let query = {};
         query.widgetName = '审核中';
         query.fromname = '我的主页';

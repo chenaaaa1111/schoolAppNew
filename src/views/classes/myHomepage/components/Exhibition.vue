@@ -14,10 +14,9 @@
             <el-row>
               <el-col :span="18" class="title">
                 <span class="text">{{item.title}}</span>
-
               </el-col>
               <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
+                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
               </el-col>
               <el-col :span="24" class="title">
                 <span class="classify">栏目: {{item.column_name}}</span>
@@ -75,45 +74,77 @@
         serverUrl:this.$store.state.serverUrl
       }
     },
-    mounted:function(res){
-        this.getGenaras()
+    mounted(){
+      this.getGenaras();
+    },
+    methods:{
+      changeTab(tab){
+        console.log(tab);
       },
-      methods:{
-        changeTab(tab){
-          console.log(tab);
-        },
-        viewAll(){ //查看全部
-          
-        },
-        getGenaras:function(){
-          console.log(this.$store.state)
-          var self=this;
-          var data={
-            uid:this.$store.state.userInfo.id,
-            page:1,
-            psize:3,
-            level:1
-          }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
-            self.$store.commit('setClassDynamic',res.data.total);
-            if(res.code == 0) {
-              if(res.data.model.length>0) {
-                self.articles=res.data.model.map(item => {
-                  item.isopen = false
-                  return item
+      viewAll(){ //查看全部
+        var tab='allClassDynamics';
+        this.$emit('changeTab',tab);
+      },
+      deleteArt(id){ //班级动态 删除文章
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+              setTimeout(function(){
+                vm.$router.push({
+                  name: vm.fromwhere
                 })
-                console.log(self.articles, '9999')
-              }
+              },2000)
             }
           })
-        },
-        openContent(index) {
-          this.articles[index].isopen = true
-        },
-        closeContent(index) {
-          this.articles[index].isopen = false
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      getGenaras:function(){
+        console.log(this.$store.state)
+        var self = this;
+        var data={
+          uid: this.$store.state.userInfo.id,
+          page:1,
+          psize:3,
+          level:1
         }
+        request.post('/roomapi/Room_Class/myPage',data,function(res){
+          self.$store.commit('setClassDynamic',res.data.total);
+          if(res.code == 0) {
+            if(res.data.model.length>0) {
+              self.articles=res.data.model.map(item => {
+                item.isopen = false
+                return item
+              })
+              console.log(self.articles, '9999')
+            }
+          }
+        })
+      },
+      openContent(index) {
+        this.articles[index].isopen = true
+      },
+      closeContent(index) {
+        this.articles[index].isopen = false
       }
+    }
   }
 </script>
 <style lang="scss" scoped>
