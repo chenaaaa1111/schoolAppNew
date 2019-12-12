@@ -17,6 +17,7 @@
         <span>{{item.create_time}}</span>
         <el-button type="text" @click="writenews(item)">撤回</el-button>
       </el-col>
+      <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
 
   </el-card>

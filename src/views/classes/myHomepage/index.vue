@@ -6,7 +6,7 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 展示个人头像 姓名 和动态统计 -->
-            <UserInfo></UserInfo>
+            <UserInfo @changeTab="changeTab"></UserInfo>
             <!-- 最近访客 -->
             <Visitor></Visitor>
             <!-- 审核中 -->
@@ -120,7 +120,7 @@
           var data= {
             uid: self.$store.state.userInfo.id,
             page: 1,
-            psize: 3,
+            psize: 20,
             level: 1
           }
           request.post('/roomapi/Room_Class/myPage',data,function(res){
@@ -140,7 +140,7 @@
           var data= {
             uid: self.$store.state.userInfo.id,
             page: 1,
-            psize: 3,
+            psize: 10,
             level: 2
           }
           request.post('/roomapi/Room_Class/myPage',data,function(res){

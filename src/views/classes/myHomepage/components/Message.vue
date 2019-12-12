@@ -18,6 +18,7 @@
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
       </el-col>
+      <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
   </el-card>
 </template>

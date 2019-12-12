@@ -33,7 +33,7 @@
       return {
         userInfo: {},//用户信息
         circleUrl: require('../../../../assets/images/user.png'),
-        visitors: [], //最近去10位访客
+        visitors: [], //最近10位访客
       }
     },
     created(){

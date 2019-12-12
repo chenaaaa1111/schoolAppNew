@@ -15,7 +15,7 @@
                 <span class="text">{{item.title}}</span>
               </el-col>
               <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
+                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
               </el-col>
               <el-col :span="24" class="subTitle">
                 <span class="date">{{item.create_time}}</span>
@@ -30,14 +30,16 @@
 </template>
 <script>
 import request from "@/api/request.js";
+import Vue from 'vue';
 export default {
   props: {},
   data: function() {
     return {
+      flag: '', //删除操作的标识
       articles: []
     };
   },
-  mounted: function(res) {
+  mounted() {
     this.getGenaras();
   },
   methods: {
@@ -45,13 +47,42 @@ export default {
       var tab = 'allSchoolDynamics';
       this.$emit('changeTab',tab);
     },
+    deleteArt(id){ //班级动态 删除文章
+      var vm = this;
+      vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {//删除文章
+        request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+          if(res.code == 0){
+            vm.$message({
+              duration: 1000,
+              offset: 190,
+              type: 'success',
+              message: res.message
+            });
+            vm.getGenaras();
+            vm.flag = 2;
+            vm.$root.eventLister.$emit('changeNumEvent', vm.flag);
+          }
+        })
+      }).catch(() => {
+        vm.$message({
+          duration: 1000,
+          offset: 190,
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
     getGenaras: function() {
       console.log(this.$store.state);
       var self = this;
       var data = {
         uid: this.$store.state.userInfo.id,
         page: 1,
-        psize: 3,
+        psize: 10,
         level: 2
       };
       request.post("/roomapi/Room_Class/myPage", data, function(res) {
