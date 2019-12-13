@@ -76,11 +76,11 @@
     props: { classId: { default: '' } },
     data() {
       return {
-        selectTab: '',//选中的标签
+        selectTab: 0,//选中的标签
         userInfo: {},
         list: [],
         pageSize: 5,//页尺寸
-        page: 2,//页数
+        page: 1,//页数
         psize: 10,
         loading: false,
         finished: false,
@@ -129,12 +129,12 @@
             column: res.data[0] ? res.data[0].id : 0,
             page: 1
           }
-          request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
-            _this.contentList = res.data.model;
-            if (_this.contentList.length == 0) {
-              _this.onLoad("fineshed");
-            }
-          });
+          // request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
+          //   _this.contentList = res.data.model;
+          //   if (_this.contentList.length == 0) {
+          //     _this.onLoad("fineshed");
+          //   }
+          // });
         });
       },
       onLoad(state) {

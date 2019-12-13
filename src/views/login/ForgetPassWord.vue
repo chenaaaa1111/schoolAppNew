@@ -105,7 +105,7 @@
     import request from '@/api/request.js';
     export default {
         data: () => ({
-            status: false, //修改密码状态
+            status: true, //修改密码状态
             phone: '',
             password: '',
             veryCode:'',
@@ -145,7 +145,7 @@
                     return
                 }
                 request.post('/roomapi/Sms/ChuanglanSmsApi', data, function (res) {
-                    if (res.data.code == 0) {
+                    if (res.code == '0') {
                         self.$toast.success(res.message);
                         self.millTime=60;
                         self.sendInter=setInterval(function(){
@@ -179,8 +179,10 @@
                     code: self.veryCode
                 }
                 request.post('/roomapi/Login/uploginpwd', data, function (res) {
-                    if (res.code == 200) {
+                    if (res.code == 0) {
                         self.status = false;
+                    }else{
+                        self.$toast(res.message)
                     }
                 })
             },

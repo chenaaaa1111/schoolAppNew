@@ -2,7 +2,7 @@
 <template>
   <el-card>
     <el-breadcrumb slot="header" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
+      <el-breadcrumb-item @click.native="backMyHome()" class="headPage">我的主页</el-breadcrumb-item>
       <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row class="top-block">
@@ -85,10 +85,19 @@ export default {
       upUrl: this.$props.updateUrl
     };
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
+    backMyHome () { //面包屑 点击回到我的主页
+      console.log('审核 审核未通过')
+      var self = this;
+      var tab ='main';
+      // if (self.title == '审核中') {
+      //   tab = 'examing';
+      // } else if(self.title == '审核未通过') {
+      //   tab = 'notPass';
+      // }
+      this.$emit('changeTab',tab);
+    },
     changeTab(tab) {
       console.log(tab);
     },
@@ -173,7 +182,7 @@ export default {
   }
 };
 </script>
-      <style lang="scss" scoped>
+<style lang="scss" scoped>
 .top-block {
   .top-box {
     position: relative;
@@ -263,5 +272,16 @@ export default {
     }
   }
 }
+</style>
+<style>
+  .headPage{
+   cursor: pointer!important;
+  }
+  .headPage:hover .el-breadcrumb__inner{
+    color:#034692!important;
+  }
+  .currentPage .el-breadcrumb__inner{
+    color:#034692!important;
+  }
 </style>
       

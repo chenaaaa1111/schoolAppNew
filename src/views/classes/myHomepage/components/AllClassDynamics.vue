@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <el-breadcrumb slot="header" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/classes/myHomepage' }" class="headPage">我的主页</el-breadcrumb-item>
+      <el-breadcrumb-item class="headPage"  @click.native="backMyHome()">我的主页</el-breadcrumb-item>
       <el-breadcrumb-item class="currentPage">{{allClassTitle}}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row class="top-block">
@@ -94,6 +94,10 @@ export default {
     // this.getGenaras();
   },
   methods: {
+    backMyHome() { //面包屑 点击回到我的主页
+      var tab='main';
+      this.$emit('changeTab',tab);
+    },
     changeTab(tab) {
       console.log(tab);
     },
@@ -101,7 +105,6 @@ export default {
       //查看全部
     },
     deleteArt(id) {
-      debugger
       //班级动态 删除文章
       var vm = this;
       vm.$confirm(
@@ -277,4 +280,15 @@ export default {
     }
   }
 }
+</style>
+<style>
+  .headPage{
+   cursor: pointer!important;
+  }
+  .headPage:hover .el-breadcrumb__inner{
+    color:#034692!important;
+  }
+  .currentPage .el-breadcrumb__inner{
+    color:#034692!important;
+  }
 </style>

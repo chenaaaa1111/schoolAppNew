@@ -87,7 +87,7 @@
         userInfo: {},
         list: [],
         pageSize: 5,//页尺寸
-        page: 2,//页数
+        page: 1,//页数
         psize: 10,
         loading: false, //加载状态
         finished: false, //加载是否完成
@@ -133,22 +133,27 @@
         var self = this;
         var data = {}
         request.post('/roomapi/Room_Class/column', data, function (res) {
-          self.dataList = res.data.model;
-          console.log(res.data, 'resdata', self.dataList);
-          var columnId = res.data.model[0] ? res.data.model[0].id : '';
-          var columnName = res.data.model[0] ? res.data.model[0].title : '';
-          self.$store.commit('setColumnId', columnId);
-          self.$store.commit('setColumnName', columnName);
-          console.log(columnId, columnName, 'fist*************************,***********')
-          // self.$store.commit()
-          data = {
-            column: res.data.model[0] ? res.data.model[0].id : 0,
-            keyword: self.keyword,
-            page: 1
+          if (res.code == '0') {
+            self.dataList = res.data.model;
+            self.dataList.unshift({ id: 0, title: '全部' });
+            console.log(res.data, 'resdata', self.dataList);
+            var columnId = res.data.model[0] ? res.data.model[0].id : '';
+            var columnName = res.data.model[0] ? res.data.model[0].title : '';
+            self.$store.commit('setColumnId', columnId);
+            self.$store.commit('setColumnName', columnName);
+            self.selectTab=0;
+            console.log(columnId, columnName, 'fist*************************,***********')
+            // self.$store.commit()
+            data = {
+              column: res.data.model[0] ? res.data.model[0].id : 0,
+              keyword: self.keyword,
+              page: 1
+            }
           }
-          request.post('/roomapi/Room_Class/schoolPage', data, function (res) {//获取数据
-            self.contentList = res.data.model;
-          });
+
+          // request.post('/roomapi/Room_Class/schoolPage', data, function (res) {//获取数据
+          //   self.contentList = res.data.model;
+          // });
         });
       },
       onLoad(state) {
@@ -179,8 +184,6 @@
           if (res.data.model.length == 0) {
             _this.loading = false;
             _this.finished = true;
-            console.log("_this.contnList", _this.contentList);
-            _this.selectTab = 0;
             return;
           }
           _this.page = _this.page + 1;
