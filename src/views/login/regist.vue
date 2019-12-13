@@ -167,7 +167,7 @@
                             console.log('res.data',res.data);
                             self.$router.push('/complate')
                         }else{
-                            self.$toast.fail(res.data.message);
+                            self.$toast.fail(res.message);
 
                         }
 
