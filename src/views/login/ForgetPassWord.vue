@@ -1,6 +1,7 @@
 <template>
     <div class="login" :style="divstyle">
-        <div class="loginContent">
+        <!-- 找回密码 -->
+        <div v-if="status" class="loginContent">
             <p class="tx_center">找回密码</p>
             <van-cell-group>
                 <van-field v-model="phone" required clearable label="手机号" placeholder="请输入手机号" />
@@ -15,8 +16,20 @@
                  placeholder="设置新密码" required />
 
             </van-cell-group>
-            <van-button type="default" class="submitLogin" @click="login">登录</van-button>
 
+            <van-button type="default" class="submitLogin" @click="confirmModify">确认修改</van-button>
+            <div class="accountLogin"><el-button type="text" @click="login">账号密码登录</el-button></div>
+            
+
+        </div>
+        <!-- 修改密码成功页面 -->
+        <div v-else class="loginContent">
+            <p class="tx_center">修改成功</p>
+            <div class="modifyTip">
+                <img src="../../assets/images/classes/success2.png" />
+                <p>密码修改成功</p>
+            </div>
+            <div class="immediatelyLogin"><el-button plain @click="login">立即登录</el-button></div>
         </div>
     </div>
 </template>
@@ -45,6 +58,14 @@
         background: #034692;
         color: #fff;
     }
+    .accountLogin,.immediatelyLogin{
+        text-align: center;
+    }
+    .accountLogin span{
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(3,70,146,1);
+    }
 
     .tx_center {
         text-align: center;
@@ -52,6 +73,21 @@
         margin-bottom: 100px;
     }
 
+    .modifyTip{
+        text-align: center;
+        padding-bottom: 48px;
+    }
+    .modifyTip p{
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+    }
+    .immediatelyLogin button{
+        width:286px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(205,204,204,1);
+    }
     @media screen and (max-width: 600px) {
         .loginContent {
             width: 95%;
@@ -69,6 +105,7 @@
     import request from '@/api/request.js';
     export default {
         data: () => ({
+            status: false, //修改密码状态
             phone: '',
             password: '',
             veryCode:'',
@@ -93,7 +130,6 @@
                 }
             },
             sendCode(){
-                debugger
                 var self=this;
                 var data = {
                     mobile: this.phone
@@ -124,34 +160,32 @@
             showPass(){
                 this.isShow=!this.isShow;
             },
-            login() {
+            confirmModify() { //确认修改
                 var self = this;
-                if (this.phone == '' || this.phone == undefined) {
-                    this.$toast.fail('请输入手机号');
+                if (self.phone == '' || self.phone == undefined) {
+                    self.$toast.fail('请输入手机号');
                     return;
                 }
-                if (this.password == '') {
-                    this.$toast.fail('请输入密码');
+                if (self.password == '') {
+                    self.$toast.fail('请输入密码');
                     return;
                 }
-                if(this.veryCode==''){
-                    this.$toast.fail('请输入验证码');
+                if(self.veryCode==''){
+                    self.$toast.fail('请输入验证码');
                 }
                 var data = {
-                    mobile: this.phone,
-                    LoginPWD: this.password,
-                    code:this.veryCode
+                    mobile: self.phone,
+                    LoginPWD: self.password,
+                    code: self.veryCode
                 }
                 request.post('/roomapi/Login/uploginpwd', data, function (res) {
-                    
-                    if (res.status == 200) {
-                        if (res.data.code == 0) {
-                            localStorage.setItem('Authorization', res.data.token);
-                            self.$router.push('/')
-                        }
+                    if (res.code == 200) {
+                        self.status = false;
                     }
-
                 })
+            },
+            login() {  //账号密码登录 立即登录
+                this.$router.push('/login');
             }
         }
     }

@@ -33,9 +33,9 @@
             <el-col>
               <el-row>
                 <el-col :span="14" class="time">{{item.create_time}}</el-col>
-                <el-divider></el-divider>
               </el-row>
             </el-col>
+            <el-col :span="24"><el-divider></el-divider></el-col>
           </el-row>
         </el-card>
       </template>

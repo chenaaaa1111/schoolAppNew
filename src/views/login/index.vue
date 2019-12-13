@@ -82,6 +82,15 @@
             }
         }),
         methods: {
+            //验证手机号输入
+            checkPhone(){
+                if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+                    this.$toast.fail('手机号输入有误')
+                    return false
+                }else{
+                    return true
+                }
+            },
             gotoRegist(){
                 this.$router.push('/login/regist')
             },
@@ -93,6 +102,9 @@
                 if(this.phone==''||this.phone==undefined){
                     this.$toast.fail('请输入手机号');
                     return;
+                }
+                if(!self.checkPhone()){
+                    return
                 }
                 if(this.password==''){
                     this.$toast.fail('请输入密码');

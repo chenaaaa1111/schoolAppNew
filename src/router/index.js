@@ -47,6 +47,11 @@ const router= new Router({
       component: () => import('@/views/login/ForgetPassWord.vue')
     },
     {
+      path: '/userBaseInfo',
+      name: 'userBaseInfo',
+      component: () => import('@/views/public/userBaseInfo/baseInfo.vue')
+    },
+    {
       path: '/classes',
       name: 'classes',
       component: () => import('@/views/classes/index.vue'), // 班级空间
