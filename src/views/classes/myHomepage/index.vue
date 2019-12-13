@@ -30,12 +30,12 @@
               </el-col>
             </el-card>
             <!-- 所有的班级动态 校园动态展示 -->
-            <AllClassDynamics :allClassDys="allClassDyamics"  v-show="this.tab=='allClassDynamics'||this.tab=='allSchoolDynamics'" :allClassTitle="classTitle"></AllClassDynamics>
+            <AllClassDynamics @changeTab="changeTab" :allClassDys="allClassDyamics"  v-show="this.tab=='allClassDynamics'||this.tab=='allSchoolDynamics'" :allClassTitle="classTitle"></AllClassDynamics>
 
-            <EXhibitionExaming :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
+            <EXhibitionExaming @changeTab="changeTab" :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
             </EXhibitionExaming>
             
-            <MessageList :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
+            <MessageList @changeTab="changeTab" :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
           </el-col>
         </el-row>
       </el-col>
