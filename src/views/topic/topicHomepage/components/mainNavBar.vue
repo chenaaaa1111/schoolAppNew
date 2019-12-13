@@ -231,9 +231,7 @@
     }
   </script>
   <style>
-    .van-tabs__content{
-      display: none;
-    }
+  
     .van-list{
       background: #fff;
     }

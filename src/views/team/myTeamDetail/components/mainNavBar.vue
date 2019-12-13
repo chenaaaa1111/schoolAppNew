@@ -241,14 +241,10 @@
 
   }
 </script>
-<style>
+<style scoped>
   .deatail img {
     max-width: 100%;
   }
-  .van-tabs__content {
-    display: none;
-  }
-
   .van-list {
     background: #fff;
   }
