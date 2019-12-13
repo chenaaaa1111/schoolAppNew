@@ -20,7 +20,7 @@
                         </el-dropdown>
                     </li>
 
-                    <li class="el-menu-item menu-release hidden-sm-and-down">
+                    <li class="el-menu-item menu-release ">
                         <el-button plan size="small" @click="openPublish">发布</el-button>
                     </li>
                 </el-menu>
@@ -291,7 +291,7 @@
         methods: {
             init(){
                 if(this.isEdit){
-                    var editor=JSON.parse(sessionStorage.getItem('editor')); 
+                    var editor=JSON.parse(sessionStorage.getItem('editor'));
                     console.log('editor',editor);
                     console.log(this.$refs['myQuillEditor']);
                     // this.$refs.myQuillEditor.setcontents(editor)
@@ -316,7 +316,7 @@
                     // this.fileList=reurl;
                     // console.log(this.fileList,'这是什么鬼')
                     this.url=this.userInfo.avatar;//头像
-                    
+
                 } else{
                     this.url=this.userInfo.avatar;//头像
                 }
@@ -330,7 +330,7 @@
             uploadSuccess(res, file) {
                 // res为图片服务器返回的数据
                 // 获取富文本组件实例
-      
+
                 var self = this;
                 let quill = this.$refs.myQuillEditor.quill;
                 // 如果上传成功
@@ -376,10 +376,10 @@
 
                 var self = this;
                 var data = this.artUpdata;
-                if(self.responseUrl ==''){
-                    self.$toast.fail('请添加题图');
-                    return
-                }
+                // if(self.responseUrl ==''){
+                //     self.$toast.fail('请添加题图');
+                //     return
+                // }
                 if(self.articletitle ==''){
                     self.$toast.fail('请输入标题');
                     return
@@ -404,7 +404,7 @@
                         // })
                         self.$router.go(-1);
                     }
-                    
+
                 })
             },
             goHome() { // 会空间选择页面
@@ -422,10 +422,10 @@
             },
             openPublish() { // 打开发表dialog
                 var self = this;
-                if(self.responseUrl ==''){
-                    self.$toast.fail('请添加题图');
-                    return
-                }
+                // if(self.responseUrl ==''){
+                //     self.$toast.fail('请添加题图');
+                //     return
+                // }
                 if(self.articletitle ==''){
                     self.$toast.fail('请输入标题');
                     return
@@ -465,7 +465,7 @@
                 console.log(this.form)
             }, // 失去焦点事件
             onEditorFocus() { }, // 获得焦点事件
-            onEditorChange() { 
+            onEditorChange() {
                 console.log(this.form.goods_desc)
             }, // 内容改变事件
             overWrite(data) { // 发表文章
@@ -510,6 +510,11 @@
         .ql-editor {
             min-height: 400px;
             overflow: auto;
+        }
+    }
+    .mydialog {
+        .el-dialog {
+            min-width: 9.733333rem;
         }
     }
 </style>
