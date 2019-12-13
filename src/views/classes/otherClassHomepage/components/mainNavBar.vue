@@ -80,7 +80,7 @@
           userInfo: {},
           list: [],
           pageSize: 5,//页尺寸
-          page: 2,//页数
+          page: 1,//页数
           psize: 10,
           loading: false,
           finished: false,
@@ -125,15 +125,16 @@
           var data = {  }
           request.post('/roomapi/Room_Class/column', data, function (res) {
             _this.dataList = res.data.model;
+            _this.dataList.unshift({title:'全部',id:0});
             console.log(res.data,'resdata')
-            data = {
-              column: res.data.model[0] ? res.data.model[0].id : 0,
-              page: 1,
-              class:_this.$props.otherClassId
-            }
-            request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
-              _this.contentList = res.data.model;
-            });
+            // data = {
+            //   column: res.data.model[0] ? res.data.model[0].id : 0,
+            //   page: 1,
+            //   class:_this.$props.otherClassId
+            // }
+            // request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
+            //   _this.contentList = res.data.model;
+            // });
           });
         },
         onLoad(state) {

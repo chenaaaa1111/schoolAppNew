@@ -82,7 +82,7 @@
               userInfo: {},
               list: [],
               pageSize: 5,//页尺寸
-              page: 2,//页数
+              page: 1,//页数
               psize: 10,
               loading: false,
               finished: false,
@@ -106,31 +106,7 @@
             pageNum: 1,
             pageSize: 10,
             userInfo: {
-              // access_class: 0,
-              // access_community: 0,
-              // access_grade: 0,
-              // access_project: 0,
-              // access_subject: 0,
-              // access_teaching: 0,
-              // avatar: '',
-              // class_id: 1,
-              // create_time: "2019-11-11 15:24:30",
-              // grade_id: 1,
-              // id: 1,
-              // level: 1,
-              // mobile: "15269920820",
-              // name: "金刚",
-              // password: "$P$BU3uZfakBj4h2FaeTVb91oRWbErDLf1",
-              // room_class: 1,
-              // room_community: "1",
-              // room_grade: 1,
-              // room_project: "1",
-              // room_subject: 1,
-              // room_teaching: 1,
-              // s_id: 1,
-              // status: 1,
-              // subject_id: 1,
-              // teaching_id: 1
+        
             }
           }
           }
@@ -171,12 +147,12 @@
                   column:res.data[0]?res.data[0].id:0,
                   page: 1
                 }
-                request.post('/roomapi/Room_Grade/gradePage', data, function (res) {//获取数据
-                  _this.contentList = res.data.model;
-                  if( _this.contentList.length==0){
-                  _this.onLoad("fineshed");
-                  }
-                });
+                // request.post('/roomapi/Room_Grade/gradePage', data, function (res) {//获取数据
+                //   _this.contentList = res.data.model;
+                //   if( _this.contentList.length==0){
+                //   _this.onLoad("fineshed");
+                //   }
+                // });
               });
             },
             onLoad(state) {
