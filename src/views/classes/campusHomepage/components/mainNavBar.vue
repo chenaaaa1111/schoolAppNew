@@ -9,13 +9,13 @@
               </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
+            @load="onLoad">
+            <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
+              v-model="selectTab" @change="changeTabs" :swipeable="true">
 
-          <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
-            v-model="selectTab" @change="changeTabs" :swipeable="true">
+              <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
 
-            <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
-                @load="onLoad">
                 <ul>
                   <li v-for="item in contentList" class="contentList">
                     <h4 class="title">{{item.title}}
@@ -50,9 +50,10 @@
                     <p class="date pd_40">{{item.create_time}}</p>
                   </li>
                 </ul>
-              </van-list>
-            </van-tab>
-          </van-tabs>
+
+              </van-tab>
+            </van-tabs>
+          </van-list>
 
         </div>
         <!-- <div class="rightBar">
@@ -213,7 +214,7 @@
         document.getElementById('detail' + item).style.display = 'block';
       },
       seachInfo(key) {
-        var self=this;
+        var self = this;
         console.log('搜索key' + key);
         this.keyword = key;
         this.page = 1;

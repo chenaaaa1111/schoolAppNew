@@ -65,6 +65,7 @@
       this.url=this.userInfo.avatar;//头像
     },
     created(){
+      //创建事件总线
       var eventLister=new Vue();
       this.$root.eventLister=eventLister;
     },
