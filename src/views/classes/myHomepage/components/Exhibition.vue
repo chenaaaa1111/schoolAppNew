@@ -75,6 +75,7 @@
     },
     mounted(){
       this.getGenaras();
+      console.log(this.$store.state.serverUrl,'baseurl是')
     },
     methods:{
       changeTab(tab){
@@ -116,7 +117,7 @@
       getGenaras:function(){
         console.log(this.$store.state)
         var self = this;
-        var data={
+        var data= {
           uid: this.$store.state.userInfo.id,
           page: 1,
           psize: 10,
@@ -127,6 +128,9 @@
           if(res.code == 0) {
             if(res.data.model.length>0) {
               self.articles=res.data.model.map(item => {
+                if(item.image){
+                  item.image = self.serverUrl+item.image;
+                }
                 item.isopen = false
                 return item
               })

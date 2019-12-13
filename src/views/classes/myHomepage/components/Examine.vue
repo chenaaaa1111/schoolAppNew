@@ -15,7 +15,7 @@
       <el-col :span="24" class="title"><el-button class="titleName" type="text" @click="msgDetails(item.id)">{{item.name}}</el-button></el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
-        <el-button type="text" @click="writenews(item)">撤回</el-button>
+        <el-button type="text" @click="recall(item)">撤回</el-button>
       </el-col>
       <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
@@ -70,7 +70,7 @@
         this.$emit('changeTab',tab);
       },
       //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      writenews(item) {
+      recall(item) {
         let query = item;
         query.widgetName = '审核中';
         query.fromname = '我的主页';
@@ -89,7 +89,7 @@
         query.fromname = '我的主页';
         query.fromwhere = 'myHomepage';
         query.spaceModule = 'classes';//班级空间名
-        query.id = item.id; //文章id
+        query.id = id; //文章id
         this.$router.push({
           name: 'readmessage',
           query: query
