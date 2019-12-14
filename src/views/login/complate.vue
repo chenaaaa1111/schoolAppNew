@@ -170,7 +170,7 @@
                   request.post('/roomapi/Users/editBasic',data,function(responese){
                       
                     if(responese.code==0){
-                        self.$router.push('/login/complate2')
+                        self.$router.push('/complateSpace')
                     }
                 })
                 // this.$router.push('/login/complate2')
