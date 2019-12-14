@@ -164,7 +164,7 @@
             return;
           }
           _this.page = _this.page + 1;
-          _this.contentList = [...res.data.model, ..._this.contentList];
+          _this.contentList = _this.contentList.concat(res.data.model);
           _this.loading = false;
         })
       },

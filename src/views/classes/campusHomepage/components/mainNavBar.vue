@@ -141,7 +141,6 @@
             var columnName = res.data.model[0] ? res.data.model[0].title : '';
             self.$store.commit('setColumnId', columnId);
             self.$store.commit('setColumnName', columnName);
-            self.selectTab=0;
             console.log(columnId, columnName, 'fist*************************,***********')
             // self.$store.commit()
             data = {
@@ -181,15 +180,16 @@
         }
         console.log('加载更多的时候调用的参数是', data)
         request.post('/roomapi/Room_Class/schoolPage', data, function (res) {
+          _this.contentList = _this.contentList.concat(res.data.model);
+          console.log('contentList',_this.contentList);
           if (res.data.model.length == 0) {
             _this.loading = false;
             _this.finished = true;
             return;
           }
           _this.page = _this.page + 1;
-          _this.contentList = [...res.data.model, ..._this.contentList];
-          console.log('res.data.model', res.data.model, "_this.contentList", _this.contentList)
-          console.log("_this.contnList*********************", _this.contentList);
+          
+         
 
           _this.loading = false;
         })
