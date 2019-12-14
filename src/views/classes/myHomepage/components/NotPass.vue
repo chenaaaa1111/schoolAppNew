@@ -12,7 +12,7 @@
     </div>
     <div class="examineTips">{{total}}个审核未通过的新闻:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
-      <el-col :span="24" class="title"><el-button @click="msgDetails(item)" class="titleName" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="title" @click.native="msgDetails(item)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
         <div class="recall">
@@ -302,43 +302,7 @@
       font-size: 18px;
       color: #1E1E1E;
       padding: 6px 0px;
-      font-weight: 600;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      .titleName{
-        font-family:PingFangSC-Medium,PingFang SC;
-        color:rgba(30,30,30,1);
-        line-height:14px;
-        font-weight: 500;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
     }
-    // .bottom{
-    //   // line-height: 38px;
-    //   span{
-    //     float: left;
-    //     font-family:PingFangSC-Regular,PingFang SC;
-    //     font-weight:400;
-    //     color:rgba(153,153,153,1);
-    //   }
-    //   .recall{
-    //     float: right;
-    //     .el-button{
-    //       cursor: pointer;
-    //       font-family:PingFangSC-Regular,PingFang SC;
-    //       font-weight:400;
-    //       color:rgba(3,70,146,1);
-    //       line-height:11px;
-    //       span{
-    //         font-size: 12px;
-    //         color:#034692;
-    //       }
-    //     }
-    //   }
-    // }
   }
 }
 </style>

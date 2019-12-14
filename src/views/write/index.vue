@@ -140,8 +140,8 @@
         },
         data() {
             return {
-                fileList:[],//已上传的文件列表
-                userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
+                fileList: [],//已上传的文件列表
+                userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
                 spaceNav: { // 顶部导航栏显示信息,按需加载
                   "classes": {
                     icon: require('../../assets/main/classes.png'),
@@ -210,6 +210,7 @@
                         }
                     }
                 },
+                baseUrl: this.$store.state.baseUrl,
                 serverUrl: this.$store.state.baseUrl+"/roomapi/Upsystem/upload/", // 这里写你要上传的图片服务器地址
                 header: {
                     // token: sessionStorage.token
@@ -266,6 +267,7 @@
             }
         },
         mounted() {
+            this.url=this.userInfo.avatar;//头像
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
             if(Object.keys(this.$route.query).length > 0) {
@@ -273,20 +275,20 @@
               this.title = this.$route.query.fromname;
               this.navIndex = this.$route.query.spaceModule;
             }
-
-            this.artUpdata ='';
+            this.getArticleDetails();
+            // this.artUpdata ='';
             console.log(this.$router,'路由this.$router集合')
-            if(this.$router.currentRoute){
-                this.artUpdata=this.$router.currentRoute.query,
-                this.isEdit=this.$router.currentRoute.query.isEdit;
-            }else if(this.$router.query){
-                this.artUpdata=this.$router.query
-                this.isEdit=this.$router.query.isEdit;
+            // if(this.$router.currentRoute){
+            //     this.artUpdata=this.$router.currentRoute.query,
+            //     this.isEdit=this.$router.currentRoute.query.isEdit;
+            // }else if(this.$router.query){
+            //     this.artUpdata=this.$router.query
+            //     this.isEdit=this.$router.query.isEdit;
 
-            }
-            console.log(this.artUpdata, 'this.$route.query')
-            console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-            this.init1()
+            // }
+            // console.log(this.artUpdata, 'this.$route.query')
+            // console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
+            // this.init1()
         },
         methods: {
             init(){
@@ -307,6 +309,20 @@
                     this.url=this.userInfo.avatar;//头像
                 }
             },
+            getArticleDetails(){ //参数  文章id  获取文章详情  //从我的主页 审核中 审核未通 撤回及编辑 回到重新编辑新闻页面回显信息
+                var data = {
+                    id: String(this.$route.query.id)
+                }
+                var _this = this;
+                request.post('/roomapi/Room_Class/myDetails', data, function(res){
+                    if(res.code == 0) {
+                        console.log(res.data,'获取文章详情返回数据')
+                        _this.articletitle = res.data.title;
+                        _this.form.goods_desc = res.data.content;
+                        _this.imageUrl = 'http://school.i2f2f.com' + res.data.image;
+                    }
+                }) 
+            },
             init1(){
                 if(this.isEdit){
                     this.articletitle=this.artUpdata.title;
@@ -315,11 +331,7 @@
                     // var reurl=[{url:this.artUpdata.image}];
                     // this.fileList=reurl;
                     // console.log(this.fileList,'这是什么鬼')
-                    this.url=this.userInfo.avatar;//头像
-                    
-                } else{
-                    this.url=this.userInfo.avatar;//头像
-                }
+                } 
             },
             // 富文本图片上传前
             beforeUpload() {
@@ -373,7 +385,6 @@
                 return isJPG && isLt2M;
             },//end
             publishArt() {//发布文章
-
                 var self = this;
                 var data = this.artUpdata;
                 if(self.responseUrl ==''){
@@ -436,18 +447,6 @@
                 }
                 this.dialog = true;
                 // this.publishArt()
-            },
-            publish() { // 确定发表
-                // this.dialog = false
-                // console.log(this.fromwhere)
-                // // return
-                // this.$router.push({
-                //   name: 'readnews',
-                //   params: {
-                //     fromname: this.title,
-                //     fromwhere: this.fromwhere
-                //   }
-                // })
             },
             handleRemove(file) {
                 console.log(file);

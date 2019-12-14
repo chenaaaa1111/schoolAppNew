@@ -51,7 +51,7 @@
           <div class="news-box" v-if="widgetName == '审核中' || widgetName == '审核未通过'">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
-                 <img v-if="widgetName == '审核中'" src="../../../assets/images/classes/recall.png" @click="writenews" />
+                 <img v-if="widgetName == '审核中'" src="../../../assets/images/classes/recall.png" @click="recall" />
                  <img v-if="widgetName == '审核未通过'" src="../../../assets/images/classes/editnews.png" @click="editnews"/>
                  <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
               </el-col>
@@ -142,12 +142,9 @@
         }) 
       },
       //审核中点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      writenews() {
-        let query = this.articleDetails;
-        query.widgetName = '审核中';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+      recall() {
+        let query = this.$route.query;
+        query.isEdit = true;
         query.isEdit = true;
         this.$router.push({
           name: 'write',
@@ -156,11 +153,7 @@
       },
       // 审核未通过点击编辑 跳转到编辑新闻页面 并携带信息过去 isEdit==true
       editnews() {
-        let query = this.articleDetails;
-        query.widgetName = '审核中';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        let query = this.$route.query;
         query.isEdit = true;
         this.$router.push({
           name: 'write',
@@ -219,9 +212,6 @@
         //   case "message":
         //     // 消息通知
         //     tab = 'main'
-        //     break;
-        //   case "teaching":
-            
         //     break;
         //     default:
         //       this.$router.push({
