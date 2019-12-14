@@ -56,9 +56,10 @@
             fromwhere: 'classHomepage',
             upUrl:'/roomapi/Room_Class/addArticle',//上传的url
            //上传参数
-            level:2,
-            columns:this.$store.state.columnId,
-            column_name:this.$store.state.columnName    //栏目名称
+            level: 1, // level: 2, //1班级2校园
+            columns: this.$store.state.columnId,
+            column_name: this.$store.state.columnName,    //栏目名称
+            isEdit: false
           }
         })
       }

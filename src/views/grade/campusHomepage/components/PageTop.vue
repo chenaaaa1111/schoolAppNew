@@ -33,7 +33,7 @@
     data() {
       return {
         loadData: {
-          title: '华悦蜀山区第一中学-校园主页',
+          title: '华悦蜀山区第一中学',
           subTitle: '',
           showwrite: false
         }

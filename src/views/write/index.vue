@@ -94,9 +94,12 @@
                     </el-form-item>
                     <el-form-item label="选择栏目" prop="column">
                         <el-select v-model="ruleForm.column" filterable placeholder="选择栏目" style="width: 100%;">
-                            <el-option label="影评" value="1"></el-option>
+                            <el-option v-for="(item,index) in allColumnList" :key="index" :label="item.title"
+                                :value="item.id">
+                            </el-option>
+                            <!-- <el-option label="影评" value="1"></el-option>
                             <el-option label="专业" value="2"></el-option>
-                            <el-option label="考试" value="3"></el-option>
+                            <el-option label="考试" value="3"></el-option> -->
                         </el-select>
                     </el-form-item>
                 </el-form>
@@ -106,7 +109,8 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="publishArt">确 定</el-button>
+                <el-button v-if="!isEdit" type="primary" @click="publishArt">确 定</el-button>
+                <el-button v-if="isEdit" type="primary" @click="editPublishArt">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -175,7 +179,7 @@
                   }
                 },
                 navIndex: 'classes',
-                isEdit: '',//是否是编辑新闻状态
+                isEdit: false,//是否是编辑新闻状态
                 widgetName: '',
                 artUpdata: {},//发布文章用到的参数
                 articletitle: '',
@@ -252,21 +256,19 @@
                 },
                 options: [
                     {
-                        value: '0',
-                        label: '校园主页'
-                    },
-                    {
                         value: '1',
                         label: '班级主页'
                     },
                     {
                         value: '2',
-                        label: '我的主页'
-                    }
+                        label: '校园主页'
+                    }                   
                 ],
+                allColumnList: [] //发布时候 所有栏目列表
             }
         },
         mounted() {
+            debugger
             this.url=this.userInfo.avatar;//头像
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
@@ -275,20 +277,23 @@
               this.title = this.$route.query.fromname;
               this.navIndex = this.$route.query.spaceModule;
             }
-            this.getArticleDetails();
-            // this.artUpdata ='';
+          
+            this.artUpdata ='';
+            this.isEdit=this.$router.query.isEdit;
             console.log(this.$router,'路由this.$router集合')
-            // if(this.$router.currentRoute){
-            //     this.artUpdata=this.$router.currentRoute.query,
-            //     this.isEdit=this.$router.currentRoute.query.isEdit;
-            // }else if(this.$router.query){
-            //     this.artUpdata=this.$router.query
-            //     this.isEdit=this.$router.query.isEdit;
-
-            // }
-            // console.log(this.artUpdata, 'this.$route.query')
-            // console.log(this.fromwhere, 'fromwhere --- write/index.vue page');
-            // this.init1()
+            if(this.$router.currentRoute){
+                this.artUpdata=this.$router.currentRoute.query,
+                this.isEdit=this.$router.currentRoute.query.isEdit;
+            }else if(this.$router.query){
+                this.artUpdata=this.$router.query
+                this.isEdit=this.$router.query.isEdit;
+            }
+            console.log(this.artUpdata, 'this.$route.query')
+            console.log(this.fromwhere, this.isEdit,'fromwhere  isEdit--- write/index.vue page');
+            this.getAllcolumn();
+            if(this.isEdit){ //如果时编辑文章  
+                this.getArticleDetails();
+            }
         },
         methods: {
             init(){
@@ -322,16 +327,6 @@
                         _this.imageUrl = 'http://school.i2f2f.com' + res.data.image;
                     }
                 }) 
-            },
-            init1(){
-                if(this.isEdit){
-                    this.articletitle=this.artUpdata.title;
-                    this.form.goods_desc=this.artUpdata.content;
-                    this.imageUrl=this.artUpdata.image;
-                    // var reurl=[{url:this.artUpdata.image}];
-                    // this.fileList=reurl;
-                    // console.log(this.fileList,'这是什么鬼')
-                } 
             },
             // 富文本图片上传前
             beforeUpload() {
@@ -384,9 +379,23 @@
                 }
                 return isJPG && isLt2M;
             },//end
-            publishArt() {//发布文章
+            //发布弹窗 选择栏目的 获取所有栏目
+            getAllcolumn(){
+                var data = {};
                 var self = this;
-                var data = this.artUpdata;
+                request.post('/roomapi/Room_Class/column', data, function (res) {
+                    if(res.code == 0){
+                        console.log(res.data.model,'栏目列表')
+                        if(res.data.model.length>0){
+                            self.allColumnList = res.data.model;
+                        }
+                    }
+                })
+            },
+            publishArt() {//发布文章  如果是点击写新闻进入的
+                var self = this;
+                let data = {}
+                // var data = self.artUpdata;
                 // if(self.responseUrl ==''){
                 //     self.$toast.fail('请添加题图');
                 //     return
@@ -399,11 +408,52 @@
                     self.$toast.fail('请输入新闻内容');
                     return
                 }
+                data.level = self.artUpdata.level;
+                data.columns = self.artUpdata.columns;
+                data.column_name = self.artUpdata.column_name;
                 data.image = self.responseUrl;
-                data.content = this.form.goods_desc;
-                data.title = this.articletitle;
-                console.log(data,'shezhi data data data data')
+                data.content = self.form.goods_desc;
+                data.title = self.articletitle;
+                console.log(data,'写新闻--发布添加文章接口参数')
                 request.post(data.upUrl, data, function (res) {
+                    if (res.code == 0) {
+                        // self.$router.push({
+                        //     name: 'readnews',
+                        //     query: {
+                        //         fromname: self.title,
+                        //         fromwhere: self.fromwhere,
+                        //         spaceModule: 'classes',//班级空间名
+                        //     }
+                        // })
+                        self.$router.go(-1);
+                    }
+
+                })
+            },
+            editPublishArt() {//发布文章  如果是点击编辑写新闻进入的
+                var self = this;
+                let data = {}
+                // var data = self.artUpdata;
+                // if(self.responseUrl ==''){
+                //     self.$toast.fail('请添加题图');
+                //     return
+                // }
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
+                data.level = self.artUpdata.level;
+                data.columns = self.artUpdata.columns;
+                data.column_name = self.artUpdata.column_name;
+                data.image = self.responseUrl;
+                data.content = self.form.goods_desc;
+                data.title = self.articletitle;
+                console.log(data,'编辑新闻--发布添加文章接口参数')
+                request.post('/roomapi/Room_Class/editArticle', data, function (res) {
                     if (res.code == 0) {
                         // self.$router.push({
                         //     name: 'readnews',

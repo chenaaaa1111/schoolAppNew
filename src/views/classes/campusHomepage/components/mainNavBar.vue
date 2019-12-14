@@ -194,19 +194,6 @@
           _this.loading = false;
         })
       },
-      //点击标题 进入新闻详情
-      // newDetail(item) {
-      //   var self = this;
-      //   self.$router.push({
-      //     name: 'readnews',
-      //     query: {
-      //       id: item.id,
-      //       // fromname: self.title,
-      //       // fromwhere: self.fromwhere,
-      //       spaceModule: 'classes'//班级空间名
-      //     }
-      //   })
-      // },
       fslip(item) {
         document.getElementById('content' + item).style.display = "flex";
         document.getElementById('detail' + item).style.display = 'none';
