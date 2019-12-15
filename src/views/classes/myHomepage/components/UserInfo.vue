@@ -4,19 +4,11 @@
     <div class="circle" style="text-align: center;">
       <el-avatar :size="120" :src="circleUrl"></el-avatar>
     </div>
-    <h2 class="myName" v-if="!editname">
+    <h2 class="myName">
       {{userInfo.name}}
       <img src="../../../../assets/images/myhome/editName.png" @click="editName" />
       <!-- <i class="el-icon-edit"></i> -->
       <!-- <img :src="userInfo.avatar||'../../../../assets/images/myhome/editName.png'"/> -->
-    </h2>
-    <h2 v-if="editname" style="text-align: center">
-      <el-input
-        type="text"
-        v-model="userInfo.name"
-        @blur="changeName"
-        style="text-align: center;width: 100px;"
-      ></el-input>
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
@@ -39,8 +31,7 @@ export default {
       // circleUrl: require('../../../../assets/images/user.png'),
       userInfo: {}, //用户信息
       ClassDynamic: 0,
-      SchoolDynamic: 0,
-      editname: false, //编辑用户姓名状态
+      SchoolDynamic: 0
     };
   },
   created() {
@@ -99,12 +90,9 @@ export default {
       }
     },
     editName() {
-      // 打开编辑姓名编辑框
-      this.editname = true;
-    },
-    changeName(value) {
-      console.log(this.userInfo.name, 111);
-      this.editname = false;
+      this.$router.push({
+        name: 'userBaseInfo'
+      })
     }
   }
 };

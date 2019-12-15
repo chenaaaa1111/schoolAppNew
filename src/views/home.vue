@@ -446,16 +446,32 @@
       formatObj() {
         var self = this;
         var realRoutlist = [];
+        // {
+        //   id: "room_teaching",
+        //   key: "teaching_id",
+        //   name: 'teaching',
+        //   title: '教研空间',
+        //   image: require('../assets/main/teaching.png')
+        // },
+        let keyMaps = {
+          access_class: 'room_class',
+          access_community: 'room_community',
+          access_grade: 'room_grade',
+          access_project: 'room_project',
+          access_subject: 'room_subject',
+          access_teaching: 'room_teaching'
+        }
         var userInfo = this.getUserInfo();
         Object.keys(userInfo).forEach(key => {
           self.routerList.forEach(im => {
-            if (key == im.id && userInfo[key] == 1) {
+            if ((keyMaps[key] && keyMaps[key] == im.id)) {
               im._id = userInfo[im.key];
               realRoutlist.push(im);
             }
           })
         });
         this.realRoutlist = realRoutlist;
+
         console.log('realRoutlist', realRoutlist)
       },
       visibleChange(val) {
