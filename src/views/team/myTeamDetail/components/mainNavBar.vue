@@ -16,7 +16,7 @@
           <!-- <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id"> -->
           <div class="topBar">
             <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
-            <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
+            <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">热度</span>
             <span :class="tabactive=='my'?'active':''" @click="changeTab('my')">我发布的</span>
           </div>
 

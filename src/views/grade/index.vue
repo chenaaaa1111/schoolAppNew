@@ -10,7 +10,7 @@
             <el-menu-item index="gradeHomepage">校园主页</el-menu-item>
             <el-menu-item index="myGradeHomepage">我的年级</el-menu-item>
             <li class="el-menu-item menu-search hidden-sm-and-down">
-                <el-input type="text" suffix-icon="el-icon-search"></el-input>
+                <el-input type="text" suffix-icon="el-icon-search" placeholder="搜索相关内容"></el-input>
             </li>
             <li class="nav-user">
               <el-dropdown trigger="click">
@@ -38,6 +38,7 @@
     },
     data() {
       return {
+        userInfo: {},//用户信息
         fit: 'cover',
         url: '', //头像
         // url: require('../../assets/images/user.png'),

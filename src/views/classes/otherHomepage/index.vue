@@ -9,12 +9,6 @@
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
             <Visitor></Visitor>
-            <!-- 审核中 -->
-            <Examine :source="routename"></Examine>
-            <!-- 审核未通过 -->
-            <NotPass :source="routename"></NotPass>
-            <!-- 消息通知 -->
-            <Message :source="routename"></Message>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -22,15 +16,12 @@
               <Exhibition></Exhibition>
               <el-col :span="24" class="card-block">
                 <el-row :gutter="10">
-                  <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
+                  <!-- <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
                     <General></General>
                   </el-col>
                   <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
                     <General></General>
-                  </el-col>
-                  <el-col :span="24" class="actblock">
-                    <General></General>
-                  </el-col>
+                  </el-col> -->
                   <el-col :span="24" class="actblock">
                     <General></General>
                   </el-col>
@@ -47,9 +38,6 @@
   import PageTop from './components/PageTop.vue'
   import UserInfo from './components/UserInfo.vue'
   import Visitor from './components/Visitor.vue'
-  import Examine from './components/Examine.vue'
-  import NotPass from './components/NotPass.vue'
-  import Message from './components/Message.vue'
   import Exhibition from './components/Exhibition.vue'
   import General from './components/General.vue'
   export default{
@@ -58,9 +46,6 @@
       PageTop,
       UserInfo,
       Visitor,
-      Examine,
-      NotPass,
-      Message,
       Exhibition,
       General
     },
@@ -71,11 +56,8 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      console.log(this.$route.query,'route query');
-      var query=this.$router.query;
-      this.id=query.id;
-      console.log(this.routename, '本页面routename')
+      this.routename = this.$route.name;
+      this.id = this.$route.query.id;
     },
     methods: {
 

@@ -34,7 +34,7 @@
       return {
         loadData: {
           url: require('../../../../assets/images/classes/class_else.png'),
-          title: '2000级20班-别人的班级',
+          title: '极限运动的社团主页',
           subTitle: '',
           showwrite: true
         }
@@ -97,7 +97,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/team/write1.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

@@ -10,7 +10,7 @@
             <!-- 班级空间-侧边栏 -->
             <ClassSpace :source="routename"></ClassSpace>
             <!-- 通知公告 -->
-            <!-- <Notice :source="source"></Notice> -->
+            <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -49,8 +49,8 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      this.source.routename = this.$route.name
+      this.routename = this.$route.name;
+      this.source.routename = this.$route.name;
       console.log(this.routename, '本页面routename')
     },
     methods: {

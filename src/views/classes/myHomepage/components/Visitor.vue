@@ -11,18 +11,6 @@
       <span @click="goOther(item.id)" v-for="(item,index) in visitors" :key="index">
         <el-avatar class="vistor-avatar" icon="el-icon-user-solid" :size="44" :src="item.avatar"></el-avatar>
       </span>
-      <!-- <el-avatar class="vistor-avatar" :size="44" :src="require()" ></el-avatar> -->
-      <!-- <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar> -->
     </div>
   </el-card>
 </template>
@@ -44,11 +32,11 @@
       this.getVisitors();
     },
     methods: {
-      goOther(id) {
+      goOther(id) { //到别人的主页中 id: 用户id
         this.$router.push({
           name: 'otherHomepage',
           query:{
-            id:id
+            id: id
           }
         })
       },

@@ -19,7 +19,7 @@
                       <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                   </el-dropdown-menu>
@@ -39,8 +39,9 @@
     },
     data() {
       return {
+        userInfo: {},
         fit: 'cover',
-        url: require('../../assets/images/user.png'),
+        url: '',
         activeIndex: 'mainTeamHomepage'
       }
     },
@@ -55,8 +56,10 @@
       }
     },
     mounted() {
-      this.activeIndex = this.$route.name
-      // console.log(this.activeIndex, '当前页面名称-------------------')
+      this.activeIndex = this.$route.name;
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      // this.userInfo=this.$store.state.userInfo;
+      this.url=this.userInfo.avatar;//头像
     },
     methods: {
       goHome() {

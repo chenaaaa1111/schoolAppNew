@@ -3,71 +3,65 @@
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
         <span class="top-title">校园动态</span>
-        <el-button type="text">
-          <span class="hidden-md-and-up">查看全部</span><img class="more" src="../../../../assets/images/classes/more.png"/>
-        </el-button>
       </el-col>
-      <el-col :span="24">
-        <el-row class="article">
+      <el-col :span="24" v-if="articles.length>0">
+        <el-row class="article" v-for="(item,index) in articles" :key="index">
           <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
+                <span class="text">{{item.title}}</span>
               </el-col>
               <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
+                <span class="date">{{item.create_time}}</span>
                 <el-divider></el-divider>
               </el-col>
             </el-row>
           </el-col>
         </el-row>
-
-        <el-row class="article">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
-              </el-col>
-              <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
-                <el-divider></el-divider>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-
-        <el-row class="article">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">如何评价电影《少年的你》?</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
-              </el-col>
-              <el-col :span="24" class="subTitle">
-                <span class="date">2019/08/22 09:23</span>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
+      </el-col>
+      <el-col :span="24" v-else>
+        <div class="noContent">暂无更多的班级动态</div>
       </el-col>
     </el-row>
   </el-card>
 </template>
+<script>
+import request from "@/api/request.js";
+import Vue from 'vue';
+export default {
+  props: {},
+  data: function() {
+    return {
+      serverUrl: this.$store.state.serverUrl,
+      articles: [],//动态列表
+    };
+  },
+  mounted() {
+    this.getGenaras();
+  },
+  methods: {
+    getGenaras: function() {
+      var self = this;
+      var data = {
+        uid: self.$route.query.id,
+        page: 1,
+        psize: 10,
+        level: 2
+      };
+      request.post("/roomapi/Room_Class/myPage", data, function(res) {
+        self.articles =  res.data.model;
+      });
+    }
+  }
+};
+</script>
 <style lang="scss" scoped>
-.top-block{
-  .top-box{
+.top-block {
+  .top-box {
     position: relative;
     text-align: center;
     margin-bottom: 35px;
-    .top-title{
+    .top-title {
       display: inline-block;
       width: 200px;
       height: 50px;
@@ -77,10 +71,10 @@
       font-size: 24px;
       font-weight: 600;
     }
-    .el-button{
+    .el-button {
       float: right;
       font-size: 12px;
-      .more{
+      .more {
         display: inline-block;
         width: 16px;
         height: 16px;
@@ -91,64 +85,75 @@
       }
     }
   }
-  .article{
+  .article {
     // margin-top: 25px;
-    .subTitle{
+    .subTitle {
       font-size: 16px;
       color: #999;
       line-height: 30px;
-      .el-divider--horizontal{
+      .el-divider--horizontal {
         margin-top: 12px;
       }
     }
-    .title{
+    .title {
       line-height: 40px;
       font-size: 20px;
-      .text{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      .text {
         font-weight: bold;
         margin-right: 30px;
       }
-      .classify{
+      .classify {
         color: #666;
         margin-right: 30px;
         white-space: nowrap;
       }
-      .date{
+      .date {
         color: #666;
         white-space: nowrap;
       }
     }
-    .operation{
+    .operation {
       text-align: right;
-      .el-button{
+      .el-button {
         padding-top: 0;
         font-size: 12px;
       }
     }
-    .content{
+    .content {
       margin: 24px 0px 0px 0px;
       padding: 0;
-      .con-pic{
+      .con-pic {
         display: block;
         width: 100%;
       }
-      .con-text{
+      .con-text {
         line-height: 36px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 4;
         overflow: hidden;
       }
-      .read-more{
+      .read-more {
         text-align: right;
       }
     }
-    .article-date{
+    .article-date {
       font-size: 18px;
       color: #999;
       line-height: 30px;
       margin-top: 14px;
     }
+  }
+  .noContent{
+    text-align: center;
+    font-size:10px;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    color:rgba(102,102,102,1);
+    line-height:14px;
   }
 }
 </style>
