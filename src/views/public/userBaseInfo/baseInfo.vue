@@ -29,16 +29,11 @@
                 <el-row class="formRow">
                   <el-col class="formTitle">
                     <span class="title">基本信息</span>
-                    <el-button type="primary">保存</el-button>
+                    <el-button type="primary" @click="saveBaseInfo">保存</el-button>
                   </el-col>
                   <el-col class="formAvatar">
-                    <el-avatar
-                      shape="circle"
-                      :size="160"
-                      :fit="fit"
-                      icon="el-icon-user-solid"
-                      :src="formdata.avatar"
-                    ></el-avatar>
+                    <el-avatar shape="circle" :size="160" :src="avatar"></el-avatar>
+                    <!-- <img :src="avatar" class="userImg"/> -->
                     <p class="text"><el-button type="text" size="mini" @click="editAvatar">修改头像</el-button></p>
                   </el-col>
                   <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
@@ -59,12 +54,13 @@
                 <el-row class="formRow">
                   <el-col class="formTitle">
                     <span class="title">空间资料</span>
+                    <el-button type="primary" @click="saveSpaceChecked">保存</el-button>
                   </el-col>
                   <el-col>
                     <el-form-item label="空间选择" label-width="80px">
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_class">
+                          <el-checkbox v-model="formdata.room_class" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/classes.png" class="spaceIcon"/>班级空间
                           </el-checkbox>
                         </el-form-item>
@@ -72,7 +68,7 @@
 
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_grade">
+                          <el-checkbox v-model="formdata.room_grade" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/grade.png" class="spaceIcon"/>年级空间
                           </el-checkbox>
                         </el-form-item>
@@ -80,7 +76,7 @@
 
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_community">
+                          <el-checkbox v-model="formdata.room_community" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/team.png" class="spaceIcon"/>社团空间
                           </el-checkbox>
                         </el-form-item>
@@ -88,7 +84,7 @@
 
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_project">
+                          <el-checkbox v-model="formdata.room_project" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/special.png" class="spaceIcon"/>专题空间
                           </el-checkbox>
                         </el-form-item>
@@ -96,7 +92,7 @@
 
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_subject">
+                          <el-checkbox v-model="formdata.room_subject" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/topic.png" class="spaceIcon"/>课题空间
                           </el-checkbox>
                         </el-form-item>
@@ -104,7 +100,7 @@
 
                       <div>
                         <el-form-item>
-                          <el-checkbox v-model="formdata.room_teaching">
+                          <el-checkbox v-model="formdata.room_teaching" :true-label="trueLabel" :false-label="falseLabel">
                             <img src="../../../assets/main/teaching.png" class="spaceIcon"/>教研空间
                           </el-checkbox>
                         </el-form-item>
@@ -116,8 +112,9 @@
                 <el-row class="formRow" :gutter="10">
                   <el-col class="formTitle">
                     <div class="title subTitle">班级空间</div>
+                    <el-button type="primary" @click="saveClass">保存</el-button>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24" v-if="true">
                     <el-form-item label="年级">
                       <el-select class="formwidth" v-model="formdata.grade_id" placeholder="请选择">
                         <el-option v-for="(item,index) in gradeList" :label="item.title" :value="item.id" :key="index+10"></el-option>
@@ -137,6 +134,7 @@
                 <el-row class="formRow" :gutter="10">
                   <el-col class="formTitle">
                     <div class="title subTitle">年级空间</div>
+                    <el-button type="primary" @click="saveGrade">保存</el-button>
                   </el-col>
                   <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
                     <el-form-item label="年级">
@@ -145,7 +143,7 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24" v-if="true">
                     <el-form-item label="班级">
                       <el-select class="formwidth" v-model="formdata.class_id" placeholder="请选择">
                         <el-option v-for="(item,index) in classList" :label="item.title" :value="item.id" :key="index+40"></el-option>
@@ -158,6 +156,7 @@
                 <el-row class="formRow">
                   <el-col class="formTitle">
                     <div class="title subTitle">课题空间</div>
+                    <el-button type="primary" @click="saveSubject">保存</el-button>
                   </el-col>
                   <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
                     <el-form-item label="课题组">
@@ -213,8 +212,10 @@
                   <el-upload
                     action="https://jsonplaceholder.typicode.com/posts/"
                     list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove">
+                    :file-list="fileList"
+                    :auto-upload="false"
+                    :on-remove="handleRemove"
+                    :on-change="fileChange">
                     <i class="el-icon-plus"></i>
                   </el-upload>
                   <el-dialog :visible.sync="avatarVisible" size="tiny">
@@ -230,9 +231,12 @@
     </el-dialog>
     <el-dialog title="更改手机号码" :visible.sync="mobileDialog" width="30%" class="mydialog" :before-close="mobileCancel">
         <div>
-            <el-form label-width="80px" >
-                <el-form-item label="手机号码">
-                    <el-input type="text" placeholder="请输入新号码"></el-input>
+            <el-form label-width="120px" :model="mobileFormData" :rules="mobileRules">
+                <el-form-item label="旧手机号码">
+                    <el-input v-model="formdata.mobile" type="text" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="新手机号码" prop="newMobile">
+                    <el-input v-model="mobileFormData.newMobile" :maxlength="mobilemaxlen" type="text" placeholder="请输入新号码"></el-input>
                 </el-form-item>
             </el-form>
         </div>
@@ -264,6 +268,16 @@ import request from "@/api/request.js";
 export default {
   name: "userBaseInfo",
   data() {
+    var validataMobile = (rule, value, callback) => {
+      var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+      if(value == '') {
+        callback(new Error('请输入新的手机号码!'));
+      }else if (TEL_REGEXP.test(value)) {
+        callback();
+      } else {
+        callback(new Error('手机号码格式不正确!'));
+      }
+    };
     return {
       userInfo: {},
       url: "",
@@ -284,7 +298,7 @@ export default {
         password: "$P$BU3uZfakBj4h2FaeTVb91oRWbErDLf1",
         avatar: "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
         name: "我不叫金刚啊",
-        room_class: 1,
+        room_class: 0,
         room_grade: 0,
         room_community: 0,
         room_project: 0,
@@ -302,19 +316,26 @@ export default {
         grade: "19级",
         class: "22班"
       },
-      dialogImageUrl: '',
+      dialogImageUrl: "",
+      trueLabel: 1,
+      falseLabel: 0,
       avatarVisible: false,
       avatarDialog: false,
       mobileDialog: false,
       passDialog: false,
-      spaceList: [
-          {id: '1', src:require('../../../assets/images/classs.png'),name:'班级空间',check:0},
-          {id: '2', src:require('../../../assets/images/grade.png'),name:'年级空间',check:1},
-          {id: '3', src:require('../../../assets/images/team.png'),name:'社团空间',check:1},
-          {id: '4', src:require('../../../assets/images/special.png'),name:'专题空间',check:0},
-          {id: '5', src:require('../../../assets/images/topic.png'),name:'课题空间',check:1},
-          {id: '6', src:require('../../../assets/images/teaching.png'),name:'教研空间',check:1}
-      ],
+      avatar: '',// 默认显示的用户头像
+      fileList: [], // 用来回显原来头像和接收选择图片的数组
+      newAvatar: '', // 图片上传成功后返回的图片地址
+      mobileRules: {
+        newMobile: [
+          { required: true, validator: validataMobile, trigger: 'blur' }
+        ]
+      },
+      mobileFormData: {
+        newMobile: ''
+      },
+      mobilemaxlen: 11
+
     };
   },
   mounted() {
@@ -404,6 +425,13 @@ export default {
         console.log(res, '请求用户信息')
         if(res.code == 0) {
           this.formdata = res.data
+          let avatarObj = {
+            name: 'oldAvatar',
+            url: res.data.avatar
+          }
+
+          this.avatar = res.data.avatar
+          this.fileList = [avatarObj]
         }
       })
     },
@@ -412,17 +440,122 @@ export default {
     },
     avatarCancel() {
       this.avatarDialog = false
+      this.newAvatar = ''
     },
     savenewavatar() {
-      this.avatarDialog = false
+      console.log(this.fileList[0].name, '保存图片')
+      let fm = new FormData()
+      fm.append('type',1)
+      fm.append('file',this.fileList[0].raw)
+      request.post('/roomapi/Upsystem/upload', fm, (res)=>{
+        console.log(res, '上传图片')
+        if(res.code == 0) {
+          this.$message.success('上传头像成功!')
+          this.newAvatar = res.data.url
+          this.avatarDialog = false
+        } else {
+          this.$message.error('上传头像失败,请检查网络')
+        }
+      })
+
+    },
+    saveBaseInfo() { // 基本信息--save
+      let data = {
+        avatar: this.newAvatar,
+        sid: this.formdata.s_id,
+        name: this.formdata.name
+      }
+      if(this.newAvatar == '') {
+        data.avatar = this.formdata.avatar
+      } else {
+        this.newAvatar
+      }
+      request.post('/roomapi/Users/editBasic', data, (res)=>{
+        console.log(res, '保存基本信息')
+        if(res.code == 0) {
+          this.newAvatar = ''
+          this.getData()
+        }
+      })
+    },
+    saveSpaceChecked() { // 空间信息 -- save
+      let data = {
+        room_class: this.formdata.room_class,
+        room_grade: this.formdata.room_grade,
+        room_community: this.formdata.room_community,
+        room_project: this.formdata.room_project,
+        room_subject: this.formdata.room_subject,
+        room_teaching: this.formdata.room_teaching
+      }
+      request.post('/roomapi/Users/editRoom', data, (res)=>{
+        console.log(res, '保存空间信息')
+        if(res.code == 0) {
+          this.$message.success(res.message)
+          this.getData()
+        }
+      })
+    },
+    saveClass() { // 班级空间 -- save
+      let data = {
+        class_id: this.formdata.class_id,
+      }
+      request.post('/roomapi/Users/editRoomClass', data, (res)=>{
+        console.log(res, '保存班级空间')
+        if(res.code == 0) {
+          this.$message.success(res.message)
+          this.getData()
+        }
+      })
+    },
+    saveGrade() { // 班级空间 -- save
+      let data = {
+        grade_id: this.formdata.grade_id,
+      }
+      request.post('/roomapi/Users/editRoomGrade', data, (res)=>{
+        console.log(res, '保存年级空间')
+        if(res.code == 0) {
+          this.$message.success(res.message)
+          this.getData()
+        }
+      })
+    },
+    saveSubject() {
+      let data = {
+        subject_id: this.formdata.subject_id,
+      }
+      request.post('/roomapi/Users/editSubject', data, (res)=>{
+        console.log(res, '保存课题空间')
+        if(res.code == 0) {
+          this.$message.success(res.message)
+          this.getData()
+        }
+      })
     },
     editMobile() { // 打开更改手机号
       this.mobileDialog = true
     },
     mobileCancel() { // 关闭更改手机号
+      this.mobileFormData = {
+        newMobile: ''
+      }
       this.mobileDialog = false
     },
     savenewmobile() { // 保存手机号
+      let data = {
+        mobile: this.mobileFormData.newMobile
+      }
+      request.post('/roomapi/Users/upmobile', data, (res)=>{
+        console.log(res, '保存新手机号码')
+        if(res.code == 0) {
+          this.$message.success('更换手机号码成功')
+          this.mobileFormData = {
+            newMobile: ''
+          }
+          this.getData()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       this.mobileDialog = false
     },
     editPass() { // 打开更改密码
@@ -435,8 +568,20 @@ export default {
       this.passDialog = false
     },
     // 上传头像部分方法
-    handlePictureCardPreview() {},
-    handleRemove() {},
+    handleRemove(file) {
+      this.fileList = []
+    },
+    fileChange(file, fileList) { //文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+      console.log(file, 'change file')
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png';
+      if(isJPG) {
+        this.fileList = [file]
+      } else {
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
+        this.fileList = fileList.splice(file,1)
+      }
+
+    },
   }
 };
 </script>
@@ -444,6 +589,9 @@ export default {
     .mydialog {
         .el-dialog {
             min-width: 9.733333rem;
+        }
+        .el-upload-list__item {
+          transition: none !important;
         }
     }
 </style>
@@ -484,6 +632,12 @@ export default {
     }
     .formAvatar{
       text-align: center;
+      .userImg{
+        width: 160px;height: 160px;border-radius: 50%;
+        display: block;margin: 0 auto;
+        box-shadow: 0px 0px 5px #ccc;
+        border: 1px solid #ccc;
+      }
     }
     .spaceIcon{
       display: inline-block;
