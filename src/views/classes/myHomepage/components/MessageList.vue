@@ -4,7 +4,7 @@
       <el-breadcrumb-item class="headPage" @click.native="backMyHome()">我的主页</el-breadcrumb-item>
       <el-breadcrumb-item class="currentPage">{{title}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="clearfix">
+    <el-row>
       <el-col :span="24" class="top-box">
         <span class="top-title">
           {{title}}
@@ -12,22 +12,8 @@
                   {{title}}
           </el-badge>-->
         </span>
-        <!-- <el-button type="text">
-                查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
-        </el-button>-->
       </el-col>
-      <!-- <span class="cardTitle">
-              <img
-                style="background:#226BB4;border-radius: 50%;"
-                src="../../../../assets/images/myhome/message.png"/>
-                <el-badge :value="messageLists.total" :max="99" class="item">
-                  消息通知
-                </el-badge>
-      </span>-->
-      <!-- <span class="more" @click="showmessagemore">
-              <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
-      </span>-->
-    </div>
+    </el-row>
     <el-row class="question" v-for="(item,index) in messageLists.model" :key="index">
       <el-col class="title">
         <el-button class="titleName" @click="msgDetails(item)" type="text">{{item.title}}</el-button>
@@ -69,10 +55,11 @@ export default {
     console.log(this.messageLists, "adsdsaddssdsadasdas");
   },
   methods: {
-    backMyHome () { //面包屑 点击回到我的主页
+    backMyHome() {
+      //面包屑 点击回到我的主页
       var self = this;
-      var tab ='main';
-      this.$emit('changeTab',tab);
+      var tab = "main";
+      this.$emit("changeTab", tab);
     },
     showmessagemore() {},
     msgDetails(item) {
@@ -341,14 +328,14 @@ export default {
 }
 </style>
 <style>
-  .headPage{
-   cursor: pointer!important;
-  }
-  .headPage:hover .el-breadcrumb__inner{
-    color:#034692!important;
-  }
-  .currentPage .el-breadcrumb__inner{
-    color:#034692!important;
-  }
+.headPage {
+  cursor: pointer !important;
+}
+.headPage:hover .el-breadcrumb__inner {
+  color: #034692 !important;
+}
+.currentPage .el-breadcrumb__inner {
+  color: #034692 !important;
+}
 </style>
       

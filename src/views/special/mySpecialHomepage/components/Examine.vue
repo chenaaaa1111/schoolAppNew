@@ -10,14 +10,14 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">3个正在审核中的专题:</div>
+    <div class="examineTips">{{total}}个正在审核中的专题:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
-      <el-col class="title" ><el-button type="text" @click="msgDetails">{{item.name}}</el-button></el-col>
+      <el-col class="title" ><el-button type="text" @click="msgDetails(item)">{{item.title}}</el-button></el-col>
       <el-col>
         <el-row>
           <el-col :span="14" class="time">{{item.create_time}}</el-col>
           <el-col :span="10" class="exit">
-            <el-button type="text" >撤回</el-button>
+            <el-button type="text">撤回</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -37,12 +37,8 @@
     },
     data() {
       return {
-        list: [
-          {
-            title: '如何评价电影《少年的你》???',
-            date: '2019/08/03 09:20',
-          }
-        ]
+        list: [],//审核中列表
+        total: '',//正在审核中的专题数量
       }
     },
     created(){
@@ -53,14 +49,17 @@
     },
     methods: {
       getExamine(){
-        var self=this;
-        debugger
-        var data={id:this.$store.state.userInfo.id,
-          page:1,
-          psize:3}
-        ;
+        var self= this;
+        var data = {}
+        // var data={ id:this.$store.state.userInfo.id,
+        //   page:1,
+        //   psize:3}
+        // ;
         request.post('/roomapi/Project/auditPage',data,function(res){
-          self.list=res.data.model;
+          if(res.code ==0){
+            self.list = res.data.model;
+            self.total = res.data.total;
+          }
         })
       },
       showexaminemore() {

@@ -2,7 +2,7 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="24" class="top-title top-heigth">{{userInfo.name}}的个人主页</el-col>
+        <el-col :span="24" class="top-title top-heigth">{{name}}的个人主页</el-col>
         <el-col :span="12" class="department margin-top">
           {{persionInfo}}
         </el-col>
@@ -29,10 +29,12 @@
     data() {
       return {
         userInfo: {}, //用户信息
+        name: '',//用户名
         persionInfo: '', //班级信息
       }
     },
     mounted() {
+      this.name = this.$route.query.name;
       this.getUserInfo();
     },
     methods: {

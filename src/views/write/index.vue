@@ -6,11 +6,11 @@
                     <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex]?spaceNav[navIndex].styles:''">
                         <img :src="spaceNav[navIndex]?spaceNav[navIndex].icon:''" />{{spaceNav[navIndex]?spaceNav[navIndex].spacename:''}}
                     </li>
-                    <el-menu-item>写新闻</el-menu-item>
+                    <el-menu-item>{{writeContent}}</el-menu-item>
                     <li class="nav-user">
                         <el-dropdown trigger="click">
                             <span class="el-dropdown-link">
-                                <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                                <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
                             </span>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -21,7 +21,11 @@
                     </li>
 
                     <li class="el-menu-item menu-release ">
-                        <el-button plan size="small" @click="openPublish">发布</el-button>
+                        <el-button v-if="navIndex == 'classes'" plan size="small" @click="openPublish">班级发布</el-button>
+                        <el-button v-if="navIndex == 'team'" plan size="small" @click="openPublish">社团发布</el-button>
+                        <el-button v-if="navIndex == 'special'" plan size="small" @click="openPublish">专题发布</el-button>
+                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="openPublish">课题发布</el-button>
+                        <el-button v-if="navIndex == 'teaching'" plan size="small" @click="openPublish">教研发布</el-button>                        
                     </li>
                 </el-menu>
             </el-col>
@@ -178,6 +182,7 @@
                     styles: 'teachingColor'
                   }
                 },
+                writeContent: '',
                 navIndex: 'classes',
                 isEdit: false,//是否是编辑新闻状态
                 widgetName: '',
@@ -268,25 +273,41 @@
             }
         },
         mounted() {
-            debugger
-            this.url=this.userInfo.avatar;//头像
+            // this.url=this.userInfo.avatar;//头像
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             // debugger
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere;
               this.title = this.$route.query.fromname;
               this.navIndex = this.$route.query.spaceModule;
+              switch(this.navIndex){
+                    case "classes":
+                       this.writeContent = '写新闻'
+                       break;
+                    case "team":
+                       this.writeContent = '写信息'
+                       break;
+                    case "special":
+                       this.writeContent =  '写专题'
+                       break;
+                    case "topic":
+                       this.writeContent =  '写课题'
+                       break;
+                    case "teaching":
+                       this.writeContent =  '写文章'
+                       break;
+                }  
             }
-          
+
             this.artUpdata ='';
-            this.isEdit=this.$router.query.isEdit;
-            console.log(this.$router,'路由this.$router集合')
-            if(this.$router.currentRoute){
+            this.isEdit=this.$route.query.isEdit;
+            console.log(this.$route,'路由this.$router集合')
+            if(this.$route.currentRoute){
                 this.artUpdata=this.$router.currentRoute.query,
                 this.isEdit=this.$router.currentRoute.query.isEdit;
-            }else if(this.$router.query){
+            }else if(this.$route.query){
                 this.artUpdata=this.$router.query
-                this.isEdit=this.$router.query.isEdit;
+                this.isEdit=this.$route.query.isEdit;
             }
             console.log(this.artUpdata, 'this.$route.query')
             console.log(this.fromwhere, this.isEdit,'fromwhere  isEdit--- write/index.vue page');

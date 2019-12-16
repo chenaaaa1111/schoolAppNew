@@ -14,6 +14,9 @@
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
+            </el-button>
+            <el-button type="danger" circle >
               <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
             </el-button>
             <el-button type="primary" circle >
@@ -49,6 +52,7 @@
         this.$router.push({
           name: 'write',
           query: {
+            isEdit: false,
             fromname: '我的主页',
             spaceModule: 'classes',//班级空间名
             fromwhere: 'myHomepage',

@@ -3,13 +3,10 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
+          {{loadData.title}}
         </el-col>
         <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+          <span @click="writeSpecial"></span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
@@ -33,8 +30,7 @@
     data() {
       return {
         loadData: {
-          title: '我的个人主页-我的主页',
-          subTitle: '西区初中2019级1班',
+          title: '华悦蜀山区第一中学专题空间',
           showwrite: true
         }
       }
@@ -43,12 +39,14 @@
 
     },
     methods: {
-      writenews() {
+      writeSpecial() {
         this.$router.push({
           name: 'write',
           query: {
-            fromname: '我的主页',
-            fromwhere: 'teamMyHomepage',
+            isEdit: false,
+            fromname: '首页',
+            spaceModule: 'special',//班级空间名
+            fromwhere: 'specialMainHomepage',
             upUrl:'/roomapi/Project/addArticle',//上传的url
           }
         })
@@ -61,18 +59,16 @@
     .pageContent{
       margin-top: 48px;
       .top-title{
-        height: 56px;
-        line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
-        img{
-          display: inline-block;
-          width: 74px;
-          height: 74px;
-          vertical-align: middle;
-          margin-right: 30px;
-        }
+        padding-left: 20px;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-text-fill-color:transparent;
       }
       .top-write{
         height: 56px;

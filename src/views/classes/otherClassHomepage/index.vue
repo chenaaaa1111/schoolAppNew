@@ -32,11 +32,11 @@
     data() {
       return {
         routename: '',
-        otherClassId:''
+        otherClassId:'' //别人的班级id
       }
     },
     created(){
-      this.routename = this.$route.name
+      this.routename = this.$route.name;
       console.log('routerQuery',this.$route.query )
       console.log(this.routename, '本页面routename')
       this.otherClassId=this.$route.query.id;

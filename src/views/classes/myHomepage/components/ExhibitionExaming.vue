@@ -8,9 +8,6 @@
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
         <span class="top-title">{{title}}</span>
-        <!-- <el-button type="text">
-                查看全部<img class="more" src="../../../../assets/images/classes/more.png"/>
-        </el-button>-->
       </el-col>
       <el-col :span="24">
         <el-row class="article" v-for="(item,index) in articles" :key="index">
@@ -91,11 +88,6 @@ export default {
       console.log('审核 审核未通过')
       var self = this;
       var tab ='main';
-      // if (self.title == '审核中') {
-      //   tab = 'examing';
-      // } else if(self.title == '审核未通过') {
-      //   tab = 'notPass';
-      // }
       this.$emit('changeTab',tab);
     },
     changeTab(tab) {

@@ -58,14 +58,6 @@
       },
       showexaminemore() {
         console.log('去更多审核中')
-        // this.$router.push({
-        //   path: '/noticemore',
-        //   query: {
-        //     widgetName: '审核中',
-        //     fromwhere: this.source,
-        //     loadUrl:'/roomapi/Room_Class/audit'
-        //   }
-        // })
         var tab='examing';
         this.$emit('changeTab',tab);
       },

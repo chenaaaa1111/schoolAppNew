@@ -21,30 +21,6 @@
         </el-row>
       </el-col>
     </el-row>
-    <!-- <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row class="question">
-      <el-col class="title"><el-button @click="msgDetails" type="text">如何评价电影《少年的你》?</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
-        </el-row>
-      </el-col>
-    </el-row> -->
   </el-card>
 </template>
 <script>
@@ -69,44 +45,19 @@
       getMessages: function () {
         var self = this;
         var data = {
-          kid: 1,
-          page: 1,
-          psize: 3
+          kid: 4, //空间： 1班级空间2年级空间3社团4专题5课题6教研
+          page: 1, 
+          psize: 4
         };
         request.post('/roomapi/Users/userMessage', data, function (res) {
-          self.messages = res.data.model.length > 0 ? res.data.model : [
-            {
-              "id": 2,
-              "k_id": 1,
-              "u_id": 1,
-              "c_id": 2,
-              "title": "事实上3",
-              "why": "管理员开心的把你的贴删除了",
-              "create_time": "2019-11-19 00:00:00"
-            },
-            {
-              "id": 1,
-              "k_id": 1,
-              "u_id": 1,
-              "c_id": 1,
-              "title": "事实上",
-              "why": "管理员开心的把你的贴删除了",
-              "create_time": "2019-11-19 00:00:00"
-            }
-          ];
-          self.total = res.data.total ? res.data.total : 2;
+          if(res.code ==0){
+            self.messages = res.data.model
+            self.total = res.data.total;
+          }
         })
       },
       showmessagemore() {
-        // this.$router.push({
-        //   name: 'noticemore',
-        //   params: {
-        //     widgetName: '消息通知',
-        //     fromwhere: this.source,
-        //     spacename: 'special'
-        //   }
-        // })
-        var tab = 'notPass';
+        var tab = 'message';
         this.$emit('changeTab', tab);
       },
       msgDetails() {
