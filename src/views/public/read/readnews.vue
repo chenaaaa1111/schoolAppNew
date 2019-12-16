@@ -3,10 +3,10 @@
     <el-row class="page-header" type="flex" justify="center">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
         <el-menu class="el-menu-head" mode="horizontal">
-            <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
+            <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex]['styles']">
               <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
             </li>
-            <el-menu-item class="brandTitle" index="writenews" disabled>文章详情 - public</el-menu-item>
+            <el-menu-item class="brandTitle" index="writenews" disabled>文章详情</el-menu-item>
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
@@ -106,7 +106,7 @@
             styles: 'teachingColor'
           }
         },
-        title: '校园主页',
+        title: '主页',
         navIndex: 'classes',
         widgetName: ''
       }
@@ -120,7 +120,8 @@
       var self=this;
       if(Object.keys(params).length > 0) {
         // this.title = params.fromname;
-        this.navIndex = params.spaceModule;
+        this.navIndex = params.spacename;
+        this.title = params.widgetName
       }
       request.post('/roomapi/Users/detailsNews',{id:params.id},function(res){
         console.log('新闻详情',res);

@@ -62,7 +62,7 @@
             </el-card> -->
             <mainNavBar ></mainNavBar>
 
-         
+
           </el-col>
         </el-row>
       </el-col>
@@ -91,7 +91,7 @@
       return {
         source: {
           routename: '',
-          spacename: 'team'
+          spacename: 'teaching'
         },
         routename: '',
         activeIndex: 'all',

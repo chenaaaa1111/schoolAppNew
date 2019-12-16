@@ -32,7 +32,7 @@
             title: '沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警沈家门第四小学2019学校安全工作一号预警',
             date: '2019-11-11'
           }
-         
+
         ]
       }
     },
@@ -48,12 +48,12 @@
 
             }
         request.post('/roomapi/Users/NoticeList',data,function(res){
-           
+
         })
       },
       shownoticemore() {
         this.$router.push({
-          name: 'newsmore',
+          name: 'readnotice',
           params: {
             widgetName: '通知公告',
             fromwhere: this.source

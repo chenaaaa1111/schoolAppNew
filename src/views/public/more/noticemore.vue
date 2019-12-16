@@ -24,12 +24,12 @@
     </el-row>
     <el-row type="flex" justify="center" class="more-container">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="more-box">
-        <el-card v-for ="(item,index) in noticeDeatail" :key="index">
+        <el-card>
           <div slot="header" class="clearfix">
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list">
+            <el-row class="more-list" v-for ="(item,index) in noticeList" :key="index">
               <el-col :span="24" class="news-title">
                 {{item.title}}<span class="news-type">(栏目: 影评)</span>
               </el-col>
@@ -67,6 +67,43 @@
         userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
         fit: 'cover',
         noticeDeatail:{},
+        noticeList: [
+          {
+            "id": 1,
+            "s_id": 1,
+            "title": "这是一条灰常重要的通知公告",
+            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+            "create_time": "2019-11-19 00:00:00"
+          },
+          {
+            "id": 1,
+            "s_id": 1,
+            "title": "这是一条灰常重要的通知公告",
+            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+            "create_time": "2019-11-19 00:00:00"
+          },
+          {
+            "id": 1,
+            "s_id": 1,
+            "title": "这是一条灰常重要的通知公告",
+            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+            "create_time": "2019-11-19 00:00:00"
+          },
+          {
+            "id": 1,
+            "s_id": 1,
+            "title": "这是一条灰常重要的通知公告",
+            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+            "create_time": "2019-11-19 00:00:00"
+          },
+          {
+            "id": 2,
+            "s_id": 3,
+            "title": "这是一条灰常重要的通知公告",
+            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+            "create_time": "2019-11-19 00:00:00"
+          }
+        ],
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
             icon: require('../../../assets/main/classes.png'),
@@ -117,6 +154,7 @@
        *    获取返回时候的跳转路由以及返回按钮显示的文字
        */
       let params = this.$route.query
+      console.log(params, '通知公告更多页面接收到传值')
       if (Object.keys(params).length > 0) {
         this.fromwhere = params.fromwhere
         this.navIndex = params.spacename
@@ -129,7 +167,7 @@
     },
     methods: {
       getNoticeDeatail(id) {
-        debugger
+        // debugger
         var self=this;
         var data = {
           id: id
@@ -138,18 +176,15 @@
         console.log('请求参数',data);
         data.loadUrl='/roomapi/Users/NoticeList';
         request.post(data.loadUrl, data, function (res) {
-          res.data = res.data.model ? res.data.model : {
-            "id": 1,
-            "s_id": 1,
-            "title": "标题",
-            "content": "额鹅鹅鹅",
-            "create_time": "2019-11-19 00:00:00"
+          if(res.code == 0) {
+            if(res.data.model.length>0) {
+              self.noticeDeatail=res.data.model;
+            }
           }
-          self.noticeDeatail=res.data;
         })
       },
       setTitle(str) { // 设置返回按钮显示的文字
-        debugger
+        // debugger
         switch (str) {
           case 'classes':
             this.title = '班级主页';

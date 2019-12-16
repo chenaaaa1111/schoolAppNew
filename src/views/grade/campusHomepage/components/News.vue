@@ -56,7 +56,7 @@
       shownewsmore() {
         this.$router.push({
           name: 'gradenewsmore',
-          params: {
+          query: {
             widgetName: '学校新闻动态',
             fromname: '校园主页',
             fromwhere: this.source

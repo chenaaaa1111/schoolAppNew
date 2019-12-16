@@ -65,8 +65,9 @@
       readDetails() { // 跳转到文章详情页
         this.$router.push({
           name: 'readnews',
-          params: {
-            widgetName: '校园主页',
+          query: {
+            widgetName: '学校新闻动态',
+            fromname: '教研主页',
             fromwhere: this.source
           }
         })

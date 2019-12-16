@@ -49,7 +49,7 @@
                         <img :src="item.cover" />
                       </el-col> -->
                     <!-- </el-row> -->
-                    <mainNavBar :teamId="teamId"></mainNavBar>     
+                    <mainNavBar :teamId="teamId"></mainNavBar>
                   </el-col>
                   <!-- <el-col class="time">
                     <div class="timeLine">
@@ -93,7 +93,7 @@
           teamId:'',
           source: {
             routename: '',
-            spacename: 'team'
+            spacename: 'topic'
           },
           routename: '',
           activeIndex: 'all',
@@ -174,7 +174,7 @@
         display: none;
       }
     }
-  
+
     .noEllipsis {
       img {
         width: 100%;
@@ -187,62 +187,62 @@
   <style media="screen" lang="scss" scoped>
     .space-wrap {
       margin-top: 30px;
-  
+
       .entry-content {
         padding: 0px 10px;
-  
+
         .el-menu-demo {
           border: 0;
-  
+
           .el-menu-item {
             font-size: 20px;
             font-weight: 600;
             height: 24px;
             line-height: 24px;
           }
-  
+
           .is-active {
             color: #034692;
             border-bottom: 0;
           }
         }
-  
+
         .chapter {
           color: #1E1E1E;
-  
+
           .title {
             font-size: 24px;
             font-weight: 600;
           }
-  
+
           .author {
             margin-top: 20px;
             display: flex;
             align-items: center;
             font-size: 18px;
             font-weight: 600;
-  
+
             .userimg {
               display: inline-block;
             }
-  
+
             .name {
               margin-left: 8px;
               display: inline-block;
             }
-  
+
             .teamname {
               color: #034692;
               margin-left: 26px;
               display: inline-block;
             }
           }
-  
+
           .content {
             margin-top: 20px;
             padding-left: 0;
             padding-right: 0;
-  
+
             .chart {
               img {
                 display: block;
@@ -250,44 +250,44 @@
                 border-radius: 8px;
               }
             }
-  
+
             .text {
               font-size: 18px;
               line-height: 0.4rem;
-  
+
               .ellipsis {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 4;
                 overflow: hidden;
-  
+
                 img {
                   display: none;
                 }
               }
             }
           }
-  
+
           .time {
             font-size: 18px;
             color: #999;
             margin-top: 20px;
-  
+
             .timeLine {
               display: table;
               width: 100%;
-  
+
               .time {
                 width: 50%;
                 display: table-cell;
               }
-  
+
               .btn {
                 text-align: right;
                 display: table-cell;
               }
             }
-  
+
             .timeLine::after {
               content: '';
               display: block;

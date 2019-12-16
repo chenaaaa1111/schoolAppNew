@@ -56,8 +56,9 @@
       shownewsmore() {
         this.$router.push({
           name: 'newsmore',
-          params: {
+          query: {
             widgetName: '学校新闻动态',
+            fromname: '社团主页',
             fromwhere: this.source
           }
         })
