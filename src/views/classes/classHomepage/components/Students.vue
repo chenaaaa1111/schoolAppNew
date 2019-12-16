@@ -29,38 +29,7 @@ export default {
       url: require("../../../../assets/images/grade/peple.png"),
       dataList: [],
       showstate: "down",
-      alumnus: [
-        // {
-        //   name: '周华健',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级19班'
-        // },
-        // {
-        //   name: '乌龙茶',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级20班'
-        // },
-        // {
-        //   name: '果子狸',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级21班'
-        // },
-        // {
-        //   name: '猪坚强',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级22班'
-        // },
-        // {
-        //   name: '王富贵',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级23班'
-        // },
-        // {
-        //   name: '王翠花',
-        //   url: require('../../../../assets/images/user.png'),
-        //   classroom: '东区高中2018级24班'
-        // }
-      ]
+      alumnus: []
     };
   },
   mounted() {

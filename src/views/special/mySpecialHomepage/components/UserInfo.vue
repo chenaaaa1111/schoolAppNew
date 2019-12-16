@@ -2,20 +2,16 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="circleUrl"></el-avatar>
+      <el-avatar :size="120" :src="circleUrl" icon="el-icon-user-solid"></el-avatar>
     </div>
     <h2 class="myName">
       {{userInfo.name}} <img src="../../../../assets/images/myhome/editName.png"/>
     </h2>
     <div class="dynamic">
-      <div class="dynamic-g">
-        <p class="count">{{userInfo.access_project}}</p>
-        <p class="title">校园动态</p>
+      <div class="dynamic-special">
+        <p class="count">{{dymic}}</p>
+        <p class="title">专题动态</p>
       </div>
-      <!-- <div class="dynamic-c">
-        <p class="count">12</p>
-        <p class="title">班级动态</p>
-      </div> -->
     </div>
   </el-card>
 </template>
@@ -30,7 +26,7 @@
       }
     },
     mounted(){
-        console.log('props.total',this.$props)
+      console.log('props.total',this.$props)
     },
     methods: {
 
@@ -171,13 +167,10 @@
     border-radius:12px;
     overflow: hidden;
     background-color: #D3E1F1;
-    .dynamic-g,.dynamic-c{
-      float: left;
-      width: 100%;
-      height: 100%;
+    .dynamic-special{
       text-align: center;
-      color: #034692;
       font-size: 26px;
+      color: #034692;
       .count{
         width: 100%;
         height: 48px;
@@ -189,12 +182,6 @@
         color: #333;
       }
     }
-    .dynamic-g:first-child{
-      .count{
-        box-shadow: 1px 0px #819EBF;
-      }
-    }
-
   }
   .dynamic::after{
     content: '';

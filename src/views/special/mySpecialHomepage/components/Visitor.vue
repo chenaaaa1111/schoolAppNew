@@ -7,23 +7,12 @@
       总共访问: {{visitornum}}人次
     </h2>
     <div class="lately">最近10个访客:</div>
-    <div>
+    <div v-if="visitors.length>0">
       <span @click="goOther()" v-for="(item,index) in visitors">
         <el-avatar class="vistor-avatar" :size="44" :src="item.avatar"></el-avatar>
       </span>
-      <!-- <el-avatar class="vistor-avatar" :size="44" :src="circleUrl" ></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar> -->
     </div>
+    <div v-else>暂无访客信息</div>
   </el-card>
 </template>
 <script>
@@ -46,14 +35,9 @@
       getVisitors(res) {
         var self = this;
         request.post('/roomapi/Project/visitors', { u_id: self.$store.state.userInfo.id }, function (res) {
-          res.data = res.data.length > 0 ? res.data : [{
-            "id": 13,
-            "a_id": 1,
-            "name": "123",
-            "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-            "create_time": "1574156028"
-          }]
-          self.visitors = res.data;
+          if(res.code ==0){
+            self.visitors = res.data;
+          }
         });
       }
     },

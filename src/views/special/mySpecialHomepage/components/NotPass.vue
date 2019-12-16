@@ -52,13 +52,6 @@
         })
       },
       shownotpassmore() {
-        // this.$router.push({
-        //   name: 'examinemore',
-        //   params: {
-        //     widgetName: '审核未通过',
-        //     fromwhere: this.source
-        //   }
-        // })
         var tab='notPass';
         this.$emit('changeTab',tab);
       },

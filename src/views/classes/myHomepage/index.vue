@@ -76,7 +76,7 @@
       return {
         ExhibitionTitle: '审核中',// 审核中，审核未通过标题
         upUrl: '',
-        messageList: {},//消息
+        messageList: {},//消息通知列表
         allClassDyamics:[],//所有班级动态
         classTitle: '',
         routename: '',
@@ -107,9 +107,9 @@
         } else if (tab == 'message') {
           var self = this;
           var data= {
-            kid: 1,
+            kid: 1, //空间： 1班级空间2年级空间3社团4专题5课题6教研
             page: 1,
-            psize: 3
+            psize: 50
           };
           request.post('/roomapi/Users/userMessage', data, (res) => {
             self.ExhibitionTitle = "消息通知";

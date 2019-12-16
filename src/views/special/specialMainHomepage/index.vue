@@ -7,31 +7,42 @@
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 学校新闻动态 -->
             <News :source="source"></News>
-            <!-- 班级空间-侧边栏 -->
-            <!-- <ClassSpace :source="routename"></ClassSpace> -->
             <!-- 通知公告 -->
             <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
-              <!-- <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
+              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
                 <el-menu-item index="all">全部</el-menu-item>
-                <el-menu-item index="news">最新</el-menu-item>
-              </el-menu> -->
-              <div class="topBar">
-                <span :class="tabactive=='all'?'active':''" @click="changeTab('all')">全部</span>
-                <span :class="tabactive=='new'?'active':''" @click="changeTab('new')">最新</span>
-              </div>
+                <el-menu-item index="news">热度</el-menu-item>
+              </el-menu>
             </el-card>
             <el-card style="margin-top: 10px;">
-              <el-row :gutter="10">
+              <el-row :gutter="10" v-show="activeIndex=='all'">
                 <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in moveList"
                   :key="index">
                   <div class="move-cover">
                     <div class="img-wrap">
                       <img :src="item.avatar" />
                     </div>
-                    <span class="move-btn" @click="showplay">
+                    <span class="move-btn" @click="showplay(item.id)">
+                      <img src="../../../assets/images/classes/play.png" />
+                    </span>
+                  </div>
+                  <div class="move-title">
+                    {{item.title}}
+                  </div>
+                </el-col>
+
+              </el-row>
+              <el-row :gutter="10" v-show="activeIndex=='news'">
+                <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="12" class="move-box" v-for="(item,index) in moveList"
+                  :key="index">
+                  <div class="move-cover">
+                    <div class="img-wrap">
+                      <img :src="item.avatar" />
+                    </div>
+                    <span class="move-btn" @click="showplay(item.id)">
                       <img src="../../../assets/images/classes/play.png" />
                     </span>
                   </div>
@@ -52,124 +63,95 @@
   import PageTop from './components/PageTop.vue'
   // import News from './components/News.vue'
   import News from '../../public/widget/News.vue'
-  // import ClassSpace from './components/ClassSpace.vue'
   // import Notice from './components/Notice.vue'
   import Notice from '../../public/widget/Notice.vue';
   import request from '@/api/request.js';
   export default {
-    name: 'mainTeamHomepage',
+    name: 'specialMainHomepage',
     components: {
       PageTop,
       News,
-      // ClassSpace,
       Notice
     },
     data() {
       return {
         loadUrl: '/roomapi/Project/projectPage',
-        urlDict: { all: '/roomapi/Project/projectPage', new: '/roomapi/Project/projectPage' },
-        tabactive: 'all',
+        urlDict: { all: '/roomapi/Project/projectPage', news: '/roomapi/Project/browsePage' },
         source: {
-          routename: '',
+          routename: 'specialMainHomepage',
           spacename: 'special'
         },
+        keyword: '',//搜索关键字
+        page: 1,
+        psize: 50,
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
-        moveList: [
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-          {
-            title: '肖申克的救赎 The Shawshank Redemption'
-          },
-        ]
+        moveList: [], // 专题列表
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      this.source.routename = this.$route.name
+      this.routename = this.$route.name;
+      this.source.routename = this.$route.name;
       console.log(this.routename, '本页面routename');
-      this.getSpecial();
-    },
-    methods: {
-      changeTab(tab) {
-        this.tabactive = tab;
-        this.loadUrl = this.urlDict[tab];
-        this.selectTab = tab;
+      if(this.$route.query.activeIndex){
+        this.activeIndex = this.$route.query.activeIndex;
+        this.loadUrl = this.urlDict[this.activeIndex];
         var self = this;
         var data = {
-          page: 1
+          keyword: this.keyword, //关键字
+          page: self.page,
+          psize: self.psize
         }
         request.post(self.loadUrl, data, function (res) {
-          self.contentList = res.data.model;
+          if(res.code ==0){
+            self.moveList = res.data.model;
+          }
         })
-      },
+      }else{
+        this.getSpecial();
+      }
+    },
+    methods: {
       getSpecial() {
-        var data = {};
+        var data = {
+          keyword: this.keyword, //关键字
+          page: this.page,
+          psize: this.psize
+        };
         var self = this;
         request.post('/roomapi/Project/projectPage', data, function (res) {
-          if (res.data.model.length == 0) {
-            res.data.model = [
-              {
-                "id": 1,
-                "s_id": 1,
-                "u_id": 1,
-                "name": "姓名",
-                "avatar": "123",
-                "type": 2,
-                "title": "12",
-                "image": "13",
-                "content": "123",
-                "create_time": "0000-00-00 00:00:00"
-              },
-              {
-                "id": 1,
-                "s_id": 1,
-                "u_id": 1,
-                "name": "姓名",
-                "avatar": "123",
-                "type": 2,
-                "title": "12",
-                "image": "13",
-                "content": "123",
-                "create_time": "0000-00-00 00:00:00"
-              }
-            ]
+          if(res.code ==0){
+            self.moveList = res.data.model;
           }
-          self.moveList = res.data.model;
         })
       },
-      menuSelect() { },
+      menuSelect(activeIndex) { 
+        console.log('我点击了啥',activeIndex)
+        this.activeIndex = activeIndex;
+        this.loadUrl = this.urlDict[activeIndex];
+        var self = this;
+        var data = {
+          keyword: this.keyword, //关键字
+          page: self.page,
+          psize: self.psize
+        }
+        request.post(self.loadUrl, data, function (res) {
+          if(res.code ==0){
+            self.moveList = res.data.model;
+          }
+        })
+      },
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
       },
-      showplay() { // 打开专题详情
+      showplay(id) { // 打开专题详情
         this.$router.push({
           name: 'showmovie',
           query: {
-            fromwhere: 'specialMainHomepage'
+            fromwhere: 'specialMainHomepage',
+            id: id,
+            activeIndex: this.activeIndex
           }
         })
       },

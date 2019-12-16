@@ -2,17 +2,12 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
-        </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
-        </el-col>
+        <el-col :span="12" class="top-title">我的个人主页</el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
+            <el-button type="danger" circle >
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
+            </el-button>
             <el-button type="danger" circle >
               <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
             </el-button>
@@ -32,63 +27,27 @@
   export default{
     data() {
       return {
-        loadData: {
-          title: '华悦蜀山区第一中学-专题主页',
-          subTitle: '',
-          showwrite: true
-        }
+
       }
     },
-    mounted() {
-
-    },
-    methods: {
-      writenews() {
-        this.$router.push({
-          name: 'write',
-          query: {
-            fromname: '社团主页',
-            fromwhere: 'mainTeamHomepage',
-            upUrl:'/roomapi/Project/addArticle',//上传的url
-
-          }
-        })
-      }
-
-    }
   }
 </script>
 <style lang="scss" scoped>
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
-        height: 56px;
-        line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
-        img{
-          display: inline-block;
-          width: 74px;
-          height: 74px;
-          vertical-align: middle;
-          margin-right: 30px;
-        }
-      }
-      .top-write{
-        height: 56px;
-        line-height: 56px;
-        text-align: right;
-        padding-right: 10px;
-        span{
-          display: inline-block;
-          width: 152px;
-          height: 52px;
-          background: url('../../../../assets/images/writeTopic.png') no-repeat;
-          background-size: 100% 100%;
-          cursor: pointer;
-        }
+        height:56px;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-text-fill-color:transparent;
       }
       .leftentry{
         text-align: right;
@@ -103,11 +62,6 @@
             padding: 0px;
           }
         }
-      }
-      .department{
-        padding-left: 10px;
-        font-size: 24px;
-        line-height: 46px;
       }
     }
   }

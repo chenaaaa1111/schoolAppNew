@@ -3,13 +3,7 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
-        </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+          <img v-if="url" :src="url" alt=""/>{{persionInfo}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
@@ -32,27 +26,17 @@
   export default{
     data() {
       return {
-        loadData: {
-          url: require('../../../../assets/images/classes/class_else.png'),
-          title: '2019级2班',
-          subTitle: '',
-          showwrite: false
-        }
+        userInfo: {},//用户信息
+        url: require('../../../../assets/images/classes/class_else.png'),
+        persionInfo: ''
       }
     },
     mounted() {
-
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.persionInfo = '20' + this.userInfo.grade + this.userInfo.class;
     },
     methods: {
-      writenews() {
-        this.$router.push({
-          name: 'write',
-          params: {
-            fromname: '班级主页',
-            fromwhere: 'classHomepage'
-          }
-        })
-      }
+      
     }
   }
 </script>
@@ -60,32 +44,26 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
         padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;
           height: 74px;
           vertical-align: middle;
           margin-right: 30px;
-        }
-      }
-      .top-write{
-        height: 56px;
-        line-height: 56px;
-        text-align: right;
-        padding-right: 10px;
-        span{
-          display: inline-block;
-          width: 152px;
-          height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
-          background-size: 100% 100%;
-          cursor: pointer;
         }
       }
       .leftentry{

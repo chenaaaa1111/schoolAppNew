@@ -8,30 +8,36 @@
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
+      <span @click="goOther(item.id)" v-for="(item,index) in visitors" :key="index">
+        <el-avatar class="vistor-avatar" icon="el-icon-user-solid" :size="44" :src="item.avatar"></el-avatar>
+      </span>
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png')
+        circleUrl: require('../../../../assets/images/user.png'),
+        visitors: [], //最近10位访客, 
       }
     },
+    mounted() {
+      this.getVistor();
+    },
     methods: {
-
+       //获取主页访客近十条
+      getVistor() {
+        let self = this;
+        let uid =  self.$route.query.id;
+        var data = {
+          uid: uid
+        }
+        request.post('/roomapi/Room_Class/visitors', data, function (res) {
+          self.visitors = res.data;
+        });
+      },
     }
   }
 </script>

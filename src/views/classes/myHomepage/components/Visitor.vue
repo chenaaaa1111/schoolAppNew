@@ -8,21 +8,9 @@
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
-      <span @click="goOther(item.id)" v-for="(item,index) in visitors" :key="index">
+      <span @click="goOther(item)" v-for="(item,index) in visitors" :key="index">
         <el-avatar class="vistor-avatar" icon="el-icon-user-solid" :size="44" :src="item.avatar"></el-avatar>
       </span>
-      <!-- <el-avatar class="vistor-avatar" :size="44" :src="require()" ></el-avatar> -->
-      <!-- <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar>
-      <el-avatar class="vistor-avatar" :size="44" :src="circleUrl"></el-avatar> -->
     </div>
   </el-card>
 </template>
@@ -44,12 +32,15 @@
       this.getVisitors();
     },
     methods: {
-      goOther(id) {
+      goOther(item) { //到别人的主页中 id: 用户id 取的是a_id
+        let query = {
+          id: item.a_id,
+          name: item.name,
+          avatar: item.avatar
+        }
         this.$router.push({
           name: 'otherHomepage',
-          query:{
-            id:id
-          }
+          query: query
         })
       },
       getVisitors() {

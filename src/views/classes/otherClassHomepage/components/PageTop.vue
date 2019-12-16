@@ -3,24 +3,12 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
-        </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{'20'+otherClassInfo.grade+otherClassInfo.class}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
+              <img class="btnicon" src="../../../../assets/images/grade/peple.png"/>
             </el-button>
           </span>
         </el-col>
@@ -29,9 +17,11 @@
   </el-row>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
+        otherClassInfo: {}, //别人的班级id
         loadData: {
           url: require('../../../../assets/images/classes/class_else.png'),
           title: '2000级20班-别人的班级',
@@ -41,9 +31,23 @@
       }
     },
     mounted() {
-
+      this.getOtherInfo();
     },
     methods: {
+      //获取所在班级的年级信息
+      getOtherInfo() {
+        var data = {
+          column: 0,
+          class: this.$route.query.id
+        }
+        var self = this;
+        request.post('/roomapi/Room_Class/classPage',data,function(res){
+          if(res.code ==0){
+            self.otherClassInfo = res.data;
+            console.log('获取其他班级的时候的信息',self.otherClassInfo)
+          }
+        });
+      },
       writenews() {
         this.$router.push({
           name: 'write',
@@ -60,12 +64,19 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
-        height: 56px;
-        line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        height:56px;
+        font-size:30px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:28px;
+        letter-spacing:10px;
+        text-shadow:0px 2px 2px rgba(0,0,0,0.07);
+        -webkit-text-stroke:1px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;

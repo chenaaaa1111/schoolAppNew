@@ -9,7 +9,7 @@
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
       <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res.id)">{{res.title}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res.s_id)">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
@@ -49,7 +49,7 @@
           }
         })
       },
-      toOtherClass(id) {
+      toOtherClass(id) {  //班级空间 点击班级  传入班级id  进入别人的班级
         this.$router.push({
           name: 'otherClassHomepage',
           query:{id:id}
