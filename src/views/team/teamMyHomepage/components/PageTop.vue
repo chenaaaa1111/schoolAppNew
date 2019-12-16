@@ -36,8 +36,9 @@
           title: '我的个人主页',
           subTitle: '西区初中2019级1班',
           teams: [
-            { id: 1, title: '极限运动' },
-            { id: 2, title: '舞蹈' }
+            { id: 1, title: '足球队' },
+            { id: 2, title: '礼仪队' },
+            { id: 3, title: '表演队' },
           ],
           showwrite: true
         }
@@ -51,9 +52,10 @@
         this.$router.push({
           name: 'write',
           query: {
+            isEdit: false,
             fromname: '我的主页',
             fromwhere: 'teamMyHomepage',
-            spacename: 'team',
+            spaceModule: 'team',
             upUrl:'/roomapi/Community/addArticle',//上传的url
           }
         })
@@ -65,12 +67,20 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;

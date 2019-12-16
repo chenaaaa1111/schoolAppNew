@@ -13,56 +13,7 @@
             <!-- <Notice :source="source"></Notice> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <!-- <el-card>
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
-                <el-menu-item index="all">全部</el-menu-item>
-                <el-menu-item index="news">最新</el-menu-item>
-              </el-menu>
-            </el-card>
-            <el-card style="margin-top: 10px;">
-              <el-row class="chapter" v-for="(item,index) in chapterList" :key="index">
-                <el-col class="title">{{item.title}}</el-col>
-                <el-col class="author">
-                  <el-avatar class="userimg" :size="32" :src="item.avatar"></el-avatar>
-                  <span class="name">{{item.name}}</span>
-                  <span class="teamname">{{item.title}}</span>
-                </el-col>
-                <el-col class="content">
-                  <el-row :gutter="10" v-if="item.flag">
-                    <el-col :span="6" class="chart">
-                      <img :src="item.cover" />
-                    </el-col>
-                    <el-col :span="18" class="text">
-                      <div class="ellipsis" v-html="item.content"></div>
-                      <p :span="24" style="text-align: right;">
-                        <el-button type="text" size="mini" v-show="item.flag" @click="chapterTreggle(index)">
-                          阅读全文<i class="el-icon-arrow-down"></i>
-                        </el-button>
-                      </p>
-                    </el-col>
-                  </el-row>
-                  <el-row v-if="!item.flag">
-                    <el-col :span="24" class="text">
-                      <div class="noEllipsis" v-html="item.content"></div>
-                    </el-col>
-                  </el-row>
-                </el-col>
-                <el-col class="time">
-                  <div class="timeLine">
-                    <div class="time">{{item.time}}</div>
-                    <div class="btn">
-                      <el-button type="text" size="mini" v-show="!item.flag" @click="chapterTreggle(index)">
-                        收起<i class="el-icon-arrow-up"></i>
-                      </el-button>
-                    </div>
-                  </div>
-                  <el-divider></el-divider>
-                </el-col>
-              </el-row>
-            </el-card> -->
             <mainNavBar ></mainNavBar>
-
-
           </el-col>
         </el-row>
       </el-col>

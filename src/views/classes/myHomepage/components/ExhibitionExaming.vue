@@ -19,12 +19,12 @@
                 <span class="date">{{item.create_time}}</span>
               </el-col>
               <el-col :span="3" class="operation">
-                <el-button v-if="title == '审核中'" type="text" size="mini" @click="recall(item)">撤回</el-button>
+                <el-button v-if="title == '审核中'" type="text" size="mini" @click="recall(item.id)">撤回</el-button>
                 <el-button
                   v-if="title == '审核未通过'"
                   type="text"
                   size="mini"
-                  @click="goToEdit(item)"
+                  @click="goToEdit(item.id)"
                 >编辑</el-button>
               </el-col>
               <el-col :span="3" class="operation">
@@ -93,27 +93,29 @@ export default {
     changeTab(tab) {
       console.log(tab);
     },
-    recall(item) {
+    recall(index) {
       //审核中点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      let query = item;
+      let query = {};
+      query.id = id; //文章id
+      query.isEdit = true;
       query.widgetName = "审核中";
       query.fromname = "我的主页";
       query.fromwhere = "myHomepage";
       query.spaceModule = "classes"; //班级空间名
-      query.isEdit = true;
       this.$router.push({
         name: "write",
         query: query
       });
     },
-    goToEdit(item) {
+    goToEdit(id) {
       // 审核未通过点击编辑 跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      let query = item;
+      let query = {};
+      query.id = id; //文章id
+      query.isEdit = true;
       query.widgetName = "审核未通过";
       query.fromname = "我的主页";
       query.fromwhere = "myHomepage";
       query.spaceModule = "classes"; //班级空间名
-      query.isEdit = true;
       this.$router.push({
         name: "write",
         query: query

@@ -62,12 +62,20 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size: 40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:28px;
+        letter-spacing:10px;
+        text-shadow:0px 2px 2px rgba(0,0,0,0.07);
+        -webkit-text-stroke:1px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;
@@ -85,7 +93,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/myhome/writeinfo.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

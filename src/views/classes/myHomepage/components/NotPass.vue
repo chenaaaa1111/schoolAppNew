@@ -12,11 +12,11 @@
     </div>
     <div class="examineTips">{{total}}个审核未通过的新闻:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
-      <el-col :span="24" class="title" @click.native="msgDetails(item)">{{item.title}}</el-col>
+      <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
         <div class="recall">
-          <el-button type="text" @click="reEditNews(item)">编辑</el-button>
+          <el-button type="text" @click="reEditNews(item.id)">编辑</el-button>
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
         </div>
       </el-col>
@@ -52,13 +52,14 @@
           this.total = res.data.total;
         })
       },
-      reEditNews(item){ //重新编辑 回到新闻页面
-        let query = item;
+      reEditNews(id){ //重新编辑 回到新闻页面
+        let query = {};
+        query.id = id; //文章id
+        query.isEdit = true;
         query.widgetName = '审核未通过';
         query.fromname = '我的主页';
         query.fromwhere = 'myHomepage';
         query.spaceModule = 'classes';//班级空间名
-        query.isEdit = true;
         this.$router.push({
           name: 'write',
           query: query
@@ -97,13 +98,13 @@
         var tab='notPass';
         this.$emit('changeTab',tab);
       },
-      msgDetails(item) { //审核未通过 点击标题 进入新闻详情
+      msgDetails(id) { //审核未通过 点击标题 进入新闻详情
         let query = {};
+        query.id = id; //文章id
         query.widgetName = '审核未通过';
         query.fromname = '我的主页';
         query.fromwhere = 'myHomepage';
         query.spaceModule = 'classes';//班级空间名
-        query.id = item.id; //文章id
         this.$router.push({
           name: 'readmessage',
           query: query

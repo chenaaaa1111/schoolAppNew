@@ -22,10 +22,10 @@
 
                     <li class="el-menu-item menu-release ">
                         <el-button v-if="navIndex == 'classes'" plan size="small" @click="openPublish">班级发布</el-button>
-                        <el-button v-if="navIndex == 'team'" plan size="small" @click="openPublish">社团发布</el-button>
-                        <el-button v-if="navIndex == 'special'" plan size="small" @click="openPublish">专题发布</el-button>
-                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="openPublish">课题发布</el-button>
-                        <el-button v-if="navIndex == 'teaching'" plan size="small" @click="openPublish">教研发布</el-button>                        
+                        <el-button v-if="navIndex == 'team'" plan size="small" @click="teamPublish">社团发布</el-button>
+                        <el-button v-if="navIndex == 'special'" plan size="small" @click="specialPublish">专题发布</el-button>
+                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="topicPublish">课题发布</el-button>
+                        <el-button v-if="navIndex == 'teaching'" plan size="small" @click="teachingPublish">教研发布</el-button>                        
                     </li>
                 </el-menu>
             </el-col>
@@ -97,13 +97,10 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择栏目" prop="column">
-                        <el-select v-model="ruleForm.column" filterable placeholder="选择栏目" style="width: 100%;">
+                        <el-select v-model="ruleForm.column" @change="selectColumn" filterable placeholder="选择栏目" style="width: 100%;">
                             <el-option v-for="(item,index) in allColumnList" :key="index" :label="item.title"
                                 :value="item.id">
                             </el-option>
-                            <!-- <el-option label="影评" value="1"></el-option>
-                            <el-option label="专业" value="2"></el-option>
-                            <el-option label="考试" value="3"></el-option> -->
                         </el-select>
                     </el-form-item>
                 </el-form>
@@ -269,13 +266,13 @@
                         label: '校园主页'
                     }                   
                 ],
-                allColumnList: [] //发布时候 所有栏目列表
+                allColumnList: [], //发布时候 所有栏目列表
+                columnSelect: {},//下拉选择栏目 筛选得到的栏目名称和id
             }
         },
         mounted() {
             // this.url=this.userInfo.avatar;//头像
             console.log(this.$route.query,'点击发布新闻路由传参集合')
-            // debugger
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere;
               this.title = this.$route.query.fromname;
@@ -298,19 +295,8 @@
                        break;
                 }  
             }
-
-            this.artUpdata ='';
+            this.artUpdata =this.$route.query;
             this.isEdit=this.$route.query.isEdit;
-            console.log(this.$route,'路由this.$router集合')
-            if(this.$route.currentRoute){
-                this.artUpdata=this.$router.currentRoute.query,
-                this.isEdit=this.$router.currentRoute.query.isEdit;
-            }else if(this.$route.query){
-                this.artUpdata=this.$router.query
-                this.isEdit=this.$route.query.isEdit;
-            }
-            console.log(this.artUpdata, 'this.$route.query')
-            console.log(this.fromwhere, this.isEdit,'fromwhere  isEdit--- write/index.vue page');
             this.getAllcolumn();
             if(this.isEdit){ //如果时编辑文章  
                 this.getArticleDetails();
@@ -413,7 +399,15 @@
                     }
                 })
             },
-            publishArt() {//发布文章  如果是点击写新闻进入的
+            selectColumn(val) { //弹窗中下拉选择栏目事件
+                console.log(val, '新增邀请函选择模板下标')
+                const receiveArr = this.allColumnList.filter((item) =>{
+                    return item.id == val
+                })
+                this.columnSelect = receiveArr[0];
+                console.log(this.columnSelect, '筛选出匹配数据的模板名称和id')
+            }, 
+            publishArt() {//班级空间发布文章  如果是点击写新闻进入的
                 var self = this;
                 let data = {}
                 // var data = self.artUpdata;
@@ -429,26 +423,17 @@
                     self.$toast.fail('请输入新闻内容');
                     return
                 }
-                data.level = self.artUpdata.level;
-                data.columns = self.artUpdata.columns;
-                data.column_name = self.artUpdata.column_name;
+                data.level = self.ruleForm.theme;//1班级2校园
+                data.columns = self.ruleForm.column; //栏目id 
+                data.column_name = self.columnSelect.title;//栏目名称
                 data.image = self.responseUrl;
                 data.content = self.form.goods_desc;
                 data.title = self.articletitle;
                 console.log(data,'写新闻--发布添加文章接口参数')
                 request.post(data.upUrl, data, function (res) {
                     if (res.code == 0) {
-                        // self.$router.push({
-                        //     name: 'readnews',
-                        //     query: {
-                        //         fromname: self.title,
-                        //         fromwhere: self.fromwhere,
-                        //         spaceModule: 'classes',//班级空间名
-                        //     }
-                        // })
                         self.$router.go(-1);
                     }
-
                 })
             },
             editPublishArt() {//发布文章  如果是点击编辑写新闻进入的
@@ -467,6 +452,7 @@
                     self.$toast.fail('请输入新闻内容');
                     return
                 }
+                data.id = self.artUpdata.id;
                 data.level = self.artUpdata.level;
                 data.columns = self.artUpdata.columns;
                 data.column_name = self.artUpdata.column_name;
@@ -476,14 +462,6 @@
                 console.log(data,'编辑新闻--发布添加文章接口参数')
                 request.post('/roomapi/Room_Class/editArticle', data, function (res) {
                     if (res.code == 0) {
-                        // self.$router.push({
-                        //     name: 'readnews',
-                        //     query: {
-                        //         fromname: self.title,
-                        //         fromwhere: self.fromwhere,
-                        //         spaceModule: 'classes',//班级空间名
-                        //     }
-                        // })
                         self.$router.go(-1);
                     }
 
@@ -502,7 +480,7 @@
                     name: this.fromwhere
                 })
             },
-            openPublish() { // 打开发表dialog
+            openPublish() { //班级空间 打开发表dialog
                 var self = this;
                 // if(self.responseUrl ==''){
                 //     self.$toast.fail('请添加题图');
@@ -518,6 +496,36 @@
                 }
                 this.dialog = true;
                 // this.publishArt()
+            },
+            teamPublish() { //社团空间 发布信息
+
+            },
+            specialPublish() { //专题空间发布 专题
+                var self = this;
+                let data = {}
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入专题标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入专题内容');
+                    return
+                }
+                data.image = self.responseUrl;
+                data.content = self.form.goods_desc;
+                data.title = self.articletitle;
+                console.log(data,'写专题---接口参数')
+                request.post(data.upUrl, data, function (res) {
+                    if (res.code == 0) {
+                        self.$router.go(-1);
+                    }
+                })
+            },
+            topicPublish() { //课题空间 发布 课题
+
+            },
+            teachingPublish() { //教研空间 发布文章
+
             },
             handleRemove(file) {
                 console.log(file);

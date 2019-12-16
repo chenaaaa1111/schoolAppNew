@@ -2,10 +2,10 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="circleUrl"></el-avatar>
+      <el-avatar :size="120" :src="userInfo.avatar"></el-avatar>
     </div>
     <h2 class="myName">
-      里斯本
+      {{userInfo.name}}
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
