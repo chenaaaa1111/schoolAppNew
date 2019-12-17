@@ -17,7 +17,7 @@
               <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
             </el-button>
             <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
+              <img class="btnicon" src="../../../../assets/images/grade/space.png"/>
             </el-button>
             <el-button type="primary" circle >
               <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
