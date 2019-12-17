@@ -24,20 +24,18 @@
 </template>
 <script>
   import PageTop from './components/PageTop.vue'
-  // import News from './components/News.vue'
   import News from '../../public/widget/News.vue'
   import ClassSpace from './components/ClassSpace.vue'
-  // import Notice from './components/Notice.vue'
   import Notice from '../../public/widget/Notice.vue'
   import mainNavBar from './components/mainNavBar.vue'
   export default{
-    name: 'campusHomepage',
+    name: 'campusHomepages',
     components: {
       PageTop,
       News,
       ClassSpace,
       Notice,
-      mainNavBar
+       mainNavBar
     },
     data() {
       return {
@@ -46,8 +44,7 @@
         source: {
           routename: '',
           spacename: 'classes'
-        },
-        routename: ''
+        }
       }
     },
     mounted() {
@@ -55,8 +52,7 @@
       this.routename = this.$route.name
       this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename');
-      // console.log('ssss',this.$router.currentRoute.query.id);
-      // this.classId=this.$router.currentRoute.query.id;
+ 
      let userInfo= this.getUserInfo();
     },
     methods: {
