@@ -9,9 +9,6 @@
         <el-col v-if="options.showwrite" :span="12" class="top-write">
           <span @click="faddTeam"></span>
         </el-col>
-        <el-col :span="12" class="department">
-          {{options.subTitle}}
-        </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
@@ -52,17 +49,7 @@
 
     },
     methods: {
-      writenews() {
-        // this.$router.push({
-        //   name: 'write',
-        //   params: {
-        //     fromname: '班级主页',
-        //     fromwhere: 'classHomepage'
-        //   }
-        // })
-      },
       faddTeam(res){//加入社团
-        debugger
         var teamId=this.$store&&this.$store.state&&this.$store.state.teamId
         var data={ c_id:teamId};
         request.post('/roomapi/Community/addCommunity',data,(res)=>{
@@ -71,7 +58,6 @@
           }else{
             this.$toast.fail(res.message);
           }
-         
         })
       }
     }
@@ -81,12 +67,20 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;

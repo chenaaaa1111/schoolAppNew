@@ -9,7 +9,7 @@
               <span class="team-name">{{item.title}}</span>
             </el-col>
             <el-col :span="8" class="team-go-page" >
-              <el-button type="text" @click="FgotoPage(item.id)">进入主页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+              <el-button type="text" @click="FgotoPage(item)">进入主页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
             </el-col>
           </el-row>
         </el-card>
@@ -24,25 +24,11 @@
   import request from '@/api/request.js';
   export default{
     name: 'myTeamHomepage',
-    components: {
-
-    },
     data() {
       return {
         size: 74,
         circleUrl: require('../../../assets/images/classes/class_else.png'),
-        teamList: [
-          // {
-          //   "id": 1,
-          //   "s_id": 1,
-          //   "c_id": 1,
-          //   "title": "乒乓球社团",
-          //   "u_id": 1,
-          //   "avatar": "https:\/\/www.empirise.com\/mall\/public\/images\/slide\/20191111\/3b3ddc44b8d93e5cedd62f7060ca2895.jpg",
-          //   "name": "姓名",
-          //   "create_time": "2019-09-07 12:49:09"
-          // }
-        ]
+        teamList: [],//社团列表
       }
     },
     mounted() {
@@ -59,10 +45,14 @@
           }
         })
       },
-      FgotoPage(id){
-        console.log(id,'ss');
-        this.$store.commit('setTeamId',id);
-        this.$router.push({path:'/team/myTeamDetail',query:{id:id}})
+      FgotoPage(item){
+        this.$router.push({
+          path:'/team/myTeamDetail',
+          query:{
+            c_id: item.c_id,
+            title: item.title
+          }
+        })
       }
     }
   }

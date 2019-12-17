@@ -22,7 +22,7 @@
 
                     <li class="el-menu-item menu-release ">
                         <el-button v-if="navIndex == 'classes'" plan size="small" @click="openPublish">班级发布</el-button>
-                        <el-button v-if="navIndex == 'team'" plan size="small" @click="teamPublish">社团发布</el-button>
+                        <el-button v-if="navIndex == 'team'" plan size="small" @click="openTeamDialog">社团发布</el-button>
                         <el-button v-if="navIndex == 'special'" plan size="small" @click="specialPublish">专题发布</el-button>
                         <el-button v-if="navIndex == 'topic'" plan size="small" @click="topicPublish">课题发布</el-button>
                         <el-button v-if="navIndex == 'teaching'" plan size="small" @click="teachingPublish">教研发布</el-button>                        
@@ -86,7 +86,8 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-dialog title="发布" :visible.sync="dialog" width="30%" class="mydialog" :before-close="handleClose">
+        <!-- 班级空间 发布 弹窗选择主页和栏目 -->
+        <el-dialog title="发布" :visible.sync="dialog" width="30%" class="mydialog" @close="handleClose('ruleForm')">
             <div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="发布主题" prop="theme">
@@ -109,9 +110,25 @@
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button v-if="!isEdit" type="primary" @click="publishArt">确 定</el-button>
-                <el-button v-if="isEdit" type="primary" @click="editPublishArt">确 定</el-button>
+                <el-button @click="handleClose('ruleForm')">取 消</el-button>
+                <el-button v-if="!isEdit" type="primary" @click="publishArt('ruleForm')">确 定</el-button>
+                <el-button v-if="isEdit" type="primary" @click="editPublishArt('ruleForm')">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 社团空间 选择发布社团弹窗 -->
+        <el-dialog title="发布" :visible.sync="teamCheckdialog" width="30%" class="mydialog" @close="closeTeamDialog('teamRuleForm')">
+           <el-form :model="teamRuleForm" :rules="teamRules" ref="teamRuleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="发布社团" prop="team">
+                    <el-select v-model="teamRuleForm.team" @change="selectTeam" filterable placeholder="选择发布社团" style="width: 100%;">
+                        <el-option v-for="(item,index) in teamList" :key="index" :label="item.title"
+                            :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="closeTeamDialog('teamRuleForm')">取 消</el-button>
+                <el-button type="primary" @click="teamPublish('teamRuleForm')">发 布</el-button>
             </span>
         </el-dialog>
     </div>
@@ -179,13 +196,12 @@
                     styles: 'teachingColor'
                   }
                 },
-                writeContent: '',
-                navIndex: 'classes',
+                writeContent: '', //书写的类型 是写新闻 还是信息
+                navIndex: 'classes',//空间类型 
                 isEdit: false,//是否是编辑新闻状态
-                widgetName: '',
                 artUpdata: {},//发布文章用到的参数
-                articletitle: '',
-                content: '',
+                //主页面 输入内容
+                articletitle: '', //标题
                 quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
                 editorOption: {
                     placeholder: "",
@@ -226,14 +242,10 @@
                     type: 2,
                     token: sessionStorage.getItem('Authorization')
                 },
-                urldict: {
-
-                },
-                imageUrl: '',//新图片路径
+                imageUrl: '',//新图片路径 
                 title: '返回',
                 fromwhere: '', // 从哪个页面跳转过来的还跳转回去
                 fit: 'cover',
-                url: '',
                 activeIndex: 'campusHomepage',
                 dialogImageUrl: '',
                 dialogVisible: false,
@@ -242,13 +254,13 @@
                     goods_desc: '',
                     title: ''
                 },
-                prevPageName: '',
-                dialog: false,
-                ruleForm: {
+                //班级空间发布新闻部分
+                dialog: false, //班级空间发布选择栏目弹窗
+                ruleForm: { //班级空间发布选择主页 栏目form
                     theme: '',
                     column: ''
                 },
-                rules: {
+                rules: { //班级空间发布选择栏目弹窗 输入验证规则
                     theme: [
                         { required: true, message: '请选择主页', trigger: 'change' }
                     ],
@@ -256,7 +268,7 @@
                         { required: true, message: '请选择栏目', trigger: 'change' }
                     ],
                 },
-                options: [
+                options: [ //班级空间发布选择班级主页
                     {
                         value: '1',
                         label: '班级主页'
@@ -266,12 +278,24 @@
                         label: '校园主页'
                     }                   
                 ],
-                allColumnList: [], //发布时候 所有栏目列表
-                columnSelect: {},//下拉选择栏目 筛选得到的栏目名称和id
+                allColumnList: [], //班级空间 发布时候 所有栏目列表
+                columnSelect: {},// 班级空间下拉选择栏目 筛选得到的栏目名称和id
+                //社团空间 发布信息 部分
+                teamCheckdialog: false, //社团空间 选择社团弹窗
+                teamRuleForm: { //社团空间发布社团
+                    team: '' 
+                },
+                teamRules: { //班级空间发布选择栏目弹窗 输入验证规则
+                    team: [
+                        { required: true, message: '请选择社团', trigger: 'change' }
+                    ]
+                },
+                teamList: [], //社团列表
+                teamSelect: {},// 社团空间下拉选择发布社团 筛选得到的社团名称和id
+
             }
         },
         mounted() {
-            // this.url=this.userInfo.avatar;//头像
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere;
@@ -296,8 +320,7 @@
                 }  
             }
             this.artUpdata =this.$route.query;
-            this.isEdit=this.$route.query.isEdit;
-            this.getAllcolumn();
+            this.isEdit = this.$route.query.isEdit?this.$route.query.isEdit:this.isEdit;
             if(this.isEdit){ //如果时编辑文章  
                 this.getArticleDetails();
             }
@@ -386,8 +409,39 @@
                 }
                 return isJPG && isLt2M;
             },//end
-            //发布弹窗 选择栏目的 获取所有栏目
-            getAllcolumn(){
+            goHome() { // 会空间选择页面
+                this.$router.push({ // 回到空间选择页面
+                    name: 'home',
+                    params: {
+                        fromwhere: this.fromwhere
+                    }
+                })
+            },
+            goBack() { // 返回-从哪儿来往哪儿去
+                this.$router.push({
+                    name: this.fromwhere,
+                    query: this.$route.query
+                })
+            },
+
+
+           //班级空间发布新闻部分
+            openPublish() { //班级空间 打开发表dialog
+                var self = this;
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入标题');
+                    return
+                }
+                 if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入新闻内容');
+                    return
+                }
+                this.dialog = true;
+                this.getAllcolumn();
+                // this.publishArt()
+            },
+             //发布弹窗 选择栏目的 获取所有栏目
+            getAllcolumn() {
                 var data = {};
                 var self = this;
                 request.post('/roomapi/Room_Class/column', data, function (res) {
@@ -400,21 +454,85 @@
                 })
             },
             selectColumn(val) { //弹窗中下拉选择栏目事件
-                console.log(val, '新增邀请函选择模板下标')
                 const receiveArr = this.allColumnList.filter((item) =>{
                     return item.id == val
                 })
                 this.columnSelect = receiveArr[0];
-                console.log(this.columnSelect, '筛选出匹配数据的模板名称和id')
+                console.log(this.columnSelect, '筛选出匹配的栏目')
             }, 
-            publishArt() {//班级空间发布文章  如果是点击写新闻进入的
+            publishArt(formName) {//班级空间发布文章  如果是点击写新闻进入的
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var self = this;
+                        let data = {};
+                        // var data = self.artUpdata;
+                        // if(self.responseUrl ==''){
+                        //     self.$toast.fail('请添加题图');
+                        //     return
+                        // }
+                        if(self.articletitle ==''){
+                            self.$toast.fail('请输入标题');
+                            return
+                        }
+                        if(self.form.goods_desc ==''){
+                            self.$toast.fail('请输入新闻内容');
+                            return
+                        }
+                        data.level = self.ruleForm.theme;//1班级2校园
+                        data.columns = self.ruleForm.column; //栏目id 
+                        data.column_name = self.columnSelect.title;//栏目名称
+                        data.image = self.responseUrl;
+                        data.content = self.form.goods_desc;
+                        data.title = self.articletitle;
+                        console.log(data,'写新闻--发布添加文章接口参数')
+                        request.post('/roomapi/Room_Class/addArticle', data, function (res) {
+                            if (res.code == 0) {
+                                self.$toast.success(res.message);
+                                self.dialog = false;
+                                self.$router.go(-1);
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            editPublishArt(formName) {//发布文章  如果是点击编辑写新闻进入的
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                        var self = this;
+                        let data = {}
+                        if(self.articletitle ==''){
+                            self.$toast.fail('请输入标题');
+                            return
+                        }
+                        if(self.form.goods_desc ==''){
+                            self.$toast.fail('请输入新闻内容');
+                            return
+                        }
+                        data.id = self.artUpdata.id;
+                        data.level = self.artUpdata.level;
+                        data.columns = self.artUpdata.columns;
+                        data.column_name = self.artUpdata.column_name;
+                        data.image = self.responseUrl;
+                        data.content = self.form.goods_desc;
+                        data.title = self.articletitle;
+                        console.log(data,'编辑新闻--发布添加文章接口参数')
+                        request.post('/roomapi/Room_Class/editArticle', data, function (res) {
+                            if (res.code == 0) {
+                                self.$toast.success(res.message);
+                                self.dialog = false;
+                                self.$router.go(-1);
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            openTeamDialog() { //社团空间 发布信息  打开选择社团的弹窗
                 var self = this;
-                let data = {}
-                // var data = self.artUpdata;
-                // if(self.responseUrl ==''){
-                //     self.$toast.fail('请添加题图');
-                //     return
-                // }
                 if(self.articletitle ==''){
                     self.$toast.fail('请输入标题');
                     return
@@ -423,82 +541,49 @@
                     self.$toast.fail('请输入新闻内容');
                     return
                 }
-                data.level = self.ruleForm.theme;//1班级2校园
-                data.columns = self.ruleForm.column; //栏目id 
-                data.column_name = self.columnSelect.title;//栏目名称
-                data.image = self.responseUrl;
-                data.content = self.form.goods_desc;
-                data.title = self.articletitle;
-                console.log(data,'写新闻--发布添加文章接口参数')
-                request.post(data.upUrl, data, function (res) {
-                    if (res.code == 0) {
-                        self.$router.go(-1);
+                this.teamCheckdialog = true;
+                this.getTeamList();
+            },
+            getTeamList() { //获取社团列表 参数校园id
+              let data = {
+                sid: this.userInfo.s_id
+              }
+              let self = this;
+              request.post('/roomapi/Users/CommunityList', data, function (res) {
+                if (res.code == 0) {
+                  self.teamList = res.data;
+                }
+              })
+            },
+            selectTeam(val) { //弹窗中下拉选择发布社团 事件
+                const receiveArr = this.teamList.filter((item) =>{
+                    return item.id == val
+                })
+                this.teamSelect = receiveArr[0];
+                console.log(this.teamSelect, '筛选出匹配的社团名称和id集合')
+            },
+            teamPublish(teamForm) { //确认弹窗 社团空间发布 信息
+                this.$refs[teamForm].validate((valid) => {
+                    if (valid) {
+                        var self = this;
+                        let data = {
+                            c_id: self.teamRuleForm.team,
+                            c_name: self.teamSelect.title,
+                            title: self.articletitle,
+                            image: self.responseUrl,
+                            content: self.form.goods_desc
+                        };
+                        request.post('/roomapi/Community/addArticle', data, function (res) {
+                            if (res.code == 0) {
+                                self.$toast.success(res.message);
+                                self.teamCheckdialog = false;
+                                self.$router.go(-1);
+                            }
+                        })
+                    } else {
+                        return false;
                     }
-                })
-            },
-            editPublishArt() {//发布文章  如果是点击编辑写新闻进入的
-                var self = this;
-                let data = {}
-                // var data = self.artUpdata;
-                // if(self.responseUrl ==''){
-                //     self.$toast.fail('请添加题图');
-                //     return
-                // }
-                if(self.articletitle ==''){
-                    self.$toast.fail('请输入标题');
-                    return
-                }
-                 if(self.form.goods_desc ==''){
-                    self.$toast.fail('请输入新闻内容');
-                    return
-                }
-                data.id = self.artUpdata.id;
-                data.level = self.artUpdata.level;
-                data.columns = self.artUpdata.columns;
-                data.column_name = self.artUpdata.column_name;
-                data.image = self.responseUrl;
-                data.content = self.form.goods_desc;
-                data.title = self.articletitle;
-                console.log(data,'编辑新闻--发布添加文章接口参数')
-                request.post('/roomapi/Room_Class/editArticle', data, function (res) {
-                    if (res.code == 0) {
-                        self.$router.go(-1);
-                    }
-
-                })
-            },
-            goHome() { // 会空间选择页面
-                this.$router.push({ // 回到空间选择页面
-                    name: 'home',
-                    params: {
-                        fromwhere: this.fromwhere
-                    }
-                })
-            },
-            goBack() { // 返回-从哪儿来往哪儿去
-                this.$router.push({
-                    name: this.fromwhere
-                })
-            },
-            openPublish() { //班级空间 打开发表dialog
-                var self = this;
-                // if(self.responseUrl ==''){
-                //     self.$toast.fail('请添加题图');
-                //     return
-                // }
-                if(self.articletitle ==''){
-                    self.$toast.fail('请输入标题');
-                    return
-                }
-                 if(self.form.goods_desc ==''){
-                    self.$toast.fail('请输入新闻内容');
-                    return
-                }
-                this.dialog = true;
-                // this.publishArt()
-            },
-            teamPublish() { //社团空间 发布信息
-
+                });
             },
             specialPublish() { //专题空间发布 专题
                 var self = this;
@@ -549,8 +634,19 @@
             overWrite(data) { // 发表文章
                 this.dialog = true
             },
-            handleClose() {
-                this.dialog = false
+            //班级空间 发布弹窗关闭
+            handleClose(formName) {
+                this.dialog = false;
+                this.$nextTick(() => {
+                   this.$refs[formName].resetFields();
+                });
+            },
+            //社团空间 发布选择社团 弹窗关闭
+            closeTeamDialog(teamForm) {
+                this.teamCheckdialog = false;
+                 this.$nextTick(() => {
+                   this.$refs[teamForm].resetFields();
+                });
             },
         }
     }

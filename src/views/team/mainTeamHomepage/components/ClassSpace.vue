@@ -1,13 +1,23 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>社团空间</span>
+      <span class="cardTitle">
+        <img src="../../../../assets/images/grade/space.png" />社团空间
+      </span>
       <span class="more" @click="showOtherTeam" v-if="false">
-        <img src="../../../../assets/images/classes/more.png"/>
+        <img src="../../../../assets/images/classes/more.png" />
       </span>
     </div>
-    <div class="areablock" v-for="(item,index) in areaList" :key="index" v-show="item.class.length > 0">
-      <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
+    <div
+      class="areablock"
+      v-for="(item,index) in areaList"
+      :key="index"
+      v-show="item.class.length > 0"
+    >
+      <div class="areaName">
+        <img src="../../../../assets/images/classes/classFlg.png" />
+        {{item.title}}
+      </div>
       <ul class="area">
         <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res)">{{res.title}}</li>
       </ul>
@@ -15,83 +25,71 @@
   </el-card>
 </template>
 <script>
-  import request from '@/api/request.js';
-  export default{
-    name: 'ClassSpace',
-    props: {
-      source: {
-        type: String,
-        default: ''
-      }
-    },
-    data() {
-      return {
-        areaList:[
-          {
-            title: '',
-            class: [
-              {
-                title: ''
-              }
-            ]
-          }
-        ],
-      }
-    },
-    mounted() {
-      this.getTeams();
-    },
-    methods: {
-      getTeams(){
-        var self=this;
-        var data={
-
-        };
-
-        request.post('/roomapi/Community/CommunityList',data,function(res){
-            self.areaList=res.data;
-
-        })
-      },
-      showOtherTeam() { // 弃用
-        this.$router.push({
-          name: 'classesmore',
-          params: {
-            fromwhere: this.source
-          }
-        })
-      },
-      toOtherClass(team) {
-        this.$store.commit('setTeamId',team.id);
-        this.$router.push({
-          name: 'oterTeamDetail',
-          query: {
-            id: team.id,
-            avatar: team.avatar,
-            title: team.title
-          }
-        })
-      },
-      getTeamList() {
-        request.post('/roomapi/Community/CommunityList',{},(res)=>{
-          console.log(res, '获取到社团列表')
-          if(res.code == 0) {
-            if(res.data.length > 0) {
-              this.teamList = res.data
+import request from "@/api/request.js";
+export default {
+  name: "ClassSpace",
+  props: {
+    source: {
+      type: String,
+      default: ""
+    }
+  },
+  data() {
+    return {
+      areaList: [
+        {
+          title: "",
+          class: [
+            {
+              title: ""
             }
-          }
-        })
-      }
+          ]
+        }
+      ]
+    };
+  },
+  mounted() {
+    this.getTeams();
+  },
+  methods: {
+    getTeams() {
+      var self = this;
+      var data = {};
+
+      request.post("/roomapi/Community/CommunityList", data, function(res) {
+        self.areaList = res.data;
+      });
+    },
+    showOtherTeam() {
+      // 弃用
+      this.$router.push({
+        name: "classesmore",
+        params: {
+          fromwhere: this.source
+        }
+      });
+    },
+    toOtherClass(team) { //社团id
+      this.$store.commit("setTeamId", team.id);
+      this.$router.push({
+        name: "oterTeamDetail",
+        query: {
+          id: team.id,
+          avatar: team.avatar,
+          title: team.title
+        }
+      });
     }
   }
+};
 </script>
 <style lang="scss">
-.banner-card{
+.banner-card {
   margin-bottom: 12px;
-  .cardTitle{
+  .cardTitle {
     font-size: 24px;
     font-weight: 500;
-    img{
+    img {
       display: inline-block;
       width: 38px;
       height: 38px;
@@ -99,44 +97,45 @@
       margin-right: 10px;
     }
   }
-  .more{
+  .more {
     float: right;
     display: block;
     // width: 16px;
     height: 16px;
     cursor: pointer;
     margin-top: 0.1rem;
-    .text{
+    .text {
       position: relative;
       top: 2px;
       margin-right: 10px;
       color: #888;
     }
-    img{
+    img {
       display: inline;
       width: 18px;
       vertical-align: middle;
     }
   }
-  .newList{
+  .newList {
     list-style: none;
-    li{
+    li {
       padding: 16px 20px 16px 18px;
       margin-left: 20px;
       font-size: 18px;
-      background: url('../../../../assets/images/classes/dotg.png') no-repeat 0px center;
+      background: url("../../../../assets/images/classes/dotg.png") no-repeat
+        0px center;
       background-size: 8px 8px;
       cursor: pointer;
       position: relative;
-      border-bottom: 1px dashed #DEDEDE;
-      .text{
+      border-bottom: 1px dashed #dedede;
+      .text {
         display: block;
         margin-right: 80px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .date{
+      .date {
         position: absolute;
         width: 80px;
         top: 17px;
@@ -144,56 +143,57 @@
         color: #888888;
       }
     }
-    li:hover{
+    li:hover {
       color: #034692;
-      background-image: url('../../../../assets/images/classes/dot.png');
+      background-image: url("../../../../assets/images/classes/dot.png");
     }
   }
-  .areablock{
-    .areaName{
+  .areablock {
+    .areaName {
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
-      img{
+      img {
+        margin-right: 8px;
         vertical-align: middle;
       }
     }
-    .area{
+    .area {
       list-style: none;
       margin-bottom: 30px;
-      li{
+      li {
         float: left;
         width: 33.333%;
         padding: 8px 0px;
         font-size: 18px;
       }
-      li:hover{
+      li:hover {
         color: #034692;
         cursor: pointer;
       }
     }
-    .area::after{
+    .area::after {
       content: "";
       display: block;
       height: 0;
       clear: both;
     }
   }
-  .notice{
+  .notice {
     font-size: 18px;
-    li{
+    li {
       padding: 8px 0px;
       line-height: 30px;
-      border-bottom: 1px dashed #DEDEDE;
-      .noticeTitle{
-        overflow:hidden;
-        text-overflow:ellipsis;
+      border-bottom: 1px dashed #dedede;
+      .noticeTitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
       }
-      .noticeDate{
+      .noticeDate {
         text-align: right;
         color: #888888;
       }
