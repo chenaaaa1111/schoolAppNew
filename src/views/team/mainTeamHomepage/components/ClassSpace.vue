@@ -154,6 +154,9 @@
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
+      img{
+        vertical-align: middle;
+      }
     }
     .area{
       list-style: none;
