@@ -29,15 +29,19 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
+            <el-row v-if="noticeList.length == 0">
+              <el-col>暂无内容~</el-col>
+            </el-row>
             <el-row class="more-list" v-for ="(item,index) in noticeList" :key="index">
               <el-col :span="24" class="news-title">
-                {{item.title}}<span class="news-type">(栏目: 影评)</span>
+                {{item.title}}
+                <!-- <span class="news-type">(栏目: 影评)</span> -->
               </el-col>
-              <el-col :span="24" class="news-author">
+              <!-- <el-col :span="24" class="news-author">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
                 <span class="author">{{userInfo.name}}</span>
                 <span class="author-class">{{userInfo.grade}}{{userInfo.class}}班</span>
-              </el-col>
+              </el-col> -->
               <el-col :span="24" class="news-text">
                   {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                 </el-col>
@@ -68,41 +72,41 @@
         fit: 'cover',
         noticeDeatail:{},
         noticeList: [
-          {
-            "id": 1,
-            "s_id": 1,
-            "title": "这是一条灰常重要的通知公告",
-            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-            "create_time": "2019-11-19 00:00:00"
-          },
-          {
-            "id": 1,
-            "s_id": 1,
-            "title": "这是一条灰常重要的通知公告",
-            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-            "create_time": "2019-11-19 00:00:00"
-          },
-          {
-            "id": 1,
-            "s_id": 1,
-            "title": "这是一条灰常重要的通知公告",
-            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-            "create_time": "2019-11-19 00:00:00"
-          },
-          {
-            "id": 1,
-            "s_id": 1,
-            "title": "这是一条灰常重要的通知公告",
-            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-            "create_time": "2019-11-19 00:00:00"
-          },
-          {
-            "id": 2,
-            "s_id": 3,
-            "title": "这是一条灰常重要的通知公告",
-            "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-            "create_time": "2019-11-19 00:00:00"
-          }
+          // {
+          //   "id": 1,
+          //   "s_id": 1,
+          //   "title": "这是一条灰常重要的通知公告",
+          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+          //   "create_time": "2019-11-19 00:00:00"
+          // },
+          // {
+          //   "id": 1,
+          //   "s_id": 1,
+          //   "title": "这是一条灰常重要的通知公告",
+          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+          //   "create_time": "2019-11-19 00:00:00"
+          // },
+          // {
+          //   "id": 1,
+          //   "s_id": 1,
+          //   "title": "这是一条灰常重要的通知公告",
+          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+          //   "create_time": "2019-11-19 00:00:00"
+          // },
+          // {
+          //   "id": 1,
+          //   "s_id": 1,
+          //   "title": "这是一条灰常重要的通知公告",
+          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+          //   "create_time": "2019-11-19 00:00:00"
+          // },
+          // {
+          //   "id": 2,
+          //   "s_id": 3,
+          //   "title": "这是一条灰常重要的通知公告",
+          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
+          //   "create_time": "2019-11-19 00:00:00"
+          // }
         ],
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
@@ -161,12 +165,13 @@
         this.widgetName = params.widgetName
         this.setTitle(this.fromwhere);
         this.id = params.id;
-        this.getNoticeDeatail();
+        this.getNoticeList();
         console.log(this.$router);
       }
     },
     methods: {
-      getNoticeDeatail(id) {
+
+      getNoticeList(id) {
         // debugger
         var self=this;
         var data = {
@@ -178,8 +183,9 @@
         request.post(data.loadUrl, data, function (res) {
           if(res.code == 0) {
             if(res.data.model.length>0) {
-              self.noticeDeatail=res.data.model;
+              self.noticeList = res.data.model;
             }
+            console.log(self.noticeList, '获得更多通知公告')
           }
         })
       },
