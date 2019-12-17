@@ -8,30 +8,30 @@
           </el-menu>
           <div class="mainContainer">
              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-             <ul>
-              <li v-for="(item,index) in contentList" :key="index" class="contentList">
-                <h4 class="title">{{item.title}}</h4>
-                <div class="imgline">
-                  <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
-                  <span class="imgMessage">{{item.name}}</span>
-                  <span class="imgMessage linkFont">王府水晶</span>
-                </div>
-                <div class="imtextview" :id="'content'+item.id">
-                  <div class="leftImage">
-                    <img :src="item.image" alt />
+               <ul>
+                <li v-for="(item,index) in contentList" :key="index" class="contentList">
+                  <h4 class="title">{{item.title}}</h4>
+                  <div class="imgline">
+                    <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
+                    <span class="imgMessage">{{item.name}}</span>
+                    <span class="imgMessage linkFont">王府水晶</span>
                   </div>
-                  <div class="rightContent">
-                    <span>{{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}</span>
-                    <span @click="changShow(item.id)" class="updown">查看更多</span>
+                  <div class="imtextview" :id="'content'+item.id">
+                    <div class="leftImage">
+                      <img :src="item.image" alt />
+                    </div>
+                    <div class="rightContent">
+                      <span>{{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}</span>
+                      <span @click="changShow(item.id)" class="updown">查看更多</span>
+                    </div>
                   </div>
-                </div>
-                <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                  <div v-html="item.content"></div>
-                  <span @click="fslip(item.id)" class="updown">收起</span>
-                </div>
-                <p class="date pd_40">{{item.create_time}}</p>
-              </li>
-            </ul>
+                  <div class="deatail" style="display: none;" :id="'detail'+item.id">
+                    <div v-html="item.content"></div>
+                    <span @click="fslip(item.id)" class="updown">收起</span>
+                  </div>
+                  <p class="date pd_40">{{item.create_time}}</p>
+                </li>
+              </ul>
             </van-list>
           </div>
       </div>
@@ -51,7 +51,7 @@ export default {
       selectTab: "", //选中的标签
       userInfo: {},
       page: 1, //页数
-      psize: 3,
+      psize: 6,
       loading: false,
       finished: false,
       tabactive: "all",
@@ -68,7 +68,7 @@ export default {
     this.allArtList();
   },
   methods: {
-    menuSelect(tab) { 
+    menuSelect(tab) {
       this.page = 1;
       this.tabactive = tab;
       this.loadUrl = this.urlDict[tab];
@@ -119,17 +119,17 @@ export default {
       if(this.urlDict == 'news') {
         delete obj.keyword
       }
-      var self = this;
-      request.post(baseUrl, obj, function (res) {
+      console.log(baseUrl,obj,9999)
+      request.post(baseUrl, obj, (res) => {
         if(res.code ==0){
           if(res.data.model.length>0){
-            self.finished =false;
-            self.loading = true;
-            self.contentList.push(...res.data.model);
-            self.page +=1;
+            this.finished =false;
+            this.loading = false;
+            this.contentList.push(...res.data.model);
+            this.page +=1;
           }else{
-            self.finished = true;
-            self.loading = false;
+            this.finished = true;
+            this.loading = false;
           }
         }
       })
