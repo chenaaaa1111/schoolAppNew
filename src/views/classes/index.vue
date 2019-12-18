@@ -58,10 +58,10 @@
       }
     },
     mounted() {
-      // this.activeIndex = this.$route.name;
-      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.activeIndex = this.$route.name;
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       // // this.userInfo=this.$store.state.userInfo;
-      // this.url=this.userInfo.avatar;//头像
+      this.url=this.userInfo.avatar;//头像
     },
     created(){
       //创建事件总线
