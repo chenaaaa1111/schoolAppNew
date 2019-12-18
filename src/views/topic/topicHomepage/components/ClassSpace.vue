@@ -1,13 +1,13 @@
 <template>
     <el-card class="banner-card">
       <div slot="header" class="clearfix">
-        <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>课题空间</span>
+        <span class="cardTitle"><img src="../../../../assets/images/teaching/teachgroup.png"/>课题组</span>
         <span class="more" @click="showclassesmore">
           <img src="../../../../assets/images/classes/more.png"/>
         </span>
       </div>
       <div class="areablock" v-for="(item,index) in areaList" :key="index">
-        <div class="areaName">{{item.title}}</div>
+        <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
         <ul class="area">
           <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(item.id)">{{res.title}}</li>
         </ul>
@@ -27,20 +27,7 @@
       },
       data() {
         return {
-          areaList:[
-            {
-              areaName: '东区',
-              classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-            },
-            {
-              areaName: '西区',
-              classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-            },
-            {
-              areaName: '南区',
-              classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-            }
-          ],
+          areaList:[],
         }
       },
       mounted() {
@@ -48,14 +35,12 @@
       },
       methods: {
         getTeams(){
-          var self=this;
-          var data={
-  
-          };
-  
+          var self = this;
+          var data = {}  
           request.post('/roomapi/Subject/SubjectList',data,function(res){
+            if(res.code ==0){
               self.areaList=res.data;
-  
+            }
           })
         },
         showclassesmore() {
@@ -144,6 +129,10 @@
         font-size: 22px;
         font-weight: 500;
         margin-bottom: 10px;
+        img{
+          vertical-align: middle;
+          margin-right: 8px;
+        }
       }
       .area{
         list-style: none;

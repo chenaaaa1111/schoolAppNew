@@ -2,14 +2,9 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
-        </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+        <el-col :span="12" class="top-title">华悦蜀山区第一中学课题空间</el-col>
+        <el-col v-if="limit" :span="12" class="top-write">
+          <span @click="writeTopic"></span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
@@ -17,7 +12,7 @@
               <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
             </el-button>
             <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
+               <img class="btnicon" src="../../../../assets/images/teaching/teachgroup.png"/>
             </el-button>
             <el-button type="primary" circle >
               <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
@@ -32,25 +27,23 @@
   export default{
     data() {
       return {
-        loadData: {
-          title: '华悦蜀山区第一中学-课题主页',
-          subTitle: '',
-          showwrite: true
-        }
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        limit: '' //只有level:2才能发布课题 1学生2老师
       }
     },
     mounted() {
-
+      this.limit = this.userInfo.level ==2 ?true: false;
+      console.log(this.limit, '是否是老师身份')
     },
     methods: {
-      writenews() {
+      writeTopic() { //写课题
         this.$router.push({
           name: 'write',
           query: {
-            fromname: '社团主页',
-            fromwhere: 'mainTeamHomepage',
-            upUrl:'/roomapi/Room_Class/addArticle',//上传的url
-            c_id:this.$store.state.userInfo.subject_id
+            fromname: '课题主页',
+            fromwhere: 'topicHomepage',
+            spaceModule: 'topic',
+            // c_id:this.$store.state.userInfo.subject_id
           }
         })
       }
@@ -62,12 +55,20 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;

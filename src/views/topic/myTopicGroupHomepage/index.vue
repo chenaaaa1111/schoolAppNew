@@ -5,61 +5,10 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <!-- 学校新闻动态 -->
+            <!-- 课题组组员 -->
             <Students :source="routename"></Students>
-            <!-- 班级空间-侧边栏 -->
-            <!-- <ClassSpace :source="routename"></ClassSpace> -->
-            <!-- 通知公告 -->
-            <!-- <Notice :source="routename"></Notice> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <!-- <el-card>
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
-                <el-menu-item index="all">全部</el-menu-item>
-                <el-menu-item index="news">最新</el-menu-item>
-              </el-menu>
-            </el-card>
-            <el-card style="margin-top: 10px;">
-              <el-row class="chapter" v-for="(item,index) in chapterList" :key="index">
-                <el-col class="title">{{item.title}}</el-col>
-                <el-col class="author">
-                  <el-avatar class="userimg" :size="32" :src="circleUrl"></el-avatar>
-                  <span class="name">{{item.author}}</span>
-                  <span class="teamname">{{item.team}}</span>
-                </el-col>
-                <el-col class="content">
-                  <el-row :gutter="10" v-if="item.flag">
-                    <el-col :span="6" class="chart">
-                      <img :src="item.cover" />
-                    </el-col>
-                    <el-col :span="18" class="text">
-                      <div class="ellipsis" v-html="item.content"></div>
-                      <p :span="24" style="text-align: right;">
-                        <el-button type="text" size="mini" v-show="item.flag" @click="chapterTreggle(index)">
-                          阅读全文<i class="el-icon-arrow-down"></i>
-                        </el-button>
-                      </p>
-                    </el-col>
-                  </el-row>
-                  <el-row v-if="!item.flag">
-                    <el-col :span="24" class="text">
-                      <div class="noEllipsis" v-html="item.content" ></div>
-                    </el-col>
-                  </el-row>
-                </el-col>
-                <el-col class="time">
-                  <div class="timeLine">
-                    <div class="time">{{item.time}}</div>
-                    <div class="btn">
-                      <el-button type="text" size="mini" v-show="!item.flag" @click="chapterTreggle(index)">
-                        收起<i class="el-icon-arrow-up"></i>
-                      </el-button>
-                    </div>
-                  </div>
-                  <el-divider></el-divider>
-                </el-col>
-              </el-row>
-            </el-card> -->
             <mainNavBar :teamId="teamId"></mainNavBar>     
           </el-col>
         </el-row>
@@ -71,69 +20,26 @@
   import PageTop from './components/PageTop.vue'
   import Students from './components/Students.vue'
   import mainNavBar from './components/mainNavBar.vue'
-  // import ClassSpace from './components/ClassSpace.vue'
-  // import Notice from './components/Notice.vue'
   export default{
-    name: 'mainTeamHomepage',
+    name: 'myTopicGroupHomepage',
     components: {
       PageTop,
       Students,
       mainNavBar
-      // ClassSpace,
-      // Notice
     },
     data() {
       return {
         teamId:'',
         routename: '',
-        activeIndex: 'all',
-        circleUrl: require('../../../assets/images/user.png'),
-        chapterList: [
-          {
-            title: '如何评价美国漫威热门电影《小丑》？',
-            author: '章泽天',
-            team: '学生会',
-            cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-            time: '2019/08/22 09:23',
-            content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。'+
-                     '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、'+
-                     '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论'+
-                     '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论'+
-                     '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>'+
-                     '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图'+
-                     '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-            flag: true
-          },
-          {
-            title: '如何评价美国漫威热门电影《小丑》？',
-            author: '章泽天',
-            team: '学生会',
-            cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-            time: '2019/08/22 09:23',
-            content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。'+
-                     '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、'+
-                     '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论'+
-                     '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论'+
-                     '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>'+
-                     '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图'+
-                     '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-            flag: true
-          },
-        ]
       }
     },
     mounted() {
       this.teamId=this.$store.state.userInfo.subject_id,
-        // this.getTeam();
-
       this.routename = this.$route.name
       console.log(this.routename, '本页面routename')
     },
     methods:{
-      menuSelect() {},
-      chapterTreggle(index) {
-        this.chapterList[index].flag = !this.chapterList[index].flag
-      }
+     
     }
   }
 </script>

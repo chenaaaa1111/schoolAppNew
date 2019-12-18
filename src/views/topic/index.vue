@@ -11,7 +11,7 @@
             <el-menu-item index="myTopicGroupHomepage">我的课题组</el-menu-item>
             <el-menu-item index="myTopicHomepage">我的主页</el-menu-item>
             <li class="el-menu-item menu-search hidden-sm-and-down">
-                <el-input type="text" suffix-icon="el-icon-search"></el-input>
+                <el-input type="text" suffix-icon="el-icon-search" v-model="keyword" placeholder="搜索相关内容" @keyup.enter.native="search"></el-input>
             </li>
             <li class="nav-user">
               <el-dropdown trigger="click">
@@ -19,7 +19,7 @@
                       <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item icon="el-icon-s-custom">刘子璇</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                       <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                   </el-dropdown-menu>
@@ -34,13 +34,16 @@
   </div>
 </template>
 <script>
+  import Vue from 'vue';
   export default{
     components: {
     },
     data() {
       return {
         fit: 'cover',
-        url: require('../../assets/images/user.png'),
+        userInfo: {},
+        url: '',
+        keyword: '', //搜索关键字
         activeIndex: 'teachingHomepage'
       }
     },
@@ -53,8 +56,15 @@
         }
       }
     },
+    created(){
+      //创建事件总线
+      var eventLister=new Vue();
+      this.$root.eventLister=eventLister;
+    },
     mounted() {
-      this.activeIndex = this.$route.name
+      this.activeIndex = this.$route.name;
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.url=this.userInfo.avatar;//头像
     },
     methods: {
       goHome() {
@@ -66,6 +76,11 @@
         this.activeIndex = val
         console.log(val, '导航栏切换路由名称')
       },
+      //搜索相关内容
+      search(){
+        console.log(this.keyword,'输入的值是什么')
+        this.$root.eventLister.$emit('seachInfo',this.keyword)
+      }
     }
   }
 </script>

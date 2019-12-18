@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       circleUrl: "",
-      // circleUrl: require('../../../../assets/images/user.png'),
       userInfo: {}, //用户信息
       ClassDynamic: 0,
       SchoolDynamic: 0
@@ -38,6 +37,7 @@ export default {
     this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     console.log("userInfo", this.userInfo);
     this.circleUrl = this.userInfo.avatar;
+    this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent)
   },
   mounted() {
     this.getShoolDynamic();

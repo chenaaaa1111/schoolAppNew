@@ -37,7 +37,6 @@
     methods: {
       getMyTeamList() {
         request.post('/roomapi/Community/myCommunity',{},(res)=>{
-          // console.log(res, '我的社团列表')
           if(res.code == 0) {
             if(res.data.length > 0) {
               this.teamList = res.data

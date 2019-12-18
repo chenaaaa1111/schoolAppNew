@@ -148,6 +148,28 @@
     }
   }
 </script>
+<style lang="scss">
+  .content-open{
+    .con-text{
+      overflow: auto;
+      -webkit-line-clamp: inherit;
+      img{
+        display: block!important;
+        width: 100%;
+        margin: 10px 0px;
+      }
+    }
+  }
+  .content{
+    .con-text{
+      overflow: auto;
+      -webkit-line-clamp: inherit;
+      img{
+        display: none;
+      }
+    }
+  }
+</style>
 <style lang="scss" scoped>
 .top-block{
   .top-box{
@@ -242,6 +264,10 @@
       .con-text{
         overflow: auto;
         -webkit-line-clamp: inherit;
+        img{
+          display: block;
+          width: 100%;
+        }
       }
     }
     .article-date{
