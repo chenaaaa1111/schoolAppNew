@@ -11,7 +11,6 @@
               <el-col :span="18" class="title">
                 <span class="text" @click="viewDetails(item)">{{item.title}}</span>
                 <span class="classify" @click="viewDetails(item)">{{item.c_name}}</span>
-                <span class="date" @click="viewDetails(item)">{{item.create_time}}</span>
               </el-col>
               <el-col :span="6" class="operation">
                 <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
@@ -19,20 +18,35 @@
             </el-row>
           </el-col>
           <el-col :span="24">
-            <el-row class="content" :gutter="10">
-              <el-col :span="6">
+            <!-- 收起 -->
+            <el-row class="content" :gutter="10" v-if="!item.isopen">
+              <el-col class="content-cover" :span="6">
                  <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt="" @click="viewDetails(item)"/>
                  <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/>
               </el-col>
               <el-col :span="18">
-                <div class="con-text" @click="viewDetails(item)">
-                    {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
-                  </div>
+                <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
                 <div class="read-more">
-                  <el-button type="text" size="mini">阅读全文<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                  <el-button type="text" size="mini" @click="openNews(index)">阅读全文<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 </div>
               </el-col>
             </el-row>
+            <!-- 展开 -->
+            <el-row class="content content-open" :gutter="10" v-if="item.isopen">
+              <el-col class="content-cover" :span="24">
+                 <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt="" @click="viewDetails(item)"/>
+                 <!-- <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/> -->
+              </el-col>
+              <el-col :span="24">
+                <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
+                <div class="read-more">
+                  <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top el-icon--right"></i></el-button>
+                </div>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="24" style="font-size: 14px;margin-top: 20px;color:#666">
+            <span class="date" @click="viewDetails(item)">{{item.create_time}}</span>
           </el-col>
           <el-col :span="24">
             <el-divider></el-divider>
@@ -75,7 +89,13 @@
         }
         request.post('/roomapi/Subject/myPage', data, function (res) {
           if(res.code ==0){
-            self.topicDymic=res.data.model;
+            if(res.data.model.length>0) {
+              self.topicDymic = (res.data.model).map(item => {
+                item.isopen = false
+                return item
+              })
+            }
+            
           }
         })
       },
@@ -126,9 +146,15 @@
           }
         })
       },
+      openNews(index) {
+        this.topicDymic[index].isopen = true
+      },
+      closeNews(index) {
+        this.topicDymic[index].isopen = false
+      },
       setImg(src) {
         let baseSrc = ''
-        if(src.indexOf('i2f2f.com') == -1) {
+        if(src.indexOf('http') == -1) {
           baseSrc = 'http://school.i2f2f.com' + src
         } else {
           baseSrc = src
@@ -222,7 +248,12 @@
       .content {
         margin: 24px 0px 0px 0px;
         padding: 0;
-
+        .content-cover{
+          img{
+            display: block;
+            width: 100%;
+          }
+        }
         .con-pic {
           display: block;
           width: 100%;
