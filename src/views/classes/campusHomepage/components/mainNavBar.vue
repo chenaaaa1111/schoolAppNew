@@ -4,10 +4,8 @@
     <div class="mainNavBar">
       <div class="tabContainer">
         <div class="leftBar">
-          <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
-            @load="onLoad"> -->
-            <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
-              v-model="selectTab" @change="changeTabs" :swipeable="true">
+            <van-tabs class="mainleftbar" swipeable  :swipe-threshold='5' :ellipsis="false"
+              v-model="selectTab" @change="changeTabs" >
 
               <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
@@ -50,7 +48,7 @@
                 </van-list>
 
                 <ul v-if="false">
-                  <li v-for="item in contentList" class="contentList">
+                  <li v-for="(item,index) in contentList" class="contentList" :key="index">
                     <h4 class="title">{{item.title}}
                       <span class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span>
                     </h4>
@@ -85,7 +83,6 @@
                 </ul>
               </van-tab>
             </van-tabs>
-          <!-- </van-list> -->
 
         </div>
    

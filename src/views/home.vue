@@ -192,7 +192,7 @@
           {
             id: "room_class",
             key: "class_id",
-            name: 'classes',
+            name: 'campusHomepage',
             title: '班级空间',
             image: require('../assets/main/classes.png')
           },
@@ -278,7 +278,6 @@
         var data = this.classInfo;
         if (data == 'class') {
           request.post('/roomapi/Users/editRoomClass', data, (res) => {
-
             if (res.code == '0') {
               sessionStorage.setItem('class_id', this.classInfo.class_id);
               sessionStorage.setItem('grade_id', this.classInfo.grade_id);

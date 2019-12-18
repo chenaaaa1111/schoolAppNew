@@ -9,13 +9,11 @@
                 </ul> -->
         <div class="tabContainer">
           <div class="leftBar">
-              <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-  
             <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab" @change="changeTabs"
               :swipeable="true">
               <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
-                  <ul>
-                    <li v-for="item in contentList" class="contentList">
+                  <ul v-if="false">
+                    <li v-for="(item,index) in contentList" class="contentList" :key="index">
                       <h4 class="title">{{item.title}} <span
                           class="titleMsg">栏目{{item.column_name?'（'+item.column_name+'）':''}}</span> </h4>
                       <div class=" imgline">
@@ -45,22 +43,50 @@
                       <p class="date pd_40">{{item.create_time}}</p>
                     </li>
                   </ul>
-              
+
+                <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
+                  @load="onLoad">
+                  <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
+                    <el-col class="news-head" :span="24">
+                      <div class="news-title">{{item.title}}</div>
+                      <div class="news-column">栏目: {{item.column_name}}</div>
+                    </el-col>
+                    <el-col :span="24" class="author-info">
+                      <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
+                    </el-col>
+                    <el-col class="news-content">
+                      <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
+                        <el-col :xl="8" :lg="8" :md="8" :sm="10" :xs="10" class="left-img">
+                          <img v-if="item.image != ''" :src="setImg(item.image)" alt=""/>
+                          <img v-else src="../../../../assets/images/noimg.png" alt=""/>
+                        </el-col>
+                        <el-col :xl="16" :lg="16" :md="16" :sm="14" :xs="14" class="right-txt">
+                          <div class="text" v-html="item.content"></div>
+                          <div class="openmore">
+                            <el-button type="text" size="mini" @click="openNews(index)">阅读更多<i class="el-icon-caret-bottom"></i></el-button>
+                          </div>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
+                        <el-col :span="24" class="left-img">
+                          <img :src="setImg(item.image)" alt=""/>
+                        </el-col>
+                        <el-col :span="24" class="right-txt">
+                          <div class="text" v-html="item.content"></div>
+                          <div class="openmore">
+                            <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top"></i></el-button>
+                          </div>
+                        </el-col>
+                      </el-row>
+                    </el-col>
+                    <el-col class="news_create_time">{{item.create_time}}</el-col>
+                  </el-row>
+                </van-list>
   
               </van-tab>
             </van-tabs>
-          </van-list>
           </div>
-          <!-- <div class="rightBar">
-                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                  <el-submenu index="2">
-                    <template slot="title" style="line-height: 44px;">更多</template>
-                    <el-menu-item index="2-1">选项1</el-menu-item>
-                    <el-menu-item index="2-2">选项2</el-menu-item>
-                    <el-menu-item index="2-3">选项3</el-menu-item>
-                  </el-submenu>
-                </el-menu>
-              </div> -->
+
         </div>
   
       </div>
@@ -104,7 +130,12 @@
             column: this.selectTab
           }
           request.post('/roomapi/Room_Class/classPage', data, function (res) {
-            _this.contentList = res.data.model;
+            if(res.code == 0) {
+              _this.contentList = (res.data.model).map(item => {
+                item.isopen = false
+                return item
+              });
+            } 
           })
         },
         handleSelect(key, keyPath) {
@@ -123,19 +154,12 @@
           var data = { cid: userInfoId, type: 1 }
           request.post('/roomapi/Room_Class/column', data, function (res) {
             _this.dataList = res.data.model;
-            debugger
             data = {
               class: userInfoId,
               column:res.data[0]?res.data[0].id:'',
               page: 1,
 
             }
-            // request.post('/roomapi/Room_Class/classPage', data, function (res) {//获取数据
-            //   _this.contentList = res.data.model;
-            //   if( _this.contentList.length==0){
-            //   _this.onLoad("fineshed");
-            //   }
-            // });
           });
         },
         onLoad(state) {
@@ -158,8 +182,15 @@
               _this.finished = true;
               return;
             }
-            _this.page = _this.page + 1;
-            _this.contentList = [...res.data.model, ..._this.contentList];
+            let list = res.data.model
+            let listFlag = list.map(item => {
+              item.isopen = false
+              return item
+            })
+            for(var i=0;i<listFlag.length;i++) {
+              _this.contentList.push(listFlag[i])
+            }
+            _this.page = _this.page + 1;            
             _this.loading = false;
           })
         },
@@ -171,6 +202,24 @@
           console.log(item)
           document.getElementById('content' + item).style.display = "none";
           document.getElementById('detail' + item).style.display = 'block';
+        },
+        openNews(index) {
+          console.log('open list')
+          this.contentList[index].isopen = true
+          console.log(this.contentList[index])
+        },
+        closeNews(index) {
+          console.log('close list')
+          this.contentList[index].isopen = false
+        },
+        setImg(src) {
+          let baseSrc = ''
+          if(src.indexOf('i2f2f.com') == -1) {
+            baseSrc = 'http://school.i2f2f.com' + src
+          } else {
+            baseSrc = src
+          }
+          return baseSrc
         }
       },
       mounted: function () {
@@ -202,7 +251,7 @@
   
     }
   </script>
-  <style>
+  <style lang="scss">
     .mainleftbar {
       /* padding-right:40px; */
     }
@@ -269,8 +318,15 @@
       padding-right: 40px;
       font-size: 18px;
     }
+    .horizontal-row{
+      .right-txt{
+        img{
+          display: none!important;
+        }
+      }
+    }
   </style>
-  <style scoped>
+  <style lang="scss" scoped>
     .contentList {
       border-bottom: #DCDCDC 1px solid;
       padding-bottom: 30px;
@@ -319,6 +375,80 @@
   
     .leftBar {
       flex: 1;
+      .news-row{
+        .news-head{
+          display: flex;
+          align-items: center;
+          margin-top: 30px;
+          .news-title{
+            flex: 1;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 24px;
+            font-weight: 600;
+          }
+          .news-column{
+            font-size: 20px;
+            color: #666;
+            width: 180px;
+            padding-left: 20px;
+          }
+        }
+        .author-info{
+          margin-top: 20px;
+          display: flex;
+          align-items: center;
+          .el-avatar{
+            display: inline-block;
+            margin-right: 8px;
+          }
+          span{
+            font-size: 18px;
+            color: #034692;
+          }
+        }
+        .news-content{
+          margin-top: 20px;
+          .left-img{
+            img{
+              display: block;
+              width: 100%;
+              border-radius: 8px;
+            }
+          }
+          .right-txt{
+            .text{
+              line-height: 30px;
+              font-size: 18px;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 5;
+              overflow: hidden;
+            }
+            .openmore{
+              text-align: right;
+            }
+          }
+          .horizontal-row{
+            .right-txt{
+              img{
+                display: none!important;
+              }
+            }
+          }
+          .vertical-row{
+            img{
+              margin: 14px 0px;
+            }
+          }
+        }
+        .news_create_time{
+          font-size: 18px;
+          color: #999;
+          margin-top: 20px;
+        }
+      }
     }
   
   
