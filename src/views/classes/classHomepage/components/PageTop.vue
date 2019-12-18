@@ -37,11 +37,12 @@
           subTitle: '',
           showwrite: true
         },
-        userInfo: '',//用户信息
+        userInfo: {},//用户信息
         classInfo: '', //班级信息
       }
     },
     created() {
+      // this.userInfo=this.$store.state.userInfo;
       this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       console.log(this.userInfo,'用户信息')
       this.classInfo = '20' + this.userInfo.grade + this.userInfo.class;

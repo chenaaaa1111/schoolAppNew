@@ -124,8 +124,9 @@ export default {
             }
           }
         })
-      }else if(tab == 'news'){
+      }else if(tab == 'news'){ //热度 需要传课题id
         var data1 = {
+          category_id: this.$store.state.userInfo.subject_id,
           page: this.page,
           psize: this.psize,
         };
@@ -168,13 +169,15 @@ export default {
     },
     onLoad() { //触底加载更多
       let obj ={
-        category_id: '', //课题id
+        category_id: this.$store.state.userInfo.subject_id, //课题id
         keyword: this.keyword,
         page: this.page,
         psize: this.psize,
       }
       if(this.urlDict == 'all') {
         delete obj.category_id
+      }else if(this.urlDict == 'news'){
+        delete obj.keyword
       }
       console.log(this.loadUrl,obj)
       request.post(this.loadUrl, obj, (res) => {

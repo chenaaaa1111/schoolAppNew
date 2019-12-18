@@ -185,6 +185,11 @@ const router= new Router({
           component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), //
         },
         {
+          path: '/topic/otherTopicGroupHomepage',
+          name: 'otherTopicGroupHomepage',
+          component: () => import('@/views/topic/otherTopicGroupHomepage/index.vue'), //
+        },
+        {
           path: '/topic/myTopicHomepage',
           name: 'myTopicHomepage',
           component: () => import('@/views/topic/myTopicHomepage/index.vue'), //

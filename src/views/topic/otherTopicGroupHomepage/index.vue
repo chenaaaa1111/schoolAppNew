@@ -9,7 +9,7 @@
             <Students></Students>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <mainNavBar></mainNavBar>   
+            <mainNavBar></mainNavBar>     
           </el-col>
         </el-row>
       </el-col>
@@ -21,7 +21,7 @@
   import Students from './components/Students.vue'
   import mainNavBar from './components/mainNavBar.vue'
   export default{
-    name: 'myTopicGroupHomepage',
+    name: 'otherTopicGroupHomepage',
     components: {
       PageTop,
       Students,
@@ -33,7 +33,8 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name;
+      this.teamId=this.$store.state.userInfo.subject_id,
+      this.routename = this.$route.name
       console.log(this.routename, '本页面routename')
     },
     methods:{

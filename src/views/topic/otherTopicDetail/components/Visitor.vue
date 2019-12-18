@@ -1,16 +1,18 @@
 <template>
-  <!-- 个人头像信息 -->
   <el-card class="banner-card">
-    <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="url"></el-avatar>
+    <div slot="header" class="clearfix">
+      <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
     </div>
-    <h2 class="myName">{{userInfo.name}}</h2>
-    <div class="dynamic">
-      <div class="dynamic-g">
-        <p class="count">{{total}}</p>
-        <p class="title">课题动态</p>
-      </div>
+    <h2 class="vistorCount">
+      总共访问: {{userInfo.access_subject?userInfo.access_subject:0}}人次
+    </h2>
+    <div class="lately">最近10个访客:</div>
+    <div v-if="avators.length>0">
+      <span v-for="(item ,index ) in avators" :key="index" >
+        <el-avatar class="vistor-avatar" :size="44" icon="el-icon-user-solid" :src="item.avatar" ></el-avatar>
+      </span>
     </div>
+    <div v-if="avators.length ==0">暂无访客</div>
   </el-card>
 </template>
 <script>
@@ -18,46 +20,27 @@
   export default{
     data() {
       return {
-        url: '', //头像
-        userInfo: {},
-        total: 0,
-        page: 1,
-        psize: 5,
-        keyword: '',//搜索关键字
+        baseInfo: {},
+        avators:[]//访客列表
       }
     },
-    created(){
-      this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent); //监听删除文章数
-    },
-    mounted(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
-      this.getTopicDynimal();
+    mounted() {
+      this.baseInfo= this.$route.query;
+      this.getAvortors();
     },
     methods: {
-      getTopicDynimal() { //课题动态列表
+      getAvortors(){ //最近访客 u_id 用户id
+        var data= {
+          u_id: this.baseInfo.u_id
+        };
         var self=this;
-        var data = {
-          u_id: self.userInfo.id,
-          keyword: self.keyword,
-          page: self.page,
-          psize: self.psize
-        }
-        request.post('/roomapi/Subject/myPage', data, function (res) {
+        request.post('/roomapi/Subject/visitors',data,function(res){
           if(res.code ==0){
-            self.total = res.data.total;
-          }
+            self.avators=res.data;
+          }          
         })
-      },
-      changeNumEvent(flag) { //教研动态中删除了动态后  监听操作状态 来改变数量
-        console.log(flag,'是否进行操作')
-        if(flag){
-          this.getTopicDynimal();
-        }
-      }
+      } 
     }
-    
   }
 </script>
 <style lang="scss">
