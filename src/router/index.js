@@ -22,12 +22,12 @@ const router= new Router({
       component: () => import('@/views/home.vue') // 主页
     },
     {
-      path: '/login/complate',
+      path: '/complate',
       name: 'complate',
       component: () => import('@/views/login/complate.vue')
     },
     {
-      path: '/login/complateSpace',
+      path: '/complateSpace',
       name: 'complateSpace',
       component: () => import('@/views/login/complate2.vue')
     },
@@ -55,7 +55,7 @@ const router= new Router({
       path: '/classes',
       name: 'classes',
       component: () => import('@/views/classes/index.vue'), // 班级空间
-      redirect: '/classes/campusHomepage',
+       redirect: '/classes/campusHomepage',
       children: [
         {
           path: '/classes/campusHomepage',
