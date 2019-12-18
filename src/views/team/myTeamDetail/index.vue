@@ -1,6 +1,6 @@
 <template>
   <div class="myClasses">
-    <PageTop :teamId="teamId"></PageTop>
+    <PageTop></PageTop>
     <el-row type="flex" justify="center" class="space-wrap">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
@@ -30,14 +30,12 @@
     data() {
       return {
         routename: '',
-        teamId:''
+        teamId: '', //社团id
       }
     },
     created(){
-      this.routename = this.$route.name
-      console.log('routerQuery',this.$route.query )
-      // console.log(this.routename, '本页面routename')
-      this.teamId=this.$route.query.id;
+      this.routename = this.$route.name;
+      this.teamId = this.$route.query.c_id;
     },
     mounted() {
 

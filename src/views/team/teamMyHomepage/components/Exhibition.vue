@@ -64,13 +64,22 @@
 </template>
 <script>
   import request from '@/api/request.js';
+  import Vue from 'vue';
   export default {
     data() {
       return {
+        teamId: '',
         teamDymic: [],
         serverUrl: this.$store.state.serverUrl
       }
-
+    },
+    created(){
+      //创建事件总线
+      var eventLister=new Vue();
+      this.$root.eventLister=eventLister;
+    },
+    mounted() {
+      this.getTeamDynimal();
     },
     methods: {
       getTeamDynimal() {
@@ -95,7 +104,6 @@
         this._delete(id)
       },
       _delete(id) {
-        debugger
         this.$confirm('删除后不可恢复, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -103,12 +111,14 @@
         }).then(() => {//删除文章
           request.post('/roomapi/Community/delete', { id: id }, (res) => {
             this.$message({
+              duration: 1000,
+              offset: 190,
               type: 'success',
               message: '删除成功!'
             });
             this.getTeamDynimal();
+            this.$root.eventLister.$emit('changeNumEvent', true);
           })
-
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -122,10 +132,7 @@
       close(index) {
         this.teamDymic[index].open = false
       },
-    },
-    mounted: function () {
-      this.getTeamDynimal();
-    }
+    }    
   }
 </script>
 <style lang="scss" scoped>

@@ -14,7 +14,7 @@
                   <div class="imgline">
                     <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                     <span class="imgMessage">{{item.name}}</span>
-                    <span class="imgMessage linkFont">王府水晶</span>
+                    <span class="imgMessage linkFont">{{item.c_name}}</span>
                   </div>
                   <div class="imtextview" :id="'content'+item.id">
                     <div class="leftImage">
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-// import 'vant/lib/button/style';
 import request from "@/api/request.js";
 export default {
   name: "mainNavBar",
@@ -51,7 +50,7 @@ export default {
       selectTab: "", //选中的标签
       userInfo: {},
       page: 1, //页数
-      psize: 6,
+      psize: 5,
       loading: false,
       finished: false,
       tabactive: "all",
@@ -59,8 +58,7 @@ export default {
       loadUrl: "/roomapi/Community/communityPage",
       urlDict: {
         all: "/roomapi/Community/communityPage",
-        news: "/roomapi/Community/browsePage",
-        my: "/roomapi/Community/myPage"
+        news: "/roomapi/Community/browsePage"
       },
     };
   },
@@ -75,13 +73,13 @@ export default {
       var self = this;
       if(tab =='all'){ //全部
         var data = {
-          keyword: this.keyword,
-          page: this.page,
-          psize: this.psize,
+          keyword: self.keyword,
+          page: self.page,
+          psize: self.psize,
         };
         request.post(self.loadUrl, data, function (res) {
           if(res.code ==0){
-          self.contentList = res.data.model;
+            self.contentList = res.data.model;
           }
         })
       }else if(tab == 'news'){
@@ -91,7 +89,7 @@ export default {
         };
         request.post(self.loadUrl, data1, function (res) {
           if(res.code ==0){
-          self.contentList = res.data.model;
+            self.contentList = res.data.model;
           }
         })
       }
@@ -110,7 +108,6 @@ export default {
       });
     },
     onLoad() { //触底加载更多
-      let baseUrl = this.tabactive == 'all'?this.urlDict.all: this.urlDict.news;
       let obj ={
         keyword: this.keyword,
         page: this.page,
@@ -119,12 +116,13 @@ export default {
       if(this.urlDict == 'news') {
         delete obj.keyword
       }
-      console.log(baseUrl,obj,9999)
-      request.post(baseUrl, obj, (res) => {
+      console.log(this.loadUrl,obj,9999)
+      request.post(this.loadUrl, obj, (res) => {
         if(res.code ==0){
           if(res.data.model.length>0){
             this.finished =false;
             this.loading = false;
+            // this.contentList = [...res.data.model, ...this.contentList];
             this.contentList.push(...res.data.model);
             this.page +=1;
           }else{
@@ -147,17 +145,7 @@ export default {
       document.getElementById("content" + item).style.display = "none";
       document.getElementById("detail" + item).style.display = "block";
     }
-  },
-  wrap() {
-    var clientWidth = document.body.clientWidth;
-    console.log("clientWidth", clientWidth);
-    var html = document.getElementsByTagName("html")[0];
-    if (clientWidth > 980) {
-      clientWidth = 980;
-    }
-    html.style.fontSize = clientWidth / 12.4 + "px";
-  },
-  comments: {}
+  }
 };
 </script>
 <style scoped>
@@ -193,13 +181,9 @@ export default {
 .leftBar .el-menu-demo{
   padding-left: 10px;
 }
-.van-hairline--top-bottom {
-  /* width: 80%; */
-}
 
 .van-tab {
   padding-left: 20px;
-  /* font-size: 14px; */
 }
 
 .van-tabs__nav--line {
@@ -213,6 +197,7 @@ export default {
 }
 
 .linkFont {
+  margin-left: 8px;
   cursor: pointer;
   color: #034692;
 }

@@ -9,30 +9,48 @@
     </h2>
     <div class="dynamic">
       <div class="dynamic-g">
-        <p class="count">{{userInfo.access_community||0}}</p>
-        <p class="title">社区动态</p>
+        <p class="count">{{total}}</p>
+        <p class="title">社团动态</p>
       </div>
-      <!-- <div class="dynamic-c">
-        <p class="count">12</p>
-        <p class="title">班级动态</p>
-      </div> -->
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
         circleUrl: require('../../../../assets/images/user.png'),
         userInfo:this.$store.state.userInfo,
-
+        total: 0, //社团动态数
       }
     },
-    methods: {
-
+    created() {
+      this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent)
     },
-    mounted:function(){
-
+    mounted() {
+      this.getTeamDynimal();
+    },
+    methods: {
+      getTeamDynimal() { //c_id 社团id，不传显示全部
+        var self = this;
+        var data = {
+          u_id: self.$store.state.userInfo.id
+        }
+        request.post('/roomapi/Community/myPage', data, function (res) {
+          if(res.code == 0){
+            if (res.data.model.length > 0) {
+              self.total = res.data.total;
+            }
+          }
+        })
+      },
+      changeNumEvent(flag) { //社团动态中删除了动态后  监听操作状态 来改变数量
+        console.log(flag,'是否进行了删除操作')
+        if(flag){
+          this.getTeamDynimal();
+        }
+      },
     }
   }
 </script>

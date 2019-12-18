@@ -4,10 +4,17 @@
     <div class="mainNavBar">
       <div class="tabContainer">
         <div class="leftBar">
+<<<<<<< HEAD
           <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
             @load="onLoad"> -->
             <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
               v-model="selectTab" @change="changeTabs" :swipeable="true">
+=======
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
+            @load="onLoad">
+            <van-tabs class="mainleftbar" swipeable  :swipe-threshold='5' :ellipsis="false"
+              v-model="selectTab" @change="changeTabs" >
+>>>>>>> f5443617bde747bc1817c31c511d442492621ae4
 
               <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
@@ -88,16 +95,7 @@
           <!-- </van-list> -->
 
         </div>
-        <!-- <div class="rightBar">
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-submenu index="2">
-                  <template slot="title" style="line-height: 44px;">更多</template>
-                  <el-menu-item index="2-1">选项1</el-menu-item>
-                  <el-menu-item index="2-2">选项2</el-menu-item>
-                  <el-menu-item index="2-3">选项3</el-menu-item>
-                </el-submenu>
-              </el-menu>
-            </div> -->
+   
       </div>
 
     </div>
@@ -106,8 +104,6 @@
 </template>
 
 <script>
-  // import 'vant/lib/button/style';
-  // import eventAll from '@/api/eventAll.js';
   import request from '@/api/request.js'
   export default {
     name: 'mainNavBar',
@@ -130,7 +126,6 @@
 
         ],
         activeIndex: '1',
-        activeIndex2: '1'
       }
     },
     methods: {
