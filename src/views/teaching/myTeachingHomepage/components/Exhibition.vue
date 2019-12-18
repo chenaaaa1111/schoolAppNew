@@ -3,12 +3,9 @@
     <el-row class="top-block">
       <el-col :span="24" class="top-box">
         <span class="top-title">教研动态</span>
-        <el-button type="text">
-          查看全部<img class="more" src="../../../../assets/images/classes/more.png" />
-        </el-button>
       </el-col>
       <el-col :span="24">
-        <el-row class="article" v-for="(item,index) in teamDymic" :key="index">
+        <el-row class="article" v-for="(item,index) in teachDymic" :key="index">
           <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
@@ -17,7 +14,7 @@
                 <span class="date">{{item.create_time}}</span>
               </el-col>
               <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
+                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -36,7 +33,6 @@
               </el-col>
             </el-row>
           </el-col>
-          <!-- <el-col :span="24" class="article-date">2019/08/22 09:23</el-col> -->
           <el-col :span="24">
             <el-divider></el-divider>
           </el-col>
@@ -47,59 +43,76 @@
 </template>
 <script>
   import request from '@/api/request.js';
+  import Vue from 'vue';
   export default {
     data() {
       return {
-        teamDymic:[],
+        keyword: '',//搜索关键字
+        page: 1,
+        psize: 5,
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        teachDymic:[],
       }
-
+    },
+    created(){
+      //创建事件总线
+      var eventLister=new Vue();
+      this.$root.eventLister=eventLister;
+    },
+    mounted() {
+      this.getTeachDynimal();
     },
     methods: {
-      getTeamDynimal() {
+      getTeachDynimal() { //教研动态列表
         var self=this;
         var data = {
-          u_id:self.$store.state.userInfo.id
+          u_id: self.userInfo.id,
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize
         }
-        
-        request.post('/roomapi/Project/myPage', data, function (res) {
-          if(res.data.model.length==0){
-            res.data.model=[{
-                "id": 3,
-                "s_id": 1,
-                "category_id": 1,
-                "c_name": "",
-                "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "type": 2,
-                "title": "添加1",
-                "image": "",
-                "content": "财经栏目2",
-                "create_time": "2019-11-14 17:21:59",
-                "browse": 0
-            },
-            {
-                "id": 2,
-                "s_id": 1,
-                "category_id": 2,
-                "c_name": "",
-                "u_id": 1,
-                "name": "广播福if",
-                "avatar": "https:www.empirise.com/trading/images/error.png",
-                "type": 2,
-                "title": "广播福if",
-                "image": "https:www.empirise.com/trading/images/error.png",
-                "content": "阿瓦单位",
-                "create_time": "0000-00-00 00:00:00",
-                "browse": 0
-            }];
+        request.post('/roomapi/Teaching/myPage', data, function (res) {
+          if(res.code ==0){
+            self.teachDymic=res.data.model;
           }
-          self.teamDymic=res.data.model;
         })
-      }
-    },
-    mounted: function () {
-      this.getTeamDynimal();
+      },
+      deleteArt(id) {
+        //教研动态 删除文章
+        var vm = this;
+        vm.$confirm(
+          "删除后，你将不再看到该教研动态的信息，是否确认删除？",
+          "删除提示",
+          {
+            confirmButtonText: "确认",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        )
+          .then(() => {
+            //删除文章
+            request.post("/roomapi/Teaching/delete", { id: id }, res => {
+              if (res.code == 0) {
+                vm.$message({
+                  duration: 1000,
+                  offset: 190,
+                  type: "success",
+                  message: res.message
+                });
+                vm.getTeachDynimal();
+                vm.$root.eventLister.$emit('changeNumEvent', true);
+              }
+            });
+          })
+          .catch(() => {
+            vm.$message({
+              duration: 1000,
+              offset: 190,
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      },
     }
   }
 </script>

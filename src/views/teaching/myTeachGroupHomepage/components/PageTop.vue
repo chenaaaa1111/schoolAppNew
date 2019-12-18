@@ -6,21 +6,12 @@
           <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
         </el-col>
         <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-          <span @click="writenews"></span>
-        </el-col>
-        <el-col :span="12" class="department">
-          {{loadData.subTitle}}
+          <span @click="writeArt"></span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
+              <img class="btnicon" src="../../../../assets/images/teaching/group1.png"/>
             </el-button>
           </span>
         </el-col>
@@ -33,7 +24,8 @@
     data() {
       return {
         loadData: {
-          title: '华悦蜀山区第一中学-校园主页',
+          url: require('../../../../assets/images/classes/class_else.png'),
+          title: '教研2组主页',
           subTitle: '',
           showwrite: true
         }
@@ -43,18 +35,17 @@
 
     },
     methods: {
-      writenews() {
+      writeArt() {
         this.$router.push({
           name: 'write',
-          params: {
-            fromname: '社团主页',
-            fromwhere: 'mainTeamHomepage',
-            upUrl:'/roomapi/Teaching/addArticle',//上传的url
-            c_id:this.$store.state.userInfo.teaching_id
+          query: {
+            fromname: '我的教研组',
+            fromwhere: 'myTeachGroupHomepage',
+            spaceModule: 'teaching',
+            // c_id:this.$store.state.userInfo.teaching_id //教研组id
           }
         })
       }
-
     }
   }
 </script>
@@ -62,12 +53,20 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
-        padding-left: 10px;
-        font-size: 30px;
-        color: #034692;
+        font-size:40px;
+        font-family:STYuanti-SC-Bold,STYuanti-SC;
+        font-weight:bold;
+        color:rgba(3,70,146,1);
+        line-height:56px;
+        letter-spacing:10px;
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
         img{
           display: inline-block;
           width: 74px;
@@ -85,7 +84,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../../assets/images/teaching/writeArt1.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }

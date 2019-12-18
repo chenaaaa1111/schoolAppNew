@@ -2,37 +2,62 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="circleUrl"></el-avatar>
+      <el-avatar :size="120" :src="url"></el-avatar>
     </div>
-    <h2 class="myName">
-      里斯本 <img :src="userInfo.avatar"/>
-    </h2>
+    <h2 class="myName">{{userInfo.name}}</h2>
     <div class="dynamic">
       <div class="dynamic-g">
-        <p class="count">{{userInfo.access_project||0}}</p>
-        <p class="title">专题动态</p>
+        <p class="count">{{total}}</p>
+        <p class="title">教研动态</p>
       </div>
-      <!-- <div class="dynamic-c">
-        <p class="count">12</p>
-        <p class="title">班级动态</p>
-      </div> -->
     </div>
   </el-card>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
+        url: '', //头像
         circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:this.$store.state.userInfo
+        userInfo: {},
+        total: 0,
+        page: 1,
+        psize: 5,
+        keyword: '',//搜索关键字
       }
     },
-    methods: {
-
+    created(){
+      this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent); //监听删除文章数
     },
-    mounted:function(){
-
+    mounted(){
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      // this.userInfo=this.$store.state.userInfo;
+      this.url=this.userInfo.avatar;//头像
+      this.getTeachDynimal();
+    },
+    methods: {
+      getTeachDynimal() { //教研动态列表
+        var self=this;
+        var data = {
+          u_id: self.userInfo.id,
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize
+        }
+        request.post('/roomapi/Teaching/myPage', data, function (res) {
+          if(res.code ==0){
+            self.total = res.data.total;
+          }
+        })
+      },
+      changeNumEvent(flag) { //教研动态中删除了动态后  监听操作状态 来改变数量
+        if(flag){
+          this.getTeachDynimal();
+        }
+      }
     }
+    
   }
 </script>
 <style lang="scss">

@@ -610,7 +610,28 @@
 
             },
             teachingPublish() { //教研空间 发布文章
-
+                var self = this;
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入文章标题');
+                    return
+                }
+                if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入文章内容');
+                    return
+                }
+                let data = {
+                    c_id: self.$store.state.userInfo.teaching_id, //教研组id
+                    c_name: '', //教研组名称
+                    title: self.articletitle,
+                    image: self.responseUrl,
+                    content: self.form.goods_desc
+                };
+                request.post('/roomapi/Teaching/addArticle', data, function (res) {
+                    if (res.code == 0) {
+                        self.$toast.success(res.message);
+                        self.$router.go(-1);
+                    }
+                })
             },
             handleRemove(file) {
                 console.log(file);

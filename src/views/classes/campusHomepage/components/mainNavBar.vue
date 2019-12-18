@@ -4,17 +4,10 @@
     <div class="mainNavBar">
       <div class="tabContainer">
         <div class="leftBar">
-<<<<<<< HEAD
           <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
             @load="onLoad"> -->
             <van-tabs class="mainleftbar" swipeable swipe-threshold="4" :swipe-threshold='5' :ellipsis="false"
               v-model="selectTab" @change="changeTabs" :swipeable="true">
-=======
-          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"
-            @load="onLoad">
-            <van-tabs class="mainleftbar" swipeable  :swipe-threshold='5' :ellipsis="false"
-              v-model="selectTab" @change="changeTabs" >
->>>>>>> f5443617bde747bc1817c31c511d442492621ae4
 
               <van-tab v-for="item in dataList" :title="item.title" :name="item.id" :key="item.id">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" :immediate-click="false"

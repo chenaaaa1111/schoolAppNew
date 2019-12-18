@@ -47,8 +47,6 @@ export default {
   data() {
     return {
       keyword: '',//搜索关键字
-      selectTab: "", //选中的标签
-      userInfo: {},
       page: 1, //页数
       psize: 5,
       loading: false,

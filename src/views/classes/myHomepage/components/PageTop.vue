@@ -52,11 +52,9 @@
         this.$router.push({
           name: 'write',
           query: {
-            isEdit: false,
             fromname: '我的主页',
             spaceModule: 'classes',//班级空间名
-            fromwhere: 'myHomepage',
-            upUrl:'/roomapi/Room_Class/addArticle'//上传的url
+            fromwhere: 'myHomepage'
           }
         })
       }
