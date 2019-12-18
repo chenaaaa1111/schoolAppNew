@@ -68,6 +68,7 @@ export default {
       var self = this;
       if(tab =='all'){ //全部
         var data = {
+          category_id: self.$route.query.id,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize,
@@ -77,9 +78,9 @@ export default {
             self.contentList = res.data.model;
           }
         })
-      }else if(tab == 'news'){ //热度 需要传课题id
+      }else if(tab == 'news'){
         var data1 = {
-          category_id: this.$store.state.userInfo.subject_id,
+          category_id: self.$route.query.id,
           page: this.page,
           psize: this.psize,
         };
@@ -93,6 +94,7 @@ export default {
     allArtList() {  //课题组category_id（不传显示所有课题文章）
       var _this = this;
       var data = {
+        category_id: _this.$route.query.id,
         keyword: _this.keyword,
         page: _this.page,
         psize: _this.psize,
@@ -105,14 +107,12 @@ export default {
     },
     onLoad() { //触底加载更多
       let obj ={
-        category_id: this.$store.state.userInfo.subject_id, //课题id
+        category_id: this.$route.query.id, //课题id
         keyword: this.keyword,
         page: this.page,
         psize: this.psize,
       }
-      if(this.urlDict == 'all') {
-        delete obj.category_id
-      }else if(this.urlDict == 'news'){
+      if(this.urlDict == 'news') {
         delete obj.keyword
       }
       console.log(this.loadUrl,obj)

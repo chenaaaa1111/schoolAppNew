@@ -4,8 +4,8 @@
       <el-row type="flex" justify="center">
         <el-col class="home-navbox" :xl="18" :lg="18" :md="20" :sm="22" :xs="24">
           <el-row>
-            <el-col :span="12" class="nav-title" @click="goHome">
-              <img src="../../../assets/fonts/logo.png" />
+            <el-col :span="12" class="nav-title">
+              <img src="../../../assets/fonts/logo.png" @click="goHome"/>
               欢迎来到校本社团综合管理服务系统
             </el-col>
             <el-col :span="12" class="nav-user">

@@ -4,12 +4,13 @@
       <img :src="url" />
       <span>课题组组员</span>
     </div>
-    <div class="avartContent" id="avartContent">
-      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOtherTopicHomePage(item)">
+    <div class="avartContent" id="avartContent" v-if="alumnus.length>0">
+      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
         <el-avatar :src="item.avatar" icon="el-icon-user-solid"></el-avatar>
         <p class="txcenter">{{item.name}}</p>
       </div>
     </div>
+    <div v-if="alumnus.length==0">暂无组员信息</div>
     <p class="btupDwon" @click="changeUp" :style="{}">
       {{showstate=='up'?'收起':'展开'}}
       <span class="iconupdow">
@@ -24,7 +25,6 @@ export default {
   data() {
     return {
       fit: "cover",
-      userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       url: require("../../../../assets/images/teaching/group1.png"),
       showstate: "down",
       alumnus: [] //课题组组员
@@ -34,9 +34,9 @@ export default {
     this.getTopicGroup();
   },
   methods: {
-    getTopicGroup() {
+    getTopicGroup() { //别人的课题空间
       var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-      var data = { class_id: userInfo.subject_id };
+      var data = { class_id: this.$route.query.id };
       var self = this;
       requst.post("/roomapi/Subject/SubjectUser", data, function(res) {
         if(res.code ==0){
@@ -53,11 +53,10 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOtherTopicHomePage(item) { //点击课题组组员  进入他的主页课题c_id 用户名name  课题组成员id 需要加上课题组名
-      this.$router.push({
-        name: 'otherTopicDetail',
-        query: item
-      })
+    goOther(data) {
+      // this.$router.push({
+      //   name: 'otherHomepage'
+      // })
     }
   }
 };

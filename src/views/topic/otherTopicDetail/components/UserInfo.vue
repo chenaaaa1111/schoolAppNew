@@ -2,9 +2,9 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="url"></el-avatar>
+      <el-avatar :size="120" :src="baseInfo.avatar"></el-avatar>
     </div>
-    <h2 class="myName">{{userInfo.name}}</h2>
+    <h2 class="myName">{{baseInfo.name}}</h2>
     <div class="dynamic">
       <div class="dynamic-g">
         <p class="count">{{total}}</p>
@@ -18,28 +18,22 @@
   export default{
     data() {
       return {
-        url: '', //头像
-        userInfo: {},
+        baseInfo: {},
         total: 0,
         page: 1,
         psize: 5,
         keyword: '',//搜索关键字
       }
     },
-    created(){
-      this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent); //监听删除文章数
-    },
     mounted(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
+      this.baseInfo= this.$route.query;
       this.getTopicDynimal();
     },
     methods: {
-      getTopicDynimal() { //课题动态列表
+      getTopicDynimal() { //课题动态列表 用户id
         var self=this;
         var data = {
-          u_id: self.userInfo.id,
+          u_id: self.baseInfo.u_id,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize
@@ -49,12 +43,6 @@
             self.total = res.data.total;
           }
         })
-      },
-      changeNumEvent(flag) { //教研动态中删除了动态后  监听操作状态 来改变数量
-        console.log(flag,'是否进行操作')
-        if(flag){
-          this.getTopicDynimal();
-        }
       }
     }
     

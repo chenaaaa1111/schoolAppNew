@@ -9,7 +9,7 @@
       <div class="areablock" v-for="(item,index) in areaList" :key="index">
         <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
         <ul class="area">
-          <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(item.id)">{{res.title}}</li>
+          <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res)">{{res.title}}</li>
         </ul>
       </div>
     </el-card>
@@ -51,10 +51,13 @@
             }
           })
         },
-        toOtherClass(id) {
+        toOtherClass(item) { //去其他的课题空间
           this.$router.push({
-            name: 'otherTopicDetail',
-            query:{id:id}
+            name: 'otherTopicGroupHomepage',
+            query:{
+              title: item.title,
+              id: item.id
+            }
           })
         }
       }

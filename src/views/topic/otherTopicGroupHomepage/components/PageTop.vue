@@ -2,15 +2,13 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">我的个人主页</el-col>
-        <el-col v-if="limit" :span="12" class="top-write">
-          <span @click="writeTopic"></span>
+        <el-col :span="12" class="top-title">
+          <img :src="url" alt=""/>{{groupType+'组主页'}}
         </el-col>
-        <el-col :span="24" class="department">{{teachGroup+'组'}}</el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
+              <img class="btnicon" src="../../../../assets/images/teaching/group1.png"/>
             </el-button>
           </span>
         </el-col>
@@ -22,26 +20,15 @@
   export default{
     data() {
       return {
+        url: require('../../../../assets/images/classes/class_else.png'),
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        limit: '',//只有level:2才能发布课题 1学生2老师
-        teachGroup: ''
+        groupType: '',//课题名
       }
     },
     mounted() {
-      this.limit = this.userInfo.level ==2 ?true: false;
-      this.teachGroup = this.userInfo.subject?this.userInfo.subject:'课题2';
+      this.groupType = this.$route.query.title;
     },
     methods: {
-      writeTopic() {
-        this.$router.push({
-          name: 'write',
-          query: {
-            fromname: '我的主页',
-            fromwhere: 'myTopicHomepage',
-            spaceModule: 'topic'
-          }
-        })
-      }
     }
   }
 </script>
@@ -49,7 +36,7 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
-      padding-left: 20px; 
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
@@ -101,13 +88,8 @@
       }
       .department{
         padding-left: 10px;
-        margin-top: 8px;
-        font-size:24px;
-        font-family:STYuanti-SC-Regular,STYuanti-SC;
-        font-weight:400;
-        color:rgba(51,51,51,1);
-        line-height:33px;
-        letter-spacing:6px;
+        font-size: 24px;
+        line-height: 46px;
       }
     }
   }

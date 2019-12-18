@@ -16,7 +16,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
                   <el-dropdown-item icon="el-icon-close" @click="loginout">退出</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -40,36 +40,6 @@
                     <div class="item-title">{{item.title}}</div>
                   </div>
                 </el-col>
-                <!-- <el-col :span="8">
-                  <div class="icon-box">
-                    <img src="../assets/main/grade.png" />
-                  </div>
-                  <div class="item-title">年级空间</div>
-                </el-col>
-                <el-col :span="8">
-                  <div class="icon-box">
-                    <img src="../assets/main/team.png" />
-                  </div>
-                  <div class="item-title">社团</div>
-                </el-col>
-                <el-col :span="8">
-                  <div class="icon-box">
-                    <img src="../assets/main/special.png" />
-                  </div>
-                  <div class="item-title">专题空间</div>
-                </el-col>
-                <el-col :span="8">
-                  <div class="icon-box">
-                    <img src="../assets/main/topic.png" />
-                  </div>
-                  <div class="item-title">课题空间</div>
-                </el-col>
-                <el-col :span="8">
-                  <div class="icon-box">
-                    <img src="../assets/main/teaching.png" />
-                  </div>
-                  <div class="item-title">教研空间</div>
-                </el-col> -->
               </el-row>
             </el-card>
           </el-col>
@@ -433,6 +403,11 @@
               })
 
         }
+      },
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
       },
       loginout() {
         sessionStorage.setItem('Authorization', '');
