@@ -2,7 +2,7 @@ import Vue from "vue"
 import Vuex from "vuex"
 
 Vue.use(Vuex)
-
+const debug=process.env.NODE_ENV!=='production';
 const store = new Vuex.Store({
   state: {
     spaceInitTab: '',
@@ -57,6 +57,7 @@ const store = new Vuex.Store({
       state.userInfo=user;
       localStorage.setItem('Authorization', user.Authorization);
     }
-  }
+  },
+  strict:debug
 })
 export default store

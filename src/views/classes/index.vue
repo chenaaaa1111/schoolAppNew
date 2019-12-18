@@ -43,7 +43,6 @@
       return {
         fit: 'cover',
         userInfo: {},
-        // url: require('../../assets/images/user.png'),
         url: '',
         activeIndex: 'campusHomepage',
         spaceKeyWord: '' //搜索关键字
@@ -59,10 +58,10 @@
       }
     },
     mounted() {
-      this.activeIndex = this.$route.name;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
+      // this.activeIndex = this.$route.name;
+      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      // // this.userInfo=this.$store.state.userInfo;
+      // this.url=this.userInfo.avatar;//头像
     },
     created(){
       //创建事件总线
