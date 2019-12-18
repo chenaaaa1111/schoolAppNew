@@ -20,8 +20,10 @@
               </el-dropdown>
             </li>
             <li class="el-menu-item menu-release">
-                <el-button plan>发布</el-button>
+                <el-button plan v-if="navIndex!=='teaching'">发布</el-button>
+                <el-button plan v-if="navIndex == 'teaching'&&userInfo.level ==2">写文章</el-button>
             </li>
+
         </el-menu>
       </el-col>
     </el-row>
@@ -38,15 +40,15 @@
               </el-col>
             </el-row>
             <el-row class="news-row">
-              <!-- <el-col :span="24" class="newsTitle">{{newsDetail.title}}</el-col> -->
+              <el-col :span="24" class="newsTitle" v-if="navIndex=='teaching'">{{newsDetail.title}}</el-col>
               <el-col :span="24" class="news-type">
                 <!-- <span>发布主页: 班级主页</span>
                 <span>发布栏目: 影评</span> -->
               </el-col>
-              <!-- <el-col :span="24" class="user-info">
+              <el-col :span="24" class="user-info" v-if="navIndex=='teaching'">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
-                <span>王自如</span>
-              </el-col> -->
+                <span>{{newsDetail.name}}</span>
+              </el-col>
               <el-col :span="24" class="news-content">
                 <p>
                     {{newsDetail.content}}
@@ -73,7 +75,6 @@
         userInfo: {},
         url: '',
         fit: 'cover',
-        // url: require('../../../assets/images/user.png'),
         spaceNav: { // 顶部导航栏显示信息,按需加载
           'classes': {
             icon: require('../../../assets/main/classes.png'),
@@ -108,7 +109,8 @@
         },
         title: '主页',
         navIndex: 'classes',
-        widgetName: ''
+        widgetName: '',
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),//只有level:2才能发布教研空间文章 1学生2老师
       }
     },
     mounted() {
@@ -117,16 +119,24 @@
       this.url=this.userInfo.avatar;//头像
       console.log(this.$route.query, '阅读新闻页面接收传值')
       let params = this.$route.query
-      var self=this;
+      
       if(Object.keys(params).length > 0) {
         // this.title = params.fromname;
         this.navIndex = params.spacename;
         this.title = params.widgetName
       }
-      request.post('/roomapi/Users/detailsNews',{id:params.id},function(res){
-        console.log('新闻详情',res);
-        self.newsDetail=res.data;
-      })
+      var self=this;
+      if(this.navIndex == 'teaching'){ //如果是教研空间 的文章详情
+        request.post('/roomapi/Teaching/TeachingDetails',{id:params.id},function(res){
+          console.log('教研空间我的主页进来的文章详情',res.data);
+          self.newsDetail=res.data;
+        })
+      }else{
+        request.post('/roomapi/Users/detailsNews',{id:params.id},function(res){
+          console.log('新闻详情',res);
+          self.newsDetail=res.data;
+        })
+      }
     },
     methods: {
       goHome() {

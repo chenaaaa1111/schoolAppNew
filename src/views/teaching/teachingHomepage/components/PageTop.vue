@@ -2,10 +2,8 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">
-          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
-        </el-col>
-        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
+        <el-col :span="12" class="top-title">华悦蜀山区第一中学教研空间</el-col>
+        <el-col v-if="limit" :span="12" class="top-write">
           <span @click="writeArt"></span>
         </el-col>
         <el-col class="leftentry">
@@ -29,14 +27,13 @@
   export default{
     data() {
       return {
-        loadData: {
-          title: '华悦蜀山区第一中学教研空间',
-          showwrite: true
-        }
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        limit: '' //只有level:2才能发布教研空间文章 1学生2老师
       }
     },
     mounted() {
-
+      this.limit = this.userInfo.level ==2 ?true: false;
+      console.log(this.limit, '是否是老师身份')
     },
     methods: {
       writeArt() {

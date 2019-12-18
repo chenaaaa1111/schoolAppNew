@@ -3,10 +3,10 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">我的个人主页</el-col>
-        <el-col :span="12" class="top-write">
+        <el-col v-if="limit" :span="12" class="top-write">
           <span @click="writeArt"></span>
         </el-col>
-        <el-col :span="12" class="department">{{teachGroup}}</el-col>
+        <el-col :span="24" class="department">{{teachGroup}}</el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
@@ -22,11 +22,13 @@
   export default{
     data() {
       return {
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        limit: '',//只有level:2才能发布教研空间文章 1学生2老师
         teachGroup: '教研1组', //教研组别
       }
     },
     mounted() {
-
+      this.limit = this.userInfo.level ==2 ?true: false;
     },
     methods: {
       writeArt() {

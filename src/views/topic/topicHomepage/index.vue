@@ -13,57 +13,7 @@
               <Notice :source="source" :teamId="teamId"></Notice>
             </el-col>
             <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-              <!-- <el-card>
-                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="menuSelect">
-                  <el-menu-item index="all">全部</el-menu-item>
-                  <el-menu-item index="news">最新</el-menu-item>
-                </el-menu>
-              </el-card>
-              <el-card style="margin-top: 10px;">
-                <el-row class="chapter" v-for="(item,index) in chapterList" :key="index">
-                  <el-col class="title">{{item.title}}</el-col>
-                  <el-col class="author">
-                    <el-avatar class="userimg" :size="32" :src="item.avatar"></el-avatar>
-                    <span class="name">{{item.name}}</span>
-                    <span class="teamname">{{item.title}}</span>
-                  </el-col>
-                  <el-col class="content">
-                    <el-row :gutter="10" v-if="item.flag">
-                      <el-col :span="6" class="chart">
-                        <img :src="item.cover" />
-                      </el-col>
-                      <el-col :span="18" class="text">
-                        <div class="ellipsis" v-html="item.content"></div>
-                        <p :span="24" style="text-align: right;">
-                          <el-button type="text" size="mini" v-show="item.flag" @click="chapterTreggle(index)">
-                            阅读全文<i class="el-icon-arrow-down"></i>
-                          </el-button>
-                        </p>
-                      </el-col>
-                    </el-row>
-                    <el-row v-if="!item.flag">
-                      <el-col :span="24" class="text">
-                        <div class="noEllipsis" v-html="item.content"></div>
-                      </el-col> -->
-                      <!-- <el-col :span="24" class="chart" style="margin-top: 10px;">
-                        <img :src="item.cover" />
-                      </el-col> -->
-                    <!-- </el-row> -->
-                    <mainNavBar :teamId="teamId"></mainNavBar>
-                  </el-col>
-                  <!-- <el-col class="time">
-                    <div class="timeLine">
-                      <div class="time">{{item.time}}</div>
-                      <div class="btn">
-                        <el-button type="text" size="mini" v-show="!item.flag" @click="chapterTreggle(index)">
-                          收起<i class="el-icon-arrow-up"></i>
-                        </el-button>
-                      </div>
-                    </div>
-                    <el-divider></el-divider>
-                  </el-col> -->
-                </el-row>
-              </el-card>
+              <mainNavBar></mainNavBar>
             </el-col>
           </el-row>
         </el-col>
@@ -90,100 +40,24 @@
       },
       data() {
         return {
-          teamId:'',
+          teamId:'',//课题组id
           source: {
             routename: '',
             spacename: 'topic'
           },
           routename: '',
-          activeIndex: 'all',
-          circleUrl: require('../../../assets/images/user.png'),
-          chapterList: [
-            {
-              title: '如何评价美国漫威热门电影《小丑》？',
-              author: '章泽天',
-              team: '学生会',
-              cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-              time: '2019/08/22 09:23',
-              content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。' +
-                '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、' +
-                '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-                '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-                '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>' +
-                '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图' +
-                '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-              flag: true
-            },
-            {
-              title: '如何评价美国漫威热门电影《小丑》？',
-              author: '章泽天',
-              team: '学生会',
-              cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-              time: '2019/08/22 09:23',
-              content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。' +
-                '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、' +
-                '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-                '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-                '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>' +
-                '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图' +
-                '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-              flag: true
-            },
-          ]
         }
       },
       mounted() {
         this.routename = this.$route.name
         this.source.routename = this.$route.name
         console.log(this.routename, '本页面routename');
-        this.teamId=this.$store.state.userInfo.subject_id,
-        this.getTeam();
+        this.teamId=this.$store.state.userInfo.subject_id; //subject_id：课题组id
       },
       methods: {
-        getTeam() {
-          var self = this;
-          var data = {page:1};
-          request.post('/roomapi/Subject/SubjectPage', data, function (res) {
-            if (res.data.model.length == 0) {
-              res.data.model = [
-                {
-                  "id": 1,
-                  "s_id": 1,
-                  "c_id": 1,
-                  "title": "011",
-                  "u_id": 1,
-                  "avatar": "https:\/\/www.empirise.com\/mall\/public\/images\/slide\/20191111\/3b3ddc44b8d93e5cedd62f7060ca2895.jpg",
-                  "name": "姓名",
-                  "create_time": "2019-09-07 12:49:09"
-                }
-              ]
-            }
-            self.chapterList = res.data.model;
-          })
-        },
-        menuSelect() { },
-        chapterTreggle(index) {
-          this.chapterList[index].flag = !this.chapterList[index].flag
-        }
       }
     }
   </script>
-  <style lang="scss">
-    .ellipsis {
-      img {
-        display: none;
-      }
-    }
-
-    .noEllipsis {
-      img {
-        width: 100%;
-        display: block;
-        margin: 10px 0px;
-        border-radius: 8px;
-      }
-    }
-  </style>
   <style media="screen" lang="scss" scoped>
     .space-wrap {
       margin-top: 30px;

@@ -9,9 +9,9 @@
           <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
-                <span class="text">{{item.title}}</span>
-                <span class="classify">{{item.c_name}}</span>
-                <span class="date">{{item.create_time}}</span>
+                <span class="text" @click="viewDetails(item)">{{item.title}}</span>
+                <span class="classify" @click="viewDetails(item)">{{item.c_name}}</span>
+                <span class="date" @click="viewDetails(item)">{{item.create_time}}</span>
               </el-col>
               <el-col :span="6" class="operation">
                 <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
@@ -21,10 +21,11 @@
           <el-col :span="24">
             <el-row class="content" :gutter="10">
               <el-col :span="6">
-                <img class="con-pic" :src="item.avatar" />
+                 <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt="" @click="viewDetails(item)"/>
+                 <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/>
               </el-col>
               <el-col :span="18">
-                <div class="con-text">
+                <div class="con-text" @click="viewDetails(item)">
                     {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                   </div>
                 <div class="read-more">
@@ -64,12 +65,12 @@
     },
     methods: {
       getTeachDynimal() { //教研动态列表
-        var self=this;
+        var self = this;
         var data = {
           u_id: self.userInfo.id,
-          keyword: this.keyword,
-          page: this.page,
-          psize: this.psize
+          keyword: self.keyword,
+          page: self.page,
+          psize: self.psize
         }
         request.post('/roomapi/Teaching/myPage', data, function (res) {
           if(res.code ==0){
@@ -113,6 +114,25 @@
             });
           });
       },
+      viewDetails(item){//点击进入文章详情
+        this.$router.push({
+          name: 'readnews',
+          query: {
+            widgetName: '我的主页',
+            spacename: 'teaching',
+            id: item.id
+          }
+        })
+      },
+      setImg(src) {
+        let baseSrc = ''
+        if(src.indexOf('i2f2f.com') == -1) {
+          baseSrc = 'http://school.i2f2f.com' + src
+        } else {
+          baseSrc = src
+        }
+        return baseSrc
+      }
     }
   }
 </script>
@@ -167,7 +187,11 @@
         line-height: 40px;
         font-size: 20px;
 
+        span{
+          cursor: pointer;
+        }
         .text {
+
           font-weight: bold;
           margin-right: 30px;
         }
