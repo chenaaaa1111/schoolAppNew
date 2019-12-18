@@ -8,7 +8,7 @@
             <!-- 展示个人头像 姓名 和动态统计 -->
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
-            <Visitor :teamId="teamId"></Visitor>
+            <Visitor></Visitor>
             <!-- 审核中 -->
             <!-- <Examine :source="routename"></Examine> -->
             <!-- 审核未通过 -->
@@ -18,24 +18,8 @@
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
-              <!-- 班级动态 -->
+              <!-- 社团动态 -->
               <Exhibition></Exhibition>
-              <!-- <el-col :span="24" class="card-block">
-                <el-row :gutter="10">
-                  <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                  <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                  <el-col :span="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                  <el-col :span="24" class="actblock">
-                    <General></General>
-                  </el-col>
-                </el-row>
-              </el-col> -->
             </el-card>
           </el-col>
         </el-row>
@@ -71,17 +55,17 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      // console.log(this.routename, '本页面routename')
-
-      let userInfo = this.$store.state.userInfo
-      if(Object.keys(userInfo).length>0) {
-        this.teamId = userInfo.id.toString()
-      }
-      // console.log(typeof this.teamId, 'store data this.teamId')
+      this.routename = this.$route.name;
+      // let userInfo = this.$store.state.userInfo;
+      // if(Object.keys(userInfo).length>0) {
+      //   this.userId = userInfo.id.toString()
+      // }
     },
     methods: {
-
+      changeTeamType(val){
+        this.teamId = val;
+        console.log('主页得到的选择的社团id是',this.teamId)
+      }
     }
   }
 </script>
@@ -95,16 +79,12 @@
       color: #034692;
     }
   .space-wrap{
-    margin-top: 30px;
     .entry-content{
       padding: 0px 10px;
     }
   }
 </style>
 <style media="screen" lang="scss" scoped>
-  .space-wrap{
-    margin-top: 30px;
-  }
   .card-block{
     padding-left: 0!important;
     padding-right: 0!important;

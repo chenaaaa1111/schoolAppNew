@@ -9,7 +9,7 @@
           <span @click="writenews"></span>
         </el-col>
         <el-col :span="12" class="department">
-          <span v-for="(res,index) in loadData.teams" :key="index" style="margin-right: 16px;">{{res.title}}</span>
+          <span v-for="(res,index) in teamList" :key="index" @click="teamTypeCheck(res)">{{res.title}}</span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
@@ -29,25 +29,42 @@
   </el-row>
 </template>
 <script>
+  import request from '@/api/request.js';
   export default{
     data() {
       return {
         loadData: {
           title: '我的个人主页',
-          subTitle: '西区初中2019级1班',
-          teams: [
-            { id: 1, title: '足球队' },
-            { id: 2, title: '礼仪队' },
-            { id: 3, title: '表演队' },
-          ],
-          showwrite: true
-        }
+          showwrite: true,
+        },
+        teamList: [], //我的社团列表
+        userInfo: this.$store.state.userInfo
       }
     },
     mounted() {
-
+      this.getTeamList();
     },
     methods: {
+      getTeamList() { //获取社团列表 参数校园id
+        // let data = {
+        //   sid: this.userInfo.s_id
+        // }
+        let self = this;
+        request.post('/roomapi/Community/myCommunity', {}, function (res) {
+          if (res.code == 0) {
+            self.teamList = res.data;
+          }
+        })
+      },
+      teamTypeCheck(item) { //点击我的社团类型 到该社团主页 c_id:社团id
+        this.$router.push({
+          path:'/team/myTeamDetail',
+          query:{
+            c_id: item.c_id,
+            title: item.title
+          }
+        })
+      },
       writenews() {
         this.$router.push({
           name: 'write',
@@ -118,9 +135,25 @@
         }
       }
       .department{
-        padding-left: 10px;
+        padding-left: 20px;
         font-size: 24px;
         line-height: 46px;
+        span{
+          cursor: pointer;
+          margin-right: 16px;
+          font-size:24px;
+          font-family:STYuanti-SC-Regular,STYuanti-SC;
+          font-weight:400;
+          color:rgba(51,51,51,1);
+          line-height:33px;
+          letter-spacing:6px;
+        }
+        span:hover{
+          color: #034692;
+        }
+        .active{
+          color: #034692;
+        }
       }
     }
   }

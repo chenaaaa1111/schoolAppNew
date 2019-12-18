@@ -95,7 +95,6 @@ export default {
     this.$root.eventLister=eventLister;
   },
   mounted() {
-
     // this.getGenaras();
   },
   methods: {
@@ -105,9 +104,6 @@ export default {
     },
     changeTab(tab) {
       console.log(tab);
-    },
-    viewAll() {
-      //查看全部
     },
     deleteArt(id) {
       //班级动态 删除文章

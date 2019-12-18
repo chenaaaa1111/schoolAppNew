@@ -4,7 +4,7 @@
       <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
     </div>
     <h2 class="vistorCount">
-      总共访问: 3576人次
+      总共访问: {{userInfo.access_community}}人次
     </h2>
     <div class="lately">最近10个访客:</div>
     <div>
@@ -25,7 +25,7 @@
     },
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
+        userInfo:this.$store.state.userInfo,
         avators:[]
       }
     },
@@ -47,29 +47,13 @@
           }
         })
       },
-      getAvortors(){ // 访客列表数据
-        var data={ c_id: this.teamId };
-        var self=this;
+      getAvortors(){ // 访客列表数据 u_id：用户id
+        var data= { u_id: this.$store.state.userInfo.id };
+        var self = this;
         request.post('/roomapi/Community/visitors',data,function(res){
-          if(res.data.length==0){
-            res.data=[
-              {
-                  "id": 3,
-                  "u_id": '1',
-                  "name": "123",
-                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                  "create_time": "1573716643"
-              },
-              {
-                  "id": 4,
-                  "u_id": '1',
-                  "name": "123",
-                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                  "create_time": "1573716643"
-              }
-            ]
+          if(res.code ==0){
+            self.avators=res.data;
           }
-          self.avators=res.data;
         })
       }
     },
