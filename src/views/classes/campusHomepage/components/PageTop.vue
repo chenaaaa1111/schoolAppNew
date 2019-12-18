@@ -49,13 +49,7 @@
           query: {
             fromname: '校园主页',
             fromwhere: 'campusHomepage',
-            spaceModule: 'classes',//班级空间名
-            upUrl:'/roomapi/Room_Class/addArticle',//添加文章的接口
-           //上传参数 
-            level: 2, //1班级2校园
-            columns:this.$store.state.columnId,
-            column_name:this.$store.state.columnName,    //栏目名称 
-            isEdit: false
+            spaceModule: 'classes'//班级空间名
           }
         })
       }
@@ -67,9 +61,8 @@
   .pageTop {
     .pageContent {
       margin-top: 48px;
-
+      padding-left: 20px;
       .top-title {
-        padding-left: 20px;
         height: 56px;
         font-size: 40px;
         font-family: STYuanti-SC-Bold,STYuanti-SC;
@@ -81,7 +74,6 @@
         -webkit-text-stroke: 2px rgba(255,255,255,1);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-
         img {
           display: inline-block;
           width: 74px;

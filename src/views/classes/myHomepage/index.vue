@@ -69,8 +69,6 @@
       AllClassDynamics,
       EXhibitionExaming,
       MessageList
-
-
     },
     data() {
       return {

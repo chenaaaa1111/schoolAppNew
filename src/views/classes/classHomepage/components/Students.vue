@@ -27,7 +27,6 @@ export default {
       fromwhere: "",
       fit: "cover",
       url: require("../../../../assets/images/grade/peple.png"),
-      dataList: [],
       showstate: "down",
       alumnus: []
     };

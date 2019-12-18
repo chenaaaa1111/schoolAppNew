@@ -29,18 +29,17 @@
   import Notice from '../../public/widget/Notice.vue'
   import mainNavBar from './components/mainNavBar.vue'
   export default{
-    name: 'campusHomepages',
+    name: 'campusHomepage',
     components: {
       PageTop,
       News,
       ClassSpace,
       Notice,
-       mainNavBar
+      mainNavBar
     },
     data() {
       return {
         userInfo:{},
-        classId:'',
         source: {
           routename: '',
           spacename: 'classes'
@@ -48,20 +47,11 @@
       }
     },
     mounted() {
-      console.log("sss",this.$router)
       this.routename = this.$route.name
       this.source.routename = this.$route.name
       console.log(this.routename, '本页面routename');
- 
-     let userInfo= this.getUserInfo();
     },
     methods: {
-      getUserInfo(){
-        var userInfo={}
-        this.userInfo=JSON.parse(sessionStorage.getItem('userInfo')); 
-        console.log('user***',userInfo)
-        return userInfo;
-      }
     }
   }
 </script>

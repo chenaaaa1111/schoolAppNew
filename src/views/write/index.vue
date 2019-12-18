@@ -607,10 +607,56 @@
                 })
             },
             topicPublish() { //课题空间 发布 课题
-
+                var self = this;
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入文章标题');
+                    return
+                }
+                if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入文章内容');
+                    return
+                }
+                let data = {
+                    c_id: self.$store.state.userInfo.subject_id, //课题id
+                    c_name: '', //课题名
+                    title: self.articletitle,
+                    image: self.responseUrl,
+                    content: self.form.goods_desc
+                };
+                request.post('/roomapi/Subject/addArticle', data, function (res) {
+                    if (res.code == 0) {
+                        self.$toast.success(res.message);
+                        self.$router.go(-1);
+                    }else{
+                        self.$toast.fail(res.message);
+                    }
+                })
             },
             teachingPublish() { //教研空间 发布文章
-
+                var self = this;
+                if(self.articletitle ==''){
+                    self.$toast.fail('请输入文章标题');
+                    return
+                }
+                if(self.form.goods_desc ==''){
+                    self.$toast.fail('请输入文章内容');
+                    return
+                }
+                let data = {
+                    c_id: self.$store.state.userInfo.teaching_id, //教研组id
+                    c_name: '', //教研组名称
+                    title: self.articletitle,
+                    image: self.responseUrl,
+                    content: self.form.goods_desc
+                };
+                request.post('/roomapi/Teaching/addArticle', data, function (res) {
+                    if (res.code == 0) {
+                        self.$toast.success(res.message);
+                        self.$router.go(-1);
+                    }else{
+                        self.$toast.fail(res.message);
+                    }
+                })
             },
             handleRemove(file) {
                 console.log(file);
@@ -625,11 +671,11 @@
             onEditorReady(editor) { // 准备编辑器
             },
             onEditorBlur() {
-                console.log(this.form)
+                // console.log(this.form)
             }, // 失去焦点事件
             onEditorFocus() { }, // 获得焦点事件
             onEditorChange() {
-                console.log(this.form.goods_desc)
+                // console.log(this.form.goods_desc)
             }, // 内容改变事件
             overWrite(data) { // 发表文章
                 this.dialog = true

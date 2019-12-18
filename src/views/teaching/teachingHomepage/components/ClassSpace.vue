@@ -1,24 +1,25 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <span class="cardTitle"><img src="../../../../assets/images/grade/space.png"/>教研空间</span>
-      <span class="more" @click="showclassesmore">
+      <span class="cardTitle"><img src="../../../../assets/images/teaching/teachgroup.png"/>教研组</span>
+      <!-- <span class="more" @click="showclassesmore">
         <img src="../../../../assets/images/classes/more.png"/>
-      </span>
+      </span> -->
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
-      <div class="areaName">{{item.title}}</div>
+      <div class="areaName">
+        <img src="../../../../assets/images/teaching/classFlg.png"/>
+        {{item.title}}
+      </div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
+        <li v-for="(res,num) in item.class" :key="num" @click="toTeachingGrop(res)">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
 </template>
 <script>
   import request from '@/api/request.js';
-
   export default{
-    name: 'ClassSpace',
     props: {
       source: {
         type: String,
@@ -27,20 +28,7 @@
     },
     data() {
       return {
-        areaList:[
-          {
-            areaName: '东区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '西区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          },
-          {
-            areaName: '南区',
-            classes: ['19级1班','19级2班','19级3班','19级4班','19级5班','19级6班','19级7班','19级8班']
-          }
-        ],
+        areaList:[], //教研组列表
       }
     },
     mounted() {
@@ -49,27 +37,16 @@
     methods: {
       getTeams(){
         var self=this;
-        var data={
-
-        };
-
-        request.post('/roomapi/Teaching/TeachingList',data,function(res){
+        request.post('/roomapi/Teaching/TeachingList',{},function(res){
+          if(res.code ==0){
             self.areaList=res.data;
-
-        })
-      },
-      showclassesmore() {
-        this.$router.push({
-          name: 'classesmore',
-          params: {
-            fromwhere: this.source
           }
         })
       },
-      toOtherClass() {
-        this.$router.push({
-          name: 'otherClassHomepage'
-        })
+      toTeachingGrop(item) {
+        // this.$router.push({
+        //   name: 'otherClassHomepage'
+        // })
       }
     }
   }
@@ -143,6 +120,10 @@
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
+      img{
+        vertical-align: middle;
+        margin-right: 10px;
+      }
     }
     .area{
       list-style: none;

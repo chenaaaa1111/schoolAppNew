@@ -4,76 +4,54 @@
       <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
     </div>
     <h2 class="vistorCount">
-      总共访问: {{visitorNum}}人次
+      总共访问: {{userInfo.access_subject?userInfo.access_subject:0}}人次
     </h2>
     <div class="lately">最近10个访客:</div>
-    <div>
+    <div v-if="avators.length>0">
       <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
-        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
+        <el-avatar class="vistor-avatar" :size="44" icon="el-icon-user-solid" :src="item.avatar" ></el-avatar>
       </span>
     </div>
+    <div v-if="avators.length ==0">暂无访客</div>
   </el-card>
 </template>
 <script>
   import request from '@/api/request.js';
   export default{
-    props:{
-      teamId:{
-        default:''
-      }
-    },
     data() {
       return {
+        userInfo: {},
         circleUrl: require('../../../../assets/images/user.png'),
-        avators:[],
-        visitorNum:0
-     
+        avators:[]//访客列表
       }
     },
-    mounted:function(){
-      this.visitorNum=this.$store.state.userInfo.access_teaching;
+    mounted() {
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.getAvortors();
     },
     methods: {
+      getAvortors(){ //最近访客 u_id 用户id
+        var data= {
+          u_id: this.userInfo.id
+        };
+        var self=this;
+        request.post('/roomapi/Subject/visitors',data,function(res){
+          if(res.code ==0){
+            self.avators=res.data;
+          }          
+        })
+      },
       goOtherPage(){
 
       },
       goOther(id) {
-        console.log('999')
-
-        this.$router.push({
-          name: 'otherTopicDetail',
-          query:{id:id}
-        })
-      },
-      getAvortors(){
-        var data={c_id:this.$props.teamId};
-        var self=this;
-        request.post('/roomapi/Teaching/visitors',data,function(res){
-          if(res.data.length==0){
-            res.data=[
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            },
-            {
-                "id": 3,
-                 "u_id": 1,
-                "name": "123",
-                "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                "create_time": "1573716643"
-            }
-            ]
-          }
-          self.avators=res.data;
-        })
-      }
-    },
-      mounted:function(){
-        this.getAvortors()
-      }
+        // console.log('999')
+        // this.$router.push({
+        //   name: 'otherTopicDetail',
+        //   query:{id:id}
+        // })
+      }     
+    }
   }
 </script>
 <style lang="scss">
