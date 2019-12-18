@@ -42,8 +42,9 @@
         userInfo:{},
         source: {
           routename: '',
-          spacename: 'classes'
-        }
+          spacename: 'classes'          
+        },
+        routename: ''
       }
     },
     mounted() {
