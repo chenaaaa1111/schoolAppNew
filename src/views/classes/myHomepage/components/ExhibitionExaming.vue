@@ -11,7 +11,50 @@
       </el-col>
       <el-col :span="24">
         <el-row class="article" v-for="(item,index) in articles" :key="index">
+          <el-col :span="24" class="titleName">{{item.title}}</el-col>
           <el-col :span="24">
+            <el-row class="content" :gutter="10" v-if="!item.isopen">
+              <el-col :span="6">
+                <img :src="item.image" alt=""/>
+                <!-- <img v-if="item.image != ''" :src="setImg(item.image)" alt=""/>
+                <img v-else src="../../../../assets/images/noimg.png" alt=""/> -->
+              </el-col>
+              <el-col :span="18">
+                <div class="con-text" v-html="item.content">
+                  <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
+                </div>
+                <div class="read-more">
+                  <el-button type="text" size="mini" @click="openContent(index)">
+                    阅读全文
+                    <i class="el-icon-caret-bottom el-icon--right"></i>
+                  </el-button>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row class="content content-open" v-if="item.isopen">
+              <el-col :span="24">
+                <div class="con-text" v-html="item.content"></div>
+                <div class="read-more">
+                  <el-button type="text" size="mini" @click="closeContent(index)">
+                    收起
+                    <i class="el-icon-caret-top el-icon--right"></i>
+                  </el-button>
+                </div>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="24" class="bottom">
+            <el-row>
+              <el-col :span="18" class="title">
+                <span class="classify">(栏目: {{item.column_name}})</span>
+                <span class="date">{{item.create_time}}</span>
+              </el-col>
+              <el-col :span="6" class="operation">
+                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
+              </el-col>
+            </el-row>
+          </el-col>
+          <!-- <el-col :span="24">
             <el-row>
               <el-col :span="18" class="title">
                 <span class="text">{{item.title}}</span>
@@ -52,8 +95,7 @@
                 </div>
               </el-col>
             </el-row>
-          </el-col>
-          <!-- <el-col :span="24" class="article-date">{{item.create_time}}</el-col> -->
+          </el-col> -->
           <el-col :span="24">
             <el-divider></el-divider>
           </el-col>
@@ -121,15 +163,6 @@ export default {
         query: query
       });
       // sessionStorage.setItem('editor',JSON.stringify(item));
-      // this.$router.push({
-      //     path:'/write',
-      //     query:{
-      //         isEdit:true,
-      //         upUrl:'/roomapi/Room_Class/addArticle',
-      //         spacename:'classes',
-      //         fromname:'班级空间'
-      //     }
-      // })
     },
     // 点击删除后 刷新当前列表
     deleteArt(id) {
@@ -172,10 +205,47 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    setImg(src) {
+      let baseSrc = ''
+      if(src.indexOf('i2f2f.com') == -1) {
+        baseSrc = 'http://school.i2f2f.com' + src
+      } else {
+        baseSrc = src
+      }
+      return baseSrc
+    },
+    openContent(index) {
+      this.articles[index].isopen = true;
+    },
+    closeContent(index) {
+      this.articles[index].isopen = false;
     }
   }
 };
 </script>
+<style lang="scss">
+.content-open {
+  .con-text {
+    overflow: auto;
+    -webkit-line-clamp: inherit;
+    img {
+      display: block !important;
+      width: 100%;
+      margin: 10px 0px;
+    }
+  }
+}
+.content {
+  .con-text {
+    overflow: auto;
+    -webkit-line-clamp: inherit;
+    img {
+      display: none;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .top-block {
   .top-box {
@@ -207,37 +277,41 @@ export default {
     }
   }
   .article {
-    // margin-top: 25px;
-    .subTitle {
-      font-size: 16px;
-      color: #999;
-      line-height: 30px;
-      .el-divider--horizontal {
-        margin-top: 12px;
-      }
-    }
-    .title {
+    .titleName {
       line-height: 40px;
       font-size: 20px;
-      .text {
-        font-weight: bold;
-        margin-right: 30px;
-      }
+      font-weight: bold;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      
+    }
+    .bottom{
+      margin-top: 15px;
       .classify {
-        color: #666;
         margin-right: 30px;
         white-space: nowrap;
+        font-size:10px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+        line-height:14px;
       }
       .date {
-        color: #666;
         white-space: nowrap;
+        font-size:9px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+        line-height:13px;
       }
-    }
-    .operation {
-      text-align: right;
-      .el-button {
-        padding-top: 0;
-        font-size: 12px;
+      
+      .operation {
+        text-align: right;
+        .el-button {
+          padding-top: 0;
+          font-size: 12px;
+        }
       }
     }
     .content {
@@ -256,6 +330,21 @@ export default {
       }
       .read-more {
         text-align: right;
+      }
+      img {
+        display: block;
+        width: 100%;
+        border-radius: 8px;
+      }
+    }
+    .content-open {
+      .con-text {
+        overflow: auto;
+        -webkit-line-clamp: inherit;
+        img {
+          display: block;
+          width: 100%;
+        }
       }
     }
     .article-date {
