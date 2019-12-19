@@ -26,9 +26,7 @@
     },
     data() {
       return {
-        areaList:[
-          
-        ],
+        areaList:[],
       }
     },
     mounted() {

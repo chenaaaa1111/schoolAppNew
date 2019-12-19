@@ -6,14 +6,14 @@
           <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex].styles">
             <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
           </li>
-          <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}-public</el-menu-item>
+          <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}</el-menu-item>
           <li class="nav-user">
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-s-custom">{{}}</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -52,27 +52,6 @@
                 <el-divider></el-divider>
               </el-col>
             </el-row>
-            <!-- <el-row class="more-list">
-              <el-col :span="24" class="news-title">
-                有哪些高情商的聊天技巧？<span class="news-type">(栏目: 影评)</span>
-              </el-col>
-              <el-col :span="24" class="news-author">
-                <el-avatar shape="circle" :size="32" :fit="fit" :src="url"></el-avatar>
-                <span class="author">关一凡</span>
-                <span class="author-class">工商管理142班</span>
-              </el-col>
-              <el-col :span="24" class="news-text">
-              </el-col>
-              <el-col :span="24" class="news-trigger">
-                <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-              </el-col>
-              <el-col :span="24" class="news-date">
-                2019/08/22 09:23
-              </el-col>
-              <el-col :span="24">
-                <el-divider></el-divider>
-              </el-col>
-            </el-row> -->
           </div>
         </el-card>
       </el-col>
@@ -85,6 +64,7 @@
     name: 'newsmore',
     data() {
       return {
+        userInfo: {},
         newsList:[],
         fit: 'cover',
         spaceNav: { // 顶部导航栏显示信息,按需加载
@@ -119,7 +99,8 @@
             styles: 'teachingColor'
           }
         },
-        url: require('../../../assets/images/user.png'), // 用户头像
+        url: '',
+        // url: require('../../../assets/images/user.png'), // 用户头像
         activeIndex: '', // 没什么卵用,摆设
         fromwhere: 'home', // 记录从哪个路由跳转过来的,返回事件跳转路由
         navIndex: 'classes', // 从哪个空间过来的,用来改变导航栏图标和颜色
@@ -128,7 +109,8 @@
       }
     },
     created() {
-
+      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.url=this.userInfo.avatar;//头像
     },
     mounted() {
       /**
@@ -163,7 +145,7 @@
             this.title = '校园主页';
             break;
           case 'gradeHomepage':
-            this.title = '校园主页';
+            this.title = '年级主页';
             break;
           case 'mainTeamHomepage':
             this.title = '社团主页';

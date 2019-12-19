@@ -43,12 +43,13 @@
         source: {
           routename: '',
           spacename: 'classes'
-        }
+        },
+        routename: ''
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      this.source.routename = this.$route.name
+      this.routename = this.$route.name;
+      this.source.routename = this.$route.name;
       console.log(this.routename, '本页面routename');
     },
     methods: {
