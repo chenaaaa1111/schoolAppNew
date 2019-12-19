@@ -49,7 +49,7 @@
                   <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
                     <el-col class="news-head" :span="24">
                       <div class="news-title">{{item.title}}</div>
-                      <div class="news-column">栏目: {{item.column_name}}</div>
+                      <!-- <div class="news-column">栏目: {{item.column_name}}</div> -->
                     </el-col>
                     <el-col :span="24" class="author-info">
                       <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
@@ -68,32 +68,32 @@
                         </el-col>
                       </el-row>
                       <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
-                        <el-col :span="24" class="left-img">
+                        <!-- <el-col :span="24" class="left-img">
                           <img :src="setImg(item.image)" alt=""/>
-                        </el-col>
+                        </el-col> -->
                         <el-col :span="24" class="right-txt">
-                          <div class="text" v-html="item.content"></div>
+                          <div class="text" v-html="item.content?item.content:'暂无数据'"></div>
                           <div class="openmore">
                             <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top"></i></el-button>
                           </div>
                         </el-col>
                       </el-row>
                     </el-col>
-                    <el-col class="news_create_time">{{item.create_time}}</el-col>
+                    <el-col class="news_create_time"><span class="columnName">栏目: {{item.column_name}}</span>{{item.create_time}}</el-col>
                   </el-row>
                 </van-list>
-  
+
               </van-tab>
             </van-tabs>
           </div>
 
         </div>
-  
+
       </div>
     </div>
-  
+
   </template>
-  
+
   <script>
     // import 'vant/lib/button/style';
     import request from '@/api/request.js'
@@ -113,7 +113,7 @@
           active: 1,
           dataList: [],
           contentList: [
-       
+
           ],
           activeIndex: '1',
           activeIndex2: '1'
@@ -135,7 +135,7 @@
                 item.isopen = false
                 return item
               });
-            } 
+            }
           })
         },
         handleSelect(key, keyPath) {
@@ -164,7 +164,7 @@
         },
         onLoad(state) {
           var _this = this;
-  
+
           if(state=="fineshed"){
               _this.loading = false;
               _this.finished = true;
@@ -190,7 +190,7 @@
             for(var i=0;i<listFlag.length;i++) {
               _this.contentList.push(listFlag[i])
             }
-            _this.page = _this.page + 1;            
+            _this.page = _this.page + 1;
             _this.loading = false;
           })
         },
@@ -224,7 +224,7 @@
       },
       mounted: function () {
         this.getUserInfo();
-  
+
         var data = {
           class: this.userInfo.class_id,
           column: this.selectTab,
@@ -246,9 +246,9 @@
         html.style.fontSize = clientWidth / 12.4 + "px";
       },
       comments: {
-  
+
       }
-  
+
     }
   </script>
   <style lang="scss">
@@ -261,56 +261,56 @@
     #mainNavBar .el-menu--horizontal>.el-submenu .el-submenu__title {
       line-height: 44px;
       height: 44px;
-  
+
     }
-  
+
     .van-hairline--top-bottom {
       /* width: 80%; */
     }
-  
+
     .van-tab {
       padding-left: 20px;
       /* font-size: 14px; */
     }
-  
+
     .van-tabs__nav--line {
       font-size: 20px;
     }
-  
+
     .imtextview {
       display: flex;
       padding-top: 20px;
       font-size: 18px;
     }
-  
+
     .linkFont {
       color: #034692;
     }
-  
+
     .van-image--round {
       vertical-align: middle;
     }
-  
+
     .titleMsg {
       color: #666;
       font-size: 20px;
       margin-left: 30px;
     }
-  
+
     .rightBar {
       width: 100px;
       margin-left: 40px;
       line-height: 44px;
       height: 44px;
-  
+
     }
-  
+
     .deatail {
       display: flex;
       padding-top: 30px;
       font-size: 18px;
     }
-  
+
     .content {
       display: flex;
       padding-top: 20px;
@@ -331,11 +331,11 @@
       border-bottom: #DCDCDC 1px solid;
       padding-bottom: 30px;
     }
-  
+
     .imgline {
       padding-top: 20px;
     }
-  
+
     .date {
       padding-top: 20px;
       font-size: 18px;
@@ -349,30 +349,30 @@
       width: 240px;
       height: 136px;
     }
-  
+
     .imgMessage {
       font-size: 18px;
     }
-  
+
     .title {
       /* padding-left: 40px; */
       font-size: 24px;
       font-weight: 900;
       padding-top: 30px;
     }
-  
+
     .updown {
       color: #034692;
     }
-  
+
     .rightContent {
       margin-left: 30px;
     }
-  
+
     /* .tabContainer {
       display: flex;
     } */
-  
+
     .leftBar {
       flex: 1;
       .news-row{
@@ -447,12 +447,16 @@
           font-size: 18px;
           color: #999;
           margin-top: 20px;
+          .columnName{
+            margin-right: 30px;
+            color: #333;
+          }
         }
       }
     }
-  
-  
-  
+
+
+
     body {
       background: #000;
     }
