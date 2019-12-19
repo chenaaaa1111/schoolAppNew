@@ -83,7 +83,7 @@
         list: [],
         pageSize: 5,//页尺寸
         page: 1,//页数
-        psize: 10,
+        psize: 5,
         loading: false,
         finished: false,
         active: 1,
