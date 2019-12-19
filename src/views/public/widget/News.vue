@@ -28,28 +28,7 @@
     data() {
       return {
         pageName: '',
-        newsList: [
-          {
-            title: '激动人心的运动会',
-            date: '04-02'
-          },
-          {
-            title: '激动人心的运动会',
-            date: '04-06'
-          },
-          {
-            title: '激动人心的运动会激动人心的运动会',
-            date: '04-09'
-          },
-          {
-            title: '激动人心的运动会',
-            date: '05-02'
-          },
-          {
-            title: '激动人心的运动会激动人心的运动会',
-            date: '05-08'
-          },
-        ],
+        newsList: [],
       }
     },
     mounted() {
@@ -65,7 +44,6 @@
             item.create_time=item.create_time.substr(5,5)
           })
           self.newsList=res.data.model;
-          console.log('**********',self.newsList);
         })},
       getPageName(str) { // 设置返回按钮显示的文字
         switch (str) {
@@ -95,7 +73,7 @@
           }
         })
       },
-      readDetails(id) { // 跳转到文章详情页
+      readDetails(id) { // 跳转到新闻详情
         this.$router.push({
           name: 'readnews',
           query: {
@@ -104,7 +82,7 @@
             id:id
           }
         })
-      },
+      }
     }
   }
 </script>

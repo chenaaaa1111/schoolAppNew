@@ -29,9 +29,9 @@
             <el-page-header @back="goBack" :title="'返回'+title"></el-page-header>
           </div>
           <div class="card-content">
-            <el-row class="more-list" v-for ="item in newsList"  :key="item.id">
+            <el-row class="more-list" v-for ="(item, index) in newsList"  :key="index">
               <el-col :span="24" class="news-title">
-               {{newsList.title}}
+               {{item.title}}
                <!-- <span class="news-type">(栏目: 影评)</span> -->
               </el-col>
               <!-- <el-col :span="24" class="news-author">
@@ -40,13 +40,13 @@
                 <span class="author-class">工商管理142班</span>
               </el-col> -->
               <el-col :span="24" class="news-text">
-               {{newsList.content}}
+               {{item.content}}
               </el-col>
-              <el-col :span="24" class="news-trigger">
+              <!-- <el-col :span="24" class="news-trigger">
                 <el-button type="text" @click="readDetails">阅读全文<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-              </el-col>
+              </el-col> -->
               <el-col :span="24" class="news-date">
-                {{newsList.create_time}}
+                {{item.create_time}}
               </el-col>
               <el-col :span="24">
                 <el-divider></el-divider>
@@ -65,6 +65,8 @@
     data() {
       return {
         userInfo: {},
+        page: 1,
+        psize: 10,
         newsList:[],
         fit: 'cover',
         spaceNav: { // 顶部导航栏显示信息,按需加载
@@ -118,27 +120,31 @@
        *    根据路由跳转过来的query参数来显示对应风格的顶部导航栏,
        *    获取返回时候的跳转路由以及返回按钮显示的文字
        */
-      let params = this.$route.query
+      let params = this.$route.query;
       if(Object.keys(params).length > 0) {
-        this.fromwhere = params.fromwhere
-        this.navIndex = params.spacename
-        this.widgetName = params.widgetName
-        this.setTitle(this.fromwhere)
+        this.fromwhere = params.fromwhere;
+        this.navIndex = params.spacename;
+        this.widgetName = params.widgetName;
+        this.setTitle(this.fromwhere);
       }
       console.log(this.$route.name, '更多新闻动态当前路由名称')
       console.log(this.$route.query, '更多新闻动态query')
-      var self=this;
-      request.post('/roomapi/Users/NewsList',{},function(res){
-        res.data.model.forEach(item=>{
-            item.create_time=item.create_time.substr(5,5)
-          })
+      var self = this;
+      let prams = {
+        sid: self.userInfo.s_id,
+        page: self.page,
+        psize: self.psize
+      }
+      request.post('/roomapi/Users/NewsList', prams,function(res){
+        if(res.code ==0){
           self.newsList=res.data.model;
+        }
+        // res.data.model.forEach(item=>{
+        //   item.create_time=item.create_time.substr(5,5)
+        // })
       })
     },
     methods:{
-      getUserInfo(){
-        let userInfo=sessionStorage.getItem('userInfo');
-      },
       setTitle(str) { // 设置返回按钮显示的文字
         switch (str) {
           case 'campusHomepage':
@@ -151,7 +157,7 @@
             this.title = '社团主页';
             break;
           case 'specialMainHomepage':
-            this.title = '首页';
+            this.title = '专题首页';
             break;
           case 'topicHomepage':
             this.title = '课题主页';

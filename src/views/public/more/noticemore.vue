@@ -10,7 +10,7 @@
           <li class="nav-user">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -45,10 +45,10 @@
               <el-col :span="24" class="news-text">
                   {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
                 </el-col>
-              <el-col :span="24" class="news-trigger">
+              <!-- <el-col :span="24" class="news-trigger">
                 <el-button type="text" @click="readDetails(item.id)">阅读全文<i class="el-icon-arrow-right el-icon--right"></i>
                 </el-button>
-              </el-col>
+              </el-col> -->
               <el-col :span="24" class="news-date">
                 {{item.create_time}}
               </el-col>
@@ -68,46 +68,11 @@
     name: 'newsmore',
     data() {
       return {
-        userInfo:JSON.parse(sessionStorage.getItem('userInfo')),
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        page: 1,
+        psize: 20,
         fit: 'cover',
-        noticeDeatail:{},
-        noticeList: [
-          // {
-          //   "id": 1,
-          //   "s_id": 1,
-          //   "title": "这是一条灰常重要的通知公告",
-          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-          //   "create_time": "2019-11-19 00:00:00"
-          // },
-          // {
-          //   "id": 1,
-          //   "s_id": 1,
-          //   "title": "这是一条灰常重要的通知公告",
-          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-          //   "create_time": "2019-11-19 00:00:00"
-          // },
-          // {
-          //   "id": 1,
-          //   "s_id": 1,
-          //   "title": "这是一条灰常重要的通知公告",
-          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-          //   "create_time": "2019-11-19 00:00:00"
-          // },
-          // {
-          //   "id": 1,
-          //   "s_id": 1,
-          //   "title": "这是一条灰常重要的通知公告",
-          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-          //   "create_time": "2019-11-19 00:00:00"
-          // },
-          // {
-          //   "id": 2,
-          //   "s_id": 3,
-          //   "title": "这是一条灰常重要的通知公告",
-          //   "content": "这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告这是一条灰常重要的通知公告",
-          //   "create_time": "2019-11-19 00:00:00"
-          // }
-        ],
+        noticeList: [],
         spaceNav: { // 顶部导航栏显示信息,按需加载
           classes: {
             icon: require('../../../assets/main/classes.png'),
@@ -140,7 +105,7 @@
             styles: 'teachingColor'
           }
         },
-        url: require('../../../assets/images/user.png'), // 用户头像
+        // url: require('../../../assets/images/user.png'), // 用户头像
         activeIndex: '', // 没什么卵用,摆设
         fromwhere: 'home', // 记录从哪个路由跳转过来的,返回事件跳转路由
         navIndex: 'classes', // 从哪个空间过来的,用来改变导航栏图标和颜色
@@ -164,33 +129,27 @@
         this.navIndex = params.spacename
         this.widgetName = params.widgetName
         this.setTitle(this.fromwhere);
-        this.id = params.id;
         this.getNoticeList();
-        console.log(this.$router);
       }
     },
     methods: {
-
-      getNoticeList(id) {
-        // debugger
-        var self=this;
-        var data = {
-          id: id
+      getNoticeList() {
+        var self = this;
+        let param = {
+          sid: self.userInfo.s_id,//校区id
+          page: self.page,
+          psize: self.psize
         }
-        var data= this.$router.query||this.$router.currentRoute.query;
-        console.log('请求参数',data);
-        data.loadUrl='/roomapi/Users/NoticeList';
-        request.post(data.loadUrl, data, function (res) {
+        request.post("/roomapi/Users/NoticeList", param, function (res) {
           if(res.code == 0) {
             if(res.data.model.length>0) {
               self.noticeList = res.data.model;
             }
-            console.log(self.noticeList, '获得更多通知公告')
+            console.log(self.noticeList, '获得更多通知公告列表')
           }
         })
       },
       setTitle(str) { // 设置返回按钮显示的文字
-        // debugger
         switch (str) {
           case 'classes':
             this.title = '班级主页';
@@ -199,7 +158,7 @@
             this.title = '校园主页';
             break;
           case 'gradeHomepage':
-            this.title = '校园主页';
+            this.title = '年级主页';
             break;
           case 'mainTeamHomepage':
             this.title = '社团主页';
