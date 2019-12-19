@@ -6,7 +6,7 @@
             <li class="homeEntry" @click="goHome" :class="spaceNav[navIndex]['styles']">
               <img :src="spaceNav[navIndex].icon" />{{spaceNav[navIndex].spacename}}
             </li>
-            <el-menu-item class="brandTitle" index="writenews" disabled>文章详情</el-menu-item>
+            <el-menu-item class="brandTitle" index="writenews" disabled>新闻详情</el-menu-item>
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
@@ -20,7 +20,7 @@
               </el-dropdown>
             </li>
             <li class="el-menu-item menu-release">
-                <el-button plan v-if="navIndex!=='teaching'">发布</el-button>
+                <!-- <el-button plan v-if="navIndex!=='teaching'">发布</el-button> -->
                 <el-button plan v-if="navIndex == 'teaching'&&userInfo.level ==2">写文章</el-button>
             </li>
 
@@ -34,11 +34,11 @@
             <el-page-header @back="goback" :title="'返回'+title" ></el-page-header>
           </div>
           <div class="news-box">
-            <el-row class="news-row">
+            <!-- <el-row class="news-row">
               <el-col class="news-cover">
                 <img src="../../../assets/images/readNews/cover.png"/>
               </el-col>
-            </el-row>
+            </el-row> -->
             <el-row class="news-row">
               <el-col :span="24" class="newsTitle" v-if="navIndex=='teaching'">{{newsDetail.title}}</el-col>
               <el-col :span="24" class="news-type">
@@ -53,7 +53,6 @@
                 <p>
                     {{newsDetail.content}}
                 </p>
-                <!-- <img src="../../../assets/images/readNews/cover.png"/> -->
               </el-col>
               <el-col :span="24" class="news-date">
                 发布于{{newsDetail.create_time}}

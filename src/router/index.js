@@ -227,52 +227,37 @@ const router= new Router({
     {
       path: '/write',
       name: 'write',
-      component: () => import('@/views/write/index.vue') // 写新闻 -- 通用
-    },
-    {
-      path: '/newsmore',
-      name: 'newsmore',
-      component: () => import('@/views/public/more/newsmore.vue'), // 学校新闻动态展开更多
-    },
-    {
-      path: '/noticemore',
-      name: 'noticemore',
-      component: () => import('@/views/public/more/noticemore.vue'), // 学校新闻动态展开更多
-    },
-    {
-      path: '/classes/addInfo',
-      name: 'addInfo',
-      component: () => import('@/views/classes/addInfo/index.vue'), // 班级空间展开更多
-    },
-    {
-      path: '/classes/classesmore',
-      name: 'classesmore',
-      component: () => import('@/views/classes/more/classesmore.vue'), // 班级空间展开更多
-    },
-    {
-      path: '/grade/gradeSpacemore',
-      name: 'gradeSpacemore',
-      component: () => import('@/views/grade/campusHomepage/more/gradeSpacemore.vue'), // 班级空间展开更多
-    },
-    {
-      path: '/classes/examinemore',
-      name: 'examinemore',
-      component: () => import('@/views/classes/more/examinemore.vue'), // 审核中展开更多
-    },
-    {
-      path: '/classes/messagemore',
-      name: 'messagemore',
-      component: () => import('@/views/classes/more/messagemore.vue'), // 消息通知展开更多
+      component: () => import('@/views/write/index.vue') // 写新闻/消息/文章/专题 -- 通用（各个空间模块）
     },
     {
       path: '/readnews',
       name: 'readnews',
-      component: () => import('@/views/public/read/readnews.vue'), // 文章详情页 新闻详情
+      component: () => import('@/views/public/read/readnews.vue'), // 通用  新闻详情
     },
     {
       path: '/readnotice',
       name: 'readnotice',
-      component: () => import('@/views/public/read/readnotice.vue'), // 文章详情页  通知详情
+      component: () => import('@/views/public/read/readnotice.vue'), // 通用 通知公告详情
+    },
+    {
+      path: '/newsmore',
+      name: 'newsmore',
+      component: () => import('@/views/public/more/newsmore.vue'), // 通用   学校新闻动态 展开更多
+    },
+    {
+      path: '/noticemore',
+      name: 'noticemore',
+      component: () => import('@/views/public/more/noticemore.vue'), // 通用  通知公告  展开更多
+    },
+    {
+      path: '/classes/classesmore',
+      name: 'classesmore',
+      component: () => import('@/views/classes/more/classesmore.vue'), // 校园主页- 班级空间  展开更多
+    },
+    {
+      path: '/grade/gradeSpacemore',
+      name: 'gradeSpacemore',
+      component: () => import('@/views/grade/campusHomepage/more/gradeSpacemore.vue'), //年级空间 校园首页 年级空间 展开更多
     },
     {
       path: '/classes/readmessage',
