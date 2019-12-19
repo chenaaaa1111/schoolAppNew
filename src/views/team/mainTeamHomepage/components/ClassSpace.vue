@@ -65,7 +65,7 @@ export default {
       this.$router.push({
         name: "classesmore",
         params: {
-          fromwhere: this.source
+          fromwhere: this.source.routename
         }
       });
     },
