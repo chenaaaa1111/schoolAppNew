@@ -89,7 +89,7 @@
     height: 100%;
     overflow: auto;
     background: url('../../assets/images/classes/classesbg.png') no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
   }
   .page-header{
     background: #FFF;

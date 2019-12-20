@@ -92,13 +92,13 @@
         <el-dialog title="发布" :visible.sync="dialog" width="30%" class="mydialog" @close="handleClose('ruleForm')">
             <div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="发布主题" prop="theme">
+                    <!-- <el-form-item label="发布主题" prop="theme">
                         <el-select v-model="ruleForm.theme" filterable placeholder="选择主页" style="width: 100%;">
                             <el-option v-for="(item,index) in options" :key="index" :label="item.label"
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="选择栏目" prop="column">
                         <el-select v-model="ruleForm.column" @change="selectColumn" filterable placeholder="选择栏目"
                             style="width: 100%;">
@@ -109,7 +109,7 @@
                     </el-form-item>
                 </el-form>
                 <div class="tips">
-                    发布到校园主页需要审核后才能发布成功，发布到班级主页不需要审核
+                    发布的新闻审核成功后发布，您可以在审核中查看审核进度
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -266,18 +266,18 @@
                     column: ''
                 },
                 rules: { //班级空间发布选择栏目弹窗 输入验证规则
-                    theme: [
-                        { required: true, message: '请选择主页', trigger: 'change' }
-                    ],
+                    // theme: [
+                    //     { required: true, message: '请选择主页', trigger: 'change' }
+                    // ],
                     column: [
                         { required: true, message: '请选择栏目', trigger: 'change' }
                     ],
                 },
                 options: [ //班级空间发布选择班级主页
-                    {
-                        value: '1',
-                        label: '班级主页'
-                    },
+                    // {
+                    //     value: '1',
+                    //     label: '班级主页'
+                    // },
                     {
                         value: '2',
                         label: '校园主页'
@@ -414,7 +414,7 @@
                 }
                 return isJPG && isLt2M;
             },//end
-            goHome() { // 会空间选择页面
+            goHome() {
                 this.$router.push({ // 回到空间选择页面
                     name: 'home',
                     params: {
@@ -483,7 +483,7 @@
                             self.$toast.fail('请输入新闻内容');
                             return
                         }
-                        data.level = self.ruleForm.theme;//1班级2校园
+                        // data.level = self.ruleForm.theme;//1班级2校园
                         data.columns = self.ruleForm.column; //栏目id 
                         data.column_name = self.columnSelect.title;//栏目名称
                         data.image = self.responseUrl;

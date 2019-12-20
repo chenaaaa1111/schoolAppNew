@@ -2,9 +2,9 @@
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
       <span class="cardTitle"><img src="../../../../assets/images/classes/space.png"/>班级空间</span>
-      <span class="more" @click="showclassesmore">
+      <!-- <span class="more" @click="showclassesmore">
         <img src="../../../../assets/images/classes/more.png"/>
-      </span>
+      </span> -->
     </div>
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
       <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
@@ -12,6 +12,46 @@
         <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res.s_id)">{{res.title}}</li>
       </ul>
     </div>
+    <el-popover
+      placement="bottom-start"
+      title="标题"
+      width="200"
+      trigger="hover"
+      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+      <el-button slot="reference">hover 激活</el-button>
+    </el-popover>
+    <el-popover
+      placement="bottom-start"
+      width="263"
+      trigger="hover">
+      <el-row type="flex" class="row-bg" justify="start">
+        <el-col :span="6">初中18班</el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="6">1班</div></el-col>
+        <el-col :span="6">2班</div></el-col>
+        <el-col :span="6">3班</div></el-col>
+        <el-col :span="6">4班</div></el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="6">1班</div></el-col>
+        <el-col :span="6">2班</div></el-col>
+        <el-col :span="6">3班</div></el-col>
+        <el-col :span="6">4班</div></el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-around">
+        <el-col :span="6">1班</div></el-col>
+        <el-col :span="6">2班</div></el-col>
+        <el-col :span="6">3班</div></el-col>
+        <el-col :span="6">4班</div></el-col>
+      </el-row>
+      <!-- <el-table :data="gridData">
+        <el-table-column width="150" property="date" label="日期"></el-table-column>
+        <el-table-column width="100" property="name" label="姓名"></el-table-column>
+        <el-table-column width="300" property="address" label="地址"></el-table-column>
+      </el-table> -->
+      <el-button slot="reference">hover悬浮</el-button>
+    </el-popover>
   </el-card>
 </template>
 <script>
@@ -27,6 +67,23 @@
     data() {
       return {
         areaList:[],
+        gridData: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }]
       }
     },
     mounted() {

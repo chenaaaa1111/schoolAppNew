@@ -17,7 +17,7 @@
                 <div class="imgline">
                   <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                   <span class="imgMessage">{{item.name}}</span>
-                  <span class="imgMessage linkFont">{{item.c_name}}</span>
+                  <span class="imgMessage linkFont" @click="toOtherClass(item)">{{item.c_name}}</span>
                 </div>
                 <div class="imtextview" :id="'content'+item.id">
                   <div class="leftImage">
@@ -39,10 +39,11 @@
             <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
               <el-col class="news-head" :span="24">
                 <div class="news-title">{{item.title}}</div>
-                <div class="news-column">栏目: {{item.c_name}}</div>
               </el-col>
               <el-col :span="24" class="author-info">
-                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
+                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> 
+                <span>{{item.name}}</span>
+                <span class="teamName" @click="toOtherClass(item)">{{item.c_name}}</span>
               </el-col>
               <el-col class="news-content">
                 <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
@@ -218,6 +219,17 @@ export default {
         baseSrc = src
       }
       return baseSrc
+    },
+    toOtherClass(team) { //社团category_id 社团名c_name
+      this.$store.commit("setTeamId", team.id);
+      this.$router.push({
+        name: "oterTeamDetail",
+        query: {
+          id: team.category_id,
+          avatar: team.avatar,
+          title: team.c_name
+        }
+      });
     }
   }
 };
@@ -394,6 +406,15 @@ export default {
       span{
         font-size: 18px;
         color: #034692;
+      }
+      .teamName{
+        cursor: pointer;
+        margin-left: 26px;
+        font-size:18px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(3,70,146,1);
+        line-height:25px;
       }
     }
     .news-content{

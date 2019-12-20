@@ -16,6 +16,28 @@
         <el-card v-if="teamList.length == 0">
           暂无数据
         </el-card>
+        <el-row class="addTeam">
+          <el-col :span="24">
+            <el-button type="primary" @click="addTeamClick">+ 添加社团</el-button>
+          </el-col>
+        </el-row>
+        <el-dialog title="添加社团" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+          <el-row>
+            <el-col :span="24">如果没有你要加入的社团请点击<el-button type="text">申请社团</el-button></el-col>
+          </el-row>
+          <el-select v-model="teamGroup" multiple placeholder="请选择（可多选）">
+            <el-option
+              v-for="(item,index) in teamAddList"
+              :key="index"
+              :label="item.title"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="handleClose">取 消</el-button>
+            <el-button type="primary" @click="confirmSelect">确 定</el-button>
+          </span>
+        </el-dialog>
       </el-col>
     </el-row>
   </div>
@@ -26,13 +48,18 @@
     name: 'myTeamHomepage',
     data() {
       return {
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         size: 74,
         circleUrl: require('../../../assets/images/classes/class_else.png'),
-        teamList: [],//社团列表
+        teamList: [],//社团列表-显示
+        dialogVisible: false, //添加社团
+        teamAddList: [],//被添加的社团组
+        teamGroup: [], //已添加的社团组
+
       }
     },
     mounted() {
-      this.getMyTeamList()
+      this.getMyTeamList();
     },
     methods: {
       getMyTeamList() {
@@ -50,6 +77,41 @@
           query:{
             c_id: item.c_id,
             title: item.title
+          }
+        })
+      },
+      addTeamClick(){ //点击添加列表 出现弹窗
+        this.getTeamList();
+        this.dialogVisible = true;
+      },
+      getTeamList() { //获取要社团列表 参数  校园id
+        let data = {}
+        let self = this;
+        request.post('/roomapi/Users/CommunityList', data, function (res) {
+          if (res.code == 0) {
+            self.teamAddList = res.data;
+          }
+        })
+      },
+      handleClose(){ //关闭弹窗
+        this.dialogVisible = false;
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });  
+        this.teamGroup = [];
+      },
+      confirmSelect(){ //添加社团 弹窗确认
+        var data = {
+          community: this.teamGroup
+        }
+        request.post('/roomapi/Community/editRoom', data, function (res) {
+          if (res.code == 0) {
+            this.$message({
+              type: 'success',
+              message: res.message
+            });
+            this.getMyTeamList(); //刷新我的社团列表
           }
         })
       }
@@ -89,6 +151,15 @@
 
         .team-go-page {
           text-align: right;
+        }
+      }
+
+      .addTeam{
+        margin-top: 44px;
+        button{
+          width:201px;
+          background:rgba(3,70,146,1);
+          border-radius:4px;
         }
       }
     }

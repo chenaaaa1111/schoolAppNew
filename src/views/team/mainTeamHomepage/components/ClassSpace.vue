@@ -69,7 +69,7 @@ export default {
         }
       });
     },
-    toOtherClass(team) { //社团id
+    toOtherClass(team) { //社团id 社团名title
       this.$store.commit("setTeamId", team.id);
       this.$router.push({
         name: "oterTeamDetail",

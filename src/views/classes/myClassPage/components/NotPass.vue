@@ -146,6 +146,152 @@
       vertical-align: middle;
     }
   }
+  .newList{
+    list-style: none;
+    li{
+      padding: 16px 20px 16px 18px;
+      margin-left: 20px;
+      font-size: 18px;
+      background: url('../../../../assets/images/classes/dotg.png') no-repeat 0px center;
+      background-size: 8px 8px;
+      cursor: pointer;
+      position: relative;
+      border-bottom: 1px dashed #DEDEDE;
+      .text{
+        display: block;
+        margin-right: 80px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .date{
+        position: absolute;
+        width: 80px;
+        top: 17px;
+        right: 0;
+        color: #888888;
+      }
+    }
+    li:hover{
+      color: #034692;
+      background-image: url('../../../../assets/images/classes/dot.png');
+    }
+  }
+  .areablock{
+    .areaName{
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .area{
+      list-style: none;
+      margin-bottom: 30px;
+      li{
+        float: left;
+        width: 33.333%;
+        padding: 8px 0px;
+        font-size: 18px;
+      }
+      li:hover{
+        color: #034692;
+        cursor: pointer;
+      }
+    }
+    .area::after{
+      content: "";
+      display: block;
+      height: 0;
+      clear: both;
+    }
+  }
+  .notice{
+    font-size: 18px;
+    li{
+      padding: 8px 0px;
+      line-height: 30px;
+      border-bottom: 1px dashed #DEDEDE;
+      .noticeTitle{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+      .noticeDate{
+        text-align: right;
+        color: #888888;
+      }
+    }
+  }
+  .circle{
+    text-align: center;
+    padding: 24px 0px 14px;
+  }
+  .myName{
+    text-align: center;
+    img{
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+      cursor: pointer;
+      position: relative;
+      top: -3px;
+      left: 12px;
+    }
+  }
+  .dynamic{
+    height: 108px;
+    margin-top: 30px;
+    border-radius:12px;
+    overflow: hidden;
+    background-color: #D3E1F1;
+    .dynamic-g,.dynamic-c{
+      float: left;
+      width: 50%;
+      height: 100%;
+      text-align: center;
+      color: #034692;
+      font-size: 26px;
+      .count{
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        margin-top: 26px;
+      }
+      .title{
+        font-size: 16px;
+        color: #333;
+      }
+    }
+    .dynamic-g:first-child{
+      .count{
+        box-shadow: 1px 0px #819EBF;
+      }
+    }
+
+  }
+  .dynamic::after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+  .vistorCount{
+    font-size: 20px;
+    color: #1E1E1E;
+    font-weight: 600;
+  }
+  .lately{
+    font-size: 16px;
+    color: #034692;
+    padding: 15px 0px 20px;
+  }
+  .vistor-avatar{
+    margin-top: 10px;
+    margin-right: 10px;
+  }
   .examineTips{
     font-size: 14px;
     color: red;

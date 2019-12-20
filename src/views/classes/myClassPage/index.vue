@@ -5,10 +5,6 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <!-- 展示个人头像 姓名 和动态统计 -->
-            <UserInfo></UserInfo>
-            <!-- 最近访客 -->
-            <!-- <Visitor></Visitor> -->
             <!-- 审核中 -->
             <Examine :source="routename" @changeTab="changeTab"></Examine>
             <!-- 审核未通过 -->
@@ -17,15 +13,13 @@
             <Message :source="routename" @changeTab="changeTab"></Message>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <el-card>
-              <!-- 社团动态 -->
-              <Exhibition v-show="this.tab=='main'"></Exhibition>
-              <!-- 审核中 审核未通过 -->
-              <EXhibitionExaming @changeTab="changeTab" :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
-              </EXhibitionExaming>
-              <!-- 消息通知列表 -->
-              <MessageList @changeTab="changeTab" :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
+            <el-card v-show="this.tab=='main'">
+              <mainNavBar></mainNavBar>
             </el-card>
+            <EXhibitionExaming @changeTab="changeTab" :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
+            </EXhibitionExaming>
+            
+            <MessageList @changeTab="changeTab" :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
           </el-col>
         </el-row>
       </el-col>
@@ -33,34 +27,31 @@
   </div>
 </template>
 <script>
+  import MessageList from './components/MessageList.vue';
+  import request from '@/api/request.js';
   import PageTop from './components/PageTop.vue';
-  import UserInfo from './components/UserInfo.vue';
-  // import Visitor from './components/Visitor.vue';
+  import mainNavBar from './components/mainNavBar.vue';
   import Examine from './components/Examine.vue';
   import NotPass from './components/NotPass.vue';
   import Message from './components/Message.vue';
-  import Exhibition from './components/Exhibition.vue';
-  import MessageList from './components/MessageList.vue';
   import EXhibitionExaming from './components/ExhibitionExaming.vue';
-  export default{
-    name: 'teamMyHomepage',
+  export default {
+    name: 'myClassPage',
     components: {
       PageTop,
-      UserInfo,
-      // Visitor,
+      mainNavBar,
       Examine,
       NotPass,
       Message,
-      Exhibition,
-      MessageList,
-      EXhibitionExaming
+      EXhibitionExaming,
+      MessageList
     },
     data() {
       return {
-        routename: '',
         ExhibitionTitle: '审核中',// 审核中，审核未通过标题
         upUrl: '',
         messageList: {},//消息通知列表
+        allClassDyamics:[],//所有班级动态
         classTitle: '',
         routename: '',
         tab: 'main', //右侧主页面
@@ -68,11 +59,8 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name;
-      // let userInfo = this.$store.state.userInfo;
-      // if(Object.keys(userInfo).length>0) {
-      //   this.userId = userInfo.id.toString()
-      // }
+      this.routename = this.$route.name
+      console.log(this.routename, '本页面routename')
     },
     methods: {
       changeTab(tab) {
@@ -160,29 +148,28 @@
             }
           })
         }
+
       }
     }
   }
 </script>
-<style>
-  .con-text img{
-    max-width: 100%;
-  }
-</style>
 <style media="screen" lang="scss" scoped>
-   .active{
-      color: #034692;
-    }
-  .space-wrap{
-    .entry-content{
+  .space-wrap {
+    margin-top: 30px;
+
+    .entry-content {
       padding: 0px 10px;
     }
   }
 </style>
 <style media="screen" lang="scss" scoped>
-  .card-block{
-    padding-left: 0!important;
-    padding-right: 0!important;
+  .space-wrap {
+    margin-top: 30px;
+  }
+
+  .card-block {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     margin-top: 14px;
   }
 </style>

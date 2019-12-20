@@ -5,7 +5,8 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <Students :source="routename" :teamId="loadData.id"></Students>
+            <!-- <Students :source="routename" :teamId="loadData.id"></Students> -->
+            <Visitor :source="routename" :teamId="loadData.id"></Visitor>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <mainNavBar :teamId="loadData.id"></mainNavBar>
@@ -18,21 +19,23 @@
 <script>
 import request from "@/api/request.js";
 import PageTop from "./components/PageTop.vue";
-import Students from "./components/Students.vue";
+import Visitor from "./components/Visitor.vue";
+// import Students from "./components/Students.vue";
 import mainNavBar from "./components/mainNavBar.vue";
 export default {
-  name: "classHomepage",
   components: {
     PageTop,
-    Students,
+    Visitor,
+    // Students,
     mainNavBar
   },
   data() {
     return {
       routename: "",
       loadData: {
-        id: "",
+        id: "", //社团id
         title: "",
+        name: "",
         avatar: "",
         showwrite: true
       }

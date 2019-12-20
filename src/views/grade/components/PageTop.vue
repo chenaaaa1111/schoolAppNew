@@ -2,11 +2,27 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="24" class="backStyle">
-          <el-page-header @back="goBack" title="返回"></el-page-header>
-        </el-col>
         <el-col :span="12" class="top-title">
-          <img v-if="url" :src="url" alt=""/>{{classInfo.title}}
+          <img v-if="loadData.url" :src="loadData.url" alt=""/>{{loadData.title}}
+        </el-col>
+        <el-col v-if="loadData.showwrite" :span="12" class="top-write">
+          <span @click="writenews"></span>
+        </el-col>
+        <el-col :span="12" class="department">
+          {{loadData.subTitle}}
+        </el-col>
+        <el-col class="leftentry">
+          <span class="entrybtns hidden-sm-and-up">
+            <el-button type="danger" circle >
+              <img class="btnicon" src="../../../assets/images/classes/news.png"/>
+            </el-button>
+            <el-button type="primary" circle >
+              <img class="btnicon" src="../../../assets/images/classes/space.png"/>
+            </el-button>
+            <el-button type="primary" circle >
+              <img class="btnicon" src="../../../assets/images/classes/notice.png"/>
+            </el-button>
+          </span>
         </el-col>
       </el-row>
     </el-col>
@@ -16,37 +32,38 @@
   export default{
     data() {
       return {
-        classInfo: {}, //年级信息
-        url: require('../../../../assets/images/classes/class_else.png')
+        loadData: {
+          title: '华悦蜀山区第一中学',
+          subTitle: '',
+          showwrite: false
+        }
       }
     },
     mounted() {
-      this.classInfo = this.$route.query;
+
     },
     methods: {
       writenews() {
         this.$router.push({
           name: 'write',
           params: {
-            fromname: '班级主页',
-            fromwhere: 'classHomepage'
+            fromname: '校园主页',
+            fromwhere: 'campusHomepage'
           }
         })
-      },
-      goBack() { // 返回-从哪儿来往哪儿去
-        this.$router.go(-1);
-      },
+      }
+
     }
   }
 </script>
 <style lang="scss" scoped>
   .pageTop{
     .pageContent{
-      padding-left: 20px;
       margin-top: 48px;
+      padding-left: 20px;
       .top-title{
-        margin: 20px 0;
-        height:56px;
+        height: 56px;
+        line-height: 56px;
         font-size:40px;
         font-family:STYuanti-SC-Bold,STYuanti-SC;
         font-weight:bold;
@@ -74,7 +91,7 @@
           display: inline-block;
           width: 152px;
           height: 52px;
-          background: url('../../../../assets/images/myhome/writenews.png') no-repeat;
+          background: url('../../../assets/images/myhome/writenews.png') no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
         }
@@ -99,18 +116,5 @@
         line-height: 46px;
       }
     }
-  }
-</style>
-<style>
-  .pageContent .backStyle .el-page-header__left::after {
-    content: "";
-    position: absolute;
-  }
-  .pageContent .backStyle .el-page-header__left{
-      font-size:18px;
-      font-family:PingFangSC-Regular,PingFang SC;
-      font-weight:400;
-      color:rgba(51,51,51,1);
-      line-height:25px;
   }
 </style>

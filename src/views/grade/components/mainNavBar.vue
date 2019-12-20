@@ -22,7 +22,7 @@
                       <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
                         <el-col :xl="8" :lg="8" :md="8" :sm="10" :xs="10" class="left-img">
                           <img v-if="item.image != ''" :src="setImg(item.image)" alt=""/>
-                          <img v-else src="../../../../assets/images/noimg.png" alt=""/>
+                          <img v-else src="../../../assets/images/noimg.png" alt=""/>
                         </el-col>
                         <el-col :xl="16" :lg="16" :md="16" :sm="14" :xs="14" class="right-txt">
                           <div class="text" v-html="item.content"></div>
@@ -300,9 +300,9 @@
         return baseSrc
       }
     },
-    created: function () {
-      this.$root.eventLister.$on('seachInfo', this.seachInfo)
-    },
+    // created: function () {
+    //   this.$root.eventLister.$on('seachInfo', this.seachInfo)
+    // },
     mounted: function () {
       this.getUserInfo();
       var data = {

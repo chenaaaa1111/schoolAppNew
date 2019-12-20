@@ -5,18 +5,17 @@
         <el-menu :default-active="activeIndex" class="el-menu-head" mode="horizontal" router
             @select="handleSelect">
             <li class="homeEntry" @click="goHome">
-              <img src="../../assets/main/teaching.png" />教研空间
+              <img src="../../assets/main/grade.png" />年级空间
             </li>
-            <el-menu-item index="teachingHomepage">教研主页</el-menu-item>
-            <el-menu-item index="myTeachGroupHomepage">我的教研组</el-menu-item>
-            <el-menu-item index="myTeachingHomepage">我的主页</el-menu-item>
+            <el-menu-item index="gradeHomepage">校园主页</el-menu-item>
+            <el-menu-item index="myGradeHomepage">我的年级</el-menu-item>
             <li class="el-menu-item menu-search hidden-sm-and-down">
-              <el-input type="text" suffix-icon="el-icon-search" v-model="keyword" placeholder="搜索相关内容" @keyup.enter.native="search"></el-input>
+                <el-input type="text" suffix-icon="el-icon-search" placeholder="搜索相关内容"></el-input>
             </li>
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                    <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                      <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -34,23 +33,22 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue';
   export default{
     components: {
     },
     data() {
       return {
+        userInfo: {},//用户信息
         fit: 'cover',
-        userInfo: {},
-        url: '',
-        activeIndex: 'teachingHomepage',
-        keyword: '', //搜索关键字
+        url: '', //头像
+        // url: require('../../assets/images/user.png'),
+        activeIndex: 'gradeHomepage'
       }
     },
     watch: {
       $route(to,from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
-        let routers = ['teachingHomepage', 'myTeachGroupHomepage', 'myTeachingHomepage']
+        let routers = ['gradeHomepage', 'myGradeHomepage']
         if(routers.indexOf(to.name) == -1) {
           this.activeIndex = to.name
         }
@@ -62,11 +60,6 @@
       // this.userInfo=this.$store.state.userInfo;
       this.url=this.userInfo.avatar;//头像
     },
-    created(){
-      //创建事件总线
-      var eventLister=new Vue();
-      this.$root.eventLister=eventLister;
-    },
     methods: {
       goHome() {
         this.$router.push({ // 回到空间选择页面
@@ -77,11 +70,6 @@
         this.activeIndex = val
         console.log(val, '导航栏切换路由名称')
       },
-      //搜索相关内容
-      search(){
-        console.log(this.keyword,'输入的值是什么')
-        this.$root.eventLister.$emit('seachInfo',this.keyword)
-      }
     }
   }
 </script>
@@ -109,7 +97,7 @@
           align-items: center;
           margin-right: 35px;
           font-size: 26px;
-          color: #4F88C5;
+          color: #E8A33D;
           img{
             display: inline-block;
             width: 56px;
