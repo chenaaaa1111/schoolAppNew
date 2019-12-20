@@ -13,8 +13,8 @@
             <el-row>
               <el-col :span="18" class="title">
                 <span class="text">{{item.title}}</span>
-                <span class="classify">{{item.c_name}}</span>
-                <span class="date">{{item.create_time}}</span>
+                <!-- <span class="classify">{{item.c_name}}</span> -->
+                <!-- <span class="date">{{item.create_time}}</span> -->
               </el-col>
               <el-col :span="6" class="operation">
                 <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
@@ -28,8 +28,8 @@
                 <img class="con-pic" :src="serverUrl+item.image" />
               </el-col>
               <el-col :span="18">
-                <div class="con-text">
-                  {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                <div class="con-text" v-html="item.content?item.content: '暂无数据'">
+                  <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
                 </div>
                 <div class="read-more">
                   <el-button type="text" size="mini" @click="open(index)">
@@ -39,12 +39,12 @@
               </el-col>
             </el-row>
             <!-- 展开结构 -->
-            <el-row class="content" :gutter="10" v-if="item.open">
-              <el-col :span="24">
+            <el-row class="content content-open" :gutter="10" v-if="item.open">
+              <!-- <el-col :span="24">
                 <img class="con-pic" :src="serverUrl+item.image" />
-              </el-col>
+              </el-col> -->
               <el-col :span="24">
-                <div class="con-text con-open" v-html="item.content"></div>
+                <div class="con-text con-open" v-html="item.content?item.content:'暂无数据'"></div>
                 <div class="read-more">
                   <el-button type="text" size="mini" @click="close(index)">
                     收起<i class="el-icon-caret-bottom el-icon--right"></i>
@@ -53,7 +53,7 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="24" class="article-date">2019/08/22 09:23</el-col>
+          <el-col :span="24" class="article-date"><span class="columnName">{{item.c_name}}</span>2019/08/22 09:23</el-col>
           <el-col :span="24">
             <el-divider></el-divider>
           </el-col>
@@ -132,7 +132,7 @@
       close(index) {
         this.teamDymic[index].open = false
       },
-    }    
+    }
   }
 </script>
 <style lang="scss" scoped>
@@ -205,7 +205,7 @@
 
       .operation {
         text-align: right;
-
+        line-height: 40px;
         .el-button {
           padding-top: 0;
           font-size: 12px;
@@ -249,6 +249,10 @@
         color: #999;
         line-height: 30px;
         margin-top: 14px;
+        .columnName{
+          margin-right: 30px;
+          color: #333;
+        }
       }
     }
   }
