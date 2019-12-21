@@ -30,7 +30,7 @@
     import request from "@/api/request";
     import mainNavBar from './components/mainNavBar.vue';
     export default {
-      name: 'mainTeamHomepage',
+      name: 'topicHomepage',
       components: {
         PageTop,
         News,

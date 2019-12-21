@@ -8,7 +8,7 @@
             <!-- 展示个人头像 姓名 和动态统计 -->
             <UserInfo></UserInfo>
             <!-- 最近访客 -->
-            <Visitor></Visitor>
+            <!-- <Visitor></Visitor> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
@@ -22,16 +22,16 @@
   </div>
 </template>
 <script>
-  import PageTop from './components/PageTop.vue'
-  import UserInfo from './components/UserInfo.vue'
-  import Visitor from './components/Visitor.vue'
-  import Exhibition from './components/Exhibition.vue'
+  import PageTop from './components/PageTop.vue';
+  import UserInfo from './components/UserInfo.vue';
+  // import Visitor from './components/Visitor.vue';
+  import Exhibition from './components/Exhibition.vue';
   export default{
     name: 'myTopicHomepage',
     components: {
       PageTop,
       UserInfo,
-      Visitor,
+      // Visitor,
       Exhibition
     },
     data() {

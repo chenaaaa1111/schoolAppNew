@@ -172,9 +172,14 @@ const router= new Router({
           component: () => import('@/views/special/mySpecialHomepage/index.vue'), // 专题空间-我的专题
         },
         {
+          path: '/special/otherHomepage',
+          name: 'otherHomepage',
+          component: () => import('@/views/special/otherHomepage/index.vue'), // 专题空间-别人的主页
+        },
+        {
           path: '/special/showmovie',
           name: 'showmovie',
-          component: () => import('@/views/special/read/index.vue'), // 专题空间-我的专题
+          component: () => import('@/views/special/read/index.vue'), // 专题空间-我的专题内容详情
         }
       ]
     },
@@ -187,27 +192,32 @@ const router= new Router({
         {
           path: '/topic/topicHomepage',
           name: 'topicHomepage',
-          component: () => import('@/views/topic/topicHomepage/index.vue'), //
+          component: () => import('@/views/topic/topicHomepage/index.vue'), //课题空间 -- 课题主页
         },
         {
           path: '/topic/myTopicGroupHomepage',
           name: 'myTopicGroupHomepage',
-          component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), //
+          component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), // 课题空间 -- 我的课题组
+        },
+        {
+          path: '/topic/myTopicMainHomepage',
+          name: 'myTopicMainHomepage',
+          component: () => import('@/views/topic/myTopicMainHomepage/index.vue'), // 课题空间 -- 从我的课题组---进入的课题组
         },
         {
           path: '/topic/otherTopicGroupHomepage',
           name: 'otherTopicGroupHomepage',
-          component: () => import('@/views/topic/otherTopicGroupHomepage/index.vue'), //
+          component: () => import('@/views/topic/otherTopicGroupHomepage/index.vue'), //课题空间 -- 别人的课题组 -主页
         },
         {
           path: '/topic/myTopicHomepage',
           name: 'myTopicHomepage',
-          component: () => import('@/views/topic/myTopicHomepage/index.vue'), //
+          component: () => import('@/views/topic/myTopicHomepage/index.vue'), // 课题空间 -- 我的主页
         },
         {
           path: '/topic/otherTopicDetail',
           name: 'otherTopicDetail',
-          component: () => import('@/views/topic/otherTopicDetail/index.vue'), //
+          component: () => import('@/views/topic/otherTopicDetail/index.vue'), // 课题空间 -- 别人的主页
         }
       ]
     },

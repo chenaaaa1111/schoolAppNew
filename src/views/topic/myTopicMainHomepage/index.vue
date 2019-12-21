@@ -8,7 +8,7 @@
             <!-- 课题组组员 -->
             <Students></Students>
             <!-- 访问信息 -->
-            <Visitor></Visitor>
+            <!-- <Visitor></Visitor> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <mainNavBar></mainNavBar>     
@@ -21,14 +21,14 @@
 <script>
   import PageTop from './components/PageTop.vue';
   import Students from './components/Students.vue';
-  import Visitor from "./components/Visitor.vue";
+  // import Visitor from "./components/Visitor.vue";
   import mainNavBar from './components/mainNavBar.vue';
   export default{
-    name: 'otherTopicGroupHomepage',
+    name: 'myTopicMainHomepage',
     components: {
       PageTop,
       Students,
-      Visitor,
+      // Visitor,
       mainNavBar
     },
     data() {

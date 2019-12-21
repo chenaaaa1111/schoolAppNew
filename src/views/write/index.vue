@@ -26,7 +26,7 @@
                         <el-button v-if="navIndex == 'team'" plan size="small" @click="openTeamDialog">社团发布</el-button>
                         <el-button v-if="navIndex == 'special'" plan size="small" @click="specialPublish">专题发布
                         </el-button>
-                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="topicPublish">课题发布</el-button>
+                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="openTopicDialog">课题发布</el-button>
                         <el-button v-if="navIndex == 'teaching'" plan size="small" @click="openTeachingDialog">教研发布</el-button>
                     </li>
                 </el-menu>
@@ -136,12 +136,37 @@
             </span>
         </el-dialog>
 
+         <!-- 教研空间 选择发布社团弹窗 -->
+        <el-dialog title="发布" :visible.sync="topicCheckdialog" width="30%" class="mydialog"
+            @close="closeTopicDialog('topicRuleForm')">
+            <el-form :model="topicRuleForm" :rules="topicRules" ref="topicRuleForm" label-width="100px"
+                class="demo-ruleForm">
+                <el-form-item label="发布类型">
+                    <el-radio-group v-model="topicRuleForm.topicType">
+                    <el-radio :label="0">所有人可见</el-radio>
+                    <el-radio :label="1">仅自己可见</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="选择课题组" prop="team">
+                    <el-select v-model="topicRuleForm.topic" @change="selectTopic" filterable placeholder="选择教研组"
+                        style="width: 100%;">
+                        <el-option v-for="(item,index) in topicList" :key="index" :label="item.title" :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="closeTopicDialog('topicRuleForm')">取 消</el-button>
+                <el-button type="primary" @click="topicPublish('topicRuleForm')">发 布</el-button>
+            </span>
+        </el-dialog>
+
         <!-- 教研空间 选择发布社团弹窗 -->
         <el-dialog title="发布" :visible.sync="teachingCheckdialog" width="30%" class="mydialog"
             @close="closeTeachingDialog('teachingRuleForm')">
             <el-form :model="teachingRuleForm" :rules="teachingRules" ref="teachingRuleForm" label-width="100px"
                 class="demo-ruleForm">
-                <el-form-item label="">
+                <el-form-item label="发布类型">
                     <el-radio-group v-model="teachingRuleForm.teachingType">
                     <el-radio :label="0">所有人可见</el-radio>
                     <el-radio :label="1">仅自己可见</el-radio>
@@ -322,13 +347,30 @@
                 teamList: [], //社团列表
                 teamSelect: {},// 社团空间下拉选择发布社团 筛选得到的社团名称和id
 
+                 //课题空间 发布课题 部分
+                topicCheckdialog: false, //课题空间 选择课题组弹窗
+                topicRuleForm: { //课题空间发布社团
+                    topicType: '', //选择发布类型 1:全部 2：仅自己
+                    topic: '' //选择课题组
+                },
+                topicRules: { //课题空间发布选择课题弹窗 输入验证规则
+                    topicType: [
+                        { required: true, message: '请选择发布的类型', trigger: 'change' }
+                    ],
+                    topic: [
+                        { required: true, message: '请选择课题组', trigger: 'change' }
+                    ]
+                },
+                topicList: [], //选择课题组列表
+                topicSelect: {},// 课题空间下拉选择发布课题组 筛选得到的课题组名称和id
+
                 //教研空间 发布文章 部分
                 teachingCheckdialog: false, //教研空间 选择教研组弹窗
                 teachingRuleForm: { //社团空间发布社团
                     teachingType: '', //选择发布类型 1:全部 2：仅自己
                     teaching: '' //选择教研组
                 },
-                teachingRules: { //班级空间发布选择栏目弹窗 输入验证规则
+                teachingRules: { //教研空间发布选择教研组弹窗 输入验证规则
                     teachingType: [
                         { required: true, message: '请选择发布的类型', trigger: 'change' }
                     ],
@@ -338,6 +380,8 @@
                 },
                 teachingList: [], //选择教研组列表
                 teachingSelect: {},// 教研空间下拉选择发布教研组 筛选得到的教研组名称和id
+
+                
 
             }
         },
@@ -652,32 +696,63 @@
                     }
                 })
             },
-            topicPublish() { //课题空间 发布 课题
+
+            openTopicDialog() { //课题空间 发布信息  打开选择课题组的弹窗
                 var self = this;
                 if (self.articletitle == '') {
-                    self.$toast.fail('请输入文章标题');
+                    self.$toast.fail('请输入标题');
                     return
                 }
                 if (self.form.goods_desc == '') {
-                    self.$toast.fail('请输入文章内容');
+                    self.$toast.fail('请输入新闻内容');
                     return
                 }
+                this.topicCheckdialog = true;
+                this.getTopicList();
+            },
+            getTopicList() { //获取课题组列表 参数校园id
                 let data = {
-                    c_id: self.$store.state.userInfo.subject_id, //课题id
-                    c_name: '', //课题名
-                    title: self.articletitle,
-                    image: self.responseUrl,
-                    content: self.form.goods_desc
-                };
-                request.post('/roomapi/Subject/addArticle', data, function (res) {
+                    sid: this.userInfo.s_id
+                }
+                let self = this;
+                request.post('/roomapi/Users/Subject', data, function (res) {
                     if (res.code == 0) {
-                        self.$toast.success(res.message);
-                        self.$router.go(-1);
-                    } else {
-                        self.$toast.fail(res.message);
+                        self.topicList = res.data;
                     }
                 })
             },
+            selectTopic(val) { //弹窗中下拉选择发布课题组 事件
+                const receiveArr = this.topicList.filter((item) => {
+                    return item.id == val
+                })
+                this.topicSelect = receiveArr[0];
+                console.log(this.topicSelect, '筛选出匹配的教研组名称和id集合')
+            },
+            topicPublish(teamForm) { //确认弹窗 课题空间发布 课题
+                this.$refs[teamForm].validate((valid) => {
+                    if (valid) {
+                        var self = this;
+                        let data = {
+                            look: self.topicRuleForm.topicType,
+                            c_id: self.topicRuleForm.topic,
+                            c_name: self.topicSelect.title,
+                            title: self.articletitle,
+                            image: self.responseUrl,
+                            content: self.form.goods_desc
+                        };
+                        request.post('/roomapi/Subject/addArticle', data, function (res) {
+                            if (res.code == 0) {
+                                self.$toast.success(res.message);
+                                self.topicCheckdialog = false;
+                                self.$router.go(-1);
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
             openTeachingDialog() { //教研空间 发布信息  打开选择教研组的弹窗
                 var self = this;
                 if (self.articletitle == '') {

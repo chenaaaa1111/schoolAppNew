@@ -3,7 +3,7 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">华悦蜀山区第一中学课题空间</el-col>
-        <el-col v-if="limit" :span="12" class="top-write">
+        <el-col :span="12" class="top-write">
           <span @click="writeTopic"></span>
         </el-col>
         <el-col class="leftentry">
@@ -28,12 +28,10 @@
     data() {
       return {
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        limit: '' //只有level:2才能发布课题 1学生2老师
       }
     },
     mounted() {
-      this.limit = this.userInfo.level ==2 ?true: false;
-      console.log(this.limit, '是否是老师身份')
+      
     },
     methods: {
       writeTopic() { //写课题

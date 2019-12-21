@@ -9,7 +9,7 @@
       <div class="areablock" v-for="(item,index) in areaList" :key="index">
         <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
         <ul class="area">
-          <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass(res)">{{res.title}}</li>
+          <li v-for="(res,num) in item.class" :key="num" @click="toOtherTopicGroup(res)">{{res.title}}</li>
         </ul>
       </div>
     </el-card>
@@ -51,13 +51,10 @@
             }
           })
         },
-        toOtherClass(item) { //去其他的课题空间
+        toOtherTopicGroup(item) { //点击课题组中的课题--进入到该课题组的课题组
           this.$router.push({
             name: 'otherTopicGroupHomepage',
-            query:{
-              title: item.title,
-              id: item.id
-            }
+            query: item
           })
         }
       }

@@ -78,7 +78,7 @@
       },
       //搜索相关内容
       search(){
-        console.log(this.keyword,'输入的值是什么')
+        console.log(this.keyword,'输入的值什么')
         this.$root.eventLister.$emit('seachInfo',this.keyword)
       }
     }

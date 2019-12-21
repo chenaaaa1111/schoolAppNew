@@ -50,7 +50,7 @@
     watch: {
       $route(to,from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
-        let routers = ['specialMainHomepage', 'mySpecialHomepage']
+        let routers = ['specialMainHomepage', 'mySpecialHomepage', 'otherHomepage']
       
         if(routers.indexOf(to.name) != -1) {
           this.activeIndex = to.name
