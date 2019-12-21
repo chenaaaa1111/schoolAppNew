@@ -16,7 +16,7 @@
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                    <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                    <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -41,8 +41,7 @@
     data() {
       return {
         fit: 'cover',
-        userInfo: {},
-        url: '',
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         activeIndex: 'teachingHomepage',
         keyword: '', //搜索关键字
       }
@@ -50,7 +49,7 @@
     watch: {
       $route(to,from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
-        let routers = ['teachingHomepage', 'myTeachGroupHomepage', 'myTeachingHomepage']
+        let routers = ['teachingHomepage', 'myTeachGroupHomepage', 'myTeachingHomepage','otherTeachingHomepage','otherHomepage']
         if(routers.indexOf(to.name) == -1) {
           this.activeIndex = to.name
         }
@@ -58,9 +57,7 @@
     },
     mounted() {
       this.activeIndex = this.$route.name;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
     },
     created(){
       //创建事件总线

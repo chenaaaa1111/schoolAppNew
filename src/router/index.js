@@ -220,18 +220,28 @@ const router= new Router({
         {
           path: '/teaching/teachingHomepage',
           name: 'teachingHomepage',
-          component: () => import('@/views/teaching/teachingHomepage/index.vue'), // 专题空间-首页
+          component: () => import('@/views/teaching/teachingHomepage/index.vue'), // 教研空间-教研主页
         },
         {
           path: '/teaching/myTeachGroupHomepage',
           name: 'myTeachGroupHomepage',
-          component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 专题空间-首页
+          component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 教研空间-我的教研组
         },
         {
           path: '/teaching/myTeachingHomepage',
           name: 'myTeachingHomepage',
-          component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 专题空间-首页
-        }
+          component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 教研空间-我的主页
+        },
+        {
+          path: '/teaching/otherTeachingHomepage',
+          name: 'otherTeachingHomepage',
+          component: () => import('@/views/teaching/otherTeachingHomepage/index.vue'), // 教研空间-别的教研主页
+        },
+        {
+          path: '/teaching/otherHomepage',
+          name: 'otherHomepage',
+          component: () => import('@/views/teaching/otherHomepage/index.vue'), // 教研空间-别人的主页
+        },
       ]
     },
     {

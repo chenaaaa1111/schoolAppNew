@@ -6,14 +6,14 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 展示个人头像 姓名 和动态统计 -->
-            <UserInfo :teamId="teamId"></UserInfo>
+            <UserInfo></UserInfo>
             <!-- 最近访客 -->
-            <Visitor :teamId="teamId"></Visitor>
+            <Visitor></Visitor>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <el-card>
-              <!-- 班级动态 -->
-              <Exhibition :teamId="teamId" :key="teamId"></Exhibition>
+              <!-- 教研动态 -->
+              <Exhibition></Exhibition>
             </el-card>
           </el-col>
         </el-row>
@@ -22,12 +22,12 @@
   </div>
 </template>
 <script>
-  import PageTop from './components/PageTop.vue'
-  import UserInfo from './components/UserInfo.vue'
-  import Visitor from './components/Visitor.vue'
-  import Exhibition from './components/Exhibition.vue'
+  import PageTop from './components/PageTop.vue';
+  import UserInfo from './components/UserInfo.vue';
+  import Visitor from './components/Visitor.vue';
+  import Exhibition from './components/Exhibition.vue';
   export default{
-    name: 'otherTeamMyPage',
+    name: 'otherHomepage',
     components: {
       PageTop,
       UserInfo,
@@ -37,25 +37,14 @@
     data() {
       return {
         routename: '',
-        teamId: '',
-        loadInfo: { // 别人的主页接收到传参
-          id: '',
-          name: '',
-          avatar: ''
-        }
       }
     },
     mounted() {
-      let querys = this.$route.query
-      // console.log(querys, 'teamOtherMyPage query')
-      if(Object.keys(querys).length > 0) {
-        this.teamId = querys.id
-        this.loadInfo = querys
-      }
-      console.log(this.teamId)
+      this.routename = this.$route.name
+      console.log(this.routename, '本页面routename')
     },
     methods: {
-
+     
     }
   }
 </script>

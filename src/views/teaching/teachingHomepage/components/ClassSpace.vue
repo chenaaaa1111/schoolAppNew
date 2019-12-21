@@ -43,10 +43,11 @@
           }
         })
       },
-      toTeachingGrop(item) {
-        // this.$router.push({
-        //   name: 'otherClassHomepage'
-        // })
+      toTeachingGrop(item) { //点击教研组 --进入到别的教研空间主页
+        this.$router.push({
+          name: 'otherTeachingHomepage',
+          query: item
+        })
       }
     }
   }

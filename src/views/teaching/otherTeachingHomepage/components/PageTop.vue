@@ -2,20 +2,16 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">华悦蜀山区第一中学教研空间</el-col>
-        <el-col v-if="limit" :span="12" class="top-write">
-          <span @click="writeArt"></span>
+        <el-col :span="12" class="top-title">
+          <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.title+'组主页'}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
+              <img class="btnicon" src="../../../../assets/images/teaching/group1.png"/>
             </el-button>
             <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/teaching/teachgroup.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
           </span>
         </el-col>
@@ -27,26 +23,15 @@
   export default{
     data() {
       return {
-        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        limit: true //只有level:2才能发布教研空间文章 1学生2老师
+        teachingInfo: {}, //教研组信息
+        url: require('../../../../assets/images/classes/class_else.png'),//给默认的教研组图标
       }
     },
     mounted() {
-      // this.limit = this.userInfo.level ==2 ?true: false;
-      // console.log(this.limit, '是否是老师身份')
+      this.teachingInfo = this.$route.query;
     },
     methods: {
-      writeArt() {
-        this.$router.push({
-          name: 'write',
-          query: {
-            fromname: '教研主页',
-            fromwhere: 'teachingHomepage',
-            spaceModule: 'teaching',
-            // c_id:this.$store.state.userInfo.teaching_id //教研组id
-          }
-        })
-      }
+     
     }
   }
 </script>
@@ -58,14 +43,14 @@
       .top-title{
         height: 56px;
         line-height: 56px;
-        font-size: 40px;
+        font-size:40px;
         font-family:STYuanti-SC-Bold,STYuanti-SC;
         font-weight:bold;
         color:rgba(3,70,146,1);
-        line-height:28px;
+        line-height:56px;
         letter-spacing:10px;
-        text-shadow:0px 2px 2px rgba(0,0,0,0.07);
-        -webkit-text-stroke:1px rgba(255,255,255,1);
+        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
+        -webkit-text-stroke:2px rgba(255,255,255,1);
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
         img{
