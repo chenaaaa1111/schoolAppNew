@@ -17,7 +17,7 @@
                 <div class="imgline">
                   <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
                   <span class="imgMessage">{{item.name}}</span>
-                  <span class="imgMessage linkFont">{{item.c_name}}</span>
+                  <span class="imgMessage linkFont" @click="toOtherClass(item)">{{item.c_name}}</span>
                 </div>
                 <div class="imtextview" :id="'content'+item.id">
                   <div class="leftImage">
@@ -39,10 +39,11 @@
             <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
               <el-col class="news-head" :span="24">
                 <div class="news-title">{{item.title}}</div>
-                <div class="news-column">栏目: {{item.c_name}}</div>
               </el-col>
               <el-col :span="24" class="author-info">
-                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
+                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> 
+                <span>{{item.name}}</span>
+                <span class="teamName" @click="toOtherClass(item)">{{item.c_name}}</span>
               </el-col>
               <el-col class="news-content">
                 <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
@@ -58,18 +59,21 @@
                   </el-col>
                 </el-row>
                 <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
-                  <el-col :span="24" class="left-img">
+                  <!-- <el-col :span="24" class="left-img">
                     <img :src="setImg(item.image)" alt=""/>
-                  </el-col>
+                  </el-col> -->
                   <el-col :span="24" class="right-txt">
-                    <div class="text" v-html="item.content"></div>
+                    <div class="text" v-html="item.content?item.content: '暂无数据'"></div>
                     <div class="openmore">
                       <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top"></i></el-button>
                     </div>
                   </el-col>
                 </el-row>
               </el-col>
-              <el-col class="news_create_time">{{item.create_time}}</el-col>
+              <el-col class="news_create_time">
+                <!-- <span class="columnName">栏目: {{item.c_name}}</span> -->
+                {{item.create_time}}
+              </el-col>
             </el-row>
           </van-list>
         </el-card>
@@ -133,7 +137,7 @@ export default {
               item.isopen = false
               return item
             });
-            
+
           }
         })
       }
@@ -153,7 +157,7 @@ export default {
               return item
             });
           }
-          
+
         }
       });
     },
@@ -218,6 +222,17 @@ export default {
         baseSrc = src
       }
       return baseSrc
+    },
+    toOtherClass(team) { //社团category_id 社团名c_name
+      this.$store.commit("setTeamId", team.id);
+      this.$router.push({
+        name: "oterTeamDetail",
+        query: {
+          id: team.category_id,
+          avatar: team.avatar,
+          title: team.c_name
+        }
+      });
     }
   }
 };
@@ -395,6 +410,15 @@ export default {
         font-size: 18px;
         color: #034692;
       }
+      .teamName{
+        cursor: pointer;
+        margin-left: 26px;
+        font-size:18px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(3,70,146,1);
+        line-height:25px;
+      }
     }
     .news-content{
       margin-top: 20px;
@@ -437,6 +461,10 @@ export default {
       font-size: 18px;
       color: #999;
       margin-top: 20px;
+      .columnName{
+        margin-right: 30px;
+        color: #333;
+      }
     }
   }
 }

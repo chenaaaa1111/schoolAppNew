@@ -47,38 +47,7 @@
         routename: '',
         activeIndex: 'all',
         circleUrl: require('../../../assets/images/user.png'),
-        chapterList: [
-          {
-            title: '如何评价美国漫威热门电影《小丑》？',
-            author: '章泽天',
-            team: '学生会',
-            cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-            time: '2019/08/22 09:23',
-            content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。' +
-              '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、' +
-              '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-              '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-              '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>' +
-              '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图' +
-              '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-            flag: true
-          },
-          {
-            title: '如何评价美国漫威热门电影《小丑》？',
-            author: '章泽天',
-            team: '学生会',
-            cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg',
-            time: '2019/08/22 09:23',
-            content: '《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论层面具有一定价值，且十分有趣。' +
-              '从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图和目的性，而是一部发人深省、' +
-              '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-              '带有人物性格特征研究性质的电影《小丑》被业界描述为一部风格大胆的独立电影，以蝙蝠侠的死敌为主要角色，在社会评论' +
-              '<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574594077837&di=405789e616c9aac85462364fe6338aea&imgtype=0&src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F10744269187_640330%2F0.jpg"/>' +
-              '层面具有一定价值，且十分有趣。从这个角度说，这部电影真的没有让人失望。它不是部动作戏，也并不带有明确的主观意图' +
-              '和目的性，而是一部发人深省、带有人物性格特征研究性质的电影',
-            flag: true
-          },
-        ]
+        chapterList: []
       }
     },
     mounted() {

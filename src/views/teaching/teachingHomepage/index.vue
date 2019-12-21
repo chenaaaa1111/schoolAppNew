@@ -7,7 +7,7 @@
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 学校新闻动态 -->
             <News :source="source"></News>
-            <!-- 班级空间-侧边栏 -->
+            <!-- 教研组-侧边栏 -->
             <ClassSpace :source="routename"></ClassSpace>
             <!-- 通知公告 -->
             <Notice :source="source"></Notice>

@@ -7,6 +7,8 @@
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 课题组组员 -->
             <Students></Students>
+            <!-- 访问信息 -->
+            <Visitor></Visitor>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
             <mainNavBar></mainNavBar>     
@@ -17,19 +19,22 @@
   </div>
 </template>
 <script>
-  import PageTop from './components/PageTop.vue'
-  import Students from './components/Students.vue'
-  import mainNavBar from './components/mainNavBar.vue'
+  import PageTop from './components/PageTop.vue';
+  import Students from './components/Students.vue';
+  import Visitor from "./components/Visitor.vue";
+  import mainNavBar from './components/mainNavBar.vue';
   export default{
     name: 'otherTopicGroupHomepage',
     components: {
       PageTop,
       Students,
+      Visitor,
       mainNavBar
     },
     data() {
       return {
         routename: '',
+        teamId: '',
       }
     },
     mounted() {

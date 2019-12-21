@@ -4,7 +4,9 @@
       <el-row>
         <el-col :span="12" class="top-title">
           <img v-if="options.avatar" :src="options.avatar" alt=""/>
-          {{options.title}}社团主页
+          <span v-if="options.title"> {{options.title}}</span>
+          <span v-if="options.name"> {{options.name}}</span>
+          社团主页
         </el-col>
         <el-col v-if="options.showwrite" :span="12" class="top-write">
           <span @click="faddTeam"></span>
@@ -12,13 +14,7 @@
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/news.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/space.png"/>
-            </el-button>
-            <el-button type="primary" circle >
-              <img class="btnicon" src="../../../../assets/images/classes/notice.png"/>
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
           </span>
         </el-col>
@@ -35,6 +31,7 @@
         default: {
           id: '',
           title: '',
+          name: '',
           avatar: '',
           showwrite: true
         }

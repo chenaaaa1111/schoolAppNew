@@ -28,12 +28,12 @@
     data() {
       return {
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        limit: '' //只有level:2才能发布教研空间文章 1学生2老师
+        limit: true //只有level:2才能发布教研空间文章 1学生2老师
       }
     },
     mounted() {
-      this.limit = this.userInfo.level ==2 ?true: false;
-      console.log(this.limit, '是否是老师身份')
+      // this.limit = this.userInfo.level ==2 ?true: false;
+      // console.log(this.limit, '是否是老师身份')
     },
     methods: {
       writeArt() {

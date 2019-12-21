@@ -27,7 +27,7 @@
   import Visitor from './components/Visitor.vue'
   import Exhibition from './components/Exhibition.vue'
   export default{
-    name: 'myHomepage',
+    name: 'otherTeamMyPage',
     components: {
       PageTop,
       UserInfo,

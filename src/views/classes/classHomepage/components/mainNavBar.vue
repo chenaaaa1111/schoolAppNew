@@ -17,7 +17,7 @@
                 <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
                   <el-col class="news-head" :span="24">
                     <div class="news-title">{{item.title}}</div>
-                    <div class="news-column">栏目: {{item.column_name}}</div>
+                    <!-- <div class="news-column">栏目: {{item.column_name}}</div> -->
                   </el-col>
                   <el-col :span="24" class="author-info">
                     <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
@@ -36,33 +36,23 @@
                       </el-col>
                     </el-row>
                     <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
-                      <el-col :span="24" class="left-img">
+                      <!-- <el-col :span="24" class="left-img">
                         <img :src="setImg(item.image)" alt=""/>
-                      </el-col>
+                      </el-col> -->
                       <el-col :span="24" class="right-txt">
-                        <div class="text" v-html="item.content"></div>
+                        <div class="text" v-html="item.content?item.content:'暂无数据'"></div>
                         <div class="openmore">
                           <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top"></i></el-button>
                         </div>
                       </el-col>
                     </el-row>
                   </el-col>
-                  <el-col class="news_create_time">{{item.create_time}}</el-col>
+                  <el-col class="news_create_time"><span class="columnName">栏目: {{item.column_name}}</span>{{item.create_time}}</el-col>
                 </el-row>
               </van-list>
             </van-tab>
           </van-tabs>
         </div>
-        <!-- <div class="rightBar">
-                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                  <el-submenu index="2">
-                    <template slot="title" style="line-height: 44px;">更多</template>
-                    <el-menu-item index="2-1">选项1</el-menu-item>
-                    <el-menu-item index="2-2">选项2</el-menu-item>
-                    <el-menu-item index="2-3">选项3</el-menu-item>
-                  </el-submenu>
-                </el-menu>
-              </div> -->
       </div>
 
     </div>
@@ -83,7 +73,7 @@
         list: [],
         pageSize: 5,//页尺寸
         page: 1,//页数
-        psize: 10,
+        psize: 5,
         loading: false,
         finished: false,
         active: 1,
@@ -455,6 +445,10 @@
         font-size: 18px;
         color: #999;
         margin-top: 20px;
+        .columnName{
+          margin-right: 30px;
+          color: #333;
+        }
       }
     }
   }

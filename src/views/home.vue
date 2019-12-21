@@ -563,7 +563,7 @@
   .view-home {
     height: 100%;
     background: url('../assets/images/bg1.jpg') no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     display: flex;
     flex-direction: column;
 

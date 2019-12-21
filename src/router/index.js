@@ -55,57 +55,67 @@ const router= new Router({
       path: '/classes',
       name: 'classes',
       component: () => import('@/views/classes/index.vue'), // 班级空间
-       redirect: '/classes/campusHomepage',
+      redirect: '/classes/campusHomepage',
       children: [
         {
           path: '/classes/campusHomepage',
           name: 'campusHomepage',
           component: () => import('@/views/classes/campusHomepage/index.vue') // 校园主页
         },
+        // {
+        //   path: '/classes/classHomepage',
+        //   name: 'classHomepage',
+        //   component: () => import('@/views/classes/classHomepage/index.vue') // 班级主页
+        // },
+        // {
+        //   path: '/classes/myHomepage',
+        //   name: 'myHomepage',
+        //   component: () => import('@/views/classes/myHomepage/index.vue') // 我的主页
+        // },
         {
-          path: '/classes/classHomepage',
-          name: 'classHomepage',
-          component: () => import('@/views/classes/classHomepage/index.vue') // 班级主页
-        },
-        {
-          path: '/classes/myHomepage',
-          name: 'myHomepage',
-          component: () => import('@/views/classes/myHomepage/index.vue') // 我的主页
+          path: '/classes/myClassPage',
+          name: 'myClassPage',
+          component: () => import('@/views/classes/myClassPage/index.vue') //我的班级
         },
         {
           path: '/classes/otherClassHomepage',
           name: 'otherClassHomepage',
           component: () => import('@/views/classes/otherClassHomepage/index.vue') // 别人的班级
         },
-        {
-          path: '/classes/otherHomepage',
-          name: 'otherHomepage',
-          component: () => import('@/views/classes/otherHomepage/index.vue') // 别人的主页
-        }
+        // {
+        //   path: '/classes/otherHomepage',
+        //   name: 'otherHomepage',
+        //   component: () => import('@/views/classes/otherHomepage/index.vue') // 别人的主页
+        // }
       ]
     },
     {
       path: '/grade',
       name: 'grade',
       component: () => import('@/views/grade/index.vue'), // 年级空间
-      redirect: '/grade/gradeHomepage',
-      children: [
-        {
-          path: '/grade/gradeHomepage',
-          name: 'gradeHomepage',
-          component: () => import('@/views/grade/campusHomepage/index.vue'), // 社团空间
-        },
-        {
-          path: '/grade/myGradeHomepage',
-          name: 'myGradeHomepage',
-          component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 社团空间
-        },
-        {
-          path: '/grade/otherGradeHomepage',
-          name: 'otherGradeHomepage',
-          component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 社团空间
-        },
-      ]
+      // redirect: '/grade/gradeHomepage',
+      // children: [
+      //   {
+      //     path: '/grade/gradeHomepage',
+      //     name: 'gradeHomepage',
+      //     component: () => import('@/views/grade/campusHomepage/index.vue'), // 年级空间 --校园主页
+      //   },
+      //   {
+      //     path: '/grade/myGradeHomepage',
+      //     name: 'myGradeHomepage',
+      //     component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 年级空间 --我的年级
+      //   },
+      //   {
+      //     path: '/grade/otherGradeHomepage',
+      //     name: 'otherGradeHomepage',
+      //     component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
+      //   }
+      // ]
+    },
+    {
+      path: '/grade/otherGradeHomepage',
+      name: 'otherGradeHomepage',
+      component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
     },
     {
       path: '/team',
@@ -162,9 +172,14 @@ const router= new Router({
           component: () => import('@/views/special/mySpecialHomepage/index.vue'), // 专题空间-我的专题
         },
         {
+          path: '/special/otherHomepage',
+          name: 'otherHomepage',
+          component: () => import('@/views/special/otherHomepage/index.vue'), // 专题空间-别人的主页
+        },
+        {
           path: '/special/showmovie',
           name: 'showmovie',
-          component: () => import('@/views/special/read/index.vue'), // 专题空间-我的专题
+          component: () => import('@/views/special/read/index.vue'), // 专题空间-我的专题内容详情
         }
       ]
     },
@@ -177,27 +192,32 @@ const router= new Router({
         {
           path: '/topic/topicHomepage',
           name: 'topicHomepage',
-          component: () => import('@/views/topic/topicHomepage/index.vue'), //
+          component: () => import('@/views/topic/topicHomepage/index.vue'), //课题空间 -- 课题主页
         },
         {
           path: '/topic/myTopicGroupHomepage',
           name: 'myTopicGroupHomepage',
-          component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), //
+          component: () => import('@/views/topic/myTopicGroupHomepage/index.vue'), // 课题空间 -- 我的课题组
+        },
+        {
+          path: '/topic/myTopicMainHomepage',
+          name: 'myTopicMainHomepage',
+          component: () => import('@/views/topic/myTopicMainHomepage/index.vue'), // 课题空间 -- 从我的课题组---进入的课题组
         },
         {
           path: '/topic/otherTopicGroupHomepage',
           name: 'otherTopicGroupHomepage',
-          component: () => import('@/views/topic/otherTopicGroupHomepage/index.vue'), //
+          component: () => import('@/views/topic/otherTopicGroupHomepage/index.vue'), //课题空间 -- 别人的课题组 -主页
         },
         {
           path: '/topic/myTopicHomepage',
           name: 'myTopicHomepage',
-          component: () => import('@/views/topic/myTopicHomepage/index.vue'), //
+          component: () => import('@/views/topic/myTopicHomepage/index.vue'), // 课题空间 -- 我的主页
         },
         {
           path: '/topic/otherTopicDetail',
           name: 'otherTopicDetail',
-          component: () => import('@/views/topic/otherTopicDetail/index.vue'), //
+          component: () => import('@/views/topic/otherTopicDetail/index.vue'), // 课题空间 -- 别人的主页
         }
       ]
     },
@@ -210,18 +230,28 @@ const router= new Router({
         {
           path: '/teaching/teachingHomepage',
           name: 'teachingHomepage',
-          component: () => import('@/views/teaching/teachingHomepage/index.vue'), // 专题空间-首页
+          component: () => import('@/views/teaching/teachingHomepage/index.vue'), // 教研空间-教研主页
         },
         {
           path: '/teaching/myTeachGroupHomepage',
           name: 'myTeachGroupHomepage',
-          component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 专题空间-首页
+          component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 教研空间-我的教研组
         },
         {
           path: '/teaching/myTeachingHomepage',
           name: 'myTeachingHomepage',
-          component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 专题空间-首页
-        }
+          component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 教研空间-我的主页
+        },
+        {
+          path: '/teaching/otherTeachingHomepage',
+          name: 'otherTeachingHomepage',
+          component: () => import('@/views/teaching/otherTeachingHomepage/index.vue'), // 教研空间-别的教研主页
+        },
+        {
+          path: '/teaching/otherHomepage',
+          name: 'otherHomepage',
+          component: () => import('@/views/teaching/otherHomepage/index.vue'), // 教研空间-别人的主页
+        },
       ]
     },
     {

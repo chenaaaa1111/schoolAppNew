@@ -8,7 +8,7 @@
     </h2>
     <div class="lately">最近10个访客:</div>
     <div v-if="visitors.length>0">
-      <span @click="goOther()" v-for="(item,index) in visitors">
+      <span v-for="(item,index) in visitors"  @click="goOtherHomepage(item)">
         <el-avatar class="vistor-avatar" :size="44" :src="item.avatar"></el-avatar>
       </span>
     </div>
@@ -26,10 +26,10 @@
       }
     },
     methods: {
-      goOther() {
-        console.log('999')
+      goOtherHomepage(item) { //点击访客 进入该访客的主页
         this.$router.push({
-          name: 'otherHomepage'
+          name: 'otherHomepage',
+          query: item
         })
       },
       getVisitors(res) {

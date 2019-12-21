@@ -92,13 +92,27 @@
         this.tab = tab;
         if (tab == 'examing') {
           request.post('/roomapi/Room_Class/audit', {}, (res) => {
-            this.examings = res.data.model;
+            if(res.code ==0){
+              if (res.data.model.length > 0) {
+                this.examings = res.data.model.map(item => {
+                  item.isopen = false;
+                  return item;
+                });
+              }
+            }
             this.ExhibitionTitle = "审核中";
             this.upUrl = "/roomapi/Room_Class/addArticle";
           })
         } else if (tab == 'notPass') {
           request.post('/roomapi/Room_Class/notAudit', {}, (res) => {
-            this.examings = res.data.model;
+            if(res.code ==0){
+              if (res.data.model.length > 0) {
+                this.examings = res.data.model.map(item => {
+                  item.isopen = false;
+                  return item;
+                });
+              }
+            }
             this.ExhibitionTitle = "审核未通过";
             this.upUrl = "/roomapi/Room_Class/addArticle";
           })
@@ -110,8 +124,12 @@
             psize: 50
           };
           request.post('/roomapi/Users/userMessage', data, (res) => {
+            if(res.code ==0){
+              if (res.data.model.length > 0) {
+                self.messageList = res.data;
+              }
+            }
             self.ExhibitionTitle = "消息通知";
-            self.messageList = res.data;
           })
         } else if (tab == 'allClassDynamics') {
           var self = this;

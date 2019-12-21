@@ -46,10 +46,11 @@
             <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
               <el-col class="news-head" :span="24">
                 <div class="news-title">{{item.title}}</div>
-                <div class="news-column">栏目: {{item.c_name}}</div>
               </el-col>
               <el-col :span="24" class="author-info">
-                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
+                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> 
+                <span>{{item.name}}</span>
+                <span class="teamName">{{item.c_name}}</span>
               </el-col>
               <el-col class="news-content">
                 <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
@@ -409,6 +410,15 @@
         span{
           font-size: 18px;
           color: #034692;
+        }
+        .teamName{
+          cursor: pointer;
+          margin-left: 26px;
+          font-size:18px;
+          font-family:PingFangSC-Regular,PingFang SC;
+          font-weight:400;
+          color:rgba(3,70,146,1);
+          line-height:25px;
         }
       }
       .news-content{
