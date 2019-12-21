@@ -269,22 +269,22 @@ const router= new Router({
 
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login'||to.path.indexOf('login')>=0) {
-    next();
-  } else {
-    let token = sessionStorage.getItem('Authorization');
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login'||to.path.indexOf('login')>=0) {
+//     next();
+//   } else {
+//     let token = sessionStorage.getItem('Authorization');
 
-    if (token === null || token === '') {
-      // if(from){
+//     if (token === null || token === '') {
+//       // if(from){
 
-      // }
-      console.log('from',to);
-      next('/login');
-    } else {
-      next();
-    }
-  }
-});
+//       // }
+//       console.log('from',to);
+//       next('/login');
+//     } else {
+//       next();
+//     }
+//   }
+// });
 
 export default router;

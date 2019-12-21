@@ -31,7 +31,7 @@
           <el-col :xl="16" :lg="16" :md="20" :sm="22" :xs="24">
             <el-card class="nine">
               <el-row>
-                <el-col :span="8" v-for="(item, index) in realRoutlist" :key="index">
+                <el-col :span="8" v-for="(item, index) in routerList" :key="index">
                   <div :to="{name: item.name,query:{id:item._id}}"
                     @click="goToDetail({name: item.name,query:{id:item._id}})" class="router-link">
                     <div class="icon-box">
@@ -72,7 +72,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="classDialog = false">取 消</el-button>
+        <el-button @click="gonext('class')">直接进入</el-button>
         <el-button type="primary" @click="classdialogHandle('class')">进入</el-button>
       </div>
     </el-dialog>
@@ -104,7 +104,7 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="gradeDialog = false">取 消</el-button>
+        <el-button @click="gonext('grade')">直接进入</el-button>
         <el-button type="primary" @click="classdialogHandle('grade')">进入</el-button>
       </div>
     </el-dialog>
@@ -117,7 +117,7 @@
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="24" :sm="12" :md="20" :lg="18" :xl="18">
             <el-form-item label="专业">
-              <el-select v-model="classInfo.subject_id" @change="selectTopic" placeholder="请选择课题组">
+              <el-select v-model="classInfo.subject_id" multiple @change="selectTopic" placeholder="请选择课题组">
                 <el-option :label="item.title" :value="item.id" v-for="(item,index) in topicOptioiins" :key="index">
                 </el-option>
 
@@ -130,7 +130,7 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="topicDialog = false">取 消</el-button>
+        <el-button @click="gonext('topic')">直接进入</el-button>
         <el-button type="primary" @click="topicDialogHandle('topic')">进入</el-button>
       </div>
     </el-dialog>
@@ -143,7 +143,8 @@
           <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
             <el-form-item label="班级">
               <el-select v-model="classInfo.teaching_id" @change="selectTeaching" placeholder="请选择教研空间">
-                <el-option :label="item.title" :value="item.id" v-for="(item,index) in TeachingOptions" :key="index" ></el-option>
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in TeachingOptions" :key="index">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -152,8 +153,70 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="teachingDialog = false">取 消</el-button>
-        <el-button type="primary" @click="teachingDialogHandle('class')">进入</el-button>
+        <el-button @click="gonext('teaching')">直接进入</el-button>
+        <el-button type="primary" @click="teachingDialogHandle('teaching')">进入</el-button>
+      </div>
+    </el-dialog>
+    <!-- 社团弹窗 s -->
+    <el-dialog title="填写信息" :visible.sync="teamDialog">
+      <span class="topdes">
+        请正确的填写以下信息，填写完成后点击“进入”，则进入社团空间，如果没有你要加入的社团请点击<span style="    color: #1989fa;cursor: pointer; " @click="addTeamDialog=true;teamDialog=false">申请社团</span>
+      </span>
+
+      <el-form :model="classInfo">
+        <el-row :gutter="20">
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+          <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
+            <el-form-item label="社团">
+              <el-select v-model="community" @change="selectTeam" multiple placeholder="请选择社团空间">
+                <el-option :label="item.title" :value="item.id" v-for="(item,index) in teamOptions" :key="index">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="gonext('team')">直接进入</el-button>
+        <el-button type="primary" @click="teamDialogHandle('team')">进入</el-button>
+      </div>
+    </el-dialog>
+    <!-- 社团弹窗 e -->
+    <!-- 申请社团弹窗 s -->
+    <el-dialog title="填写信息" :visible.sync="addTeamDialog">
+      <span class="topdes">
+        请正确的输入要申请的社团名称，提交后，由后台管理员审核，审核成功后，即可加入该社团
+      </span>
+
+      <el-form :model="teamInfo">
+        <el-row :gutter="20">
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+          <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
+            <el-form-item label="社团名称">
+              <el-input v-model="teamInfo.title" @change="selectTeam" multiple placeholder="请选择社团空间">
+
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+          <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
+            <el-form-item label="社团说明">
+              <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="teamInfo.statement">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addTeamDialog = false">取消</el-button>
+        <el-button type="primary" @click="addTeam('team')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 课题组弹窗 e -->
@@ -173,11 +236,17 @@
   export default {
     data() {
       return {
+        addTeamDialog:false,
         classInfo: {},
+        teamInfo:{},//社团信息
         calssOptions: [],//班级
         gradeOptions: [],
+        applyTeamDialog: true,
+        teamOptions: [],
         topicOptioiins: [],
         TeachingOptions: [],//教研选项
+        teamDialog: false,
+        community: [],//社团空间
         classDialog: false,//班级弹框是否显示
         gradeDialog: false,//班级弹框是否显示
         teachingDialog: false,//班级弹框是否显示
@@ -239,29 +308,56 @@
       this.formatObj()
     },
     methods: {
-      selectTeaching(id){
-        var userInfo=this.getUserInfo();
-        userInfo.teaching_id=id;
-        sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+      gonext(name){
+        this.$router.push({name:name});
       },
-      teachingDialogHandle(){
-        var data=this.classInfo;
-        request.post('/roomapi/Users/editTeaching', data, (res) => {
+      selectTeam(tabs){
+        console.log(tabs);
+      },
+      addTeam(){
+        var data=this.teamInfo;
+        request.post('/roomapi/Community/createCommunity',data,(res)=>{
           if(res.code==0){
-             this.$router.push({
-               name:teaching,
-               query:{
-                 id:this.classInfo.teaching_id
-               }
-             })
+            this.$router.push({name:team});
           }
         })
       },
-      selectTopic(id){
-        var userInfo=this.getUserInfo();
-        userInfo.subject_id=id;
-        sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-        console.log(id,userInfo);
+      selectTeaching(id) {
+        var userInfo = this.getUserInfo();
+        userInfo.teaching_id = id;
+        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+      },
+      teamDialogHandle() {//社团
+        var data = { community: this.community };
+        request.post('/roomapi/Community/editRoom', data, (res) => {
+          if (res.code == 0) {
+            this.$router.push({
+              name: team,
+              query: {
+                id: this.classInfo.teaching_id
+              }
+            })
+          }
+        })
+      },
+      teachingDialogHandle() {
+        var data = this.classInfo;
+        request.post('/roomapi/Users/editTeaching', data, (res) => {
+          if (res.code == 0) {
+            this.$router.push({
+              name: teaching,
+              query: {
+                id: this.classInfo.teaching_id
+              }
+            })
+          }
+        })
+      },
+      selectTopic(id) {
+        var userInfo = this.getUserInfo();
+        userInfo.subject_id = id;
+        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+        console.log(id, userInfo);
       },
       chooseGradeHandle(id) {
         var data = { gid: id }
@@ -341,34 +437,40 @@
         })
 
       },
+      isLogin() {
+        if (sessionStorage.getItem('Authorization')) {
+          return true;
+        }
+      },
       goToDetail(data) {
         console.log(data);
         // var router={name:data};
         // debugger
         switch (data.name) {
           case "classes":
-            if (this.$store.state.userInfo.class_id) {
-              this.$router.push(data)
-            } else {
-              request.post('/roomapi/School/grade', {}, (res) => {
-                this.gradeOptions = res.data;
-              });
-              this.classDialog = true;
-            }
+            // if (!this.isLogin()||this.$store.state.userInfo.class_id) {
+            this.$router.push(data)
+            // } else  {
+            //   request.post('/roomapi/School/grade', {}, (res) => {
+            //     this.gradeOptions = res.data;
+            //   });
+            //   this.classDialog = true;
+            // }
             break;
-          case "grade":
-            if (this.$store.state.userInfo.class_id) {
+          case "team"://社团
+            // if (false) {
+              if (!this.isLogin()||this.$store.state.userInfo.community.length > 0) {
               this.$router.push(data)
             } else {
-              var data = { s_id: this.$store.state.userInfo.s_id }
-              request.post('/roomapi/School/grade', data, (res) => {
-                this.gradeOptions = res.data;
+              var data = { community: this.$store.state.userInfo.community.length > 0 }
+              request.post('/roomapi/Users/CommunityList', data, (res) => {
+                this.teamOptions = res.data;
               });
-              this.gradeDialog = true;
+              this.teamDialog = true;
             }
             break;
           case "topic":
-            if (JSON.parse(sessionStorage.getItem('userInfo')).subject_id) {
+            if (!this.isLogin() || JSON.parse(sessionStorage.getItem('userInfo')).subject_id.length > 0) {
               this.$router.push(data)
             } else {
               this.specialDialog = true;
@@ -383,11 +485,11 @@
             console.log("classes");
             break;
           case "teaching":
-            if (this.$store.state.userInfo.teaching_id) {
+            if (!this.isLogin() || this.$store.state.userInfo.teaching_id.length > 0) {
               this.$router.push(data)
             } else {
-              var data={
-                s_id:this.userInfo.s_id
+              var data = {
+                s_id: this.userInfo.s_id
               }
               request.post('/roomapi/Users/Teaching', {}, (res) => {
                 this.TeachingOptions = res.data;
@@ -396,10 +498,10 @@
             }
             console.log("Teaching");
             break;
-            default:
-              this.$router.push({
-                name:data.name
-              })
+          default:
+            this.$router.push({
+              name: data.name
+            })
 
         }
       },
@@ -519,6 +621,20 @@
           }
         }
       }
+    }
+
+    .el-dialog__body {
+      padding: 10px 20px 30px 20px;
+    }
+
+    .topdes {
+      display: inline-block;
+      padding-bottom: 20px;
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(136, 136, 136, 1);
+      line-height: 20px;
     }
 
     .home-body {

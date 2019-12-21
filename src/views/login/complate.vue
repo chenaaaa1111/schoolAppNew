@@ -32,7 +32,7 @@
                   </van-cell-group>
             </div>
         
-            <van-button type="default" class="submitLogin" @click="next">下一步</van-button>
+            <van-button type="default" class="submitLogin" @click="next">完成注册并登陆</van-button>
 
         </div>
     </div>
@@ -170,7 +170,7 @@
                   request.post('/roomapi/Users/editBasic',data,function(responese){
                       
                     if(responese.code==0){
-                        self.$router.push('/complateSpace')
+                        self.$router.push('/login')
                     }
                 })
                 // this.$router.push('/login/complate2')

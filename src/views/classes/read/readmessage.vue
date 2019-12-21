@@ -124,7 +124,7 @@
         request.post('/roomapi/Room_Class/myDetails', data, function(res){
           if(res.code == 0) {
             _this.articleDetails = res.data;
-            _this.coverBg = _this.baseUrl + _this.articleDetails.image;
+            _this.coverBg =  _this.articleDetails.image;
           }
           console.log( _this.articleDetails,'获取文章详情返回数据')
         }) 
