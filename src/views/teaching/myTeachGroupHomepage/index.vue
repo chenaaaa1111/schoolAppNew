@@ -61,8 +61,8 @@
       this.getMyTeachingList();
     },
     methods: {
-      getMyTeachingList() {
-        request.post('/roomapi/Community/myCommunity',{},(res)=>{
+      getMyTeachingList() {//获取我的教研组
+        request.post('/roomapi/Teaching/myTeaching',{},(res)=>{
           if(res.code == 0) {
             if(res.data.length > 0) {
               this.teachingList = res.data
