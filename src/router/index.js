@@ -238,6 +238,11 @@ const router= new Router({
           component: () => import('@/views/teaching/myTeachGroupHomepage/index.vue'), // 教研空间-我的教研组
         },
         {
+          path: '/teaching/myTeachMainHomepage',
+          name: 'myTeachMainHomepage',
+          component: () => import('@/views/teaching/myTeachMainHomepage/index.vue'), // 教研空间-我的教研组--主页
+        },
+        {
           path: '/teaching/myTeachingHomepage',
           name: 'myTeachingHomepage',
           component: () => import('@/views/teaching/myTeachingHomepage/index.vue'), // 教研空间-我的主页

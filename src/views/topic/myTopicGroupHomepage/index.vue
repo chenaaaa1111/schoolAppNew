@@ -63,7 +63,7 @@
     },
     methods: {
       getMyTeamList() { //我的课题组列表
-        request.post('/roomapi/Community/myCommunity',{},(res)=>{
+        request.post('/roomapi/Subject/mySubject',{},(res)=>{
           if(res.code == 0) {
             if(res.data.length > 0) {
               this.teamList = res.data

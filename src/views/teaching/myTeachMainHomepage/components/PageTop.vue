@@ -2,16 +2,15 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">我的个人主页</el-col>
-        <el-col :span="12" class="top-write">
-          <span @click="writeArt"></span>
-        </el-col>
-        <el-col :span="24" class="department">
-          <span v-for="(item,index) in teachingAddList" :key="index">{{item.title}}</span>
+        <el-col :span="12" class="top-title">
+          <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.title+'组主页'}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
+              <img class="btnicon" src="../../../../assets/images/teaching/group1.png"/>
+            </el-button>
+            <el-button type="primary" circle >
               <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
           </span>
@@ -21,40 +20,18 @@
   </el-row>
 </template>
 <script>
- import request from '@/api/request.js';
   export default{
     data() {
       return {
-        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        teachGroup: '教研1组', //教研组别
-        teachingAddList: []
+        teachingInfo: {}, //教研组信息
+        url: require('../../../../assets/images/classes/class_else.png'),//给默认的教研组图标
       }
     },
     mounted() {
-      this.getTeachingList();
+      this.teachingInfo = this.$route.query;
     },
     methods: {
-      getTeachingList() { //获取要教研组列表 参数  校园id
-        let data = {
-          level_id: this.userInfo.level_id
-        }
-        let self = this;
-        request.post('/roomapi/Users/Teaching', data, function (res) {
-          if (res.code == 0) {
-            self.teachingAddList = res.data;
-          }
-        })
-      },
-      writeArt() {
-        this.$router.push({
-          name: 'write',
-          query: {
-            fromname: '我的主页',
-            fromwhere: 'myTeachingHomepage',
-            spaceModule: 'teaching'
-          }
-        })
-      }
+     
     }
   }
 </script>
@@ -62,7 +39,7 @@
   .pageTop{
     .pageContent{
       margin-top: 48px;
-      padding-left: 20px; 
+      padding-left: 20px;
       .top-title{
         height: 56px;
         line-height: 56px;
@@ -114,16 +91,8 @@
       }
       .department{
         padding-left: 10px;
-        margin-top: 8px;
-        font-size:24px;
-        font-family:STYuanti-SC-Regular,STYuanti-SC;
-        font-weight:400;
-        color:rgba(51,51,51,1);
-        line-height:33px;
-        letter-spacing:6px;
-        span{
-          margin-left: 10px;
-        }
+        font-size: 24px;
+        line-height: 46px;
       }
     }
   }

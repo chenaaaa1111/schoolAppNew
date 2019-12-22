@@ -70,13 +70,10 @@
           }
         })
       },
-      FgotoPage(item){
+      FgotoPage(item){ //点击进入我的教研组 主页
         this.$router.push({
-          path:'/team/myTeamDetail',
-          query:{
-            c_id: item.c_id,
-            title: item.title
-          }
+          name:'myTeachMainHomepage',
+          query: item
         })
       },
       addTeachingClick(){ //点击添加列表 出现弹窗
@@ -84,9 +81,11 @@
         this.dialogVisible = true;
       },
       getTeachingList() { //获取要教研组列表 参数  校园id
-        let data = {}
+        let data = {
+          level_id: this.userInfo.level_id
+        }
         let self = this;
-        request.post('/roomapi/Users/CommunityList', data, function (res) {
+        request.post('/roomapi/Users/Teaching', data, function (res) {
           if (res.code == 0) {
             self.teachingAddList = res.data;
           }
