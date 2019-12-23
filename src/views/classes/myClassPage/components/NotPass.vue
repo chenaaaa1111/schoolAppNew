@@ -11,7 +11,7 @@
       </span>
     </div>
     <div class="examineTips">{{total}}个审核未通过的新闻:</div>
-    <el-row class="question" v-for="(item,index) in List" :key="index">
+    <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
@@ -37,19 +37,27 @@
     },
     data() {
       return {
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         total: '', //审核未通过数量
-        List:[],//审核未通过列表
+        list:[],//审核未通过列表
       }
     },
     mounted() {
       this.getList();
     },
     methods: {
-      getList(){ //审核未通过列表
-        var data= {};
-        request.post('/roomapi/Room_Class/notAudit',data,(res) =>{
-          this.List= res.data.model;
-          this.total = res.data.total;
+      getList(){ //审核未通过列表  班级class_id
+        var self = this;
+        var data= {
+          c_id: self.userInfo.class_id,
+          page: 1,
+          psize: 3
+        };
+        request.post('/roomapi/Room_Class/notAudit', data, function(res){
+          if(res.code ==0){
+            self.list= res.data.model;
+            self.total = res.data.total;
+          }
         })
       },
       reEditNews(id){ //重新编辑 回到新闻页面
@@ -57,8 +65,8 @@
         query.id = id; //文章id
         query.isEdit = true;
         query.widgetName = '审核未通过';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
+        query.fromname = '我的班级';
+        query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         this.$router.push({
           name: 'write',
@@ -93,7 +101,6 @@
         });
       },
       shownotpassmore(tab) {
-       
         console.log('shownotpassmore********')
         var tab='notPass';
         this.$emit('changeTab',tab);
@@ -102,8 +109,8 @@
         let query = {};
         query.id = id; //文章id
         query.widgetName = '审核未通过';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
+        query.fromname = '我的班级';
+        query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         this.$router.push({
           name: 'readmessage',

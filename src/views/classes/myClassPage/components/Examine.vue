@@ -34,7 +34,8 @@
     },
     data() {
       return {
-        list: []
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        list: [] //审核中的文章列表
       }
     },
     created(){
@@ -44,20 +45,22 @@
       this.getExamine();
     },
     methods: {
-      getExamine(){
+      getExamine(){  //班级空间 审核中的文章  班级class_id
         var self = this;
         var data= {
-          id:self.$store.state.userInfo.id,
-          page:1,
-          psize:3
+          c_id: self.userInfo.class_id,
+          page: 1,
+          psize: 3
         };
-        request.post('/roomapi/Room_Class/audit',data,function(res){
-          console.log(self.list,'审核中的文章列表')
-          self.list = res.data.model;
+        request.post('/roomapi/Room_Class/audit', data, function(res){
+          if(res.code ==0){
+            self.list = res.data.model;
+            console.log(self.list,'审核中的文章列表');
+          }          
         })
       },
       showexaminemore() {
-        console.log('去更多审核中')
+        console.log('去更多审核中');
         var tab='examing';
         this.$emit('changeTab',tab);
       },
@@ -65,8 +68,8 @@
       recall(id) {
         let query = {};
         query.widgetName = '审核中';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
+        query.fromname = '我的班级';
+        query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         query.isEdit = true;
         query.id = id; //文章id
@@ -79,8 +82,8 @@
         console.log('点击进去审核中--文章详情')
         let query = {};
         query.widgetName = '审核中';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
+        query.fromname = '我的班级';
+        query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         query.id = id; //文章id
         this.$router.push({

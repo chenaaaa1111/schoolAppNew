@@ -10,7 +10,7 @@
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                      <el-avatar shape="circle" :size="48" :fit="fit" :src="avatar"></el-avatar>
+                      <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -62,11 +62,11 @@
             <el-row class="news-row">
               <el-col :span="24" class="newsTitle" >{{articleDetails.title}}</el-col>
               <el-col :span="24" class="news-type">
-                <span>发布主页: {{articleDetails.level ==1?'班级栏目':'校园栏目'}}</span>
+                <!-- <span>发布主页: {{articleDetails.level ==1?'班级栏目':'校园栏目'}}</span> -->
                 <span>发布栏目: {{articleDetails.column_name}}</span>
               </el-col>
               <el-col :span="24" class="user-info">
-                <el-avatar shape="circle" :size="32" :fit="fit" :src="avatar"></el-avatar>
+                <el-avatar shape="circle" :size="32" :fit="fit" :src="userInfo.avatar"></el-avatar>
                 <span>{{articleDetails.name}}</span>
               </el-col>
               <el-col :span="24" class="news-content" v-html="articleDetails.content">
@@ -87,12 +87,11 @@
       return{
         baseUrl: 'http://school.i2f2f.com',//图片域名
         fit: 'cover',
-        userInfo: {}, //用户信息
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')), //用户信息
         coverBg: '', //封面图
-        avatar: '', //头像吗
         // url: require('../../../assets/images/user.png'),
         articleDetails: '',//文章信息
-        fromwhere: '',
+        fromwhere: '',//从什么模块过了
         title: '',
         widgetName: '',
         newsDetails: '' //消息通知详情
@@ -103,9 +102,6 @@
       this.fromwhere = this.$route.query.fromwhere;
       this.widgetName = this.$route.query.widgetName;
       this.title = this.$route.query.fromname;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.avatar=this.userInfo.avatar;//头像
     },
     mounted() {
       if(this.$route.query.widgetName == '审核中' || this.$route.query.widgetName == '审核未通过'){
@@ -199,28 +195,6 @@
         })
       },
       goBack() { //回到我的主页的同时 判断渲染右边页面的组件
-        // var tab = '';
-        // switch (widgetName) {
-        //   case "examing":
-        //    // 审核中
-        //     tab = 'main'
-        //     break;
-        //   case "notPass":
-        //    //审核未通过
-        //     tab = 'main'
-        //     break;
-        //   case "message":
-        //     // 消息通知
-        //     tab = 'main'
-        //     break;
-        //     default:
-        //       this.$router.push({
-        //         name:data.name
-        //       })
-        // }
-        // var tab='message';
-        // this.$emit('changeTab',tab);
-        // console.log("message")
         this.$router.push({
           name: this.fromwhere
         })

@@ -49,19 +49,14 @@
             psize: 4
           };
           request.post('/roomapi/Users/userMessage',data,function(res){
-            self.messages = res.data.model;
-            self.total = res.data.total;
+            if(res.code ==0){
+              self.messages = res.data.model;
+              self.total = res.data.total;
+            }
         })
       },
       showmessagemore() { //消息通知 点击全部
         console.log(222222);
-        // this.$router.push({
-        //   name: 'messagemore',
-        //   params: {
-        //     widgetName: '消息通知',
-        //     fromwhere: this.source
-        //   }
-        // })
         var tab='message';
         this.$emit('changeTab',tab);
         console.log("message")
@@ -69,8 +64,8 @@
       msgDetails(item) { //点击消息 --进入消息通知详情页面
         let query = {};
         query.widgetName = '消息通知';
-        query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
+        query.fromname = '我的班级';
+        query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         query.id = item.id; //消息id
         this.$router.push({
