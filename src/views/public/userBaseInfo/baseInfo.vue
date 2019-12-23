@@ -43,7 +43,7 @@
                   </el-col>
                   <el-col>
                     <el-form-item label="校区">
-                      <el-radio-group v-model="formdata.s_id">
+                      <el-radio-group v-model="formdata.s_id" style="line-height: 40px;">
                         <el-radio v-for="(item,index) in schoolList" :label="item.id" :key="item.id">{{item.title}}</el-radio>
                       </el-radio-group>
                     </el-form-item>
@@ -56,72 +56,28 @@
                     <span class="title">空间资料</span>
                     <el-button type="primary" @click="saveSpaceChecked">保存</el-button>
                   </el-col>
-                  <el-col>
-                    <el-form-item label="空间选择" label-width="80px">
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_class" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/classes.png" class="spaceIcon"/>班级空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
 
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_grade" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/grade.png" class="spaceIcon"/>年级空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
-
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_community" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/team.png" class="spaceIcon"/>社团空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
-
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_project" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/special.png" class="spaceIcon"/>专题空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
-
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_subject" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/topic.png" class="spaceIcon"/>课题空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
-
-                      <div>
-                        <el-form-item>
-                          <el-checkbox v-model="formdata.room_teaching" :true-label="trueLabel" :false-label="falseLabel">
-                            <img src="../../../assets/main/teaching.png" class="spaceIcon"/>教研空间
-                          </el-checkbox>
-                        </el-form-item>
-                      </div>
-                    </el-form-item>
-                  </el-col>
                 </el-row>
                 <!-- 班级空间 -->
                 <el-row class="formRow" :gutter="10">
                   <el-col class="formTitle">
                     <div class="title subTitle">班级空间</div>
-                    <el-button type="primary" @click="saveClass">保存</el-button>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24" v-if="true">
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24" v-if="true">
+                    <el-form-item label="校部">
+                      <el-select class="formwidth" v-model="formdata.level_id" placeholder="请选择">
+                        <el-option v-for="(item,index) in schoolList" :label="item.title" :value="item.id" :key="index+5"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24" v-if="true">
                     <el-form-item label="年级">
                       <el-select class="formwidth" v-model="formdata.grade_id" placeholder="请选择">
                         <el-option v-for="(item,index) in gradeList" :label="item.title" :value="item.id" :key="index+10"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24">
                     <el-form-item label="班级">
                       <el-select class="formwidth" v-model="formdata.class_id" placeholder="请选择">
                         <el-option v-for="(item,index) in classList" :label="item.title" :value="item.id" :key="index+20"></el-option>
@@ -130,35 +86,13 @@
                   </el-col>
                   <el-col><el-divider></el-divider></el-col>
                 </el-row>
-                <!-- 年级空间 -->
-                <el-row class="formRow" :gutter="10">
-                  <el-col class="formTitle">
-                    <div class="title subTitle">年级空间</div>
-                    <el-button type="primary" @click="saveGrade">保存</el-button>
-                  </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-                    <el-form-item label="年级">
-                      <el-select class="formwidth" v-model="formdata.grade_id" placeholder="请选择">
-                        <el-option v-for="(item,index) in gradeList" :label="item.title" :value="item.id" :key="index+30"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24" v-if="true">
-                    <el-form-item label="班级">
-                      <el-select class="formwidth" v-model="formdata.class_id" placeholder="请选择">
-                        <el-option v-for="(item,index) in classList" :label="item.title" :value="item.id" :key="index+40"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col><el-divider></el-divider></el-col>
-                </el-row>
+
                 <!-- 课题空间 -->
                 <el-row class="formRow">
                   <el-col class="formTitle">
                     <div class="title subTitle">课题空间</div>
-                    <el-button type="primary" @click="saveSubject">保存</el-button>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24">
                     <el-form-item label="课题组">
                       <el-select class="formwidth" v-model="formdata.subject_id" placeholder="请选择">
                         <el-option v-for="(item,index) in subjectList" :label="item.title" :value="item.id" :key="index+50"></el-option>
@@ -172,10 +106,30 @@
                   <el-col class="formTitle">
                     <div class="title subTitle">教研空间</div>
                   </el-col>
-                  <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24">
                     <el-form-item label="教研组">
                       <el-select class="formwidth" v-model="formdata.teaching_id" placeholder="请选择">
                         <el-option v-for="(item,index) in teachingList" :label="item.title" :value="item.id" :key="index+60"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col><el-divider></el-divider></el-col>
+                </el-row>
+                <!-- 教研空间 -->
+                <el-row class="formRow">
+                  <el-col class="formTitle">
+                    <div class="title subTitle">
+                      社团空间
+                      <span class="subTitle_tips">
+                        如果没有你要加入的社团,请前往社团空间
+                        <el-link type="primary">申请新社团</el-link>
+                      </span>
+                    </div>
+                  </el-col>
+                  <el-col :xl="8" :lg="8" :md="12" :sm="24" :xs="24">
+                    <el-form-item label="社团">
+                      <el-select class="formwidth" multiple  v-model="teamids" placeholder="请选择" @change="teamChange">
+                        <el-option v-for="(item,index) in teamList" :label="item.title" :value="item.id" :key="index+70"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -289,6 +243,7 @@ export default {
       classList: [], // 班级列表
       subjectList: [], // 课题组列表
       teachingList: [], // 教研组列表
+      teamList: [], // 社团列表
       formdata: {
         id: 1,
         s_id: 1,
@@ -314,8 +269,10 @@ export default {
         create_time: "2019-11-11 15:24:30",
         school: 1,
         grade: "19级",
-        class: "22班"
+        class: "22班",
+
       },
+      teamids: [],
       dialogImageUrl: "",
       trueLabel: 1,
       falseLabel: 0,
@@ -349,6 +306,7 @@ export default {
     this.getClassList()
     this.getSubjectList()
     this.getTeachingList()
+    this.getTeamList()
     this.getData()
   },
   methods: {
@@ -369,6 +327,10 @@ export default {
       this.$router.push("/login");
     },
 
+    teamChange(val) {
+      this.formdata.teamids = val
+      console.log(val, 'team select')
+    },
     getSchoolList() {
       request.post('/roomapi/School/lists', {}, (res)=>{
         console.log(res, '请求校区列表')
@@ -417,6 +379,14 @@ export default {
         }
       })
     },
+    getTeamList() {
+      request.post('/roomapi/Users/CommunityList', {}, (res)=>{
+        console.log(res, '请求team列表')
+        if(res.code == 0) {
+          this.teamList = res.data
+        }
+      })
+    },
     getData() { // 获取用户信息
       let data = {
         u_id: this.userInfo.id
@@ -425,6 +395,16 @@ export default {
         console.log(res, '请求用户信息')
         if(res.code == 0) {
           this.formdata = res.data
+          // this.formdata.teamids = (res.data.community).map(item => {
+          //   return item.c_id
+          // })
+          let ids = []
+          if(res.data.community.length>0) {
+            for(var i=0;i<res.data.community.length;i++) {
+              ids.push(res.data.community[i].c_id)
+            }
+            this.teamids = ids
+          }
           let avatarObj = {
             name: 'oldAvatar',
             url: res.data.avatar
@@ -593,6 +573,19 @@ export default {
         .el-upload-list__item {
           transition: none !important;
         }
+    }
+    .subTitle{
+      .subTitle_tips{
+        font-size: 12px;
+        font-weight: normal;
+        color: #ddd;
+        white-space: nowrap;
+        .el-link--inner{
+          font-size: 12px;
+          position: relative;
+          top: -3px;
+        }
+      }
     }
 </style>
 <style lang="scss" scoped>
