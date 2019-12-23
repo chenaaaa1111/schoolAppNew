@@ -50,25 +50,25 @@
                     <img v-else src="../../../../assets/images/noimg.png" alt=""/>
                   </el-col>
                   <el-col :xl="16" :lg="16" :md="16" :sm="14" :xs="14" class="right-txt">
-                    <div class="text" v-html="item.content"></div>
+                    <div class="text" v-html="item.content?item.content:'暂无数据'"></div>
                     <div class="openmore">
                       <el-button type="text" size="mini" @click="openNews(index)">阅读更多<i class="el-icon-caret-bottom"></i></el-button>
                     </div>
                   </el-col>
                 </el-row>
                 <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
-                  <el-col :span="24" class="left-img">
+                  <!-- <el-col :span="24" class="left-img">
                     <img :src="setImg(item.image)" alt=""/>
-                  </el-col>
+                  </el-col> -->
                   <el-col :span="24" class="right-txt">
-                    <div class="text" v-html="item.content"></div>
+                    <div class="text" v-html="item.content?item.content:'暂无数据'"></div>
                     <div class="openmore">
                       <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top"></i></el-button>
                     </div>
                   </el-col>
                 </el-row>
               </el-col>
-              <el-col class="news_create_time">{{item.create_time}}</el-col>
+              <el-col class="news_create_time"><span class="columnName">栏目: {{item.column_name}}</span>{{item.create_time}}</el-col>
             </el-row>
 
           </van-list>
@@ -118,7 +118,7 @@ export default {
                 item.isopen = false
                 return item
               })
-              self.contentList = list              
+              self.contentList = list
             } else {
               self.contentList = []
             }
@@ -137,7 +137,7 @@ export default {
                 item.isopen = false
                 return item
               })
-              self.contentList = list              
+              self.contentList = list
             } else {
               self.contentList = []
             }
@@ -162,7 +162,7 @@ export default {
             for(var i=0;i<list.length;i++) {
               _this.contentList.push(list[i]);
             }
-            
+
           }
         }
       });
@@ -192,7 +192,7 @@ export default {
             for(var i=0;i<list.length;i++) {
               this.contentList.push(list[i]);
             }
-            
+
             this.page +=1;
           }else{
             this.finished = true;
@@ -446,6 +446,10 @@ export default {
       font-size: 18px;
       color: #999;
       margin-top: 20px;
+      .columnName{
+        margin-right: 30px;
+        color: #333;
+      }
     }
   }
 }
