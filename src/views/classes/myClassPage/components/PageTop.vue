@@ -39,7 +39,7 @@
     },
     created() {
       this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      console.log(this.userInfo,'用户信息')
+      console.log(this.userInfo,'用户信息');
       this.classInfo = '20' + this.userInfo.grade + this.userInfo.class;
     },
     methods: {

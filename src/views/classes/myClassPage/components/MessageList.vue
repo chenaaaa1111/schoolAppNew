@@ -61,13 +61,12 @@ export default {
       var tab = "main";
       this.$emit("changeTab", tab);
     },
-    showmessagemore() {},
     msgDetails(item) {
       //点击消息 --进入消息通知详情页面
       let query = {};
       query.widgetName = "消息通知";
-      query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
+      query.fromname = "我的班级";
+      query.fromwhere = "myClassPage";
       query.spaceModule = "classes"; //班级空间名
       query.id = item.id; //消息id
       this.$router.push({

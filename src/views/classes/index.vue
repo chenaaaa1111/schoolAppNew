@@ -45,7 +45,7 @@
     data() {
       return {
         fit: 'cover',
-        userInfo: {},
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         activeIndex: 'campusHomepage',
         spaceKeyWord: '' //搜索关键字
       }
@@ -56,13 +56,13 @@
         // let routers = ['campusHomepage', 'classHomepage', 'myHomepage']
         let routers = ['campusHomepage', 'myClassPage']
         if(routers.indexOf(to.name) == -1) {
-          this.activeIndex = to.name
+          this.activeIndex = to.name;
         }
       }
     },
     mounted() {
       this.activeIndex = this.$route.name;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      // this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       // // this.userInfo=this.$store.state.userInfo;
     },
     created(){
@@ -77,8 +77,9 @@
         })
       },
       handleSelect(val) { // 导航栏切换路由
-        this.activeIndex = val
-        console.log(val, '导航栏切换路由名称')
+        this.activeIndex = val;
+        this.spaceKeyWord = ''; //清空搜索输入框
+        console.log(val, '导航栏切换路由名称');
       },
       //搜索相关内容
       search(){

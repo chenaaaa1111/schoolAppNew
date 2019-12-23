@@ -23,13 +23,12 @@
                 <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
                   <el-col class="news-head" :span="24">
                     <div class="news-title">{{item.title}}</div>
-                    <!-- <div class="news-column">栏目: {{item.column_name}}</div> -->
                   </el-col>
                   <el-col :span="24" class="author-info">
                     <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar>
                     <span>{{item.name}}</span>
                   </el-col>
-                  <el-col class="news-content">
+                  <el-col :span="24" class="news-content">
                     <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
                       <el-col :xl="8" :lg="8" :md="8" :sm="10" :xs="10" class="left-img">
                         <img v-if="item.image != ''" :src="setImg(item.image)" alt />
@@ -60,9 +59,17 @@
                       </el-col>
                     </el-row>
                   </el-col>
-                  <el-col class="news_create_time">
-                    <span class="columnName">栏目: {{item.column_name}}</span>
-                    {{item.create_time}}
+                  <el-col :span="24" class="news_create_time">
+                    <el-row>
+                      <el-col :span="12" class="columnInfo">
+                        <span class="columnName">栏目: {{item.column_name}}</span>
+                        <span>{{item.create_time}}</span>
+                      </el-col>
+                      <el-col :span="12" class="praise">
+                        <img src="../../../../assets/images/unpraise.png"/>
+                        <span>0</span>
+                      </el-col>
+                    </el-row>                    
                   </el-col>
                 </el-row>
               </van-list>
@@ -127,14 +134,15 @@ export default {
   methods: {
     changeTabs(name, title) {
       var _this = this;
+      _this.page = 1;
       console.log(name, title);
       this.$store.commit("setColumnId", name);
       this.$store.commit("setColumnName", title);
       var data = {
-        page: this.page,
-        keyword: this.keyword,
-        psize: this.psize,
-        column: this.selectTab //栏目id 0为全部
+        column: _this.selectTab, //栏目id 0为全部
+        keyword: _this.keyword,
+        page: _this.page,
+        psize: _this.psize
       };
       request.post("/roomapi/Room_Class/schoolPage", data, function(res) {
         _this.contentList = res.data.model.map(item => {
@@ -514,9 +522,20 @@ export default {
       font-size: 18px;
       color: #999;
       margin-top: 20px;
-      .columnName {
-        margin-right: 30px;
-        color: #333;
+      .columnInfo{
+        display: flex;
+        align-items: center;
+        .columnName {
+          margin-right: 30px;
+          color: #333;
+        }
+      }
+      .praise{
+        padding-right: 3%;
+        text-align: right;
+        img{
+          width: 15px;
+        }
       }
     }
   }
