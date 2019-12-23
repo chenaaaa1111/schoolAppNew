@@ -1,5 +1,6 @@
 <template>
   <div class="space">
+    <el-backtop target=".space"></el-backtop>
     <el-row class="page-header" type="flex" justify="center">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
         <el-menu :default-active="activeIndex" class="el-menu-head" mode="horizontal" router
@@ -36,8 +37,9 @@
 </template>
 <script>
   // import eventAll from '@/api/eventAll.js';
-  import Vue from 'vue'
+  import Vue from 'vue';
   export default{
+    name: 'classes',
     components: {
     },
     data() {

@@ -150,52 +150,5 @@
       background-image: url('../../../assets/images/classes/dot.png');
     }
   }
-  .areablock{
-    .areaName{
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    .area{
-      list-style: none;
-      margin-bottom: 30px;
-      li{
-        float: left;
-        width: 33.333%;
-        padding: 8px 0px;
-        font-size: 18px;
-      }
-      li:hover{
-        color: #034692;
-        cursor: pointer;
-      }
-    }
-    .area::after{
-      content: "";
-      display: block;
-      height: 0;
-      clear: both;
-    }
-  }
-  .notice{
-    font-size: 18px;
-    li{
-      padding: 8px 0px;
-      line-height: 30px;
-      border-bottom: 1px dashed #DEDEDE;
-      .noticeTitle{
-        overflow:hidden;
-        text-overflow:ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-      }
-      .noticeDate{
-        text-align: right;
-        color: #888888;
-      }
-    }
-  }
 }
 </style>

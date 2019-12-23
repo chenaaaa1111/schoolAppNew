@@ -130,65 +130,6 @@ export default {
       vertical-align: middle;
     }
   }
-  .newList {
-    list-style: none;
-    li {
-      padding: 16px 20px 16px 18px;
-      margin-left: 20px;
-      font-size: 18px;
-      background: url("../../../assets/images/classes/dotg.png") no-repeat 0px
-        center;
-      background-size: 8px 8px;
-      cursor: pointer;
-      position: relative;
-      border-bottom: 1px dashed #dedede;
-      .text {
-        display: block;
-        margin-right: 80px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .date {
-        position: absolute;
-        width: 80px;
-        top: 17px;
-        right: 0;
-        color: #888888;
-      }
-    }
-    li:hover {
-      color: #034692;
-      background-image: url("../../../assets/images/classes/dot.png");
-    }
-  }
-  .areablock {
-    .areaName {
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    .area {
-      list-style: none;
-      margin-bottom: 30px;
-      li {
-        float: left;
-        width: 33.333%;
-        padding: 8px 0px;
-        font-size: 18px;
-      }
-      li:hover {
-        color: #034692;
-        cursor: pointer;
-      }
-    }
-    .area::after {
-      content: "";
-      display: block;
-      height: 0;
-      clear: both;
-    }
-  }
   .notice {
     font-size: 18px;
     li {

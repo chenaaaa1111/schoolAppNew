@@ -6,7 +6,7 @@
           <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.title+'组主页'}}
         </el-col>
         <el-col :span="12" class="top-write">
-          <span>j加入教研组</span>
+          <span>加入教研组</span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
