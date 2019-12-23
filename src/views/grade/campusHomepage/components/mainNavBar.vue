@@ -2,11 +2,6 @@
   <!-- 班级主页内容组件 -->
   <div id="mainNavBar">
     <div class="mainNavBar">
-      <!-- <ul class="mnavbar">
-                   <li v-for=" item in dataList">
-                        {{item.text}}
-                   </li>
-                </ul> -->
       <div class="tabContainer">
         <div class="leftBar">
           <van-tabs class="mainleftbar" :swipe-threshold='5' :ellipsis="false" v-model="selectTab"
