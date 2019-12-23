@@ -49,7 +49,7 @@ export default {
     return {
       keyword: '',//搜索关键字
       page: 1, //页数
-      psize: 5,
+      psize: 10,
       loading: false,
       finished: false,
       tabactive: "all",
@@ -64,14 +64,22 @@ export default {
   },
   mounted() {
     this.allArtList();
+    this.$root.eventLister.$on('seachInfo',this.seachInfo);
   },
   methods: {
+    seachInfo(key){
+      console.log(key,'key');
+      this.keyword=key;
+      this.page=1;
+      this.menuSelect(this.tabactive);
+    },
     menuSelect(tab) {
       this.page = 1;
       this.tabactive = tab;
       this.loadUrl = this.urlDict[tab];
       var self = this;
       if(tab =='all'){ //全部
+        this.loadUrl= this.urlDict['all'];
         var data = {
           category_id: self.$props.teamId,
           keyword: self.keyword,
@@ -84,9 +92,11 @@ export default {
           }
         })
       }else if(tab == 'news'){
+        this.loadUrl= this.urlDict['news'];
         var data1 = {
-          page: this.page,
-          psize: this.psize,
+          keyword: self.keyword,
+          page: self.page,
+          psize: self.psize,
         };
         request.post(self.loadUrl, data1, function (res) {
           if(res.code ==0){
@@ -94,6 +104,7 @@ export default {
           }
         })
       }else if(tab == 'myPublish'){
+        this.loadUrl= this.urlDict['myPublish'];
         var data2 = {
           u_id: this.$store.state.userInfo.id,
           c_id: this.$route.query.c_id,
@@ -125,19 +136,19 @@ export default {
     onLoad() { //触底加载更多
       var param = {};
       var self = this;
-      if(self.loadUrl =='all'){ //全部
+      if(self.tabactive =='all'){ //全部
         param = {
           category_id: self.$props.teamId,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize,
         };
-      }else if(self.loadUrl == 'news'){
+      }else if(self.tabactive == 'news'){
         param = {
           page: this.page,
           psize: this.psize,
         };
-      }else if(self.loadUrl == 'myPublish'){
+      }else if(self.tabactive == 'myPublish'){
         param = {
           u_id: this.$store.state.userInfo.id,
           c_id: this.$route.query.c_id,

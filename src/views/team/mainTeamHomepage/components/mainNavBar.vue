@@ -105,8 +105,14 @@ export default {
   },
   mounted() {
     this.allArtList();
+    this.$root.eventLister.$on('seachInfo',this.seachInfo);
   },
   methods: {
+    seachInfo(key){
+      console.log(key,'key');
+       this.allArtList(1,key)
+
+    },
     menuSelect(tab) {
       this.page = 1;
       this.tabactive = tab;
@@ -142,7 +148,13 @@ export default {
         })
       }
     },
-    allArtList() {  //社团id（不传显示所有社团文章
+    allArtList(page,keyword) {  //社团id（不传显示所有社团文章
+      if(page){
+        this.page=page;
+      }
+      if(keyword){
+        this.keyword=keyword;
+      }
       var _this = this;
       var data = {
         keyword: _this.keyword,

@@ -10,7 +10,7 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
+    <div class="examineTips">{{list?list.length:0}}个正在审核中的新闻:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
@@ -66,8 +66,8 @@
         let query = {};
         query.widgetName = '审核中';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'teamMyHomepage';
+        query.spaceModule = 'team';//社团空间名
         query.isEdit = true;
         query.id = id; //文章id
         this.$router.push({

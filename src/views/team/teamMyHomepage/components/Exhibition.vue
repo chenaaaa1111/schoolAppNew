@@ -8,56 +8,60 @@
         </el-button>
       </el-col>
       <el-col :span="24">
-        <el-row class="article" v-for="(item,index) in teamDymic" :key="index">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">{{item.title}}</span>
-                <!-- <span class="classify">{{item.c_name}}</span> -->
-                <!-- <span class="date">{{item.create_time}}</span> -->
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24">
-            <!-- 关闭结构 -->
-            <el-row class="content" :gutter="10" v-if="!item.open">
-              <el-col :span="6">
-                <img class="con-pic" :src="serverUrl+item.image" />
-              </el-col>
-              <el-col :span="18">
-                <div class="con-text" v-html="item.content?item.content: '暂无数据'">
-                  <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
-                </div>
-                <div class="read-more">
-                  <el-button type="text" size="mini" @click="open(index)">
-                    阅读全文<i class="el-icon-caret-bottom el-icon--right"></i>
-                  </el-button>
-                </div>
-              </el-col>
-            </el-row>
-            <!-- 展开结构 -->
-            <el-row class="content content-open" :gutter="10" v-if="item.open">
-              <!-- <el-col :span="24">
-                <img class="con-pic" :src="serverUrl+item.image" />
-              </el-col> -->
-              <el-col :span="24">
-                <div class="con-text con-open" v-html="item.content?item.content:'暂无数据'"></div>
-                <div class="read-more">
-                  <el-button type="text" size="mini" @click="close(index)">
-                    收起<i class="el-icon-caret-bottom el-icon--right"></i>
-                  </el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" class="article-date"><span class="columnName">{{item.c_name}}</span>2019/08/22 09:23</el-col>
-          <el-col :span="24">
-            <el-divider></el-divider>
-          </el-col>
-        </el-row>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <el-row class="article" v-for="(item,index) in teamDymic" :key="index">
+            <el-col :span="24">
+              <el-row>
+                <el-col :span="18" class="title">
+                  <span class="text">{{item.title}}</span>
+                  <!-- <span class="classify">{{item.c_name}}</span> -->
+                  <!-- <span class="date">{{item.create_time}}</span> -->
+                </el-col>
+                <el-col :span="6" class="operation">
+                  <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24">
+              <!-- 关闭结构 -->
+              <el-row class="content" :gutter="10" v-if="!item.open">
+                <el-col :span="6">
+                  <img class="con-pic" :src="serverUrl+item.image" />
+                </el-col>
+                <el-col :span="18">
+                  <div class="con-text" v-html="item.content?item.content: '暂无数据'">
+                    <!-- {{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}} -->
+                  </div>
+                  <div class="read-more">
+                    <el-button type="text" size="mini" @click="open(index)">
+                      阅读全文<i class="el-icon-caret-bottom el-icon--right"></i>
+                    </el-button>
+                  </div>
+                </el-col>
+              </el-row>
+              <!-- 展开结构 -->
+              <el-row class="content content-open" :gutter="10" v-if="item.open">
+                <!-- <el-col :span="24">
+                  <img class="con-pic" :src="serverUrl+item.image" />
+                </el-col> -->
+                <el-col :span="24">
+                  <div class="con-text con-open" v-html="item.content?item.content:'暂无数据'"></div>
+                  <div class="read-more">
+                    <el-button type="text" size="mini" @click="close(index)">
+                      收起<i class="el-icon-caret-bottom el-icon--right"></i>
+                    </el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24" class="article-date"><span class="columnName">{{item.c_name}}</span>2019/08/22 09:23
+            </el-col>
+            <el-col :span="24">
+              <el-divider></el-divider>
+            </el-col>
+          </el-row>
+        </van-list>
+
       </el-col>
     </el-row>
   </el-card>
@@ -68,34 +72,60 @@
   export default {
     data() {
       return {
+        loading:false,
+        finished:false,
+        page:1,
+        psize:1,
+        keyword:'',
         teamId: '',
         teamDymic: [],
         serverUrl: this.$store.state.serverUrl
       }
     },
-    created(){
+    created() {
       //创建事件总线
-      var eventLister=new Vue();
-      this.$root.eventLister=eventLister;
+      var eventLister = new Vue();
+      this.$root.eventLister = eventLister;
     },
     mounted() {
-      this.getTeamDynimal();
+      
+      this.$root.eventLister.$on('seachInfo', this.seachInfo);
     },
     methods: {
-      getTeamDynimal() {
+      seachInfo(key) {
+        this.getTeamDynimal(1, key);
+      },
+      onLoad(){
+        this.getTeamDynimal();
+      },
+      getTeamDynimal(page, keyword) {
+        if (page) {
+          this.page = page;
+        }
+        if (keyword) {
+          this.keyword = keyword;
+        }
         var self = this;
         var data = {
-          u_id: self.$store.state.userInfo.id
+          u_id: self.$store.state.userInfo.id,
+          page: this.page,
+          keyword: this.keyword,
+          psize: this.psize
         }
-
         request.post('/roomapi/Community/myPage', data, function (res) {
+          self.loading = false;
+          self.page=self.page+1;
+          if (res.data.model && res.data.model.length > 0) {
 
-          if (res.data.model.length > 0) {
-            self.teamDymic = res.data.model.map(item => {
+            var teamDymic = res.data.model.map(item => {
               item.open = false
               return item
             });
-            console.log(self.teamDymic, 'teamDymic')
+           var oldTeam=self.teamDymic;
+            self.teamDymic=[...teamDymic,...oldTeam];
+            console.log(self.teamDymic, 'teamDymic');
+          }else{
+            self.finished=true;
           }
 
         })
@@ -206,6 +236,7 @@
       .operation {
         text-align: right;
         line-height: 40px;
+
         .el-button {
           padding-top: 0;
           font-size: 12px;
@@ -249,7 +280,8 @@
         color: #999;
         line-height: 30px;
         margin-top: 14px;
-        .columnName{
+
+        .columnName {
           margin-right: 30px;
           color: #333;
         }

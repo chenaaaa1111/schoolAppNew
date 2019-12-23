@@ -21,10 +21,10 @@
               <!-- 社团动态 -->
               <Exhibition v-show="this.tab=='main'"></Exhibition>
               <!-- 审核中 审核未通过 -->
-              <EXhibitionExaming @changeTab="changeTab" :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
+              <EXhibitionExaming  :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
               </EXhibitionExaming>
               <!-- 消息通知列表 -->
-              <MessageList @changeTab="changeTab" :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
+              <MessageList  :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
             </el-card>
           </el-col>
         </el-row>
@@ -33,6 +33,7 @@
   </div>
 </template>
 <script>
+  import request from '@/api/request.js'
   import PageTop from './components/PageTop.vue';
   import UserInfo from './components/UserInfo.vue';
   // import Visitor from './components/Visitor.vue';
@@ -76,8 +77,10 @@
     },
     methods: {
       changeTab(tab) {
+        debugger
         console.log(tab);
         this.tab = tab;
+      
         if (tab == 'examing') {
           request.post('/roomapi/Room_Class/audit', {}, (res) => {
             if(res.code ==0){
@@ -92,6 +95,7 @@
             this.upUrl = "/roomapi/Room_Class/addArticle";
           })
         } else if (tab == 'notPass') {
+     
           request.post('/roomapi/Room_Class/notAudit', {}, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {

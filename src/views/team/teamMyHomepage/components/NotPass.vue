@@ -93,7 +93,7 @@
         });
       },
       shownotpassmore(tab) {
-       
+       debugger
         console.log('shownotpassmore********')
         var tab='notPass';
         this.$emit('changeTab',tab);

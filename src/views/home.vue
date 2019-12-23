@@ -195,7 +195,7 @@
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
             <el-form-item label="社团名称">
-              <el-input v-model="teamInfo.title" @change="selectTeam" multiple placeholder="请选择社团空间">
+              <el-input v-model="teamInfo.title"   placeholder="请输入社团名称">
 
               </el-input>
             </el-form-item>

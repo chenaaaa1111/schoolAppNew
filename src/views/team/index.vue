@@ -11,7 +11,12 @@
             <el-menu-item index="myTeamHomepage">我的社团</el-menu-item>
             <el-menu-item index="teamMyHomepage">我的主页</el-menu-item>
             <li class="el-menu-item menu-search hidden-sm-and-down">
-              <el-input type="text" suffix-icon="el-icon-search" v-model="spaceKeyWord" placeholder="搜索相关内容" @keyup.enter.native="search"></el-input>
+              <el-input type="text"  v-model="spaceKeyWord" placeholder="搜索相关内容" @keyup.enter.native="search">  <i
+                class="el-icon-search el-input__icon"
+                slot="suffix"
+                @click="search">
+              </i>
+            </el-input>
             </li>
             <li class="nav-user">
               <el-dropdown trigger="click">
