@@ -48,8 +48,6 @@
 </script>
 <style lang="scss">
   .banner-card {
-    margin-top: 12px;
-
     .cardTitle {
       font-size: 24px;
       font-weight: 600;

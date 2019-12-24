@@ -1,5 +1,6 @@
 <template>
   <div class="grade">
+    <el-backtop target=".grade"></el-backtop>
     <router-view></router-view>
   </div>
 </template>

@@ -38,10 +38,11 @@
             <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
               <el-col class="news-head" :span="24">
                 <div class="news-title">{{item.title}}</div>
-                <div class="news-column">栏目: {{item.c_name}}</div>
               </el-col>
               <el-col :span="24" class="author-info">
-                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> <span>{{item.name}}</span>
+                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> 
+                <span class="name">{{item.name}}</span>
+                <span class="topName">{{item.c_name}}</span>
               </el-col>
               <el-col class="news-content">
                 <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
@@ -68,7 +69,7 @@
                   </el-col>
                 </el-row>
               </el-col>
-              <el-col class="news_create_time"><span class="columnName">栏目: {{item.column_name}}</span>{{item.create_time}}</el-col>
+              <el-col class="news_create_time">{{item.create_time}}</el-col>
             </el-row>
 
           </van-list>
@@ -99,8 +100,12 @@ export default {
   mounted() {
     this.allArtList();
   },
+  created() {
+    this.$root.eventLister.$on("seachInfo", this.seachInfo); //监听搜索事件
+  },
   methods: {
     menuSelect(tab) {
+      this.keyword = '';//清空搜索字段
       this.page = 1;
       this.tabactive = tab;
       this.loadUrl = this.urlDict[tab];
@@ -126,7 +131,8 @@ export default {
         })
       }else if(tab == 'news'){ //热度 需要传课题id
         var data1 = {
-          category_id: this.$store.state.userInfo.subject_id,
+          // category_id: this.$store.state.userInfo.subject_id,
+          keyword: self.keyword,
           page: this.page,
           psize: this.psize,
         };
@@ -162,25 +168,53 @@ export default {
             for(var i=0;i<list.length;i++) {
               _this.contentList.push(list[i]);
             }
-
+          }
+        }
+      });
+    },
+    seachInfo(key) {//搜索事件
+      console.log("搜索key" + key);
+      var _this = this;
+      _this.keyword = key;
+      _this.page = 1;
+      var params = {
+        keyword: _this.keyword,
+        page: _this.page,
+        psize: _this.psize,
+      };
+      request.post(_this.loadUrl, params, function(res) {
+        if(res.code ==0){
+          if(res.data.model.length > 0) {
+            let list = (res.data.model).map(item => {
+              item.isopen = false
+              return item
+            });
+            for(var i=0;i<list.length;i++) {
+              _this.contentList.push(list[i]);
+            }
+            console.log(_this.contentList,'搜索得出的列表')
           }
         }
       });
     },
     onLoad() { //触底加载更多
-      let obj ={
-        category_id: this.$store.state.userInfo.subject_id, //课题id
-        keyword: this.keyword,
-        page: this.page,
-        psize: this.psize,
+      var param = {};
+      if(this.tabactive == 'all') {
+        param = {
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize,
+        }
+      }else if(this.tabactive == 'news'){
+        param = {
+          // category_id: this.$store.state.userInfo.subject_id, //课题id
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize,
+        }
       }
-      if(this.urlDict == 'all') {
-        delete obj.category_id
-      }else if(this.urlDict == 'news'){
-        delete obj.keyword
-      }
-      console.log(this.loadUrl,obj)
-      request.post(this.loadUrl, obj, (res) => {
+      console.log(this.loadUrl,param)
+      request.post(this.loadUrl, param, (res) => {
         if(res.code ==0){
           if(res.data.model.length>0){
             this.finished =false;
@@ -230,7 +264,7 @@ export default {
         baseSrc = src
       }
       return baseSrc
-    }
+    },
   }
 };
 </script>
@@ -400,7 +434,11 @@ export default {
         display: inline-block;
         margin-right: 8px;
       }
-      span{
+      .name{
+        margin-left: 8px;
+      }
+      .topName{
+        margin-left: 26px;
         font-size: 18px;
         color: #034692;
       }

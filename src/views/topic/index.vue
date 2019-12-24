@@ -16,7 +16,7 @@
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                      <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                      <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -41,8 +41,7 @@
     data() {
       return {
         fit: 'cover',
-        userInfo: {},
-        url: '',
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         keyword: '', //搜索关键字
         activeIndex: 'teachingHomepage'
       }
@@ -63,8 +62,6 @@
     },
     mounted() {
       this.activeIndex = this.$route.name;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      this.url=this.userInfo.avatar;//头像
     },
     methods: {
       goHome() {
@@ -73,8 +70,9 @@
         })
       },
       handleSelect(val) { // 导航栏切换路由
-        this.activeIndex = val
-        console.log(val, '导航栏切换路由名称')
+        this.keyword = '';//清空搜索字段
+        this.activeIndex = val;
+        console.log(val, '导航栏切换路由名称');
       },
       //搜索相关内容
       search(){

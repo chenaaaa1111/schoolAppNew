@@ -112,11 +112,11 @@ const router= new Router({
         }
       ]
     },
-    {
-      path: '/grade/otherGradeHomepage',
-      name: 'otherGradeHomepage',
-      component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
-    },
+    // {
+    //   path: '/grade/otherGradeHomepage',
+    //   name: 'otherGradeHomepage',
+    //   component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
+    // },
     {
       path: '/team',
       name: 'team',
