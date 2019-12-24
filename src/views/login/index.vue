@@ -68,7 +68,7 @@
         background:  no-repeat center center;
         height: 100%;
         width: 100%;
-        background-size: 100% 100%;
+        background-size: cover;
     }
 </style>
 <script>
