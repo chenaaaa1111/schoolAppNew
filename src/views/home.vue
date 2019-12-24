@@ -136,13 +136,13 @@
     </el-dialog>
     <!-- 课题组弹窗 e -->
     <!-- 教研组弹窗 s -->
-    <el-dialog title="填写信息" :visible.sync="teachingDialog">
+    <el-dialog title="填写教研组信息" :visible.sync="teachingDialog">
       <el-form :model="classInfo">
         <el-row :gutter="20">
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
             <el-form-item label="班级">
-              <el-select v-model="classInfo.teaching_id" @change="selectTeaching" placeholder="请选择教研空间">
+              <el-select v-model="classInfo.teaching_id" multiple @change="selectTeaching" placeholder="请选择教研空间">
                 <el-option :label="item.title" :value="item.id" v-for="(item,index) in TeachingOptions" :key="index">
                 </el-option>
               </el-select>
@@ -342,12 +342,13 @@
       },
       teachingDialogHandle() {
         var data = this.classInfo;
-        request.post('/roomapi/Users/editTeaching', data, (res) => {
+        console.log('classInfo ',this.classInfo.teaching_id);
+        request.post('/roomapi/Teaching/editRoom', data, (res) => {
           if (res.code == 0) {
             this.$router.push({
-              name: teaching,
+              name: 'teaching',
               query: {
-                id: this.classInfo.teaching_id
+                id: this.classInfo.teaching_id[0]
               }
             })
           }
@@ -417,11 +418,6 @@
           name: 'special'
         })
       },
-      teachingDialogHandle() {
-        this.$router.push({
-          name: 'teaching'
-        })
-      },
       topicDialogHandle() {
         var data = this.classInfo;
         request.post('/roomapi/Users/editSubject', data, (res) => {
@@ -485,7 +481,7 @@
             console.log("classes");
             break;
           case "teaching":
-            if (!this.isLogin() || this.$store.state.userInfo.teaching_id.length > 0) {
+            if (!this.isLogin() ||this.$store.state.userInfo.teaching_id&& this.$store.state.userInfo.teaching_id.length > 0) {
               this.$router.push(data)
             } else {
               var data = {
