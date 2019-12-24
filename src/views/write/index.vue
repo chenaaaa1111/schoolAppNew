@@ -377,12 +377,13 @@
                 },
                 teachingList: [], //选择教研组列表
                 teachingSelect: {},// 教研空间下拉选择发布教研组 筛选得到的教研组名称和id
-
+                upUrl:'',
                 
 
             }
         },
         mounted() {
+            debugger
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere;
@@ -390,25 +391,30 @@
               this.navIndex = this.$route.query.spaceModule;
               switch(this.navIndex){
                     case "classes":
-                       this.writeContent = '写新闻'
+                       this.writeContent = '写新闻';
+                       this.editUrl="/roomapi/Room_Class/myDetails";//獲取詳情接口地址
                        break;
                     case "team":
                        this.writeContent = '写信息'
+                       this.editUrl="/roomapi/Community/communityDetails";//獲取詳情接口地址
                        break;
                     case "special":
                        this.writeContent =  '写专题'
+                       this.editUrl="/roomapi/Project/projectDetails";//獲取詳情接口地址
                        break;
                     case "topic":
                        this.writeContent =  '写课题'
+                       this.editUrl="/roomapi/Subject/SubjectDetails";//獲取詳情接口地址
                        break;
                     case "teaching":
                        this.writeContent =  '写文章'
+                       this.editUrl="/roomapi/Teaching/TeachingDetails";//獲取詳情接口地址
                        break;
                 }  
             }
             this.artUpdata =this.$route.query;
             this.isEdit = this.$route.query.isEdit?this.$route.query.isEdit:this.isEdit;
-            if(this.isEdit){ //如果时编辑文章  
+            if(this.isEdit=='true'){ //如果时编辑文章  
                 this.getArticleDetails();
             }
         },
@@ -436,7 +442,8 @@
                     id: String(this.$route.query.id)
                 }
                 var _this = this;
-                request.post('/roomapi/Room_Class/myDetails', data, function(res){
+              
+                request.post(this.editUrl, data, function(res){
                     if(res.code == 0) {
                         console.log(res.data,'获取文章详情返回数据')
                         _this.articletitle = res.data.title;
@@ -679,6 +686,7 @@
                 });
             },
             specialPublish() { //专题空间发布 专题
+                debugger
                 var self = this;
                 let data = {}
                 if(self.articletitle ==''){
@@ -692,8 +700,9 @@
                 data.image = self.responseUrl;
                 data.content = self.form.goods_desc;
                 data.title = self.articletitle;
+                // data.upUrl=self.upUrl;
                 console.log(data,'写专题---接口参数')
-                request.post(data.upUrl, data, function (res) {
+                request.post("/roomapi/Project/addArticle", data, function (res) {
                     if (res.code == 0) {
                         self.$router.go(-1);
                     }

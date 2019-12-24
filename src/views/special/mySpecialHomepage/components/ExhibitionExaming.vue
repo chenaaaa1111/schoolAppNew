@@ -30,7 +30,7 @@
           </span>
         </div>
         <div class="move-title">{{item.title}}</div>
-        <div class="move-del">
+        <div class="move-del" @click="goToEdit(item.id)">
           <el-button plan size="small">撤回</el-button>
         </div>
       </el-col>
@@ -54,11 +54,25 @@ export default {
   data() {
     return {
       baseUrl: this.$store.state.serverUrl,
-      upUrl: this.$props.updateUrl
+      upUrl: this.$props.upUrl
     };
   },
   mounted() {},
   methods: {
+    goToEdit(id){
+      this.$router.push({
+        name: 'write',
+          query: {
+            fromname: '专题主页',
+            fromwhere: 'mySpecialHomepage',
+            spaceModule: 'special',
+            isEdit:true,
+            id:id,
+            upUrl:'/roomapi/Community/addArticle',//上传的url
+          }
+
+      })
+    },
     backMyHome() {
       //面包屑 点击回到我的主页
       console.log("审核 审核未通过");
