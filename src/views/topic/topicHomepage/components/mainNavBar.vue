@@ -105,6 +105,7 @@ export default {
   },
   methods: {
     menuSelect(tab) {
+      debugger
       this.keyword = '';//清空搜索字段
       this.page = 1;
       this.tabactive = tab;
@@ -131,7 +132,7 @@ export default {
         })
       }else if(tab == 'news'){ //热度 需要传课题id
         var data1 = {
-          keyword: _this.keyword,
+          keyword: self.keyword,
           category_id: '',
           page: this.page,
           psize: this.psize,
@@ -182,18 +183,15 @@ export default {
         page: _this.page,
         psize: _this.psize,
       };
-      request.post(_this.loadUrl, params, function(res) {
-        if(res.code ==0){
-          if(res.data.model.length > 0) {
+      request.post(_this.loadUrl, params, (res)=> {
+        if(res.code ==0){         
             let list = (res.data.model).map(item => {
               item.isopen = false
               return item
             });
-            for(var i=0;i<list.length;i++) {
-              _this.contentList.push(list[i]);
-            }
-            console.log(_this.contentList,'搜索得出的列表')
-          }
+            this.contentList=list       
+            this.finished=true;
+          
         }
       });
     },
@@ -209,8 +207,8 @@ export default {
       }else if(this.urlDict == 'news'){
         delete obj.keyword
       }
-      console.log(this.loadUrl,param)
-      request.post(this.loadUrl, param, (res) => {
+      console.log(this.loadUrl,obj)
+      request.post(this.loadUrl, obj, (res) => {
         if(res.code ==0){
           if(res.data.model.length>0){
             this.finished =false;

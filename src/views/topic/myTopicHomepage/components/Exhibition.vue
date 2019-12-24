@@ -5,53 +5,60 @@
         <span class="top-title">课题动态</span>
       </el-col>
       <el-col :span="24">
-        <el-row class="article" v-for="(item,index) in topicDymic" :key="index">
-          <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text" @click="viewDetails(item)">{{item.title}}</span>
-                <span class="classify" @click="viewDetails(item)">{{item.c_name}}</span>
-              </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24">
-            <!-- 收起 -->
-            <el-row class="content" :gutter="10" v-if="!item.isopen">
-              <el-col class="content-cover" :span="6">
-                 <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt="" @click="viewDetails(item)"/>
-                 <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/>
-              </el-col>
-              <el-col :span="18">
-                <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
-                <div class="read-more">
-                  <el-button type="text" size="mini" @click="openNews(index)">阅读全文<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
-                </div>
-              </el-col>
-            </el-row>
-            <!-- 展开 -->
-            <el-row class="content content-open" :gutter="10" v-if="item.isopen">
-              <el-col class="content-cover" :span="24">
-                 <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt="" @click="viewDetails(item)"/>
-                 <!-- <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/> -->
-              </el-col>
-              <el-col :span="24">
-                <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
-                <div class="read-more">
-                  <el-button type="text" size="mini" @click="closeNews(index)">收起<i class="el-icon-caret-top el-icon--right"></i></el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="font-size: 14px;margin-top: 20px;color:#666">
-            <span class="date" @click="viewDetails(item)">{{item.create_time}}</span>
-          </el-col>
-          <el-col :span="24">
-            <el-divider></el-divider>
-          </el-col>
-        </el-row>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <el-row class="article" v-for="(item,index) in topicDymic" :key="index">
+            <el-col :span="24">
+              <el-row>
+                <el-col :span="18" class="title">
+                  <span class="text" @click="viewDetails(item)">{{item.title}}</span>
+                  <span class="classify" @click="viewDetails(item)">{{item.c_name}}</span>
+                </el-col>
+                <el-col :span="6" class="operation">
+                  <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24">
+              <!-- 收起 -->
+              <el-row class="content" :gutter="10" v-if="!item.isopen">
+                <el-col class="content-cover" :span="6">
+                  <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt=""
+                    @click="viewDetails(item)" />
+                  <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)" />
+                </el-col>
+                <el-col :span="18">
+                  <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
+                  <div class="read-more">
+                    <el-button type="text" size="mini" @click="openNews(index)">阅读全文<i
+                        class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                  </div>
+                </el-col>
+              </el-row>
+              <!-- 展开 -->
+              <el-row class="content content-open" :gutter="10" v-if="item.isopen">
+                <el-col class="content-cover" :span="24">
+                  <img class="con-pic" v-if="item.image != ''" :src="setImg(item.image)" alt=""
+                    @click="viewDetails(item)" />
+                  <!-- <img v-else src="../../../../assets/images/noimg.png" alt="" @click="viewDetails(item)"/> -->
+                </el-col>
+                <el-col :span="24">
+                  <div class="con-text" @click="viewDetails(item)" v-html="item.content"></div>
+                  <div class="read-more">
+                    <el-button type="text" size="mini" @click="closeNews(index)">收起<i
+                        class="el-icon-caret-top el-icon--right"></i></el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24" style="font-size: 14px;margin-top: 20px;color:#666">
+              <span class="date" @click="viewDetails(item)">{{item.create_time}}</span>
+            </el-col>
+            <el-col :span="24">
+              <el-divider></el-divider>
+            </el-col>
+          </el-row>
+        </van-list>
+
       </el-col>
     </el-row>
   </el-card>
@@ -62,6 +69,8 @@
   export default {
     data() {
       return {
+        loading: false,
+        finished: false,
         keyword: '',//搜索关键字
         page: 1,
         psize: 5,
@@ -70,15 +79,46 @@
         flag: false,
       }
     },
-    created(){
+    created() {
       //创建事件总线
-      var eventLister=new Vue();
-      this.$root.eventLister=eventLister;
+      var eventLister = new Vue();
+      this.$root.eventLister = eventLister;
     },
+
     mounted() {
-      this.getTopicDynimal();
+      // this.getTopicDynimal();
+      this.$root.eventLister.$on('seachInfo',this.search);
     },
     methods: {
+      search(key){    
+          this.keyword=key; 
+          this.page=1;
+          this.getTopicDynimal();      
+      },
+      onLoad() {
+        var data = {
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize
+        }
+        request.post('/roomapi/Subject/myPage', data, (res) => {
+          if (res.code == 0) {
+            if (res.data.model.length > 0) {
+              this.loading = false;
+              this.page = this.page + 1;
+              var topicDymic = (res.data.model).map(item => {
+                item.isopen = false
+                return item
+              })
+              var oldtopic = this.topicDymic;
+              this.topicDymic = [...oldtopic, ...topicDymic];
+            } else {
+              this.finished = true;
+            }
+
+          }
+        });
+      },
       getTopicDynimal() { //课题动态列表
         var self = this;
         var data = {
@@ -87,14 +127,11 @@
           psize: self.psize
         }
         request.post('/roomapi/Subject/myPage', data, function (res) {
-          if(res.code ==0){
-            if(res.data.model.length>0) {
+          if (res.code == 0) {
               self.topicDymic = (res.data.model).map(item => {
                 item.isopen = false
                 return item
               })
-            }
-            
           }
         })
       },
@@ -135,7 +172,7 @@
             });
           });
       },
-      viewDetails(item){//点击进入文章详情 id:文章id
+      viewDetails(item) {//点击进入文章详情 id:文章id
         this.$router.push({
           name: 'readnews',
           query: {
@@ -153,7 +190,7 @@
       },
       setImg(src) {
         let baseSrc = ''
-        if(src.indexOf('http') == -1) {
+        if (src.indexOf('http') == -1) {
           baseSrc = 'http://school.i2f2f.com' + src
         } else {
           baseSrc = src
@@ -214,9 +251,10 @@
         line-height: 40px;
         font-size: 20px;
 
-        span{
+        span {
           cursor: pointer;
         }
+
         .text {
 
           font-weight: bold;
@@ -247,12 +285,14 @@
       .content {
         margin: 24px 0px 0px 0px;
         padding: 0;
-        .content-cover{
-          img{
+
+        .content-cover {
+          img {
             display: block;
             width: 100%;
           }
         }
+
         .con-pic {
           display: block;
           width: 100%;
