@@ -419,7 +419,7 @@
         })
       },
       topicDialogHandle() { //课题组 加入多个 弹窗 进入
-        var data ={subject:this.classInfo.subject_id} ;
+        var data = { subject: this.classInfo.subject_id };
 
         request.post('/roomapi/Subject/editRoom', data, (res) => {
           if (res.code == 0) {
@@ -458,20 +458,23 @@
             break;
           case "team"://社团
             // if (false) {
-            if (!this.isLogin() || this.$store.state.userInfo.community.length > 0) {
-              this.$router.push(data)
-            } else {
-              var data = { community: this.$store.state.userInfo.community.length > 0 }
-              request.post('/roomapi/Users/CommunityList', data, (res) => {
-                this.teamOptions = res.data;
-              });
-              this.teamDialog = true;
-            }
+            request.post('/roomapi/Community/myCommunity', {}, (res) => {
+              if (!this.isLogin() || res.data.length>0) {
+                this.$router.push({name:"team"});
+              } else {
+                var data = { community: this.$store.state.userInfo.community.length > 0 }
+                request.post('/roomapi/Users/CommunityList', data, (res) => {
+                  this.teamOptions = res.data;
+                });
+                this.teamDialog = true;
+              }
+            })
+
             break;
           case "topic":
             request.post('/roomapi/Subject/mySubject', {}, (res) => {
-              if (!this.isLogin() || res.data.length>0) {
-                this.$router.push({name:'topic'});
+              if (!this.isLogin() || res.data.length > 0) {
+                this.$router.push({ name: 'topic' });
               } else {
                 this.specialDialog = true;
                 var data = {
