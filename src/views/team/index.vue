@@ -5,7 +5,7 @@
         <el-menu :default-active="activeIndex" class="el-menu-head" mode="horizontal" router
             @select="handleSelect">
             <li class="homeEntry" @click="goHome">
-              <img src="../../assets/main/team.png" />社团空间
+              <img src="../../assets/main/team.png"/>社团空间
             </li>
             <el-menu-item index="mainTeamHomepage">社团主页</el-menu-item>
             <el-menu-item index="myTeamHomepage">我的社团</el-menu-item>
@@ -21,7 +21,7 @@
             <li class="nav-user">
               <el-dropdown trigger="click">
                   <span class="el-dropdown-link">
-                      <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                      <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
@@ -46,9 +46,8 @@
     data() {
       return {
         spaceKeyWord: '', //搜索关键字
-        userInfo: {},
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         fit: 'cover',
-        url: '',
         activeIndex: 'mainTeamHomepage'
       }
     },
@@ -69,9 +68,6 @@
     },
     mounted() {
       this.activeIndex = this.$route.name;
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
     },
     methods: {
       goHome() {

@@ -21,10 +21,10 @@
               <!-- 社团动态 -->
               <Exhibition v-show="this.tab=='main'"></Exhibition>
               <!-- 审核中 审核未通过 -->
-              <EXhibitionExaming  :articles="examings" v-show="this.tab!='main'&&this.tab!='message'&&this.tab!='allClassDynamics'&&this.tab!='allSchoolDynamics'" :upUrl="upUrl" :title="ExhibitionTitle">
+              <EXhibitionExaming  @changeTab="changeTab" :articles="examings" v-show="this.tab!='main'&&this.tab!='message'" :upUrl="upUrl" :title="ExhibitionTitle">
               </EXhibitionExaming>
               <!-- 消息通知列表 -->
-              <MessageList  :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
+              <MessageList  @changeTab="changeTab" :messageLists="messageList"  v-show="this.tab=='message'" :title="ExhibitionTitle"></MessageList>
             </el-card>
           </el-col>
         </el-row>
@@ -77,10 +77,8 @@
     },
     methods: {
       changeTab(tab) {
-        debugger
         console.log(tab);
         this.tab = tab;
-      
         if (tab == 'examing') {
           request.post('/roomapi/Community/audit', {}, (res) => {
             if(res.code ==0){
@@ -111,7 +109,7 @@
         } else if (tab == 'message') {
           var self = this;
           var data= {
-            kid: 1, //空间： 1班级空间2年级空间3社团4专题5课题6教研
+            kid: 3, //空间： 1班级空间2年级空间3社团4专题5课题6教研
             page: 1,
             psize: 50
           };
@@ -122,46 +120,6 @@
               }
             }
             self.ExhibitionTitle = "消息通知";
-          })
-        } else if (tab == 'allClassDynamics') {
-          var self = this;
-          var data= {
-            uid: self.$store.state.userInfo.id,
-            page: 1,
-            psize: 20,
-            level: 1
-          }
-          request.post('/roomapi/Community/myPage',data,function(res){
-            if(res.code == 0) {
-              self.classTitle = "班级动态";
-              if(res.data.model.length>0) {
-                self.allClassDyamics=res.data.model.map(item => {
-                  item.isopen = false
-                  return item
-                })
-                console.log(self.allClassDyamics, '全部班级动态')
-              }
-            }
-          })
-        } else if (tab == 'allSchoolDynamics') {
-          var self = this;
-          var data= {
-            uid: self.$store.state.userInfo.id,
-            page: 1,
-            psize: 10,
-            level: 2
-          }
-          request.post('/roomapi/Community/myPage',data,function(res){
-            if(res.code == 0) {
-              self.classTitle = "校园动态";
-              if(res.data.model.length>0) {
-                self.allClassDyamics=res.data.model.map(item => {
-                  item.isopen = false
-                  return item
-                })
-                console.log(self.allClassDyamics, '全部校园动态')
-              }
-            }
           })
         }
       }

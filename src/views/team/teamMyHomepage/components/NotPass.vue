@@ -10,7 +10,7 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">{{total}}个审核未通过的新闻:</div>
+    <div class="examineTips">{{total}}个审核未通过的信息:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">

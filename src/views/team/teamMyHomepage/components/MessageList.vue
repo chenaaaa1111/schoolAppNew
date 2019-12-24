@@ -59,7 +59,7 @@ export default {
       //面包屑 点击回到我的主页
       var self = this;
       var tab = "main";
-      this.$emit("changeTab", tab);
+      self.$emit("changeTab", tab);
     },
     showmessagemore() {},
     msgDetails(item) {

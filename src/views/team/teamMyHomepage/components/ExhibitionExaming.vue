@@ -54,48 +54,6 @@
               </el-col>
             </el-row>
           </el-col>
-          <!-- <el-col :span="24">
-            <el-row>
-              <el-col :span="18" class="title">
-                <span class="text">{{item.title}}</span>
-                <span class="classify">(栏目: {{item.column_name}})</span>
-                <span class="date">{{item.create_time}}</span>
-              </el-col>
-              <el-col :span="3" class="operation">
-                <el-button v-if="title == '审核中'" type="text" size="mini" @click="recall(item.id)">撤回</el-button>
-                <el-button
-                  v-if="title == '审核未通过'"
-                  type="text"
-                  size="mini"
-                  @click="goToEdit(item.id)"
-                >编辑</el-button>
-              </el-col>
-              <el-col :span="3" class="operation">
-                <el-button type="text" size="mini" @click="deleteArt(item.id)">删除</el-button>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24">
-            <el-row class="content" :gutter="10">
-              <el-col :span="6">
-                <img
-                  class="con-pic"
-                  :src="baseUrl+item.image||'../../../../assets/images/content.png'"
-                />
-              </el-col>
-              <el-col :span="18">
-                <div
-                  class="con-text"
-                >{{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}</div>
-                <div class="read-more">
-                  <el-button type="text" size="mini">
-                    阅读全文
-                    <i class="el-icon-caret-bottom el-icon--right"></i>
-                  </el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </el-col> -->
           <el-col :span="24">
             <el-divider></el-divider>
           </el-col>
@@ -127,10 +85,9 @@ export default {
   mounted() {},
   methods: {
     backMyHome () { //面包屑 点击回到我的主页
-      console.log('审核 审核未通过')
       var self = this;
       var tab ='main';
-      this.$emit('changeTab',tab);
+      self.$emit('changeTab',tab);
     },
     changeTab(tab) {
       console.log(tab);
@@ -142,7 +99,7 @@ export default {
       query.isEdit = true;
       query.widgetName = "审核中";
       query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
+      query.fromwhere = "teamMyHomepage";
       query.spaceModule = "classes"; //班级空间名
       this.$router.push({
         name: "write",
@@ -156,7 +113,7 @@ export default {
       query.isEdit = true;
       query.widgetName = "审核未通过";
       query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
+      query.fromwhere = "teamMyHomepage";
       query.spaceModule = "classes"; //班级空间名
       this.$router.push({
         name: "write",
