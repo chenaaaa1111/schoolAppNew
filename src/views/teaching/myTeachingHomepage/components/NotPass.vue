@@ -47,7 +47,7 @@
     methods: {
       getList(){ //审核未通过列表
         var data= {};
-        request.post('/roomapi/Room_Class/notAudit',data,(res) =>{
+        request.post('/roomapi/Teaching/notAudit',data,(res) =>{
           this.List= res.data.model;
           this.total = res.data.total;
         })

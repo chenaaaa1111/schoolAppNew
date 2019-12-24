@@ -341,8 +341,7 @@
         })
       },
       teachingDialogHandle() {
-        var data = this.classInfo;
-        console.log('classInfo ',this.classInfo.teaching_id);
+        var data ={teaching:this.classInfo.teaching_id} ;
         request.post('/roomapi/Teaching/editRoom', data, (res) => {
           if (res.code == 0) {
             this.$router.push({

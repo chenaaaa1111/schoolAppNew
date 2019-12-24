@@ -60,6 +60,7 @@ export default {
   },
   mounted() {
     this.allArtList();
+    console.log('router#####',this.$route.query.id)
   },
   methods: {
     menuSelect(tab) {
@@ -69,6 +70,7 @@ export default {
       var self = this;
       if(tab =='all'){ //全部
         var data = {
+          category_id	:this.$route.query.id,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize,
@@ -80,6 +82,7 @@ export default {
         })
       }else if(tab == 'news'){
         var data1 = {
+          keyword: self.keyword,
           category_id: this.$route.query.id, //教研组id
           page: this.page,
           psize: this.psize,

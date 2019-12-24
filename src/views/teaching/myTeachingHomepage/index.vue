@@ -43,6 +43,7 @@
   import Message from './components/Message.vue';
   import MessageList from './components/MessageList.vue';
   import EXhibitionExaming from './components/ExhibitionExaming.vue';
+  import request from '@/api/request.js';
   export default{
     name: 'myTeachingHomepage',
     components: {
@@ -77,7 +78,7 @@
         console.log(tab);
         this.tab = tab;
         if (tab == 'examing') {
-          request.post('/roomapi/Room_Class/audit', {}, (res) => {
+          request.post('/roomapi/Teaching/audit', {}, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {
                 this.examings = res.data.model.map(item => {
@@ -87,10 +88,10 @@
               }
             }
             this.ExhibitionTitle = "审核中";
-            this.upUrl = "/roomapi/Room_Class/addArticle";
+            this.upUrl = "/roomapi/Teaching/addArticle";
           })
         } else if (tab == 'notPass') {
-          request.post('/roomapi/Room_Class/notAudit', {}, (res) => {
+          request.post('/roomapi/Teaching/notAudit', {}, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {
                 this.examings = res.data.model.map(item => {
@@ -100,7 +101,7 @@
               }
             }
             this.ExhibitionTitle = "审核未通过";
-            this.upUrl = "/roomapi/Room_Class/addArticle";
+            this.upUrl = "/roomapi/Teaching/addArticle";
           })
         } else if (tab == 'message') {
           var self = this;
@@ -125,7 +126,7 @@
             psize: 20,
             level: 1
           }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
+          request.post('/roomapi/Teaching/myPage',data,function(res){
             if(res.code == 0) {
               self.classTitle = "班级动态";
               if(res.data.model.length>0) {
@@ -145,7 +146,7 @@
             psize: 10,
             level: 2
           }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
+          request.post('/roomapi/Teaching/myPage',data,function(res){
             if(res.code == 0) {
               self.classTitle = "校园动态";
               if(res.data.model.length>0) {
