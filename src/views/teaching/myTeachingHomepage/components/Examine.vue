@@ -51,7 +51,7 @@
           page:1,
           psize:3
         };
-        request.post('/roomapi/Room_Class/audit',data,function(res){
+        request.post('/roomapi/Teaching/audit',data,function(res){
           console.log(self.list,'审核中的文章列表')
           self.list = res.data.model;
         })

@@ -340,9 +340,8 @@
           }
         })
       },
-      teachingDialogHandle() { //点击教研组 弹窗 进入事件
-        var data = this.classInfo;
-        console.log('classInfo ',this.classInfo.teaching_id);
+      teachingDialogHandle() {
+        var data ={teaching:this.classInfo.teaching_id} ;
         request.post('/roomapi/Teaching/editRoom', data, (res) => {
           if (res.code == 0) {
             this.$router.push({

@@ -7,12 +7,12 @@
           <span @click="writeArt"></span>
         </el-col>
         <el-col :span="24" class="department">
-          <span v-for="(item,index) in teachingAddList" :key="index">{{item.title}}</span>
+          <span v-for="(item,index) in teachingAddList" @click="goToTeaching(item)" :key="index">{{item.title}}</span>
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
-            <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
+            <el-button type="danger" circle>
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png" />
             </el-button>
           </span>
         </el-col>
@@ -21,8 +21,8 @@
   </el-row>
 </template>
 <script>
- import request from '@/api/request.js';
-  export default{
+  import request from '@/api/request.js';
+  export default {
     data() {
       return {
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
@@ -34,12 +34,18 @@
       this.getTeachingList();
     },
     methods: {
+      goToTeaching(item) {
+        this.$router.push({
+          name: 'myTeachMainHomepage',
+          query: item
+        })
+      },
       getTeachingList() { //获取要教研组列表 参数  校园id
         let data = {
           level_id: this.userInfo.level_id
         }
         let self = this;
-        request.post('/roomapi/Users/Teaching', data, function (res) {
+        request.post('/roomapi/Teaching/myTeaching', data, function (res) {
           if (res.code == 0) {
             self.teachingAddList = res.data;
           }
@@ -59,24 +65,26 @@
   }
 </script>
 <style lang="scss" scoped>
-  .pageTop{
-    .pageContent{
+  .pageTop {
+    .pageContent {
       margin-top: 48px;
-      padding-left: 20px; 
-      .top-title{
+      padding-left: 20px;
+
+      .top-title {
         height: 56px;
         line-height: 56px;
-        font-size:40px;
-        font-family:STYuanti-SC-Bold,STYuanti-SC;
-        font-weight:bold;
-        color:rgba(3,70,146,1);
-        line-height:56px;
-        letter-spacing:10px;
-        text-shadow:0px 3px 3px rgba(0,0,0,0.07);
-        -webkit-text-stroke:2px rgba(255,255,255,1);
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
-        img{
+        font-size: 40px;
+        font-family: STYuanti-SC-Bold, STYuanti-SC;
+        font-weight: bold;
+        color: rgba(3, 70, 146, 1);
+        line-height: 56px;
+        letter-spacing: 10px;
+        text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.07);
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        img {
           display: inline-block;
           width: 74px;
           height: 74px;
@@ -84,12 +92,14 @@
           margin-right: 30px;
         }
       }
-      .top-write{
+
+      .top-write {
         height: 56px;
         line-height: 56px;
         text-align: right;
         padding-right: 10px;
-        span{
+
+        span {
           display: inline-block;
           width: 152px;
           height: 52px;
@@ -98,30 +108,35 @@
           cursor: pointer;
         }
       }
-      .leftentry{
+
+      .leftentry {
         text-align: right;
         margin-top: 20px;
         padding: 0px 10px;
-        .entrybtns{
-          .btnicon{
+
+        .entrybtns {
+          .btnicon {
             width: 45px;
             height: 45px;
           }
-          .el-button.is-circle{
+
+          .el-button.is-circle {
             padding: 0px;
           }
         }
       }
-      .department{
+
+      .department {
         padding-left: 10px;
         margin-top: 8px;
-        font-size:24px;
-        font-family:STYuanti-SC-Regular,STYuanti-SC;
-        font-weight:400;
-        color:rgba(51,51,51,1);
-        line-height:33px;
-        letter-spacing:6px;
-        span{
+        font-size: 24px;
+        font-family: STYuanti-SC-Regular, STYuanti-SC;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        line-height: 33px;
+        letter-spacing: 6px;
+
+        span {
           margin-left: 10px;
         }
       }
