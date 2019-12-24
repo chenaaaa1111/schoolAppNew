@@ -417,9 +417,9 @@
           name: 'special'
         })
       },
-      topicDialogHandle() {
+      topicDialogHandle() { //课题组 加入多个 弹窗 进入
         var data = this.classInfo;
-        request.post('/roomapi/Users/editSubject', data, (res) => {
+        request.post('/roomapi/Teaching/editRoom', data, (res) => {
           if (res.code == 0) {
             var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
             userInfo.subject_id = this.userInfo.subject_id;
@@ -465,7 +465,8 @@
             }
             break;
           case "topic":
-            if (!this.isLogin() || JSON.parse(sessionStorage.getItem('userInfo')).subject_id.length > 0) {
+            console.log(JSON.parse(sessionStorage.getItem('userInfo')),this.isLogin(),'点击了课题');
+            if (!this.isLogin() ||this.$store.state.userInfo.subject_id&& this.$store.state.userInfo.subject_id.length > 0) {
               this.$router.push(data)
             } else {
               this.specialDialog = true;
