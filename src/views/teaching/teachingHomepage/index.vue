@@ -13,7 +13,7 @@
             <Notice :source="source"></Notice>
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
-            <mainNavBar ></mainNavBar>
+            <mainNavBar></mainNavBar>
           </el-col>
         </el-row>
       </el-col>

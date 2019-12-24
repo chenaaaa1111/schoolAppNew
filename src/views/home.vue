@@ -481,7 +481,7 @@
             console.log("classes");
             break;
           case "teaching":
-            if (!this.isLogin() ||this.$store.state.userInfo.teaching_id&& this.$store.state.userInfo.teaching_id.length > 0) {
+            if (!this.isLogin() ||(this.$store.state.userInfo.teaching&& this.$store.state.userInfo.teaching.length) > 0) {
               this.$router.push(data)
             } else {
               var data = {
