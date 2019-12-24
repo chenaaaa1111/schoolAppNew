@@ -47,7 +47,7 @@
     methods: {
       getList(){ //审核未通过列表
         var data= {};
-        request.post('/roomapi/Room_Class/notAudit',data,(res) =>{
+        request.post('/roomapi/Community/notAudit',data,(res) =>{
           this.List= res.data.model;
           this.total = res.data.total;
         })
@@ -93,8 +93,6 @@
         });
       },
       shownotpassmore(tab) {
-       debugger
-        console.log('shownotpassmore********')
         var tab='notPass';
         this.$emit('changeTab',tab);
       },

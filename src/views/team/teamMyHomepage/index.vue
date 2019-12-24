@@ -82,7 +82,7 @@
         this.tab = tab;
       
         if (tab == 'examing') {
-          request.post('/roomapi/Room_Class/audit', {}, (res) => {
+          request.post('/roomapi/Community/audit', {}, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {
                 this.examings = res.data.model.map(item => {
@@ -92,11 +92,11 @@
               }
             }
             this.ExhibitionTitle = "审核中";
-            this.upUrl = "/roomapi/Room_Class/addArticle";
+            this.upUrl = "/roomapi/Community/addArticle";
           })
         } else if (tab == 'notPass') {
      
-          request.post('/roomapi/Room_Class/notAudit', {}, (res) => {
+          request.post('/roomapi/Community/notAudit', {}, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {
                 this.examings = res.data.model.map(item => {
@@ -106,7 +106,7 @@
               }
             }
             this.ExhibitionTitle = "审核未通过";
-            this.upUrl = "/roomapi/Room_Class/addArticle";
+            this.upUrl = "/roomapi/Community/addArticle";
           })
         } else if (tab == 'message') {
           var self = this;
@@ -131,7 +131,7 @@
             psize: 20,
             level: 1
           }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
+          request.post('/roomapi/Community/myPage',data,function(res){
             if(res.code == 0) {
               self.classTitle = "班级动态";
               if(res.data.model.length>0) {
@@ -151,7 +151,7 @@
             psize: 10,
             level: 2
           }
-          request.post('/roomapi/Room_Class/myPage',data,function(res){
+          request.post('/roomapi/Community/myPage',data,function(res){
             if(res.code == 0) {
               self.classTitle = "校园动态";
               if(res.data.model.length>0) {

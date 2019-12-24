@@ -178,7 +178,7 @@ export default {
       )
         .then(() => {
           //删除文章
-          request.post("/roomapi/Room_Class/delete", { id: id }, res => {
+          request.post("/roomapi/Community/delete", { id: id }, res => {
             if (res.code == 0) {
               vm.$message({
                 duration: 1000,
@@ -186,7 +186,7 @@ export default {
                 type: "success",
                 message: res.message
               });
-              request.post("/roomapi/Room_Class/notAudit", {}, res => {
+              request.post("/roomapi/Community/audit", {}, res => {
                 vm.articles = res.data.model;
               });
               // setTimeout(function(){
