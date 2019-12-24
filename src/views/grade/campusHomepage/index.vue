@@ -1,6 +1,6 @@
 <template>
   <div class="space">
-    <!-- <el-backtop target=".space"></el-backtop> -->
+    <el-backtop target=".space"></el-backtop>
     <!-- 导航 -->
     <el-row class="page-header" type="flex" justify="center">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
@@ -207,7 +207,9 @@
     },
     methods: {
       goHome() { // 返回空间
-
+        this.$router.push({ // 回到空间选择页面
+          name: 'home'
+        })
       },
       shownewsmore() { // 跳转更多新闻动态
 
