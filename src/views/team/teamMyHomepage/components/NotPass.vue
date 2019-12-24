@@ -72,7 +72,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {//删除文章
-          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+          request.post('/roomapi/Community/delete', { id: id }, (res) => {
             if(res.code == 0){
               vm.$message({
                 duration: 1000,
