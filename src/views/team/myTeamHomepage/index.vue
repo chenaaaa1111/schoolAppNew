@@ -151,13 +151,14 @@
         var data = {
           community: this.teamGroup
         }
-        request.post('/roomapi/Community/editRoom', data, function (res) {
+        request.post('/roomapi/Community/editRoom', data,  (res)=> {
           if (res.code == 0) {
             this.$message({
               type: 'success',
               message: res.message
             });
             this.getMyTeamList(); //刷新我的社团列表
+            this.dialogVisible=false;
           }
         })
       }
