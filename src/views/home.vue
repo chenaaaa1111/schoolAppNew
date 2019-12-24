@@ -160,7 +160,8 @@
     <!-- 社团弹窗 s -->
     <el-dialog title="填写信息" :visible.sync="teamDialog">
       <span class="topdes">
-        请正确的填写以下信息，填写完成后点击“进入”，则进入社团空间，如果没有你要加入的社团请点击<span style="    color: #1989fa;cursor: pointer; " @click="addTeamDialog=true;teamDialog=false">申请社团</span>
+        请正确的填写以下信息，填写完成后点击“进入”，则进入社团空间，如果没有你要加入的社团请点击<span style="    color: #1989fa;cursor: pointer; "
+          @click="addTeamDialog=true;teamDialog=false">申请社团</span>
       </span>
 
       <el-form :model="classInfo">
@@ -195,7 +196,7 @@
           <el-col :xs="0" :sm="1" :md="2" :lg="3" :xl="4">&nbsp;</el-col>
           <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
             <el-form-item label="社团名称">
-              <el-input v-model="teamInfo.title"   placeholder="请输入社团名称">
+              <el-input v-model="teamInfo.title" placeholder="请输入社团名称">
 
               </el-input>
             </el-form-item>
@@ -236,9 +237,9 @@
   export default {
     data() {
       return {
-        addTeamDialog:false,
+        addTeamDialog: false,
         classInfo: {},
-        teamInfo:{},//社团信息
+        teamInfo: {},//社团信息
         calssOptions: [],//班级
         gradeOptions: [],
         applyTeamDialog: true,
@@ -308,17 +309,17 @@
       this.formatObj()
     },
     methods: {
-      gonext(name){
-        this.$router.push({name:name});
+      gonext(name) {
+        this.$router.push({ name: name });
       },
-      selectTeam(tabs){
+      selectTeam(tabs) {
         console.log(tabs);
       },
-      addTeam(){
-        var data=this.teamInfo;
-        request.post('/roomapi/Community/createCommunity',data,(res)=>{
-          if(res.code==0){
-            this.$router.push({name:team});
+      addTeam() {
+        var data = this.teamInfo;
+        request.post('/roomapi/Community/createCommunity', data, (res) => {
+          if (res.code == 0) {
+            this.$router.push({ name: team });
           }
         })
       },
@@ -341,7 +342,7 @@
         })
       },
       teachingDialogHandle() {
-        var data ={teaching:this.classInfo.teaching_id} ;
+        var data = { teaching: this.classInfo.teaching_id };
         request.post('/roomapi/Teaching/editRoom', data, (res) => {
           if (res.code == 0) {
             this.$router.push({
@@ -418,8 +419,9 @@
         })
       },
       topicDialogHandle() { //课题组 加入多个 弹窗 进入
-        var data = this.classInfo;
-        request.post('/roomapi/Teaching/editRoom', data, (res) => {
+        var data ={subject:this.classInfo.subject_id} ;
+
+        request.post('/roomapi/Subject/editRoom', data, (res) => {
           if (res.code == 0) {
             var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
             userInfo.subject_id = this.userInfo.subject_id;
@@ -438,9 +440,11 @@
         }
       },
       goToDetail(data) {
+        debugger
         console.log(data);
         // var router={name:data};
         // debugger
+        var self = this;
         switch (data.name) {
           case "classes":
             // if (!this.isLogin()||this.$store.state.userInfo.class_id) {
@@ -454,7 +458,7 @@
             break;
           case "team"://社团
             // if (false) {
-              if (!this.isLogin()||this.$store.state.userInfo.community.length > 0) {
+            if (!this.isLogin() || this.$store.state.userInfo.community.length > 0) {
               this.$router.push(data)
             } else {
               var data = { community: this.$store.state.userInfo.community.length > 0 }
@@ -465,34 +469,40 @@
             }
             break;
           case "topic":
-            console.log(JSON.parse(sessionStorage.getItem('userInfo')),this.isLogin(),'点击了课题');
-            if (!this.isLogin() ||this.$store.state.userInfo.subject_id&& this.$store.state.userInfo.subject_id.length > 0) {
-              this.$router.push(data)
-            } else {
-              this.specialDialog = true;
-              var data = {
-                s_id: this.$store.state.userInfo.s_id
-              };
-              request.post('/roomapi/Users/Subject', data, (res) => {
-                this.topicDialog = true;
-                this.topicOptioiins = res.data;
-              })
-            }
-            console.log("classes");
+            request.post('/roomapi/Subject/mySubject', {}, (res) => {
+              if (!this.isLogin() || res.data.length>0) {
+                this.$router.push({name:'topic'});
+              } else {
+                this.specialDialog = true;
+                var data = {
+                  s_id: this.$store.state.userInfo.s_id
+                };
+                request.post('/roomapi/Users/Subject', data, (res) => {
+                  this.topicDialog = true;
+                  this.topicOptioiins = res.data;
+                })
+              }
+            })
+
             break;
           case "teaching":
-            if (!this.isLogin() ||(this.$store.state.userInfo.teaching&& this.$store.state.userInfo.teaching.length) > 0) {
-              this.$router.push(data)
-            } else {
-              var data = {
-                s_id: this.userInfo.s_id
+            var login = !(this.isLogin());
+            request.post('/roomapi/Teaching/myTeaching', {}, (res) => {
+              debugger
+              if (login || res.data.length > 0) {
+                this.$router.push({ name: "teaching" });
+              } else {
+                var data = {
+                  s_id: this.userInfo.s_id
+                }
+                request.post('/roomapi/Users/Teaching', {}, (res) => {
+                  this.TeachingOptions = res.data;
+                });
+                this.teachingDialog = true;
               }
-              request.post('/roomapi/Users/Teaching', {}, (res) => {
-                this.TeachingOptions = res.data;
-              });
-              this.teachingDialog = true;
-            }
-            console.log("Teaching");
+
+
+            })
             break;
           default:
             this.$router.push({

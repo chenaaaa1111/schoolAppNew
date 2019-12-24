@@ -126,7 +126,8 @@ export default {
         })
       }else if(tab == 'news'){ //热度 需要传课题id
         var data1 = {
-          category_id: this.$store.state.userInfo.subject_id,
+          keyword: _this.keyword,
+          category_id: '',
           page: this.page,
           psize: this.psize,
         };
@@ -169,7 +170,7 @@ export default {
     },
     onLoad() { //触底加载更多
       let obj ={
-        category_id: this.$store.state.userInfo.subject_id, //课题id
+        category_id: '', //课题id
         keyword: this.keyword,
         page: this.page,
         psize: this.psize,
