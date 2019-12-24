@@ -6,7 +6,9 @@
         <el-col v-if="limit" :span="12" class="top-write">
           <span @click="writeTopic"></span>
         </el-col>
-        <el-col :span="24" class="department">{{teachGroup+'组'}}</el-col>
+        <el-col :span="24" class="department">
+          <span v-for="(item,index) in teachingAddList" @click="goToTeaching(item)" :key="index">{{item.title}}</span>
+        </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
@@ -19,19 +21,32 @@
   </el-row>
 </template>
 <script>
+  import request from '@/api/request.js'
   export default{
     data() {
       return {
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         limit: '',//只有level:2才能发布课题 1学生2老师
-        teachGroup: ''
+        teachGroup: '',
+        teachingAddList:[]
       }
     },
     mounted() {
       this.limit = this.userInfo.level ==2 ?true: false;
-      this.teachGroup = this.userInfo.subject?this.userInfo.subject:'课题2';
+      // this.teachGroup = this.userInfo.subject?this.userInfo.subject:'课题2';
+      debugger
+      this.getAllList();
+      
     },
     methods: {
+      goToTeaching(item){
+        this.$router.push({'name':'myTopicMainHomepage',query:item})
+      },
+      getAllList(){
+        request.post('/roomapi/Subject/mySubject',{},(res)=>{
+          this.teachingAddList=res.data;
+        })
+      },
       writeTopic() {
         this.$router.push({
           name: 'write',

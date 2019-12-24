@@ -82,7 +82,6 @@
       getTopicDynimal() { //课题动态列表
         var self = this;
         var data = {
-          u_id: self.userInfo.id,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize
