@@ -60,7 +60,14 @@ export default {
   mounted() {
     this.allArtList();
   },
+  created(){
+    this.$root.eventLister.$on('seachInfo',this.search);
+  },
   methods: {
+    search(key){
+      this.keyword=key;
+      this.menuSelect(this.tabactive);
+    },
     menuSelect(tab) {
       this.page = 1;
       this.tabactive = tab;
@@ -82,6 +89,7 @@ export default {
         var data1 = {
           category_id: self.$route.query.id,
           page: this.page,
+          keyword:this.keyword,
           psize: this.psize,
         };
         request.post(self.loadUrl, data1, function (res) {

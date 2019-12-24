@@ -141,7 +141,7 @@ export default {
           if(res.code ==0){
             if(res.data.model.length>0){
               let list = (res.data.model).map(item => {
-                item.isopen = false
+                item.isopen = false;
                 return item
               })
               self.contentList = list
