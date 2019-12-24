@@ -14,7 +14,7 @@
         </span>
       </el-col>
     </el-row>
-    <el-row class="question" v-for="(item,index) in messageLists.model" :key="index">
+    <el-row class="question" v-for="(item,index) in messageLists" :key="index">
       <el-col class="title">
         <el-button class="titleName" @click="msgDetails(item)" type="text">{{item.title}}</el-button>
       </el-col>
@@ -61,14 +61,13 @@ export default {
       var tab = "main";
       self.$emit("changeTab", tab);
     },
-    showmessagemore() {},
     msgDetails(item) {
       //点击消息 --进入消息通知详情页面
       let query = {};
       query.widgetName = "消息通知";
       query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
-      query.spaceModule = "classes"; //班级空间名
+      query.fromwhere = "teamMyHomepage";
+      query.spaceModule = "team"; //班级空间名
       query.id = item.id; //消息id
       this.$router.push({
         name: "readmessage",

@@ -41,37 +41,31 @@
       this.getMessages();
     },
     methods: {
-        getMessages(){
-          var self = this;
-          var data= {
-            kid: 1,
-            page: 1,
-            psize: 4
-          };
-          request.post('/roomapi/Users/userMessage',data,function(res){
+      getMessages(){
+        var self = this;
+        var data= {
+          kid: 3, //1班级空间2年级空间3社团4专题5课题6教研
+          page: 1,
+          psize: 4
+        };
+        request.post('/roomapi/Users/userMessage',data,function(res){
+          if(res.code ==0){
             self.messages = res.data.model;
             self.total = res.data.total;
+          }
         })
       },
       showmessagemore() { //消息通知 点击全部
-        console.log(222222);
-        // this.$router.push({
-        //   name: 'messagemore',
-        //   params: {
-        //     widgetName: '消息通知',
-        //     fromwhere: this.source
-        //   }
-        // })
         var tab='message';
         this.$emit('changeTab',tab);
-        console.log("message")
+        console.log("message");
       },
       msgDetails(item) { //点击消息 --进入消息通知详情页面
         let query = {};
         query.widgetName = '消息通知';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'teamMyHomepage';
+        query.spaceModule = 'team';//班级空间名
         query.id = item.id; //消息id
         this.$router.push({
           name: 'readmessage',

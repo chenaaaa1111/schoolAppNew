@@ -137,7 +137,12 @@
         letter-spacing: 6px;
 
         span {
+          cursor: pointer;
           margin-left: 10px;
+        }
+
+        span:hover{
+          color: #4F88C5;
         }
       }
     }

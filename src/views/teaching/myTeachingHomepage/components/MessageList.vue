@@ -67,8 +67,8 @@ export default {
       let query = {};
       query.widgetName = "消息通知";
       query.fromname = "我的主页";
-      query.fromwhere = "myHomepage";
-      query.spaceModule = "classes"; //班级空间名
+      query.fromwhere = "myTeachingHomepage";
+      query.spaceModule = "teaching"; //班级空间名
       query.id = item.id; //消息id
       this.$router.push({
         name: "readmessage",
