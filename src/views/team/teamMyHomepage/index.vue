@@ -111,12 +111,13 @@
           var data= {
             kid: 3, //空间： 1班级空间2年级空间3社团4专题5课题6教研
             page: 1,
-            psize: 50
+            psize: 10
           };
           request.post('/roomapi/Users/userMessage', data, (res) => {
             if(res.code ==0){
               if (res.data.model.length > 0) {
-                self.messageList = res.data;
+                self.messageList = res.data.model;
+                console.log(self.messageList,'社团的消息通知列表')
               }
             }
             self.ExhibitionTitle = "消息通知";
