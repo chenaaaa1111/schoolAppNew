@@ -100,23 +100,23 @@
       this.routename = this.$route.name;
       this.source.routename = this.$route.name;
       console.log(this.routename, '本页面routename');
-      // if (this.$route.query.activeIndex) {
-      //   this.activeIndex = this.$route.query.activeIndex;
-      //   this.loadUrl = this.urlDict[this.activeIndex];
-      //   var self = this;
-      //   var data = {
-      //     keyword: this.keyword, //关键字
-      //     page: self.page,
-      //     psize: self.psize
-      //   }
-      //   request.post(self.loadUrl, data, function (res) {
-      //     if (res.code == 0) {
-      //       self.moveList = res.data.model;
-      //     }
-      //   })
-      // } else {
-      //   this.getSpecial();
-      // }
+      if (this.$route.query.activeIndex) {
+        this.activeIndex = this.$route.query.activeIndex;
+        this.loadUrl = this.urlDict[this.activeIndex];
+        var self = this;
+        var data = {
+          keyword: this.keyword, //关键字
+          page: self.page,
+          psize: self.psize
+        }
+        request.post(self.loadUrl, data, function (res) {
+          if (res.code == 0) {
+            self.moveList = res.data.model;
+          }
+        })
+      } else {
+        this.getSpecial();
+      }
     },
     methods: {
       onLoad(){
@@ -134,6 +134,7 @@
             this.page=this.page+1;
           }else{
             this.finished=true;
+            this.loading=false;
           }
         })
       },

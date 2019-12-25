@@ -21,12 +21,12 @@
                     </li>
 
                     <li class="el-menu-item menu-release ">
-                        <el-button v-if="navIndex == 'classes'" plan size="small" @click="openPublish">班级发布</el-button>
-                        <el-button v-if="navIndex == 'team'" plan size="small" @click="openTeamDialog">社团发布</el-button>
-                        <el-button v-if="navIndex == 'special'" plan size="small" @click="specialPublish">专题发布
+                        <el-button v-if="navIndex == 'classes'" plan size="small" @click="openPublish">发布</el-button>
+                        <el-button v-if="navIndex == 'team'" plan size="small" @click="openTeamDialog">发布</el-button>
+                        <el-button v-if="navIndex == 'special'" plan size="small" @click="specialPublish">发布
                         </el-button>
-                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="openTopicDialog">课题发布</el-button>
-                        <el-button v-if="navIndex == 'teaching'" plan size="small" @click="openTeachingDialog">教研发布</el-button>
+                        <el-button v-if="navIndex == 'topic'" plan size="small" @click="openTopicDialog">发布</el-button>
+                        <el-button v-if="navIndex == 'teaching'" plan size="small" @click="openTeachingDialog">发布</el-button>
                     </li>
                 </el-menu>
             </el-col>
@@ -383,7 +383,7 @@
             }
         },
         mounted() {
-            debugger
+            // debugger
             console.log(this.$route.query,'点击发布新闻路由传参集合')
             if(Object.keys(this.$route.query).length > 0) {
               this.fromwhere = this.$route.query.fromwhere;
@@ -686,7 +686,6 @@
                 });
             },
             specialPublish() { //专题空间发布 专题
-                debugger
                 var self = this;
                 let data = {}
                 if(self.articletitle ==''){
