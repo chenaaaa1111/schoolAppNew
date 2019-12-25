@@ -136,8 +136,8 @@ export default {
       var _this = this;
       _this.page = 1;
       console.log(name, title);
-      this.$store.commit("setColumnId", name);
-      this.$store.commit("setColumnName", title);
+      _this.$store.commit("setColumnId", name);
+      _this.$store.commit("setColumnName", title);
       var data = {
         column: _this.selectTab, //栏目id 0为全部
         keyword: _this.keyword,
@@ -187,10 +187,10 @@ export default {
       //   return;
       // }
       let data = {
-        page: this.page,
-        psize: this.psize,
-        keyword: this.keyword ? this.keyword : "",
-        column: this.selectTab
+        page: _this.page,
+        psize: _this.psize,
+        keyword: _this.keyword ? _this.keyword : "",
+        column: _this.selectTab
       };
       request.post("/roomapi/Room_Class/schoolPage", data, function(res) {
         console.log(res, "获取数据列表");
@@ -261,17 +261,16 @@ export default {
       document.getElementById("content" + item).style.display = "none";
       document.getElementById("detail" + item).style.display = "block";
     },
-    seachInfo(key) {
-      //搜索事件
+    seachInfo(key) { //搜索事件
       var self = this;
       console.log("搜索key" + key);
-      this.keyword = key;
-      this.page = 1;
+      self.keyword = key;
+      self.page = 1;
       var data = {
         keyword: key,
-        column: 0,
-        page: this.page,
-        psize: this.psize
+        column: self.selectTab,//栏目id 0为全部
+        page: self.page,
+        psize: self.psize
       };
       request.post("/roomapi/Room_Class/schoolPage", data, function(res) {
         //获取数据
@@ -322,9 +321,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.mainleftbar {
-  /* padding-right:40px; */
-}
 
 .van-tabs__content {
   min-height: 200px;
@@ -333,10 +329,6 @@ export default {
 #mainNavBar .el-menu--horizontal > .el-submenu .el-submenu__title {
   line-height: 44px;
   height: 44px;
-}
-
-.van-hairline--top-bottom {
-  /* width: 80%; */
 }
 
 .van-tab {

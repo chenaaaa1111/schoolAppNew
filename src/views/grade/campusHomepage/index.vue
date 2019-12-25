@@ -63,14 +63,20 @@
               <el-card class="banner-card">
                 <div slot="header" class="clearfix">
                   <span class="cardTitle"><img src="../../../assets/images/grade/space.png"/>年级空间</span>
-                  <span class="more">
+                  <!-- <span class="more">
                     <img src="../../../assets/images/classes/more.png"/>
-                  </span>
+                  </span> -->
                 </div>
                 <div class="areablock" v-for="(item,index) in areaList" :key="index">
-                  <div class="areaName"><img src="../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
+                  <div class="areaName"><img src="../../../assets/images/classes/classFlg.png"/><span>{{item.title}}</span></div>
                   <ul class="area">
-                    <li v-for="(res,num) in item.class" :key="num" @click="toOtherGrade(res)">{{res.title}}</li>
+                    <li class="first" v-for="(res,num) in item.grade" :key="num">
+                      <ul class="areaZone">
+                        <li v-for="(d, it) in res" :key="it">
+                          <el-button type="text" class="gradeName" @click="toOtherGrade(d)">{{d.title}}</el-button>
+                        </li>
+                      </ul>
+                    </li>
                   </ul>
                 </div>
               </el-card>
@@ -195,15 +201,14 @@
         })
       },
       getGradeList() {
-        request.post('/roomapi/Room_Grade/RoomGrade',{},(res) => {
+        request.post('/roomapi/Room_Grade/level',{},(res) => {
           console.log(res, '获得年级空间')
           if(res.code == 0) {
             this.areaList = res.data
           }
         })
       },
-      toOtherGrade(res) { // 访问别人的空间
-        console.log('跳转到别人的年级传参')
+      toOtherGrade(res) { // 访问别的年级主页
         this.$router.push({
           name: 'otherGradeHomepage',
           query: {
@@ -452,6 +457,7 @@
     font-size: 24px;
     font-weight: 500;
     img{
+      margin-left: 8px;
       display: inline-block;
       width: 38px;
       height: 38px;
@@ -515,20 +521,37 @@
       font-size: 22px;
       font-weight: 500;
       margin-bottom: 10px;
+      img{
+        vertical-align: middle;
+        margin-right: 10px;
+      }
     }
     .area{
       list-style: none;
       margin-bottom: 30px;
-      li{
+      .first{
         float: left;
-        width: 33.333%;
-        padding: 8px 0px;
-        font-size: 18px;
+        width: 33.3%;
+        .areaZone{
+          li{
+            float: left;
+            width: 100%;
+            padding: 8px 0px;
+            font-size: 18px;
+          }
+          .gradeName{
+            font-size:18px;
+            font-family:PingFangSC-Regular,PingFang SC;
+            font-weight:400;
+            color:rgba(30,30,30,1);
+            line-height:25px;
+          }
+          .gradeName:hover{
+            color: #034692;
+          }
+        }
       }
-      li:hover{
-        color: #034692;
-        cursor: pointer;
-      }
+      
     }
     .area::after{
       content: "";

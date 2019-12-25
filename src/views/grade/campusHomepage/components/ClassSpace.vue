@@ -9,7 +9,7 @@
     <div class="areablock" v-for="(item,index) in areaList" :key="index">
       <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
       <ul class="area">
-        <li v-for="(res,num) in item.class" :key="num" @click="toOtherClass">{{res.title}}</li>
+        <li v-for="(res,num) in item.grade" :key="num" @click="toOtherClass">{{res.title}}</li>
       </ul>
     </div>
   </el-card>
@@ -26,19 +26,7 @@
     },
     data() {
       return {
-        areaList:[
-          {
-            id: '',
-            title: '',
-            class: [
-              {
-                id: '',
-                s_id: '',
-                title: ''
-              }
-            ]
-          }
-        ],
+        areaList:[], //年级空间列表
       }
     },
     mounted() {
@@ -62,7 +50,7 @@
       },
       getList() {
         let _this = this
-        request.post('/roomapi/Room_Grade/RoomGrade',{},function(res) {
+        request.post('/roomapi/Room_Grade/level',{},function(res) {
           if(res.code == 0) {
             _this.areaList = res.data
           }

@@ -92,31 +92,32 @@ const router= new Router({
     {
       path: '/grade',
       name: 'grade',
-      component: () => import('@/views/grade/grade.vue'), // 年级空间
-      redirect: '/grade/gradeHomepage',
-      children: [
-        {
-          path: '/grade/gradeHomepage',
-          name: 'gradeHomepage',
-          component: () => import('@/views/grade/campusHomepage/index.vue'), // 年级空间 --校园主页
-        },
-        // {
-        //   path: '/grade/myGradeHomepage',
-        //   name: 'myGradeHomepage',
-        //   component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 年级空间 --我的年级
-        // },
-        {
-          path: '/grade/otherGradeHomepage',
-          name: 'otherGradeHomepage',
-          component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
-        }
-      ]
+      component: () => import('@/views/grade/index.vue'), // 年级空间
+      // component: () => import('@/views/grade/grade.vue'), // 年级空间
+      // redirect: '/grade/gradeHomepage',
+      // children: [
+      //   {
+      //     path: '/grade/gradeHomepage',
+      //     name: 'gradeHomepage',
+      //     component: () => import('@/views/grade/campusHomepage/index.vue'), // 年级空间 --校园主页
+      //   },
+      //   // {
+      //   //   path: '/grade/myGradeHomepage',
+      //   //   name: 'myGradeHomepage',
+      //   //   component: () => import('@/views/grade/myGradeHomepage/index.vue'), // 年级空间 --我的年级
+      //   // },
+      //   {
+      //     path: '/grade/otherGradeHomepage',
+      //     name: 'otherGradeHomepage',
+      //     component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
+      //   }
+      // ]
     },
-    // {
-    //   path: '/grade/otherGradeHomepage',
-    //   name: 'otherGradeHomepage',
-    //   component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
-    // },
+    {
+      path: '/grade/otherGradeHomepage',
+      name: 'otherGradeHomepage',
+      component: () => import('@/views/grade/otherGradeHomepage/index.vue'), // 年级空间 --别人的年级
+    },
     {
       path: '/team',
       name: 'team',

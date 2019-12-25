@@ -24,17 +24,10 @@
       this.classInfo = this.$route.query;
     },
     methods: {
-      writenews() {
-        this.$router.push({
-          name: 'write',
-          params: {
-            fromname: '班级主页',
-            fromwhere: 'classHomepage'
-          }
-        })
-      },
       goBack() { // 返回-从哪儿来往哪儿去
-        this.$router.go(-1);
+        this.$router.push({
+          name: 'grade'
+        })
       },
     }
   }

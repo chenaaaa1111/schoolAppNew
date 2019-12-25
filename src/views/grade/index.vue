@@ -1,13 +1,19 @@
 <template>
   <div class="space">
+    <el-backtop target=".space"></el-backtop>
     <el-row class="page-header" type="flex" justify="center">
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
         <el-row type="flex" class="row-bg" justify="space-between">
-          <el-col :span="10">
+          <el-col :span="8">
             <div @click="goHome" class="homeEntry"><img src="../../assets/main/grade.png" /><span>年级空间</span></div>
           </el-col>
-          <el-col :span="7" class="searchContent">
-            <el-input type="text" style="width:100%" suffix-icon="el-icon-search" placeholder="搜索相关内容"></el-input>
+          <el-col :span="8" class="searchContent">
+            <el-input type="text"  v-model="spaceKeyWord" placeholder="搜索相关内容" @keyup.enter.native="search">  <i
+                class="el-icon-search el-input__icon"
+                slot="suffix"
+                @click="search">
+              </i>
+            </el-input>
           </el-col>
           <el-col :span="4" class="nav-user">
             <el-dropdown trigger="click">
@@ -54,6 +60,7 @@
   import ClassSpace from './components/ClassSpace.vue';
   import Notice from '../public/widget/Notice.vue';
   import mainNavBar from './components/mainNavBar.vue';
+  import Vue from 'vue';
   export default{
     name: 'grade',
     components: {
@@ -65,8 +72,9 @@
     },
     data() {
       return {
-        userInfo: {},//用户信息
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),//用户信息
         fit: 'cover',
+        spaceKeyWord: '', //搜索关键字
         source: {
           routename: '',
           spacename: 'grade'
@@ -74,8 +82,11 @@
         routename: ''
       }
     },
+    created(){ //创建事件总线
+      var eventLister=new Vue();
+      this.$root.eventLister=eventLister;
+    },
     mounted() {
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       this.routename = this.$route.name;
       this.source.routename = this.$route.name;
       console.log(this.routename, '本页面routename')
@@ -94,6 +105,12 @@
         this.$router.push({ // 回到空间选择页面
           name: 'home'
         })
+      },
+      //搜索相关内容
+      search(){
+         console.log(this.spaceKeyWord,'输入的值是什么')
+        // this.$store.commit('setSpaceKeyWord',this.spaceKeyWord);
+        this.$root.eventLister.$emit('seachInfo',this.spaceKeyWord)
       }
     }
   }
@@ -132,9 +149,9 @@
       }
     }
     .searchContent{
-      height: 100px;
       display: flex;
       align-items: center;
+      justify-content: flex-start;
     }
     .nav-user{
       height: 100px;
