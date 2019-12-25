@@ -8,7 +8,7 @@
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/grade/peple.png"/>
+              <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
           </span>
         </el-col>
@@ -44,19 +44,10 @@
         request.post('/roomapi/Room_Class/classPage',data,function(res){
           if(res.code ==0){
             self.otherClassInfo = res.data;
-            console.log('获取其他班级的时候的信息',self.otherClassInfo)
+            console.log('获取其他班级的时候的信息',self.otherClassInfo);
           }
         });
       },
-      writenews() {
-        this.$router.push({
-          name: 'write',
-          params: {
-            fromname: '班级主页',
-            fromwhere: 'classHomepage'
-          }
-        })
-      }
     }
   }
 </script>

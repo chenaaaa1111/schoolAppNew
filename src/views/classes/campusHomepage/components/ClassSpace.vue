@@ -17,7 +17,7 @@
                   <el-col :span="24">{{d.title}}</el-col>
                 </el-row>
                 <el-row type="flex" class="row-bg">
-                  <el-col :span="6" v-for="(t, n) in d.class" :key="n"><el-button type="text">{{t.title}}</el-button></el-col>
+                  <el-col :span="6" v-for="(t, n) in d.class" :key="n"><el-button type="text" @click="toOtherClass(t)">{{t.title}}</el-button></el-col>
                 </el-row>
                 <el-button slot="reference" class="gradeName">{{d.title}}</el-button>
               </el-popover>
@@ -67,10 +67,13 @@
           }
         })
       },
-      toOtherClass(id) {  //班级空间 点击班级  传入班级id  进入别人的班级
+      toOtherClass(item) {  //班级空间 点击班级  传入班级id  进入别人的班级
         this.$router.push({
           name: 'otherClassHomepage',
-          query:{id:id}
+          query:{
+            title: item.title,
+            id: item.id
+          }
         })
       }
     }
