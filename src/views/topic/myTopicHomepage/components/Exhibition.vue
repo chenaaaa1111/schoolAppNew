@@ -5,6 +5,12 @@
         <span class="top-title">课题动态</span>
       </el-col>
       <el-col :span="24">
+        <el-row :gutter="20" class="switchView">
+          <el-col :span="10" :offset="3">
+            <img class="btnicon" src="../../../../assets/images/topic/eyes.png"/>
+            <span>点击切换至所有人可见</span>
+          </el-col>
+        </el-row>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <el-row class="article" v-for="(item,index) in topicDymic" :key="index">
             <el-col :span="24">
@@ -114,6 +120,7 @@
               this.topicDymic = [...oldtopic, ...topicDymic];
             } else {
               this.finished = true;
+              this.loading = false;
             }
 
           }
@@ -233,7 +240,21 @@
         }
       }
     }
-
+    .switchView{
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      font-size:16px;
+      font-family:PingFangSC-Regular,PingFang SC;
+      font-weight:400;
+      color:rgba(153,153,153,1);
+      line-height:22px;
+      img{
+        cursor: pointer;
+        width: 24px;
+        height: 13px;
+      }
+    }
     .article {
 
       // margin-top: 25px;

@@ -3,19 +3,19 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">我的个人主页</el-col>
-        <el-col v-if="limit" :span="12" class="top-write">
+        <el-col :span="12" class="top-write">
           <span @click="writeTopic"></span>
         </el-col>
         <el-col :span="24" class="department">
           <span v-for="(item,index) in teachingAddList" @click="goToTeaching(item)" :key="index">{{item.title}}</span>
         </el-col>
-        <el-col class="leftentry">
+        <!-- <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
               <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
           </span>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-col>
   </el-row>
@@ -26,17 +26,11 @@
     data() {
       return {
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        limit: '',//只有level:2才能发布课题 1学生2老师
-        teachGroup: '',
         teachingAddList:[]
       }
     },
     mounted() {
-      this.limit = this.userInfo.level ==2 ?true: false;
-      // this.teachGroup = this.userInfo.subject?this.userInfo.subject:'课题2';
-      debugger
       this.getAllList();
-      
     },
     methods: {
       goToTeaching(item){
@@ -123,6 +117,12 @@
         color:rgba(51,51,51,1);
         line-height:33px;
         letter-spacing:6px;
+        span{
+          cursor: pointer;
+        }
+        span:hover{
+          color: #4F88C5;
+        }
       }
     }
   }
