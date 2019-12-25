@@ -310,11 +310,8 @@ export default {
     this.getData()
   },
   methods: {
-    goBack() {
-      // 返回-从哪儿来往哪儿去
-      // this.$router.push({
-      //     name: this.fromwhere
-      // })
+    goBack() { //点击返回
+      this.$router.go(-1);
     },
     goHome() {
       this.$router.push({

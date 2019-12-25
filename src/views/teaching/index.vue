@@ -21,8 +21,8 @@
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
             </li>
@@ -66,19 +66,29 @@
       this.$root.eventLister=eventLister;
     },
     methods: {
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
+      },
+      loginout() {
+        sessionStorage.setItem('Authorization', '');//清空token
+        this.$router.push('/login');
+      },
       goHome() {
         this.$router.push({ // 回到空间选择页面
           name: 'home'
         })
       },
       handleSelect(val) { // 导航栏切换路由
-        this.activeIndex = val
-        console.log(val, '导航栏切换路由名称')
+        this.keyword = '';
+        this.activeIndex = val;
+        console.log(val, '导航栏切换路由名称');
       },
       //搜索相关内容
       search(){
-        console.log(this.keyword,'输入的值是什么')
-        this.$root.eventLister.$emit('seachInfo',this.keyword)
+        console.log(this.keyword,'输入的值是什么');
+        this.$root.eventLister.$emit('seachInfo',this.keyword);
       }
     }
   }

@@ -18,12 +18,12 @@
           <li class="nav-user">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar shape="circle" :size="48" :fit="fit" :src="url"></el-avatar>
+                <el-avatar shape="circle" :size="48" :fit="fit" :src="userInfo.avatar"></el-avatar>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -43,9 +43,8 @@
     },
     data() {
       return {
-        userInfo: {},
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         fit: 'cover',
-        url: '',
         activeIndex: 'specialMainHomepage',
         spaceKeyWord: '' //搜索关键字
       }
@@ -54,7 +53,6 @@
       $route(to, from) {
         // 如果路由加载的非[校园主页,我的班级,我的主页]其中之一则取消导航栏选中项
         let routers = ['specialMainHomepage', 'mySpecialHomepage', 'otherHomepage']
-
         if (routers.indexOf(to.name) != -1) {
           this.activeIndex = to.name
         }
@@ -69,23 +67,30 @@
     mounted() {
       this.activeIndex = this.$route.name;
       console.log(this.activeIndex, 'activeIndex???')
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url = this.userInfo.avatar;//头像
     },
     methods: {
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
+      },
+      loginout() {
+        sessionStorage.setItem('Authorization', '');//清空token
+        this.$router.push('/login');
+      },
       goHome() {
         this.$router.push({ // 回到空间选择页面
           name: 'home'
         })
       },
       handleSelect(val) { // 导航栏切换路由
-        this.activeIndex = val
+        this.spaceKeyWord = '';
+        this.activeIndex = val;
         console.log(val, '导航栏切换路由名称')
       },
       //搜索相关内容
       search() {
-        console.log(this.spaceKeyWord, '输入的值是什么')
+        console.log(this.spaceKeyWord, '输入的值是什么');
         // this.$store.commit('setSpaceKeyWord',this.spaceKeyWord);
         this.$root.eventLister.$emit('seachInfo', this.spaceKeyWord)
       }

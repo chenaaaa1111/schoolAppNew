@@ -17,7 +17,7 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
                   <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-close" @click="loginout">退出</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -440,7 +440,7 @@
         }
       },
       goToDetail(data) {
-        debugger
+        // debugger
         console.log(data);
         // var router={name:data};
         // debugger

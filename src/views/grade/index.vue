@@ -16,8 +16,8 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-col>
@@ -81,6 +81,15 @@
       console.log(this.routename, '本页面routename')
     },
     methods: {
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
+      },
+      loginout() {
+        sessionStorage.setItem('Authorization', '');//清空token
+        this.$router.push('/login');
+      },
       goHome() {
         this.$router.push({ // 回到空间选择页面
           name: 'home'

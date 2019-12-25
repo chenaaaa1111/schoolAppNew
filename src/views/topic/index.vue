@@ -23,8 +23,8 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -43,10 +43,9 @@
     },
     data() {
       return {
-        spaceKeyWord:'',
+        spaceKeyWord: '',//搜索关键字
         fit: 'cover',
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        keyword: '', //搜索关键字
         activeIndex: 'teachingHomepage'
       }
     },
@@ -73,13 +72,22 @@
         console.log(this.spaceKeyWord, 'spaceKeyWord')
         this.$root.eventLister.$emit('seachInfo', this.spaceKeyWord);
       },
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
+      },
+      loginout() {
+        sessionStorage.setItem('Authorization', '');//清空token
+        this.$router.push('/login');
+      },
       goHome() {
         this.$router.push({ // 回到空间选择页面
           name: 'home'
         })
       },
       handleSelect(val) { // 导航栏切换路由
-        this.keyword = '';//清空搜索字段
+        this.spaceKeyWord = '';//清空搜索字段
         this.activeIndex = val;
         console.log(val, '导航栏切换路由名称');
       }

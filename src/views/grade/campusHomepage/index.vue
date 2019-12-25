@@ -19,8 +19,8 @@
                   </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item icon="el-icon-s-custom">{{userInfo.name}}</el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-s-cooperation">资料与账号</el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-close">退出</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-s-cooperation" @click.native="toUserInfo">资料与账号</el-dropdown-item>
+                      <el-dropdown-item icon="el-icon-close" @click.native="loginout">退出</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
             </li>
@@ -33,13 +33,7 @@
         <el-row>
           <el-col :span="12" class="top-title">
             <!-- <img v-if="loadData.url" :src="loadData.url" alt=""/> -->
-            {{loadData.title}}
-          </el-col>
-          <el-col v-if="loadData.showwrite" :span="12" class="top-write">
-            <!-- <span @click="writenews"></span> -->
-          </el-col>
-          <el-col :span="12" class="department">
-            {{loadData.subTitle}}
+            {{title}}
           </el-col>
           <el-col class="leftentry">
             <span class="entrybtns hidden-sm-and-up">
@@ -159,33 +153,13 @@
         activeIndex: 'gradeHomepage',
         fit: 'cover',
         url: require('../../../assets/images/user.png'), //头像
-        userInfo: {
-          avatar: '../../../assets/images/user.png',
-          name: '洛天依'
-        },
-        loadData: {
-          url: require('../../../assets/images/user.png'),
-          title: '华悦蜀山区第一中学',
-          subTitle: '',
-          showwrite: false
-        },
+        userInfo: {},
+        title: '华悦蜀山区第一中学',
         source: {
           routename: '',
           spacename: 'grade'
         },
-        areaList:[
-          {
-            id: '',
-            title: '',
-            class: [
-              {
-                id: '',
-                s_id: '',
-                title: ''
-              }
-            ]
-          }
-        ],
+        areaList:[],
         selectTab: 0,
         dataList: [],
         contentList: [],
@@ -206,16 +180,19 @@
       this.getColmn(data.class);
     },
     methods: {
+      toUserInfo() { //点击资料与账号 进入修改信息页面
+        this.$router.push({
+          name: 'userBaseInfo'
+        });
+      },
+      loginout() {
+        sessionStorage.setItem('Authorization', '');//清空token
+        this.$router.push('/login');
+      },
       goHome() { // 返回空间
         this.$router.push({ // 回到空间选择页面
           name: 'home'
         })
-      },
-      shownewsmore() { // 跳转更多新闻动态
-
-      },
-      readDetails() { // 跳转新闻详情页
-
       },
       getGradeList() {
         request.post('/roomapi/Room_Grade/RoomGrade',{},(res) => {
