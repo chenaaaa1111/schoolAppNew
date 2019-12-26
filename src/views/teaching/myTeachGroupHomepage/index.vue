@@ -22,9 +22,9 @@
           </el-col>
         </el-row>
         <el-dialog title="添加教研组" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-          <el-row>
+          <!-- <el-row>
             <el-col :span="24">如果没有你要加入的教研组请点击<el-button type="text">申请教研组</el-button></el-col>
-          </el-row>
+          </el-row> -->
           <el-select v-model="teachingGroup" multiple placeholder="请选择（可多选）">
             <el-option
               v-for="(item,index) in teachingAddList"

@@ -57,9 +57,9 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOtherHomepage(item) {
+    goOtherHomepage(item) { //跳转到别的教研主页
       this.$router.push({
-        name: 'otherHomepage',
+        name: 'othersHomepage',
         query: item
       })
     }

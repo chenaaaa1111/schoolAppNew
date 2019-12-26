@@ -31,13 +31,13 @@
       }
     },
     mounted() {
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo= this.$route.query;
       this.getAvortors();
     },
     methods: {
       getAvortors(){ //最近访客 u_id 用户id
         var data= {
-          u_id: this.userInfo.id
+          u_id: this.userInfo.u_id
         };
         var self=this;
         request.post('/roomapi/Project/visitors',data,function(res){

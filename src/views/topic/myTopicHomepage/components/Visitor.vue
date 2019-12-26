@@ -20,13 +20,12 @@
   export default{
     data() {
       return {
-        userInfo: {},
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         circleUrl: require('../../../../assets/images/user.png'),
         avators:[]//访客列表
       }
     },
     mounted() {
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
       this.getAvortors();
     },
     methods: {

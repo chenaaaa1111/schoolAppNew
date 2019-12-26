@@ -254,8 +254,8 @@ const router= new Router({
           component: () => import('@/views/teaching/otherTeachingHomepage/index.vue'), // 教研空间-别的教研主页
         },
         {
-          path: '/teaching/otherHomepage',
-          name: 'otherHomepage',
+          path: '/teaching/othersHomepage',
+          name: 'othersHomepage',
           component: () => import('@/views/teaching/otherHomepage/index.vue'), // 教研空间-别人的主页
         },
       ]

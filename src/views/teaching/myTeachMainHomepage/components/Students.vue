@@ -59,7 +59,7 @@ export default {
     },
     goOtherHomepage(item) {
       this.$router.push({
-        name: 'otherHomepage',
+        name: 'othersHomepage',
         query: item
       })
     }

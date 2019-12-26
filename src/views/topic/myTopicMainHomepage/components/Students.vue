@@ -5,7 +5,7 @@
       <span>课题组组员</span>
     </div>
     <div class="avartContent" id="avartContent" v-if="alumnus.length>0">
-      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
+      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOtherHomepage(item)">
         <el-avatar :src="item.avatar" icon="el-icon-user-solid"></el-avatar>
         <p class="txcenter">{{item.name}}</p>
       </div>
@@ -53,10 +53,11 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOther(data) {
-      // this.$router.push({
-      //   name: 'otherHomepage'
-      // })
+    goOtherHomepage(item) {
+      this.$router.push({
+        name: 'otherTopicDetail',
+        query: item
+      })
     }
   }
 };

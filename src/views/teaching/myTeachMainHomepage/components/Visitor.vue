@@ -35,7 +35,7 @@
       }
     },
     created(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo= this.$route.query;
       console.log('userInfo',this.userInfo);
     },
     mounted() {

@@ -1,11 +1,11 @@
 <template>
-  <el-card>
+  <el-card class="topicGroup">
     <div slot="header" class="clearfix card-head-solt">
       <img :src="url" />
       <span>课题组组员</span>
     </div>
     <div class="avartContent" id="avartContent" v-if="alumnus.length>0">
-      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOther(item)">
+      <div class="avaters" v-for="(item,index) in alumnus" :key="index" @click="goOtherHomePage(item)">
         <el-avatar :src="item.avatar" icon="el-icon-user-solid"></el-avatar>
         <p class="txcenter">{{item.name}}</p>
       </div>
@@ -53,10 +53,11 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOther(data) {
-      // this.$router.push({
-      //   name: 'otherHomepage'
-      // })
+    goOtherHomePage(item) {
+      this.$router.push({
+        name: 'otherTopicDetail',
+        query: item
+      })
     }
   }
 };
@@ -65,6 +66,9 @@ export default {
 <style>
 </style>
 <style lang="scss" scoped>
+.topicGroup{
+  margin-bottom: 10px;
+}
 .card-head-solt {
   span {
     font-size: 24px;

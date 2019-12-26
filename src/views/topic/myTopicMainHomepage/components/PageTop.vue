@@ -5,6 +5,9 @@
         <el-col :span="12" class="top-title">
           <img :src="url" alt=""/>{{groupType+'组主页'}}
         </el-col>
+        <el-col :span="12" class="top-write">
+          <span @click="writeTopic"></span>
+        </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
             <el-button type="danger" circle >
@@ -32,6 +35,22 @@
       this.groupType = this.$route.query.title;
     },
     methods: {
+      writeTopic() { //写课题
+        let query = this.$route.query;
+        query.fromname = this.$route.query.title + '组主页';
+        query.fromwhere = 'myTopicMainHomepage';
+        query.spaceModule = 'topic';
+        this.$router.push({
+          name: 'write',
+          query: query
+          // query: {
+          //   fromname: '我的课题组主页',
+          //   fromwhere: 'myTopicMainHomepage',
+          //   spaceModule: 'topic',
+          //   // c_id:this.$store.state.userInfo.subject_id
+          // }
+        })
+      }
     }
   }
 </script>

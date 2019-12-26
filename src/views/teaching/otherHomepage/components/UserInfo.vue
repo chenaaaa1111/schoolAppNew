@@ -2,7 +2,7 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="url"></el-avatar>
+      <el-avatar :size="120" :src="userInfo.avatar"></el-avatar>
     </div>
     <h2 class="myName">{{userInfo.name}}</h2>
     <div class="dynamic">
@@ -31,9 +31,7 @@
       this.$root.eventLister.$on('changeNumEvent', this.changeNumEvent); //监听删除文章数
     },
     mounted(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      // this.userInfo=this.$store.state.userInfo;
-      this.url=this.userInfo.avatar;//头像
+      this.userInfo= this.$route.query;
       this.getTeachDynimal();
     },
     methods: {

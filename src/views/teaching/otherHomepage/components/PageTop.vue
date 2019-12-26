@@ -3,7 +3,7 @@
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
         <el-col :span="12" class="top-title">
-          <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.title+'组主页'}}
+          <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.name+'主页'}}
         </el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">

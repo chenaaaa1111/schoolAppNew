@@ -440,10 +440,8 @@
         }
       },
       goToDetail(data) {
-        // debugger
         console.log(data);
         // var router={name:data};
-        // debugger
         var self = this;
         switch (data.name) {
           case "classes":
@@ -457,7 +455,6 @@
             // }
             break;
           case "team"://社团
-            // if (false) {
             request.post('/roomapi/Community/myCommunity', {}, (res) => {
               if (!this.isLogin() || res.data.length>0) {
                 this.$router.push({name:"team"});
@@ -491,7 +488,6 @@
           case "teaching":
             var login = !(this.isLogin());
             request.post('/roomapi/Teaching/myTeaching', {}, (res) => {
-              debugger
               if (login || res.data.length > 0) {
                 this.$router.push({ name: "teaching" });
               } else {
