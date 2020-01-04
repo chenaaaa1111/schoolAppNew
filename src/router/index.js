@@ -296,9 +296,24 @@ const router= new Router({
       component: () => import('@/views/grade/campusHomepage/more/gradeSpacemore.vue'), //年级空间 校园首页 年级空间 展开更多
     },
     {
-      path: '/classes/readmessage',
-      name: 'readmessage',
+      path: '/classes/classReadmessage',
+      name: 'classReadmessage',
       component: () => import('@/views/classes/read/readmessage.vue'), // 班级空间 我的主页从审核 审核未通过 消息通知 进入到文章详情页 消息通知详情
+    },
+    {
+      path: '/team/teamReadmessage',
+      name: 'teamReadmessage',
+      component: () => import('@/views/team/read/readmessage.vue'), // 社团空间 我的主页从审核 审核未通过 消息通知 进入到详情页 消息通知详情
+    },
+    {
+      path: '/special/specialReadmessage',
+      name: 'specialReadmessage',
+      component: () => import('@/views/special/read/readmessage.vue'), // 专题空间 我的主页从审核 审核未通过 消息通知 进入到详情页 消息通知详情
+    },
+    {
+      path: '/teaching/teachingReadmessage',
+      name: 'teachingReadmessage',
+      component: () => import('@/views/teaching/read/readmessage.vue'), // 教研空间 我的主页从审核 审核未通过 消息通知 进入到详情页 消息通知详情
     }
   ]
 })

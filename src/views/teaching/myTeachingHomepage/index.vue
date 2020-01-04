@@ -70,8 +70,8 @@
       }
     },
     mounted() {
-      this.routename = this.$route.name
-      console.log(this.routename, '本页面routename')
+      this.routename = this.$route.name;
+      console.log(this.routename, '本页面routename');
     },
     methods: {
       changeTab(tab) {

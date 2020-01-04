@@ -12,18 +12,15 @@
     </div>
     <div class="examineTips">审核未通过的专题:</div>
     <el-row class="question" v-for="(item,index) in noPassList" :key="index">
-      <el-col class="title"><el-button @click="msgDetails" type="text">{{item.title}}</el-button></el-col>
-      <el-col>
-        <el-row>
-          <el-col :span="14" class="time">{{item.create_time}}</el-col>
-          <el-col :span="10" class="exit">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
-          </el-col>
-        </el-row>
+      <el-col class="title"><el-button @click="msgDetails(item.id)" type="text">{{item.title}}</el-button></el-col>
+      <el-col :span="24" class="bottom">
+        <span>{{item.create_time}}</span>
+        <div class="recall">
+          <el-button type="text" @click="reEdit(item.id)">编辑</el-button>
+          <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
+        </div>
       </el-col>
     </el-row>
-
   </el-card>
 </template>
 <script>
@@ -55,16 +52,57 @@
         var tab='notPass';
         this.$emit('changeTab',tab);
       },
-      msgDetails() {
-        console.log('????????')
+      //点击编辑跳转到编辑页面 并携带信息过去 isEdit==true
+      reEdit(id) {
+        let query = {};
+        query.id = id; //文章id
+        query.isEdit = true;
+        query.widgetName = '审核中';
+        query.fromname = '我的专题';
+        query.fromwhere = 'mySpecialHomepage';
+        query.spaceModule = 'special';//专题空间名
         this.$router.push({
-          name: 'noticemore',
-          params: {
-            widgetName: '审核未通过',
-            routeName: '我的主页',
-            fromwhere: 'mySpecialHomepage',
-            spacename: 'special'
-          }
+          name: 'write',
+          query: query
+        })
+      },
+      deleteArtcile(id) { //删除文章
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该专题的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Project/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+            }
+            this.getNoPassList();
+          })
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      msgDetails(id) { //进入专题详情
+        let query = {};
+        query.id = id; //专题id
+        query.widgetName = '审核中';
+        query.fromname = '我的专题';
+        query.fromwhere = 'mySpecialHomepage';
+        query.spaceModule = 'special';//专题空间名
+        this.$router.push({
+          name: 'specialReadmessage',
+          query: query
         })
       }
     }
@@ -265,17 +303,19 @@
       text-overflow: ellipsis;
       overflow: hidden;
     }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
+    .bottom{
       display: flex;
       align-items: center;
-    }
-    .exit{
-      text-align: right;
+      justify-content: space-between;
       .el-button{
+        cursor: pointer;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
         font-size: 12px;
+        color:rgba(3,70,146,1);
+        span{
+          color:rgba(3,70,146,1);
+        }
       }
     }
   }

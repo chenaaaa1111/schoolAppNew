@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getTeachingGroup() { //教研组id
-      var data = { class_id: this.teachingInfo.id };
+      var data = { class_id: this.teachingInfo.category_id };
       var self = this;
       requst.post("/roomapi/Teaching/TeachingUser", data, function(res) {
         if(res.code ==0){
@@ -57,10 +57,12 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOtherHomepage(item) { //跳转到别的教研主页
+    goOtherHomepage(item) { //跳转到别人的主页  教研组id   c_id
+      let query = item;
+      query.category_id = query.c_id;
       this.$router.push({
         name: 'othersHomepage',
-        query: item
+        query: query
       })
     }
   }
@@ -111,6 +113,9 @@ export default {
   max-height: 460px;
 }
 .txcenter {
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   line-height: 30px;
 }

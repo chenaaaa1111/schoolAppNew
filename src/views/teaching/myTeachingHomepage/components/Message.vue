@@ -54,14 +54,6 @@
         })
       },
       showmessagemore() { //消息通知 点击全部
-        console.log(222222);
-        // this.$router.push({
-        //   name: 'messagemore',
-        //   params: {
-        //     widgetName: '消息通知',
-        //     fromwhere: this.source
-        //   }
-        // })
         var tab='message';
         this.$emit('changeTab',tab);
         console.log("message")
@@ -70,11 +62,10 @@
         let query = {};
         query.widgetName = '消息通知';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
-        query.id = item.id; //消息id
+        query.fromwhere = 'myTeachingHomepage';
+        query.spaceModule = 'teaching';//空间名
         this.$router.push({
-          name: 'readmessage',
+          name: 'teachingReadmessage',
           query: query
         })
       }

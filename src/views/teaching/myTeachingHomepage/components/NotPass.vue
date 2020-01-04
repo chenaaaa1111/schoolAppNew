@@ -10,13 +10,13 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">{{total}}个审核未通过的新闻:</div>
+    <div class="examineTips">{{total}}个审核未通过的文章:</div>
     <el-row class="question" v-for="(item,index) in List" :key="index">
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
         <div class="recall">
-          <el-button type="text" @click="reEditNews(item.id)">编辑</el-button>
+          <el-button type="text" @click="reEdit(item.id)">编辑</el-button>
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
         </div>
       </el-col>
@@ -52,14 +52,19 @@
           this.total = res.data.total;
         })
       },
-      reEditNews(id){ //重新编辑 回到新闻页面
+      shownotpassmore(tab) {
+        console.log('shownotpassmore********')
+        var tab='notPass';
+        this.$emit('changeTab',tab);
+      },
+      reEdit(id) { //编辑文章
         let query = {};
         query.id = id; //文章id
         query.isEdit = true;
-        query.widgetName = '审核未通过';
+        query.widgetName = '审核中';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'myTeachingHomepage';
+        query.spaceModule = 'teaching';//教研空间名
         this.$router.push({
           name: 'write',
           query: query
@@ -67,12 +72,12 @@
       },
       deleteArtcile(id) { //删除文章
         var vm = this;
-        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+        vm.$confirm('删除后，你将不再看到该文章的信息，是否确认删除？', '删除提示', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {//删除文章
-          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+          request.post('/roomapi/Teaching/delete', { id: id }, (res) => {
             if(res.code == 0){
               vm.$message({
                 duration: 1000,
@@ -92,24 +97,18 @@
           });
         });
       },
-      shownotpassmore(tab) {
-       
-        console.log('shownotpassmore********')
-        var tab='notPass';
-        this.$emit('changeTab',tab);
-      },
-      msgDetails(id) { //审核未通过 点击标题 进入新闻详情
+      msgDetails(id) { //进入详情
         let query = {};
-        query.id = id; //文章id
-        query.widgetName = '审核未通过';
+        query.id = id; //专题id
+        query.widgetName = '审核中';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'myTeachingHomepage';
+        query.spaceModule = 'teaching';//空间名
         this.$router.push({
-          name: 'readmessage',
+          name: 'teachingReadmessage',
           query: query
         })
-      }
+      },
     }
   }
 </script>

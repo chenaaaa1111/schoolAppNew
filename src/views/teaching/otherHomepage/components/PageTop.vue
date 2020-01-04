@@ -2,14 +2,9 @@
   <el-row class="pageTop" type="flex" justify="center">
     <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="pageContent">
       <el-row>
-        <el-col :span="12" class="top-title">
-          <img v-if="url" :src="teachingInfo.avatar?teachingInfo.avatar:url" alt=""/>{{teachingInfo.name+'主页'}}
-        </el-col>
+        <el-col :span="12" class="top-title">{{teachingInfo.name+'主页'}}</el-col>
         <el-col class="leftentry">
           <span class="entrybtns hidden-sm-and-up">
-            <el-button type="danger" circle >
-              <img class="btnicon" src="../../../../assets/images/teaching/group1.png"/>
-            </el-button>
             <el-button type="primary" circle >
               <img class="btnicon" src="../../../../assets/images/myhome/vistor.png"/>
             </el-button>
@@ -24,7 +19,6 @@
     data() {
       return {
         teachingInfo: {}, //教研组信息
-        url: require('../../../../assets/images/classes/class_else.png'),//给默认的教研组图标
       }
     },
     mounted() {

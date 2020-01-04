@@ -113,7 +113,7 @@
         query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
         this.$router.push({
-          name: 'readmessage',
+          name: 'classReadmessage',
           query: query
         })
       }

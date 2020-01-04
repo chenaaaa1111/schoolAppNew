@@ -15,7 +15,10 @@
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
-        <el-button type="text" @click="recall(item.id)">撤回</el-button>
+        <div class="recall">
+          <el-button type="text" @click="reEdit(item.id)">编辑</el-button>
+          <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
+        </div>
       </el-col>
       <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
@@ -64,19 +67,47 @@
         var tab='examing';
         this.$emit('changeTab',tab);
       },
-      //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      recall(id) {
+      //点击编辑跳转到编辑页面 并携带信息过去 isEdit==true
+      reEdit(id) {
         let query = {};
+        query.id = id; //文章id
+        query.isEdit = true;
         query.widgetName = '审核中';
         query.fromname = '我的班级';
         query.fromwhere = 'myClassPage';
         query.spaceModule = 'classes';//班级空间名
-        query.isEdit = true;
-        query.id = id; //文章id
+        
         this.$router.push({
           name: 'write',
           query: query
         })
+      },
+      deleteArtcile(id) { //删除文章
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+            }
+            this.getExamine();
+          })
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       msgDetails(id) {
         console.log('点击进去审核中--文章详情')
@@ -87,7 +118,7 @@
         query.spaceModule = 'classes';//班级空间名
         query.id = id; //文章id
         this.$router.push({
-          name: 'readmessage',
+          name: 'classReadmessage',
           query: query
         })
       }

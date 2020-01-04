@@ -80,7 +80,7 @@ export default {
         })
       }else if(tab == 'news'){
         var data1 = {
-          category_id: this.$route.query.id, //教研组id
+          category_id: this.$route.query.category_id, //教研组id
           page: this.page,
           psize: this.psize,
         };
@@ -106,7 +106,7 @@ export default {
     },
     onLoad() { //触底加载更多
       let obj ={
-        category_id: this.$route.query.id, //教研组id
+        category_id: this.$route.query.category_id, //教研组id
         keyword: this.keyword,
         page: this.page,
         psize: this.psize,

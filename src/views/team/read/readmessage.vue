@@ -4,7 +4,7 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="nav-col">
         <el-menu class="el-menu-head" mode="horizontal">
             <li class="homeEntry" @click="goHome">
-              <img src="../../../assets/main/classes.png" />班级空间
+              <img src="../../../assets/main/team.png" />社团空间
             </li>
             <el-menu-item class="brandTitle" index="writenews" disabled>{{widgetName}}</el-menu-item>
             <li class="nav-user">
@@ -33,12 +33,12 @@
               </el-col>
               <el-col :span="24" class="news-result" v-if="widgetName == '审核中'">
                 <p class="process">正在审核中</p>
-                <p class="processContent">管理员审核通过后，新闻就发布成功，请你耐心等待</p>
+                <p class="processContent">管理员审核通过后，信息就发布成功，请你耐心等待</p>
                 <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
               </el-col>
               <el-col :span="24" class="news-result" v-if="widgetName == '审核未通过'">
                 <p class="process">审核未通过</p>
-                <p class="processContent">很抱歉你的新闻审核未通过,请你仔细查阅编辑后再发布</p>
+                <p class="processContent">很抱歉你的信息审核未通过,请你仔细查阅编辑后再发布</p>
                 <p class="processContent">上传审核时间：<span>{{articleDetails.create_time}}</span></p>
               </el-col>
               <el-col :span="24" class="news-result" v-if="widgetName == '消息通知'">
@@ -51,9 +51,8 @@
           <div class="news-box" v-if="widgetName == '审核中' || widgetName == '审核未通过'">
             <el-row class="news-row">
               <el-col :span="24" class="news-edit">
-                 <!-- <img v-if="widgetName == '审核中'" src="../../../assets/images/classes/recall.png" @click="recall" /> -->
-                 <img v-if="widgetName == '审核未通过'||widgetName == '审核中'" src="../../../assets/images/classes/editnews.png" @click="editnews"/>
-                 <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
+                <img v-if="widgetName == '审核未通过'||widgetName == '审核中'" src="../../../assets/images/classes/editnews.png" @click="reEdit"/>
+                <img src="../../../assets/images/classes/delete.png" @click="deleteArt"/>
               </el-col>
               <el-col class="news-cover">
                 <img :src="coverBg"/>
@@ -62,9 +61,7 @@
             <el-row class="news-row">
               <el-col :span="24" class="newsTitle" >{{articleDetails.title}}</el-col>
               <el-col :span="24" class="news-type">
-                <!-- <span>发布主页: {{articleDetails.level ==1?'班级栏目':'校园栏目'}}</span> -->
-                <span>发布栏目: {{articleDetails.column_name}}</span>
-                <span>点赞数：{{articleDetails.praise}}</span>
+                <span>发布社团: {{articleDetails.c_name}}</span>
               </el-col>
               <el-col :span="24" class="user-info">
                 <el-avatar shape="circle" :size="32" :fit="fit" :src="articleDetails.avatar"></el-avatar>
@@ -72,7 +69,7 @@
               </el-col>
               <el-col :span="24" class="news-content" v-html="articleDetails.content">
               </el-col>
-              <el-col :span="24" class="news-date">{{articleDetails.create_time}}</el-col>
+              <el-col :span="24" class="news-date">发布于{{articleDetails.create_time}}</el-col>
             </el-row>
           </div>
         </el-card>
@@ -83,7 +80,7 @@
 <script>
   import request from '@/api/request.js';
   export default{
-    name: 'classReadmessage',
+    name: 'teamReadmessage',
     data() {
       return{
         baseUrl: 'http://school.i2f2f.com',//图片域名
@@ -113,17 +110,17 @@
       }
     },
     methods: {
-      getArticleDetails(){ //参数  文章id  获取文章详情
+      getArticleDetails(){ //参数  消息id  获取消息详情
         var data = {
           id: String(this.$route.query.id)
         }
         var _this = this;
-        request.post('/roomapi/Room_Class/myDetails', data, function(res){
+        request.post('/roomapi/Community/communityDetails', data, function(res){
           if(res.code == 0) {
             _this.articleDetails = res.data;
             _this.coverBg =  _this.articleDetails.image;
           }
-          console.log( _this.articleDetails,'获取文章详情返回数据')
+          console.log( _this.articleDetails,'获取详情返回数据')
         }) 
       },
       getNewsDetails(){   //消息通知进来 获取消息通知详情 消息id
@@ -140,17 +137,8 @@
           }
         })
       },
-      //审核中点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      recall() {
-        let query = this.$route.query;
-        query.isEdit = true;
-        this.$router.push({
-          name: 'write',
-          query: query
-        })
-      },
-      // 审核未通过点击编辑 跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      editnews() {
+      // 审核未通过点击编辑 跳转到编辑页面 并携带信息过去 isEdit==true
+      reEdit() {
         let query = this.$route.query;
         query.isEdit = true;
         this.$router.push({
@@ -167,7 +155,7 @@
           type: 'warning'
         }).then(() => {//删除文章
           let id = vm.$route.query.id;
-          request.post('/roomapi/Room_Class/delete', { id: id }, (res) => {
+          request.post('/roomapi/Community/delete', { id: id }, (res) => {
             if(res.code == 0){
               vm.$message({
                 duration: 1000,

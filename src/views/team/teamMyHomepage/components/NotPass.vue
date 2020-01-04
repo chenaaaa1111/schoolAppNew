@@ -16,7 +16,7 @@
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
         <div class="recall">
-          <el-button type="text" @click="reEditNews(item.id)">编辑</el-button>
+          <el-button type="text" @click="reEdit(item.id)">编辑</el-button>
           <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
         </div>
       </el-col>
@@ -52,22 +52,22 @@
           this.total = res.data.total;
         })
       },
-      reEditNews(id){ //重新编辑 回到新闻页面
+      reEdit(id){ //重新编辑 
         let query = {};
         query.id = id; //文章id
         query.isEdit = true;
         query.widgetName = '审核未通过';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'teamMyHomepage';
+        query.spaceModule = 'team';//社团空间名
         this.$router.push({
           name: 'write',
           query: query
         })
       },
-      deleteArtcile(id) { //删除文章
+      deleteArtcile(id) { //删除信息
         var vm = this;
-        vm.$confirm('删除后，你将不再看到该新闻的信息，是否确认删除？', '删除提示', {
+        vm.$confirm('删除后，你将不再看到该信息，是否确认删除？', '删除提示', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning'
@@ -101,10 +101,10 @@
         query.id = id; //文章id
         query.widgetName = '审核未通过';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
+        query.fromwhere = 'teamMyHomepage';
+        query.spaceModule = 'team';//班级空间名
         this.$router.push({
-          name: 'readmessage',
+          name: 'teamReadmessage',
           query: query
         })
       }

@@ -38,7 +38,7 @@
       getTeachDynimal() { //教研动态列表
         var self=this;
         var data = {
-          u_id: self.userInfo.id,
+          u_id: self.userInfo.u_id,//用户id
           keyword: this.keyword,
           page: this.page,
           psize: this.psize

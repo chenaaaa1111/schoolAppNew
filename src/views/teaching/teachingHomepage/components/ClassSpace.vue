@@ -43,10 +43,12 @@
           }
         })
       },
-      toTeachingGrop(item) { //点击教研组 --进入到别的教研空间主页
+      toTeachingGrop(item) { //点击教研组 --进入到别的教研空间主页   教研组id 
+        let query = item;
+        query.category_id = query.id;
         this.$router.push({
           name: 'otherTeachingHomepage',
-          query: item
+          query: query
         })
       }
     }

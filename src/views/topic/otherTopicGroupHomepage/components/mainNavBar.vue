@@ -12,7 +12,8 @@
                 <li v-for="(item,index) in contentList" :key="index" class="contentList">
                   <h4 class="title">{{item.title}}</h4>
                   <div class="imgline">
-                    <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
+                    <el-avatar class="avtor" shape="circle" size="small" :src="item.avatar" @click.native='goOthersHomePage(item)'></el-avatar> 
+                    <!-- <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" @click.native='goOthersHomePage(item)'/> -->
                     <span class="imgMessage">{{item.name}}</span>
                     <span class="imgMessage linkFont">{{item.c_name}}</span>
                   </div>
@@ -150,6 +151,18 @@ export default {
       console.log(item);
       document.getElementById("content" + item).style.display = "none";
       document.getElementById("detail" + item).style.display = "block";
+    },
+    goOthersHomePage(item){ //点击头像进入别人的主页
+      this.$router.push({
+        name: 'otherTopicDetail',
+        query: item
+      })
+    },
+    toOtherTopicGroup(item) { //点击课题名--进入到该课题组的课题组
+      this.$router.push({
+        name: 'otherTopicGroupHomepage',
+        query: item
+      })
     }
   }
 };
@@ -241,7 +254,10 @@ export default {
 .imgline {
   padding-top: 20px;
 }
-
+.avtor{
+  vertical-align: middle;
+  cursor: pointer;
+}
 .date {
   padding-top: 20px;
   font-size: 18px;
@@ -257,7 +273,9 @@ export default {
 }
 
 .imgMessage {
+  color: #034692;
   font-size: 18px;
+  margin-left: 8px;
 }
 
 .title {

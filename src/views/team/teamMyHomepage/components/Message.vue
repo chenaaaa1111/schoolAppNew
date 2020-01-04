@@ -65,10 +65,10 @@
         query.widgetName = '消息通知';
         query.fromname = '我的主页';
         query.fromwhere = 'teamMyHomepage';
-        query.spaceModule = 'team';//班级空间名
+        query.spaceModule = 'team';//社团空间名
         query.id = item.id; //消息id
         this.$router.push({
-          name: 'readmessage',
+          name: 'teamReadmessage',
           query: query
         })
       }

@@ -12,12 +12,12 @@
       </span>
     </div>
     <el-row class="question" v-for="(item,index) in messages" :key="index">
-      <el-col class="title">
-        <el-button @click="msgDetails()" type="text">{{item.title}}</el-button>
+      <el-col :span="24" class="title">
+        <el-button @click="msgDetails(item)" type="text">{{item.title}}</el-button>
       </el-col>
       <el-col>
         <el-row>
-          <el-col :span="14" class="time">2019/08/03 09:20</el-col>
+          <el-col :span="14" class="time">{{item.create_time}}</el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -60,15 +60,16 @@
         var tab = 'message';
         this.$emit('changeTab', tab);
       },
-      msgDetails() {
-        console.log('????????')
+      msgDetails(item) { //点击消息 --进入消息通知详情页面
+        let query = {};
+        query.widgetName = '消息通知';
+        query.fromname = '我的专题';
+        query.fromwhere = 'mySpecialHomepage';
+        query.spaceModule = 'special';//专题空间名
+        query.id = item.id; //消息id
         this.$router.push({
-          name: 'readmessage',
-          params: {
-            widgetName: '消息通知',
-            routeName: '我的主页',
-            fromwhere: 'myHomepage'
-          }
+          name: 'specialReadmessage',
+          query: query
         })
       }
     }

@@ -10,12 +10,15 @@
         <span class="text">全部</span><img src="../../../../assets/images/classes/more.png"/>
       </span>
     </div>
-    <div class="examineTips">{{list.length}}个正在审核中的新闻:</div>
+    <div class="examineTips">{{list.length}}个正在审核中的文章:</div>
     <el-row class="question" v-for="(item,index) in list" :key="index">
       <el-col :span="24" class="title" @click.native="msgDetails(item.id)">{{item.title}}</el-col>
       <el-col :span="24" class="bottom">
         <span>{{item.create_time}}</span>
-        <el-button type="text" @click="recall(item.id)">撤回</el-button>
+        <div class="recall">
+          <el-button type="text" @click="reEdit(item.id)">编辑</el-button>
+          <el-button type="text" @click="deleteArtcile(item.id)">删除</el-button>
+        </div>
       </el-col>
       <el-col :span="24" ><el-divider></el-divider></el-col>
     </el-row>
@@ -52,7 +55,7 @@
           psize:3
         };
         request.post('/roomapi/Teaching/audit',data,function(res){
-          console.log(self.list,'审核中的文章列表')
+          console.log(self.list,'审核中的文章列表');
           self.list = res.data.model;
         })
       },
@@ -61,33 +64,58 @@
         var tab='examing';
         this.$emit('changeTab',tab);
       },
-      //点击撤回  跳转到编辑新闻页面 并携带信息过去 isEdit==true
-      recall(id) {
+      reEdit(id) { //编辑文章
         let query = {};
+        query.id = id; //文章id
+        query.isEdit = true;
         query.widgetName = '审核中';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
-        query.isEdit = true;
-        query.id = id; //文章id
+        query.fromwhere = 'myTeachingHomepage';
+        query.spaceModule = 'teaching';//教研空间名
         this.$router.push({
           name: 'write',
           query: query
         })
       },
-      msgDetails(id) {
-        console.log('点击进去审核中--文章详情')
+      deleteArtcile(id) { //删除文章
+        var vm = this;
+        vm.$confirm('删除后，你将不再看到该文章的信息，是否确认删除？', '删除提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//删除文章
+          request.post('/roomapi/Teaching/delete', { id: id }, (res) => {
+            if(res.code == 0){
+              vm.$message({
+                duration: 1000,
+                offset: 190,
+                type: 'success',
+                message: res.message
+              });
+            }
+            this.getExamine();
+          })
+        }).catch(() => {
+          vm.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      msgDetails(id) { //进入详情
         let query = {};
+        query.id = id; //专题id
         query.widgetName = '审核中';
         query.fromname = '我的主页';
-        query.fromwhere = 'myHomepage';
-        query.spaceModule = 'classes';//班级空间名
-        query.id = id; //文章id
+        query.fromwhere = 'myTeachingHomepage';
+        query.spaceModule = 'teaching';//空间名
         this.$router.push({
-          name: 'readmessage',
+          name: 'teachingReadmessage',
           query: query
         })
-      }
+      },
     }
   }
 </script>

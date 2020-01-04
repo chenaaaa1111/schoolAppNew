@@ -12,9 +12,10 @@
                 <li v-for="(item,index) in contentList" :key="index" class="contentList">
                   <h4 class="title">{{item.title}}</h4>
                   <div class="imgline">
-                    <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
+                    <el-avatar class="avtor" shape="circle" size="small" :src="item.avatar" @click.native='goOthersHomePage(item)'></el-avatar> 
+                    <!-- <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" /> -->
                     <span class="imgMessage">{{item.name}}</span>
-                    <span class="imgMessage linkFont">{{item.c_name}}</span>
+                    <span class="imgMessage linkFont" @click="toOtherTopicGroup(item)">{{item.c_name}}</span>
                   </div>
                   <div class="imtextview" :id="'content'+item.id">
                     <div class="leftImage">
@@ -140,6 +141,18 @@ export default {
       console.log(item);
       document.getElementById("content" + item).style.display = "none";
       document.getElementById("detail" + item).style.display = "block";
+    },
+    goOthersHomePage(item){ //点击头像进入别人的主页
+      this.$router.push({
+        name: 'othersHomepage',
+        query: item
+      })
+    },
+    toOtherTopicGroup(item) { //点击课题名--进入到教研组组
+      this.$router.push({
+        name: 'otherTeachingHomepage',
+        query: item
+      })
     }
   }
 };
@@ -193,7 +206,8 @@ export default {
 }
 
 .linkFont {
-  margin-left: 8px;
+  cursor: pointer;
+  margin-left: 26px;
   cursor: pointer;
   color: #034692;
 }
@@ -232,6 +246,11 @@ export default {
   padding-top: 20px;
 }
 
+.avtor{
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 8px;
+}
 .date {
   padding-top: 20px;
   font-size: 18px;
