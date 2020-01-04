@@ -2,20 +2,14 @@
   <!-- 个人头像信息 -->
   <el-card class="banner-card">
     <div class="circle" style="text-align: center;">
-      <el-avatar :size="120" :src="circleUrl"></el-avatar>
+      <el-avatar :size="120" :src="userInfo.avatar"></el-avatar>
     </div>
-    <h2 class="myName">
-      张三
-    </h2>
+    <h2 class="myName">{{userInfo.name}}</h2>
     <div class="dynamic">
       <div class="dynamic-g">
         <p class="count">{{userInfo.access_community||0}}</p>
         <p class="title">社团动态</p>
       </div>
-      <!-- <div class="dynamic-c">
-        <p class="count">12</p>
-        <p class="title">班级动态</p>
-      </div> -->
     </div>
   </el-card>
 </template>
@@ -23,8 +17,7 @@
   export default{
     data() {
       return {
-        circleUrl: require('../../../../assets/images/user.png'),
-        userInfo:this.$store.state.userInfo
+        userInfo: this.$route.query
       }
     },
     methods: {

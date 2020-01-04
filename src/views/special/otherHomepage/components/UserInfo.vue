@@ -7,7 +7,7 @@
     <h2 class="myName">{{baseInfo.name}}</h2>
     <div class="dynamic">
       <div class="dynamic-special">
-        <p class="count">{{total}}</p>
+        <p class="count">{{dynamicTotal}}</p>
         <p class="title">专题动态</p>
       </div>
     </div>
@@ -16,33 +16,20 @@
 <script>
   import request from '@/api/request.js';
   export default{
+    props: {
+      dynamicTotal: {
+        default: 0
+      }
+    },
     data() {
       return {
-        baseInfo: {},
-        keyword: '', //搜索关键字
-        page: 1,
-        psize: 20,
-        total: 0
+        baseInfo: {}     
       }
     },
     mounted(){
       this.baseInfo = this.$route.query;
-      this.getDynamic();
     },
     methods: {
-      getDynamic(res) {
-        var data = {
-          keyword: this.keyword,
-          page: this.page,
-          psize: this.psize
-        }
-        var self = this;
-        request.post('/roomapi/Project/projectPage', data, function (res) {
-          if(res.code ==0){
-            self.total = res.data.total;
-          }
-        });
-      }
     }
   }
 </script>

@@ -6,7 +6,7 @@
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 个人信息 -->
-            <UserInfo></UserInfo>
+            <UserInfo :dynamicTotal='usertotal'></UserInfo>
             <!-- 最近访客 -->
             <Visitor></Visitor>
           </el-col>
@@ -32,14 +32,11 @@
                     <div class="img-wrap">
                       <img :src="item.avatar" />
                     </div>
-                    <span class="move-btn" @click="showplay">
+                    <span class="move-btn" @click="showplay(item.id)">
                       <img src="../../../assets/images/classes/play.png" />
                     </span>
                   </div>
                   <div class="move-title">{{item.title}}</div>
-                  <div class="move-del">
-                    <el-button plan size="small" @click="fdelete(item.id)">删除</el-button>
-                  </div>
                 </el-col>
               </el-row>
             </el-card>
@@ -79,35 +76,10 @@ export default {
     console.log(this.routename, "本页面routename");
   },
   methods: {
-    fdelete(id) {
-      this.fopencinfirm(id);
-    },
-    fopencinfirm(id) {
-      this.$confirm("此删除不可恢复, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          request.post("/roomapi/Project/delete", { id: id }, res => {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.get;
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
     getSpecialList() {
-      //获取我的专题列表
+      //获取别人的专题列表
       var data = {
-        u_id: this.$store.state.userInfo.id,
+        u_id: this.$route.query.u_id, //用户id
         keyword: this.keyWord,
         page: this.page,
         psize: this.psize
@@ -120,12 +92,12 @@ export default {
         }
       });
     },
-    showplay() {
-      // 打开专题详情
+    showplay(id) { // 打开专题详情 文章id
       this.$router.push({
         name: "showmovie",
         query: {
-          fromwhere: "otherHomepage"
+          fromwhere: "otherHomepage",
+          id: id
         }
       });
     }

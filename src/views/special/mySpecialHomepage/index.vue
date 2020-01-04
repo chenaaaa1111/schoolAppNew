@@ -8,9 +8,7 @@
             <!-- 个人信息 -->
             <UserInfo :source="routename" :dymic="usertotal"></UserInfo>
             <!-- 最近访客 -->
-            <Visitor :source="routename"></Visitor>
-            <!-- 通知公告 -->
-            <!-- <Notice :source="routename"></Notice> -->
+            <!-- <Visitor :source="routename"></Visitor> -->
             <!-- 审核中 -->
             <Examine :source="routename" @changeTab="changeTab"></Examine>
             <!-- 审核未通过 -->
@@ -65,23 +63,22 @@
 <script>
 import PageTop from "./components/PageTop.vue";
 import UserInfo from "./components/UserInfo.vue";
-import Visitor from "./components/Visitor.vue";
+// import Visitor from "./components/Visitor.vue";
 import NotPass from "./components/NotPass.vue";
 import Message from "./components/Message.vue";
 import Examine from "./components/Examine.vue";
 import EXhibitionExaming from './components/ExhibitionExaming.vue';
 import MessageList from './components/MessageList.vue';
-// import Notice from './components/Notice.vue';
 import request from "@/api/request.js";
 export default {
   name: "mySpecialHomepage",
   components: {
     PageTop,
     UserInfo,
-    Visitor,
+    // Visitor,
     NotPass,
     Message,
-    Examine, // Notice
+    Examine,
     EXhibitionExaming,
     MessageList
   },

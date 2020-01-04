@@ -1,296 +1,106 @@
 <template>
   <el-card class="banner-card">
     <div slot="header" class="clearfix">
-      <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png"/>最近访客</h2>
+      <h2 class="cardTitle"><img src="../../../../assets/images/myhome/vistor.png" />访问信息</h2>
     </div>
-    <h2 class="vistorCount">
-      总共访问: 3576人次
-    </h2>
-    <div class="lately">最近11个访客:</div>
-    <div>
-      <span @click="goOther(item.id)" v-for="(item ,index ) in avators" :key="index" >
-        <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
-      </span>
-    </div>
+    <el-row class="vistorInfo"> 
+      <el-col :span="24" class="vistorItem">
+        <div>
+          <p class="head">当前在线人数</p>
+          <p class="footer">{{vistorInfo.num_dq?vistorInfo.num_dq:0}}人</p>
+        </div>
+      </el-col>
+      <el-col :span="24" class="vistorItem">
+        <div>
+          <p class="head">本周浏览量：</p>
+          <p class="footer">{{vistorInfo.num_bz?vistorInfo.num_bz:0}}次</p>
+        </div>
+      </el-col>
+      <el-col :span="24" class="vistorItem">
+        <div>
+          <p class="head">累计浏览量：</p>
+          <p class="footer">{{vistorInfo.num_zs?vistorInfo.num_zs:0}}次</p>
+        </div>
+      </el-col>
+    </el-row>    
   </el-card>
 </template>
 <script>
   import request from '@/api/request.js';
-  export default{
-    props:{
-      teamId:{
-        type: String,
-        default:''
-      }
-    },
+  export default {
     data() {
       return {
         circleUrl: require('../../../../assets/images/user.png'),
-        avators:[],
+        vistorInfo: {} //访问信息
       }
     },
-    watch: {
-      teamId(newv,oldv) {
-        console.log(newv, 'watch props')
-        // 当props传值发生改变时调用一次列表加载
-        this.getAvortors()
-      }
+    created(){
     },
-    mounted(){
-      console.log(this.teamId, 'props刷新后还在不在?')
-      this.getAvortors()
+    mounted() {
+      this.getVistorInfo();
     },
     methods: {
-      goOtherPage(){
-
-      },
-      goOther(id) {
-        // 先替换当前路由 再刷新当前页面
-        this.$router.replace({
-          name: 'otherTeamMyPage',
-          query:{
-            id: id.toString()
+      //获取访问信息
+      getVistorInfo(){
+        var data = {
+          room: 3, //1班级2年级3社团4专题5课堂6教研
+          c_id: this.$route.query.category_id //社团id
+        };
+        var self = this;
+        request.post("/roomapi/Users/lll", data, function(res) {
+          if (res.code == 0) {
+            if(res.data){
+              self.vistorInfo = res.data;
+            }
           }
-        })
-        window.location.reload()
-      },
-      getAvortors(){
-        var data={c_id:this.teamId};
-        var self=this;
-        request.post('/roomapi/Community/visitors',data,function(res){
-          if(res.data.length==0){
-            res.data=[
-              {
-                  "id": 3,
-                  "u_id": 1,
-                  "name": "123",
-                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                  "create_time": "1573716643"
-              },
-              {
-                  "id": 4,
-                  "u_id": 1,
-                  "name": "123",
-                  "avatar": "http:\/\/git.i2f2f.com\\\/images\\\/icon\\\/20191111\\\/813aa473c84da8a0e698a56a91d472f3.jpg",
-                  "create_time": "1573716643"
-              }
-            ]
-          }
-          self.avators=res.data;
-        })
+        });
       }
     }
-
   }
 </script>
 <style lang="scss">
-.banner-card{
-  margin-bottom: 12px;
-  .cardTitle{
-    font-size: 24px;
-    font-weight: 600;
-    img{
-      display: inline-block;
-      width: 38px;
-      height: 38px;
-      vertical-align: middle;
-      margin-right: 17px;
-    }
-  }
-  .more{
-    float: right;
-    display: block;
-    // width: 16px;
-    height: 16px;
-    cursor: pointer;
-    margin-top: 0.1rem;
-    .text{
-      position: relative;
-      top: 2px;
-      margin-right: 10px;
-      color: #888;
-    }
-    img{
-      display: inline;
-      width: 18px;
-      vertical-align: middle;
-    }
-  }
-  .newList{
-    list-style: none;
-    li{
-      padding: 16px 20px 16px 18px;
-      margin-left: 20px;
-      font-size: 18px;
-      background: url('../../../../assets/images/classes/dotg.png') no-repeat 0px center;
-      background-size: 8px 8px;
-      cursor: pointer;
-      position: relative;
-      border-bottom: 1px dashed #DEDEDE;
-      .text{
-        display: block;
-        margin-right: 80px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .date{
-        position: absolute;
-        width: 80px;
-        top: 17px;
-        right: 0;
-        color: #888888;
-      }
-    }
-    li:hover{
-      color: #034692;
-      background-image: url('../../../../assets/images/classes/dot.png');
-    }
-  }
-  .areablock{
-    .areaName{
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    .area{
-      list-style: none;
-      margin-bottom: 30px;
-      li{
-        float: left;
-        width: 33.333%;
-        padding: 8px 0px;
-        font-size: 18px;
-      }
-      li:hover{
-        color: #034692;
-        cursor: pointer;
-      }
-    }
-    .area::after{
-      content: "";
-      display: block;
-      height: 0;
-      clear: both;
-    }
-  }
-  .notice{
-    font-size: 18px;
-    li{
-      padding: 8px 0px;
-      line-height: 30px;
-      border-bottom: 1px dashed #DEDEDE;
-      .noticeTitle{
-        overflow:hidden;
-        text-overflow:ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-      }
-      .noticeDate{
-        text-align: right;
-        color: #888888;
-      }
-    }
-  }
-  .circle{
-    text-align: center;
-    padding: 24px 0px 14px;
-  }
-  .myName{
-    text-align: center;
-    img{
-      display: inline-block;
-      width: 22px;
-      height: 22px;
-      vertical-align: middle;
-      cursor: pointer;
-      position: relative;
-      top: -3px;
-      left: 12px;
-    }
-  }
-  .dynamic{
-    height: 108px;
-    margin-top: 30px;
-    border-radius:12px;
-    overflow: hidden;
-    background-color: #D3E1F1;
-    .dynamic-g,.dynamic-c{
-      float: left;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      color: #034692;
-      font-size: 26px;
-      .count{
-        width: 100%;
-        height: 48px;
-        line-height: 48px;
-        margin-top: 26px;
-      }
-      .title{
-        font-size: 16px;
-        color: #333;
-      }
-    }
-    .dynamic-g:first-child{
-      .count{
-        box-shadow: 1px 0px #819EBF;
-      }
-    }
+  .banner-card {
+    margin-bottom: 12px;
 
-  }
-  .dynamic::after{
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-  }
-  .vistorCount{
-    font-size: 20px;
-    color: #1E1E1E;
-    font-weight: 600;
-  }
-  .lately{
-    font-size: 16px;
-    color: #034692;
-    padding: 15px 0px 20px;
-  }
-  .vistor-avatar{
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-  .examineTips{
-    font-size: 14px;
-    color: red;
-    line-height: 30px;
-  }
-  .question{
-    margin-top: 10px;
-    .title{
-      font-size: 18px;
-      color: #1E1E1E;
-      padding: 6px 0px;
+    .cardTitle {
+      font-size: 24px;
       font-weight: 600;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+
+      img {
+        display: inline-block;
+        width: 38px;
+        height: 38px;
+        vertical-align: middle;
+        margin-right: 17px;
+      }
     }
-    .time{
-      height: 44px;
-      font-size: 14px;
-      color: #999999;
-      display: flex;
-      align-items: center;
-    }
-    .exit{
-      text-align: right;
-      .el-button{
-        font-size: 12px;
+    .vistorInfo{
+      .vistorItem{
+        margin-bottom: 16px;
+        width: 100%;
+        height: 96px;
+        background:rgba(211,225,241,1);
+        border-radius: 12px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .head{
+          margin-bottom: 4px;
+          font-size:16px;
+          font-family:PingFangSC-Medium,PingFang SC;
+          font-weight:500;
+          color:rgba(102,102,102,1);
+          line-height:22px;
+        }
+        .footer{
+          font-size:22px;
+          font-family:PingFangSC-Medium,PingFang SC;
+          font-weight:500;
+          color:rgba(51,51,51,1);
+          line-height:30px;
+        }
       }
     }
   }
-}
 </style>

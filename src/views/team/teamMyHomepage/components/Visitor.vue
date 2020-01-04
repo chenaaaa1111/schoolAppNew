@@ -7,8 +7,9 @@
       总共访问: {{userInfo.access_community}}人次
     </h2>
     <div class="lately">最近10个访客:</div>
-    <div>
-      <span @click="goOther(item)" v-for="(item ,index ) in avators" :key="index" >
+    <div v-if="avators.length==0">暂无访客信息</div>
+    <div v-if="avators.length>0">
+      <span @click="goOtherHomePage(item)" v-for="(item ,index ) in avators" :key="index" >
         <el-avatar class="vistor-avatar" :size="44" :src="item.avatar" ></el-avatar>
       </span>
     </div>
@@ -33,18 +34,10 @@
       this.getAvortors()
     },
     methods: {
-      goOtherPage(){
-
-      },
-      goOther(item) {
-        console.log('999')
+      goOtherHomePage(item) { //去别人的主页
         this.$router.push({
           name: 'otherTeamMyPage',
-          query: {
-            id: item.id.toString(),
-            name: item.name,
-            avatar: item.avatar
-          }
+          query: item
         })
       },
       getAvortors(){ // 访客列表数据 u_id：用户id

@@ -16,9 +16,6 @@
                 <span class="classify">{{item.c_name}}</span>
                 <span class="date">{{item.create_time}}</span>
               </el-col>
-              <el-col :span="6" class="operation">
-                <el-button type="text" size="mini">删除</el-button>
-              </el-col>
             </el-row>
           </el-col>
           <el-col :span="24">
@@ -51,7 +48,6 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="24" class="article-date">2019/08/22 09:23</el-col>
           <el-col :span="24" ><el-divider></el-divider></el-col>
         </el-row>
       </el-col>
@@ -63,12 +59,14 @@
   export default {
     props: {
       teamId: {
-        type: String,
         default: ''
       }
     },
     data() {
       return {
+        keyword: '',
+        page: 1,
+        psize: 10,
         teamDymic:[],
       }
     },
@@ -87,19 +85,20 @@
       getTeamDynimal() {
         var self=this;
         var data = {
-          u_id: self.teamId
+          keyword: this.keyword,
+          page: this.page,
+          psize: this.psize
         }
-
         request.post('/roomapi/Community/myPage', data, function (res) {
-
-          if(res.data.model.length>0){
-            self.teamDymic=res.data.model.map(item => {
-              item.open = false
-              return item
-            });
-            console.log(self.teamDymic, 'teamDymic')
+          if(res.code ==0){
+            if(res.data.model.length>0){
+              self.teamDymic=res.data.model.map(item => {
+                item.open = false
+                return item
+              });
+              console.log(self.teamDymic, 'teamDymic')
+            }
           }
-
         })
       },
       open(index) {

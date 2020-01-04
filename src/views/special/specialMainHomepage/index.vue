@@ -176,8 +176,8 @@
       },
       chapterTreggle(index) {
         this.chapterList[index].flag = !this.chapterList[index].flag
-      },
-      showplay(id) { // 打开专题详情
+      }, 
+      showplay(id) { // 打开专题详情 文章id
         this.$router.push({
           name: 'showmovie',
           query: {

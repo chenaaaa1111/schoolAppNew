@@ -15,8 +15,9 @@
                 <span>发布于: {{specialDetailsList.create_time}}</span>
               </el-col>
               <el-col :span="24" class="user-info">
-                <el-avatar shape="circle" :size="32" :fit="fit" :src="specialDetailsList.avatar"></el-avatar>
+                <el-avatar shape="circle" :size="32" :fit="fit" :src="specialDetailsList.avatar" @click.native="goOtersHomePageClick"></el-avatar>
                 <span>{{specialDetailsList.name}}</span>
+
               </el-col>
               <el-col :span="24" class="news-content">
                 <p v-html="specialDetailsList.content"></p>
@@ -34,14 +35,14 @@
 <script>
   import request from '@/api/request.js';
   export default{
-    name: 'readnews',
+    name: 'showmovie',
     data() {
       return {
         title: '返回',
         fromwhere: '', // 从哪个页面跳转过来的还跳转回去
         fit: 'cover',
         url: require('../../../assets/images/user.png'),
-        specialDetailsList: {},// 专题详情
+        specialDetailsList: {},// 专题详情列表
       }
     },
     mounted() {
@@ -57,26 +58,40 @@
           name: 'home',
         })
       },
-      goBack() { // 返回-从哪儿来往哪儿去
+      goBack() { // 返回-从哪儿来往哪儿去 如果是别人主页中进来
         console.log(this.fromwhere, '回去 -- readback')
-        this.$router.push({
-          name: this.fromwhere,
-          query:{
-            activeIndex: this.$route.query.activeIndex
-          }
-        })
+        if(this.$route.query.activeIndex){
+          this.$router.push({
+            name: this.fromwhere,
+            query:{
+              activeIndex: this.$route.query.activeIndex
+            }
+          })
+        }else{
+          this.$router.push({
+            name: this.fromwhere,
+            query: this.specialDetailsList
+          })
+        }
         // this.$router.go(-1)
       },
       getSpecialDetails() { //获取专题详情 文章id
         var data = {
           id: this.$route.query.id
         }
+        var self = this;
         request.post('/roomapi/Project/projectDetails', data, (res) => {
           if(res.code ==0){
-            this.specialDetailsList = res.data;
+            self.specialDetailsList = res.data;
           }
         })
       },
+      goOtersHomePageClick(){ //点击发布人头像 --进入到别人的主页 文章详情内容携带过去
+        this.$router.push({
+          name: 'otherHomepage',
+          query: this.specialDetailsList
+        })
+      }
     }
   }
 </script>

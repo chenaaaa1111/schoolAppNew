@@ -7,7 +7,7 @@
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
             <!-- 展示个人头像 姓名 和动态统计 -->
             <UserInfo></UserInfo>
-            <!-- 最近访客 -->
+             <!-- 最近访客 -->
             <!-- <Visitor></Visitor> -->
             <!-- 审核中 -->
             <Examine :source="routename" @changeTab="changeTab"></Examine>
@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-  import request from '@/api/request.js'
+  import request from '@/api/request.js';
   import PageTop from './components/PageTop.vue';
   import UserInfo from './components/UserInfo.vue';
   // import Visitor from './components/Visitor.vue';
@@ -70,10 +70,6 @@
     },
     mounted() {
       this.routename = this.$route.name;
-      // let userInfo = this.$store.state.userInfo;
-      // if(Object.keys(userInfo).length>0) {
-      //   this.userId = userInfo.id.toString()
-      // }
     },
     methods: {
       changeTab(tab) {

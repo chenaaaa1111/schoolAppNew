@@ -5,7 +5,8 @@
       <el-avatar :size="120" :src="circleUrl" icon="el-icon-user-solid"></el-avatar>
     </div>
     <h2 class="myName">
-      {{userInfo.name}} <img src="../../../../assets/images/myhome/editName.png"/>
+      {{userInfo.name}} 
+      <!-- <img src="../../../../assets/images/myhome/editName.png"/> -->
     </h2>
     <div class="dynamic">
       <div class="dynamic-special">

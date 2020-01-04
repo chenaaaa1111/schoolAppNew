@@ -5,8 +5,8 @@
       <el-col :xl="18" :lg="18" :md="20" :sm="22" :xs="24" class="entry-content">
         <el-row :gutter="10" class="panel-row">
           <el-col :xl="6" :lg="6" :md="8" :sm="8" class="panel-left hidden-xs-only">
-            <Visitor :source="routename"></Visitor>
-            <!-- <Students :source="routename" :teamId="teamId"></Students> -->
+            <Visitor></Visitor>
+            <!-- <Students :teamId="teamId"></Students> -->
           </el-col>
           <el-col :xl="18" :lg="18" :md="16" :sm="16" :xs="24">
               <mainNavBar :teamId="teamId"></mainNavBar>
@@ -32,12 +32,10 @@
     },
     data() {
       return {
-        routename: '',
         teamId: '', //社团id
       }
     },
     created(){
-      this.routename = this.$route.name;
       this.teamId = this.$route.query.c_id;
     },
     mounted() {
