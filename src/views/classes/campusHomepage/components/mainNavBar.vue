@@ -66,8 +66,9 @@
                         <span>{{item.create_time}}</span>
                       </el-col>
                       <el-col :span="12" class="praise">
-                        <img src="../../../../assets/images/unpraise.png"/>
-                        <span>0</span>
+                        <img v-if="praiseFlag" src="../../../../assets/images/unpraise.png" @click="praiseClick(item,index)"/>
+                        <img v-else src="../../../../assets/images/praise.png"/>
+                        <span>{{item.praise}}</span>
                       </el-col>
                     </el-row>                    
                   </el-col>
@@ -128,7 +129,7 @@ export default {
       finished: false, //加载是否完成
       dataList: [], //导航栏目 数组
       keyword: "", //搜索关键字
-      contentList: [] //主页右侧主内容列表
+      contentList: [], //主页右侧主内容列表
     };
   },
   methods: {
@@ -147,16 +148,12 @@ export default {
       request.post("/roomapi/Room_Class/schoolPage", data, function(res) {
         _this.contentList = res.data.model.map(item => {
           item.isopen = false;
+          item.praiseFlag = true;
           return item;
         });
-        console.log(_this.contentList, "????");
       });
     },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    getColmn() {
-      //获取栏目组列表  所有栏目通用，包括年级栏目，分页参数不传是显示全部
+    getColmn() { //获取栏目组列表  所有栏目通用，包括年级栏目，分页参数不传是显示全部
       var self = this;
       var data = {
         keyword: self.keyword
@@ -181,11 +178,6 @@ export default {
     },
     onLoad() { //进入页面时候 默认执行
       let _this = this;
-      // if (state == "fineshed") {
-      //   _this.loading = false;
-      //   _this.finished = true;
-      //   return;
-      // }
       let data = {
         page: _this.page,
         psize: _this.psize,
@@ -199,6 +191,7 @@ export default {
             let list = res.data.model;
             let flagList = list.map(item => {
               item.isopen = false;
+              item.praiseFlag = true;
               return item;
             });
             for (var i = 0; i < flagList.length; i++) {
@@ -301,7 +294,26 @@ export default {
         baseSrc = src;
       }
       return baseSrc;
-    }
+    },
+    praiseClick(item,index){ //点赞
+      var data = {
+        room: 1, //1班级和年级 3社团4专题5课题6教研
+        c_id: item.id, //文章id
+      }
+      var self = this;
+      request.post('/roomapi/Users/dianzan', data, function(res) {
+        if(res.code ==0){
+          self.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'success',
+            message: res.message
+          });
+          self.contentList[index].praiseFlag = false;
+          self.onLoad();
+        }
+      })
+    },
   },
   created() {
     this.$root.eventLister.$on("seachInfo", this.seachInfo); //监听搜索事件
@@ -526,6 +538,7 @@ export default {
         padding-right: 3%;
         text-align: right;
         img{
+          cursor: pointer;
           width: 15px;
         }
       }

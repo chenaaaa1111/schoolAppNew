@@ -66,8 +66,9 @@
                         <span>{{item.create_time}}</span>
                       </el-col>
                       <el-col :span="12" class="praise">
-                        <img src="../../../../assets/images/unpraise.png"/>
-                        <span>0</span>
+                        <img v-if="!praiseFlag" src="../../../../assets/images/unpraise.png" @click="praiseClick(item,index)"/>
+                        <img v-else src="../../../../assets/images/praise.png"/>
+                        <span>{{item.praise}}</span>
                       </el-col>
                     </el-row>                    
                   </el-col>
@@ -117,6 +118,7 @@ export default {
       request.post("/roomapi/Room_Class/classPage", data, function(res) {
         _this.contentList = res.data.model.map(item => {
           item.isopen = false;
+          item.praiseFlag = true;
           return item;
         });
         console.log(_this.contentList, "????");
@@ -171,6 +173,7 @@ export default {
             let list = res.data.model;
             let flagList = list.map(item => {
               item.isopen = false;
+              item.praiseFlag = true;
               return item;
             });
             for (var i = 0; i < flagList.length; i++) {
@@ -238,7 +241,26 @@ export default {
         baseSrc = src;
       }
       return baseSrc;
-    }
+    },
+    praiseClick(item,index){ //点赞
+      var data = {
+        room: 1, //1班级和年级 3社团4专题5课题6教研
+        c_id: item.id, //文章id
+      }
+      var self = this;
+      request.post('/roomapi/Users/dianzan', data, function(res) {
+        if(res.code ==0){
+          self.$message({
+            duration: 1000,
+            offset: 190,
+            type: 'success',
+            message: res.message
+          });
+          self.contentList[index].praiseFlag = false;
+          self.onLoad();
+        }
+      })
+    },
   },
   created() {
     this.$root.eventLister.$on("seachInfo", this.seachInfo); //监听搜索事件
