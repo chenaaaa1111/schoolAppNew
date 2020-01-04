@@ -75,7 +75,7 @@ export default {
       var self = this;
       if(tab =='all'){ //全部
         var data = {
-          category_id: self.$route.query.id,
+          category_id: self.$route.query.category_id,
           keyword: self.keyword,
           page: self.page,
           psize: self.psize,
@@ -87,7 +87,7 @@ export default {
         })
       }else if(tab == 'news'){
         var data1 = {
-          category_id: self.$route.query.id,
+          category_id: self.$route.query.category_id,
           page: this.page,
           keyword:this.keyword,
           psize: this.psize,
@@ -102,7 +102,7 @@ export default {
     allArtList() {  //课题组category_id（不传显示所有课题文章）
       var _this = this;
       var data = {
-        category_id: _this.$route.query.id,
+        category_id: _this.$route.query.category_id,
         keyword: _this.keyword,
         page: _this.page,
         psize: _this.psize,
@@ -115,7 +115,7 @@ export default {
     },
     onLoad() { //触底加载更多
       let obj ={
-        category_id: this.$route.query.id, //课题id
+        category_id: this.$route.query.category_id, //课题id
         keyword: this.keyword,
         page: this.page,
         psize: this.psize,

@@ -10,39 +10,14 @@
         </el-card>
         <el-card class="mainContainer">
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-            <ul v-if="false">
-              <li v-for="(item,index) in contentList" :key="index" class="contentList">
-                <h4 class="title">{{item.title}}</h4>
-                <div class="imgline">
-                  <van-image round width="32px" height="32px" fit="cover" :src="item.avatar" />
-                  <span class="imgMessage">{{item.name}}</span>
-                  <span class="imgMessage linkFont">{{item.c_name}}</span>
-                </div>
-                <div class="imtextview" :id="'content'+item.id">
-                  <div class="leftImage">
-                    <img :src="'http://school.i2f2f.com'+item.image" alt />
-                  </div>
-                  <div class="rightContent">
-                    <span>{{item.content&&item.content.match(/[\u4e00-\u9fa5]/g)?item.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}</span>
-                    <span @click="changShow(item.id)" class="updown">查看更多</span>
-                  </div>
-                </div>
-                <div class="deatail" style="display: none;" :id="'detail'+item.id">
-                  <div v-html="item.content"></div>
-                  <span @click="fslip(item.id)" class="updown">收起</span>
-                </div>
-                <p class="date pd_40">{{item.create_time}}</p>
-              </li>
-            </ul>
-
             <el-row class="news-row" v-for="(item,index) in contentList" :key="index">
               <el-col class="news-head" :span="24">
                 <div class="news-title">{{item.title}}</div>
               </el-col>
               <el-col :span="24" class="author-info">
-                <el-avatar shape="circle" size="small" :src="item.avatar"></el-avatar> 
+                <el-avatar shape="circle" size="small" :src="item.avatar" @click.native='goOthersHomePage(item)'></el-avatar> 
                 <span class="name">{{item.name}}</span>
-                <span class="topName">{{item.c_name}}</span>
+                <span class="topName" @click="toOtherTopicGroup(item)">{{item.c_name}}</span>
               </el-col>
               <el-col class="news-content">
                 <el-row :gutter="14" class="horizontal-row" v-if="item.isopen == false">
@@ -58,9 +33,6 @@
                   </el-col>
                 </el-row>
                 <el-row :gutter="14" class="vertical-row" v-if="item.isopen == true">
-                  <!-- <el-col :span="24" class="left-img">
-                    <img :src="setImg(item.image)" alt=""/>
-                  </el-col> -->
                   <el-col :span="24" class="right-txt">
                     <div class="text" v-html="item.content?item.content:'暂无数据'"></div>
                     <div class="openmore">
@@ -259,6 +231,18 @@ export default {
       }
       return baseSrc
     },
+    goOthersHomePage(item){ //点击头像进入别人的主页
+      this.$router.push({
+        name: 'otherTopicDetail',
+        query: item
+      })
+    },
+    toOtherTopicGroup(item) { //点击课题名--进入到该课题组的课题组
+      this.$router.push({
+        name: 'otherTopicGroupHomepage',
+        query: item
+      })
+    }
   }
 };
 </script>
@@ -425,13 +409,16 @@ export default {
       display: flex;
       align-items: center;
       .el-avatar{
+        cursor: pointer;
         display: inline-block;
         margin-right: 8px;
       }
       .name{
+        color: #034692;
         margin-left: 8px;
       }
       .topName{
+        cursor: pointer;
         margin-left: 26px;
         font-size: 18px;
         color: #034692;

@@ -41,7 +41,7 @@
     },
     mounted() {
       this.routename = this.$route.name
-      console.log(this.routename, '本页面routename')
+      console.log(this.routename, '课题--其他个人主页routename')
     },
     methods: {
 

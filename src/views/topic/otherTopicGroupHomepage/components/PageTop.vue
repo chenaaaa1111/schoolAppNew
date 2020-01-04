@@ -24,12 +24,11 @@
     data() {
       return {
         url: require('../../../../assets/images/classes/class_else.png'),
-        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         groupType: '',//课题名
       }
     },
     mounted() {
-      this.groupType = this.$route.query.title;
+      this.groupType = this.$route.query.c_name;
     },
     methods: {
     }

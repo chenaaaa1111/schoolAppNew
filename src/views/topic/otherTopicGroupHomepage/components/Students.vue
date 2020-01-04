@@ -34,13 +34,13 @@ export default {
     this.getTopicGroup();
   },
   methods: {
-    getTopicGroup() { //别人的课题空间
+    getTopicGroup() { //别人的课题组 课题组id
       var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-      var data = { class_id: this.$route.query.id };
+      var data = { class_id: this.$route.query.category_id };
       var self = this;
       requst.post("/roomapi/Subject/SubjectUser", data, function(res) {
         if(res.code ==0){
-          self.alumnus = res.data;
+          self.alumnus = res.data.model;
         }
       });
     },
@@ -53,10 +53,12 @@ export default {
         document.getElementById("avartContent").style.maxHeight = "inherit";
       }
     },
-    goOtherHomePage(item) {
+    goOtherHomePage(item) { //点击成员 进入别人的主页  课题组id  c_id
+      let query = item;
+      query.category_id = item.c_id;  //设置课题组id名
       this.$router.push({
         name: 'otherTopicDetail',
-        query: item
+        query: query
       })
     }
   }
@@ -110,6 +112,9 @@ export default {
   max-height: 460px;
 }
 .txcenter {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   line-height: 30px;
 }

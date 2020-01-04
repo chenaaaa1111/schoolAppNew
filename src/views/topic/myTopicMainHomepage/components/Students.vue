@@ -34,13 +34,13 @@ export default {
     this.getTopicGroup();
   },
   methods: {
-    getTopicGroup() { //别人的课题空间
+    getTopicGroup() { //我的课题组主页
       var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       var data = { class_id: this.$route.query.id };
       var self = this;
       requst.post("/roomapi/Subject/SubjectUser", data, function(res) {
         if(res.code ==0){
-          self.alumnus = res.data;
+          self.alumnus = res.data.model;
         }
       });
     },
@@ -107,6 +107,9 @@ export default {
   max-height: 460px;
 }
 .txcenter {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   line-height: 30px;
 }

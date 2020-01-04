@@ -24,8 +24,8 @@
       }
     },
     mounted() {
-      this.name = this.$router.query.name;
-      this.teachGroup = this.$router.query.title?this.$router.query.title:'课题1';
+      this.name = this.$route.query.name;
+      this.teachGroup = this.$route.query.c_name;
     },
     methods: {
     

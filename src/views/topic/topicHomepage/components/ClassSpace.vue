@@ -2,9 +2,9 @@
     <el-card class="banner-card">
       <div slot="header" class="clearfix">
         <span class="cardTitle"><img src="../../../../assets/images/teaching/teachgroup.png"/>课题组</span>
-        <span class="more" @click="showclassesmore">
+        <!-- <span class="more" @click="showclassesmore">
           <img src="../../../../assets/images/classes/more.png"/>
-        </span>
+        </span> -->
       </div>
       <div class="areablock" v-for="(item,index) in areaList" :key="index">
         <div class="areaName"><img src="../../../../assets/images/classes/classFlg.png"/>{{item.title}}</div>
@@ -43,14 +43,14 @@
             }
           })
         },
-        showclassesmore() {
-          this.$router.push({
-            name: 'classesmore',
-            params: {
-              fromwhere: this.source
-            }
-          })
-        },
+        // showclassesmore() {
+        //   this.$router.push({
+        //     name: 'classesmore',
+        //     params: {
+        //       fromwhere: this.source
+        //     }
+        //   })
+        // },
         toOtherTopicGroup(item) { //点击课题组中的课题--进入到该课题组的课题组
           this.$router.push({
             name: 'otherTopicGroupHomepage',

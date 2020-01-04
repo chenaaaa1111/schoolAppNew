@@ -108,6 +108,7 @@
               type: 'success',
               message: res.message
             });
+            this.dialogVisible = false;
             this.getMyTeamList(); //刷新我的课题列表
           }
         })

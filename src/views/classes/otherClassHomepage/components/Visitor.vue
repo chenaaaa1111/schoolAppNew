@@ -43,7 +43,7 @@
       //获取访问信息
       getVistorInfo(){
         var data = {
-          room: 1, //1班级2年级3社团4专题5课堂6教研
+          room: 1, //1班级2年级3社团4专题5课题6教研
           c_id: this.$route.query.id //班级id
         };
         var self = this;

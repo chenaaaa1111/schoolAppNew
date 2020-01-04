@@ -7,7 +7,7 @@
     <h2 class="myName">{{userInfo.name}}</h2>
     <div class="dynamic">
       <div class="dynamic-g">
-        <p class="count">{{userInfo.access_community||0}}</p>
+        <p class="count">0</p>
         <p class="title">社团动态</p>
       </div>
     </div>

@@ -7,19 +7,19 @@
       <el-col :span="24" class="vistorItem">
         <div>
           <p class="head">当前在线人数</p>
-          <p class="footer">3468人</p>
+          <p class="footer">{{vistorInfo.num_dq?vistorInfo.num_dq:0}}人</p>
         </div>
       </el-col>
       <el-col :span="24" class="vistorItem">
         <div>
           <p class="head">本周浏览量：</p>
-          <p class="footer">34680次</p>
+          <p class="footer">{{vistorInfo.num_bz?vistorInfo.num_bz:0}}次</p>
         </div>
       </el-col>
       <el-col :span="24" class="vistorItem">
         <div>
           <p class="head">累计浏览量：</p>
-          <p class="footer">346800次</p>
+          <p class="footer">{{vistorInfo.num_zs?vistorInfo.num_zs:0}}次</p>
         </div>
       </el-col>
     </el-row>    
@@ -30,24 +30,38 @@
   export default {
     data() {
       return {
-        userInfo: {},//用户信息
-        circleUrl: require('../../../../assets/images/user.png')
+        circleUrl: require('../../../../assets/images/user.png'),
+        vistorInfo: {} //访问信息
       }
     },
     created(){
-      this.userInfo= JSON.parse(sessionStorage.getItem('userInfo'));
-      console.log('userInfo',this.userInfo);
     },
     mounted() {
-     
+      this.getVistorInfo();
     },
     methods: {
-     
+      //获取访问信息
+      getVistorInfo(){
+        var data = {
+          room: 5, //1班级2年级3社团4专题5课题6教研
+          c_id: this.$route.query.category_id //课题组id
+        };
+        var self = this;
+        request.post("/roomapi/Users/lll", data, function(res) {
+          if (res.code == 0) {
+            if(res.data){
+              self.vistorInfo = res.data;
+            }
+          }
+        });
+      }
     }
   }
 </script>
 <style lang="scss">
   .banner-card {
+    margin-bottom: 12px;
+
     .cardTitle {
       font-size: 24px;
       font-weight: 600;
